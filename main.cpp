@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
-
+#include <iostream>
+using namespace std;
 using namespace sf;
 
 int main()
@@ -10,6 +11,7 @@ int main()
    r.setPosition(150, 150);
    r.setFillColor(Color::Red);
    Event ev;
+   int index = 0;
    while (w.isOpen())
    {
       while (w.pollEvent(ev))
@@ -18,6 +20,13 @@ int main()
          {
          case Event::Closed:
             w.close();
+            break;
+         case Event::MouseButtonPressed:
+            if (ev.mouseButton.button == Mouse::Left)
+            {
+               index++;
+               cout << "Index: " << index << endl;
+            }
             break;
          }
       }

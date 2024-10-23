@@ -4,7 +4,7 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/SFML-2.6.1-windows-vc17-64-bit/SFML-2.6.1/include"
+                "${workspaceFolder}/libraries/SFML-2.6.1/include"
             ],
             "defines": [
                 "_DEBUG",
