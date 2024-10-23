@@ -4,14 +4,14 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/libraries/SFML-2.6.1/include"
+                "${workspaceFolder}/SFML-2.6.1-windows-vc17-64-bit/SFML-2.6.1/include"
             ],
             "defines": [
                 "_DEBUG",
                 "UNICODE",
                 "_UNICODE"
             ],
-            "compilerPath": "C:\\Users\\FPT\\w64devkit\\bin\\gcc.exe",
+            "compilerPath": "C:\\w64devkit\\bin\\gcc.exe",
             "cStandard": "c17",
             "cppStandard": "gnu++17",
             "intelliSenseMode": "windows-gcc-x64"
