@@ -1,13 +1,19 @@
 #pragma once
 
+// #include <vector>
+#include <fstream>
+#include <iostream>
 #include <SFML/Graphics.hpp>
-#include <vector>
 #include "define.h"
 
-class map
+class Map
 {
 private:
     std::vector<std::vector<int>> intprojectionmap;
     sf::Sprite block;
-    int x, y;
+    sf::Texture blocktexture;
+public:
+    Map();
+    void readmap();
+    void draw(sf::RenderWindow& w, int x, int y);
 };
