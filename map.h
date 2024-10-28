@@ -9,11 +9,11 @@
 class Map
 {
 private:
-    std::vector<std::vector<int>> intprojectionmap;
+    std::vector<std::vector<std::string>> projectionmap;
     sf::Sprite block;
     sf::Texture blocktexture;
 public:
     Map();
     void readmap();
-    void draw(sf::RenderWindow& w, int x, int y);
+    void draw(sf::RenderWindow& w, int MarioX, int MarioY);
 };
