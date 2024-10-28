@@ -1,11 +1,12 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "define.h"
 using namespace std;
 using namespace sf;
 
 int main()
 {
-   RenderWindow w(VideoMode(500, 500), "Window", Style::Default);
+   RenderWindow w(VideoMode(16 * BLOCK_WIDTH, 15 * BLOCK_HEIGHT), "Window", Style::Default);
    RectangleShape r;
    r.setSize(Vector2f(200, 200));
    r.setPosition(150, 150);
