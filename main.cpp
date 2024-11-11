@@ -9,6 +9,7 @@ using namespace sf;
 int main()
 {
    Map map;
+   Mario mario;
    map.readmap();
    RenderWindow w(VideoMode(16 * BLOCK_WIDTH, 15 * BLOCK_HEIGHT), "Window", Style::Default);
    RectangleShape r;
