@@ -71,22 +71,48 @@ void Map::draw(sf::RenderWindow& w, int MarioX, int MarioY)
                 ytex = 1;
                 break;
             case 3: //vertical pipe
-                if (projectionmap[j - 1][i] != 3)
+                
+                if (projectionmap[i][j - 1] != 3)
                 {
-                    xtex = 6;
-                }
-                else xtex = 7;
-                if (i == 0)
-                {
-                    ytex = 2;
-                }
-                else if (projectionmap[j][i - 1] != 3)
-                {
-                    ytex = 1;
+                    if (i == 0)
+                    {
+                        xtex = 6;
+                        ytex = 2;
+                        break;
+                    }
+                    else if (projectionmap[i - 1][j] != 3)
+                    {
+                        xtex = 6;
+                        ytex = 1;
+                        break;
+                    }
+                    else
+                    {
+                        xtex = 6;
+                        ytex = 2;
+                        break;
+                    }
                 }
                 else
                 {
-                    ytex = 2;
+                    if (i == 0)
+                    {
+                        xtex = 7;
+                        ytex = 1;
+                        break;
+                    }
+                    else if (projectionmap[i - 1][j] != 3)
+                    {
+                        xtex = 7;
+                        ytex = 1;
+                        break;
+                    }
+                    else
+                    {
+                        xtex = 7;
+                        ytex = 2;
+                
+                    }
                 }
                 break;
             default:
