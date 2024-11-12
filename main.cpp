@@ -30,17 +30,16 @@ int main()
          case Event::KeyPressed:
             if (ev.key.code == Keyboard::A)
             {
-               index-= 5;
+               if (index >= 2) index-= 2;
             }
-            else if (ev.key.code == Keyboard::D)
+            if (ev.key.code == Keyboard::D)
             {
-               index+= 5;
+               if (index <= 59 * BLOCK_WIDTH - 2) index+= 2;
             }
             break;
          }
       }
       w.clear();
-      //w.draw(r);
       map.draw(w, index, 0);
       w.display();
    }
