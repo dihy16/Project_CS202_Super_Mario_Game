@@ -9,7 +9,7 @@
 class Map
 {
 private:
-    std::vector<std::vector<std::string>> projectionmap;
+    std::vector<std::vector<int>> projectionmap;
     sf::Sprite block;
     sf::Texture blocktexture;
 public:

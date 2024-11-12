@@ -13,7 +13,7 @@ void Map::readmap()
 {
     projectionmap.clear();
     int height, width;
-    std::string coordinates;
+    int coordinates;
     std::ifstream mapfile("Data/maps.txt");
     mapfile >> height >> width;
     int count = width;
@@ -22,7 +22,7 @@ void Map::readmap()
         if (count == width)
         {
             count = 0;
-            projectionmap.push_back(std::vector<std::string>({}));
+            projectionmap.push_back(std::vector<int>({}));
         }
         projectionmap[projectionmap.size() - 1].push_back(coordinates);
         count++;
@@ -55,10 +55,43 @@ void Map::draw(sf::RenderWindow& w, int MarioX, int MarioY)
     {
         for (int j = xstart; j < xstart + 21; j++)
         {
-            if (projectionmap[i][j][0] == 'A') ytex = 10;
-            else ytex = projectionmap[i][j][0] - 48;
-            xtex = projectionmap[i][j][1] - 48;
             block.setTexture(blocktexture);
+            switch (projectionmap[i][j])
+            {
+            case 0: //sky
+                xtex = 1;
+                ytex = 7;
+                break;
+            case 1: //wall
+                xtex = 1;
+                ytex = 0;
+                break;
+            case 2: //mystery box
+                xtex = 2;
+                ytex = 1;
+                break;
+            case 3: //vertical pipe
+                if (projectionmap[j - 1][i] != 3)
+                {
+                    xtex = 6;
+                }
+                else xtex = 7;
+                if (i == 0)
+                {
+                    ytex = 2;
+                }
+                else if (projectionmap[j][i - 1] != 3)
+                {
+                    ytex = 1;
+                }
+                else
+                {
+                    ytex = 2;
+                }
+                break;
+            default:
+                break;
+            }
             block.setTextureRect(sf::IntRect(xtex * BLOCK_WIDTH, ytex * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT));
             block.setPosition((j - (xstart + 3)) * BLOCK_WIDTH - offset, i * BLOCK_HEIGHT);
             w.draw(block);
