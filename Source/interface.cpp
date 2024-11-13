@@ -39,7 +39,7 @@ void interface::operate()
         }
         w.clear();
         map.draw(w, index, 0);
-        theman.draw(w);
+        // theman.draw(w);
         w.display();
     }
 }

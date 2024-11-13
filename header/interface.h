@@ -2,14 +2,14 @@
 
 #include <SFML/Graphics.hpp>
 #include "map.h"
-#include "mario.h"
+// #include "mario.h"
 
 class interface
 {
 private:
     sf::RenderWindow w{sf::VideoMode(16 * BLOCK_WIDTH, 15 * BLOCK_HEIGHT), "Window", sf::Style::Default};
     sf::Event ev;
-    Mario theman;
+    // Mario theman;
     Map map;
 public:
     interface();
