@@ -15,7 +15,7 @@ void Map::readmap()
     backgroundmap.clear();
     int height, width;
     int coordinates;
-    std::ifstream mapfile("Data/maps.txt");
+    ifstream mapfile("Data/maps.txt");
     mapfile >> height >> width;
     int count = width;
     for (int i = 0; i < height * width; i++)
@@ -24,7 +24,7 @@ void Map::readmap()
         if (count == width)
         {
             count = 0;
-            projectionmap.push_back(std::vector<int>({}));
+            projectionmap.push_back(vector<int>({}));
         }
         projectionmap[projectionmap.size() - 1].push_back(coordinates);
         count++;
@@ -36,7 +36,7 @@ void Map::readmap()
         if (count == width)
         {
             count = 0;
-            backgroundmap.push_back(std::vector<int>({}));
+            backgroundmap.push_back(vector<int>({}));
         }
         backgroundmap[backgroundmap.size() - 1].push_back(coordinates);
         count++;
@@ -47,7 +47,7 @@ void Map::readmap()
         if (count == width)
         {
             count = 0;
-            entitymap.push_back(std::vector<int>({}));
+            entitymap.push_back(vector<int>({}));
         }
         entitymap[entitymap.size() - 1].push_back(coordinates);
         count++;
@@ -57,7 +57,7 @@ void Map::readmap()
 // draw a map.
 // Note that for every map, the last 3 blocks from either side will not be accessible.
 // So in order to create future maps, please spare the last 3 columns for blank background
-void Map::draw(sf::RenderWindow &w, int MarioX, int MarioY)
+void Map::draw(RenderWindow &w, int MarioX, int MarioY)
 {
     int xstart, ystart = 0, xtex, ytex, offset;
     if (MarioX < 3 * BLOCK_WIDTH)
@@ -75,12 +75,12 @@ void Map::draw(sf::RenderWindow &w, int MarioX, int MarioY)
         xstart = MarioX / BLOCK_WIDTH - 3;
         offset = MarioX % BLOCK_WIDTH;
     }
-    std::cout << xstart << '\n';
+    cout << xstart << '\n';
     for (int i = 0; i < 15; i++)
     {
         for (int j = xstart; j < xstart + 21; j++)
         {
-            block.setTextureRect(sf::IntRect(1 * BLOCK_WIDTH, 7 * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT));
+            block.setTextureRect(IntRect(1 * BLOCK_WIDTH, 7 * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT));
             block.setPosition((j - (xstart + 3)) * BLOCK_WIDTH - offset, i * BLOCK_HEIGHT);
             w.draw(block);
             block.setTexture(blocktexture);
@@ -107,7 +107,7 @@ void Map::draw(sf::RenderWindow &w, int MarioX, int MarioY)
             default:
                 break;
             }
-            block.setTextureRect(sf::IntRect(xtex * BLOCK_WIDTH, ytex * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT));
+            block.setTextureRect(IntRect(xtex * BLOCK_WIDTH, ytex * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT));
             block.setPosition((j - (xstart + 3)) * BLOCK_WIDTH - offset, i * BLOCK_HEIGHT);
             w.draw(block);
             switch (projectionmap[i][j])
@@ -189,7 +189,7 @@ void Map::draw(sf::RenderWindow &w, int MarioX, int MarioY)
             default:
                 break;
             }
-            block.setTextureRect(sf::IntRect(xtex * BLOCK_WIDTH, ytex * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT));
+            block.setTextureRect(IntRect(xtex * BLOCK_WIDTH, ytex * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT));
             block.setPosition((j - (xstart + 3)) * BLOCK_WIDTH - offset, i * BLOCK_HEIGHT);
             w.draw(block);
         }

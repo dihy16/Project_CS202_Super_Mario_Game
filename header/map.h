@@ -1,21 +1,18 @@
 #pragma once
 
-// #include <vector>
-#include <fstream>
-#include <iostream>
-#include <SFML/Graphics.hpp>
-#include "define.h"
+#include "mario.h"
 
 class Map
 {
 private:
-    std::vector<std::vector<int>> projectionmap;
-    std::vector<std::vector<int>> backgroundmap;
-    std::vector<std::vector<int>> entitymap;
-    sf::Sprite block;
-    sf::Texture blocktexture;
+    vector<vector<int>> projectionmap;
+    vector<vector<int>> backgroundmap;
+    vector<vector<int>> entitymap;
+    Sprite block;
+    Texture blocktexture;
+
 public:
     Map();
     void readmap();
-    void draw(sf::RenderWindow& w, int MarioX, int MarioY);
+    void draw(RenderWindow &w, int MarioX, int MarioY);
 };

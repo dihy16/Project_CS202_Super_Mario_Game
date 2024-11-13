@@ -1,7 +1,9 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <iostream>
+#include <fstream>
 #include <string>
+#include <vector>
 
 using namespace std;
 using namespace sf;
@@ -35,8 +37,8 @@ struct Position
    float y;
 };
 
-#define WINDOW_WIDTH 1024
-#define WINDOW_HEIGHT 960
+#define BLOCK_WIDTH 64
+#define BLOCK_HEIGHT 64
 
 #define MARIO "resource/Mario.png"
 #define MARIO_SUPER "resource/MarioSuper.png"

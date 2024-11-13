@@ -23,12 +23,12 @@ Mario::Mario(float x, float y)
 void Mario::draw(RenderWindow &window)
 {
    window.draw(marioSprite);
-   animation();
+   animation(window);
 }
 
-void Mario::animation()
+void Mario::animation(RenderWindow &window)
 {
-   move();
+   move(window);
 }
 
 void Mario::smallState()
@@ -155,7 +155,7 @@ void Mario::jumping(IntRect &rect, int RectPosition, float waitingTime)
    }
 }
 
-void Mario::moveRight(IntRect &rect)
+void Mario::moveRight(IntRect &rect, RenderWindow &window)
 {
    if (speed[0] <= -1)
       rect.left = 130;
@@ -165,12 +165,20 @@ void Mario::moveRight(IntRect &rect)
       marioSprite.setTextureRect(rect);
    marioSprite.setScale(1.5, 1.5);
 
-   speed[0] = 25;
+   if (window.getSize().x - marioSprite.getPosition().x - marioArea.width / 2 < 0)
+      marioSprite.setPosition(window.getSize().x - marioArea.width / 2, marioSprite.getPosition().y);
+   if (marioSprite.getPosition().x == window.getSize().x - marioArea.width / 2)
+   {
+      speed[0] = 0;
+      acceleration[0] = 0;
+   }
+   else
+      speed[0] = 25;
    // if (acceleration[0] > 0)
    //    acceleration[0] *= -1;
 }
 
-void Mario::moveLeft(IntRect &rect)
+void Mario::moveLeft(IntRect &rect, RenderWindow &window)
 {
    if (speed[0] >= 1)
       rect.left = 130;
@@ -180,7 +188,12 @@ void Mario::moveLeft(IntRect &rect)
       marioSprite.setTextureRect(rect);
    marioSprite.setScale(-1.5, 1.5);
 
-   speed[0] = -25;
+   if (marioSprite.getPosition().x - marioArea.width / 2 < 0)
+      marioSprite.setPosition(0, marioSprite.getPosition().y);
+   if (marioSprite.getPosition().x == 0)
+      speed[0] = 0;
+   else
+      speed[0] = -25;
    // if (acceleration[0] < 0)
    //    acceleration[0] *= -1;
 }
@@ -204,7 +217,7 @@ void Mario::standing()
    }
 }
 
-void Mario::move()
+void Mario::move(RenderWindow &window)
 {
    if (isOnGround)
       isJumping = false;
@@ -232,9 +245,9 @@ void Mario::move()
       if (timer2.getElapsedTime().asSeconds() > waitingTime)
       {
          if (goRight)
-            moveRight(marioRect);
+            moveRight(marioRect, window);
          else if (goLeft)
-            moveLeft(marioRect);
+            moveLeft(marioRect, window);
          else
          {
             // acceleration movement when release keyboard

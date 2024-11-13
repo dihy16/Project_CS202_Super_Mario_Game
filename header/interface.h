@@ -1,18 +1,17 @@
-// #pragma once
+#pragma once
 
-// #include <SFML/Graphics.hpp>
-// #include "map.h"
-// #include "mario.h"
+#include "map.h"
 
-// class interface
-// {
-// private:
-//     sf::RenderWindow w{sf::VideoMode(16 * BLOCK_WIDTH, 15 * BLOCK_HEIGHT), "Window", sf::Style::Default};
-//     sf::Event ev;
-//     Mario theman;
-//     Map map;
-// public:
-//     interface();
-//     void draw();
-//     void operate();
-// };
+class interface
+{
+private:
+    RenderWindow w{VideoMode(16 * BLOCK_WIDTH, 15 * BLOCK_HEIGHT), "Window", Style::Default};
+    Event ev;
+    Mario theman{100, 12 * BLOCK_WIDTH};
+    Map map;
+
+public:
+    interface();
+    void draw();
+    void operate();
+};

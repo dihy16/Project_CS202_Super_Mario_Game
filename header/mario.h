@@ -23,14 +23,14 @@ public:
    // Handle movement
    void handleEvents(Event &e);
    // Animation
-   void animation();
+   void animation(RenderWindow &window);
    // Move
-   void move();
+   void move(RenderWindow &window);
    void setRectForWalking(IntRect &rect);
    void standing();
    void jumping(IntRect &rect, int RectPosition, float waitingTime);
-   void moveRight(IntRect &rect);
-   void moveLeft(IntRect &rect);
+   void moveRight(IntRect &rect, RenderWindow &window);
+   void moveLeft(IntRect &rect, RenderWindow &window);
 
 private:
    // set to small state
