@@ -1,4 +1,4 @@
-build: compile link
+build: compile link clean
 compile:
 	g++ -c main.cpp $(wildcard Source/*.cpp)  -I.\libraries\SFML-2.6.1\include -DSFML_STATIC
 
@@ -11,4 +11,4 @@ debug: build
 	gdb -x debug.gdb main.exe
 
 clean: 
-	rm *.o main.exe
+	rm *.o
