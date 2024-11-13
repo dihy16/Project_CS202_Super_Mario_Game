@@ -8,7 +8,7 @@ interface::interface()
 void interface::draw()
 {
     map.draw(w, 96, 0);
-    //theman.draw(w);
+    // theman.draw(w);
 }
 
 void interface::operate()
@@ -26,11 +26,13 @@ void interface::operate()
             case sf::Event::KeyPressed:
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
                 {
-                    if (index >= 10) index -= 10;
+                    if (index >= 10)
+                        index -= 10;
                 }
                 else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
                 {
-                    if (index <= 59 * BLOCK_WIDTH - 10) index += 10;
+                    if (index <= 59 * BLOCK_WIDTH - 10)
+                        index += 10;
                 }
                 break;
             }
