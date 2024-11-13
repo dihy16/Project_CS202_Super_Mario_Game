@@ -1,4 +1,5 @@
-#include "interface.h"
+#include "header/interface.h"
+#include <SFML/Graphics.hpp>
 
 int main()
 {

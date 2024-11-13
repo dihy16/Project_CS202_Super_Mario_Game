@@ -1,4 +1,4 @@
-#include "interface.h"
+#include "../header/interface.h"
 
 interface::interface()
 {
