@@ -1,5 +1,5 @@
 #include "header/mario.h"
-#include "header/interface.h"
+// #include "header/interface.h"
 #include <SFML/Graphics.hpp>
 
 int main()
@@ -27,7 +27,7 @@ int main()
       mario.draw(w);
       w.display();
    }
-   interface i;
-   i.operate();
+   // interface i;
+   // i.operate();
    return 0;
 }

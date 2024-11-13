@@ -10,8 +10,5 @@ run: build
 debug: build
 	gdb -x debug.gdb main.exe
 
-neat:
-	rm *.o
-
 clean: 
 	rm *.o
