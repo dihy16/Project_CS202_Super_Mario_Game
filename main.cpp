@@ -1,37 +1,29 @@
+#include "./header/mario.h"
 #include <SFML/Graphics.hpp>
-#include <iostream>
-using namespace std;
-using namespace sf;
 
 int main()
 {
-   RenderWindow w(VideoMode(500, 500), "Window", Style::Default);
-   RectangleShape r;
-   r.setSize(Vector2f(200, 200));
-   r.setPosition(150, 150);
-   r.setFillColor(Color::Red);
-   Event ev;
-   int index = 0;
+   RenderWindow w(VideoMode(1200, 900), "Mario Game", Style::Default);
+   w.setFramerateLimit(60);
+   Event e;
+
+   Mario mario(100, 500);
    while (w.isOpen())
    {
-      while (w.pollEvent(ev))
+      while (w.pollEvent(e))
       {
-         switch (ev.type)
+         switch (e.type)
          {
          case Event::Closed:
             w.close();
             break;
-         case Event::MouseButtonPressed:
-            if (ev.mouseButton.button == Mouse::Left)
-            {
-               index++;
-               cout << "Index: " << index << endl;
-            }
+         default:
+            mario.handleEvents(e);
             break;
          }
       }
       w.clear();
-      w.draw(r);
+      mario.draw(w);
       w.display();
    }
    return 0;
