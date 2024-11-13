@@ -10,6 +10,8 @@ class Map
 {
 private:
     std::vector<std::vector<int>> projectionmap;
+    std::vector<std::vector<int>> backgroundmap;
+    std::vector<std::vector<int>> entitymap;
     sf::Sprite block;
     sf::Texture blocktexture;
 public:
