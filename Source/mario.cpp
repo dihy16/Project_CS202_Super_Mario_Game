@@ -1,6 +1,6 @@
 #include "../header/mario.h"
 
-Mario::Mario(float x, float y)
+Mario::Mario(int x, int y)
 {
    acceleration[0] = 25, acceleration[1] = 40;
    speed[0] = 0, speed[1] = 0;
@@ -9,12 +9,14 @@ Mario::Mario(float x, float y)
    isOnGround = true;
    startJumpPosition = 500;
 
+   mapx = x;
+   mapy = y;
    marioTexture.loadFromFile(MARIO);
    marioSuperTexture.loadFromFile(MARIO_SUPER);
    marioTexture.setSmooth(true);
    marioSuperTexture.setSmooth(true);
    marioSprite.setTexture(marioTexture);
-   marioSprite.setPosition(x, y);
+   marioSprite.setPosition(5 * BLOCK_WIDTH, y);
    marioSprite.setScale(1.5, 1.5);
 
    smallState();
@@ -265,6 +267,8 @@ void Mario::move(RenderWindow &window)
          timer2.restart();
       }
       marioSprite.move(speed[0], speed[1]);
+      mapx += speed[0];
+      mapy += speed[1];
       timer1.restart();
    }
    if (speed[0] < 1 && speed[0] > -1 && isOnGround)

@@ -8,7 +8,7 @@ private:
    bool goRight, goLeft, goUp, goDown;
    float acceleration[2], startJumpPosition;
    Area marioArea;
-
+   int mapx, mapy;
 public:
    Texture marioTexture, marioSuperTexture;
    Sprite marioSprite;
@@ -17,7 +17,7 @@ public:
    float speed[2];
 
    // Constructor
-   Mario(float x, float y);
+   Mario(int x, int y);
    // Draw mario
    void draw(RenderWindow &window);
    // Handle movement
