@@ -145,7 +145,7 @@ void Mario::jumping(IntRect &rect, int RectPosition, float waitingTime)
 
       speed[1] += acceleration[1] * waitingTime;
       // Check if Mario has landed
-      if (marioSprite.getPosition().y > startJumpPosition)
+      if (marioSprite.getPosition().y + speed[1] > startJumpPosition)
       {
          marioSprite.setPosition(marioSprite.getPosition().x, startJumpPosition);
          isOnGround = true;
@@ -165,7 +165,7 @@ void Mario::moveRight(IntRect &rect, RenderWindow &window)
       marioSprite.setTextureRect(rect);
    marioSprite.setScale(1.5, 1.5);
 
-   if (window.getSize().x - marioSprite.getPosition().x - marioArea.width - speed[0] / 2 < 0)
+   if (window.getSize().x - marioSprite.getPosition().x - marioArea.width - 25 / 2 < 0)
       marioSprite.setPosition(window.getSize().x - marioArea.width / 2, marioSprite.getPosition().y);
    if (marioSprite.getPosition().x == window.getSize().x - marioArea.width / 2)
    {
@@ -174,8 +174,8 @@ void Mario::moveRight(IntRect &rect, RenderWindow &window)
    }
    else
       speed[0] = 25;
-   // if (acceleration[0] > 0)
-   //    acceleration[0] *= -1;
+   if (acceleration[0] > 0)
+      acceleration[0] *= -1;
 }
 
 void Mario::moveLeft(IntRect &rect, RenderWindow &window)
@@ -188,9 +188,9 @@ void Mario::moveLeft(IntRect &rect, RenderWindow &window)
       marioSprite.setTextureRect(rect);
    marioSprite.setScale(-1.5, 1.5);
 
-   if (marioSprite.getPosition().x - marioArea.width / 2 < 0)
-      marioSprite.setPosition(0, marioSprite.getPosition().y);
-   if (marioSprite.getPosition().x == 0)
+   if (marioSprite.getPosition().x - 45 <= 0)
+      marioSprite.setPosition(marioArea.width / 2, marioSprite.getPosition().y);
+   if (marioSprite.getPosition().x == marioArea.width / 2)
       speed[0] = 0;
    else
       speed[0] = -25;
