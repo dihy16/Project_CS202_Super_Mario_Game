@@ -174,8 +174,8 @@ void Mario::moveRight(IntRect &rect, RenderWindow &window)
    }
    else
       speed[0] = 25;
-   if (acceleration[0] > 0)
-      acceleration[0] *= -1;
+   // if (acceleration[0] > 0)
+   //    acceleration[0] *= -1;
 }
 
 void Mario::moveLeft(IntRect &rect, RenderWindow &window)
