@@ -195,3 +195,15 @@ void Map::draw(RenderWindow &w, int MarioX, int MarioY)
         }
     }
 }
+
+
+vector<vector<int>> Map::getmap(int option)
+{
+    switch (option)
+    {
+    case 0:
+        return projectionmap;
+    default:
+        return entitymap;
+    }
+}

@@ -15,4 +15,5 @@ public:
     Map();
     void readmap();
     void draw(RenderWindow &w, int MarioX, int MarioY);
+    vector<vector<int>> getmap(int option);
 };
