@@ -22,15 +22,15 @@ Mario::Mario(int x, int y)
    smallState();
 }
 
-void Mario::draw(RenderWindow &window)
+void Mario::draw(RenderWindow &window, int collisiontag)
 {
    window.draw(marioSprite);
-   animation(window);
+   animation(window, collisiontag);
 }
 
-void Mario::animation(RenderWindow &window)
+void Mario::animation(RenderWindow &window, int collisiontag)
 {
-   move(window);
+   move(window, collisiontag);
 }
 
 void Mario::smallState()
@@ -219,7 +219,7 @@ void Mario::standing()
    }
 }
 
-void Mario::move(RenderWindow &window)
+void Mario::move(RenderWindow &window, int collisiontag)
 {
    if (isOnGround)
       isJumping = false;

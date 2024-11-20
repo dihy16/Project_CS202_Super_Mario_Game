@@ -196,7 +196,10 @@ void Map::draw(RenderWindow &w, int MarioX, int MarioY)
     }
 }
 
-
+hitbox Map::gethitbox(int x, int y)
+{
+    return hitbox(x, y, BLOCK_HEIGHT, BLOCK_WIDTH);
+}
 
 vector<vector<int>> Map::getmap(int option)
 {

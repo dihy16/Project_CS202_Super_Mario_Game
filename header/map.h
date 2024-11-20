@@ -17,4 +17,8 @@ public:
     void draw(RenderWindow &w, int MarioX, int MarioY);
     vector<vector<int>> getmap(int option);
     hitbox gethitbox(int x, int y);
+    int getblockstate(int x, int y)
+    {
+        return projectionmap[y][x];
+    }
 };
