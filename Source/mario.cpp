@@ -39,8 +39,8 @@ Position Mario::getSurroundingPosition()
 
 void Mario::draw(RenderWindow& window, int collisiontag)
 {
+    cout << mapx << " " << mapy << '\n';
     window.draw(marioSprite);
-    animation(window, collisiontag);
 }
 
 void Mario::animation(RenderWindow& window, int collisiontag)
@@ -301,8 +301,42 @@ void Mario::move(RenderWindow& window, int collisiontag)
         marioSprite.move(speed[0], speed[1]);
         mapx += speed[0];
         mapy += speed[1];
+
         timer1.restart();
     }
     if (speed[0] < 1 && speed[0] > -1 && isOnGround)
         standing();
+}
+
+void Mario::adjustposition(int collisiontag)
+{
+    Position p = getSurroundingPosition();
+    if (collisiontag & 1)
+    {
+        speed[1] = 0;
+        speed[0] = 0;
+        if (mapx < p.x * BLOCK_WIDTH + 1.5 * marioArea.width/2) mapx = p.x * BLOCK_WIDTH + 1.5 * marioArea.width / 2;
+        if (mapx < p.y * BLOCK_HEIGHT + 1.5 * marioArea.height) mapx = p.y * BLOCK_HEIGHT + 1.5 * marioArea.height;
+    }
+    if (collisiontag & 4)
+    {
+        speed[1] = 0;
+        speed[0] = 0;
+        if (mapx < p.x * BLOCK_WIDTH + 1.5 * marioArea.width/2) mapx = p.x * BLOCK_WIDTH + 1.5 * marioArea.width/2;
+        if (mapx > p.y * BLOCK_HEIGHT - 1.5 * marioArea.height) mapx = p.y * BLOCK_WIDTH;
+    }
+    if (collisiontag & 2)
+    {
+        speed[1] = 0;
+        speed[0] = 0;
+        if (mapx > p.x * BLOCK_WIDTH + 1.5 * marioArea.width/2) mapx = p.x * BLOCK_WIDTH + 1.5 * marioArea.width/2;
+        if (mapx < p.y * BLOCK_WIDTH) mapx = p.y * BLOCK_WIDTH;
+    }
+    if (collisiontag & 8)
+    {
+        speed[1] = 0;
+        speed[0] = 0;
+        if (mapx > p.x * BLOCK_WIDTH + 1.5 * marioArea.width/2) mapx = p.x * BLOCK_WIDTH + 1.5 * marioArea.width/2;
+        if (mapx > p.y * BLOCK_WIDTH) mapx = p.y * BLOCK_WIDTH;
+    }
 }

@@ -37,7 +37,7 @@ public:
    void jumping(IntRect &rect, int RectPosition, float waitingTime);
    void moveRight(IntRect &rect, RenderWindow &window);
    void moveLeft(IntRect &rect, RenderWindow &window);
-
+   void adjustposition(int collisiontag);
 private:
    // set to small state
    void smallState();

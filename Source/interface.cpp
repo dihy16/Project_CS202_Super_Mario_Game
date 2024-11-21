@@ -40,7 +40,6 @@ int interface::mariomapcollide()
         mariostate += 8;
     // and the 2 numbers, to reveal which direction collision is happening
     int collisiontag = mapstate & mariostate;
-    cout << collisiontag << '\n';
     // to then proceed to collision checking
     return collisiontag;
 }
@@ -62,7 +61,8 @@ void interface::operate()
                 break;
             }
         }
-
+        theman.animation(w, 0);
+        theman.adjustposition(mariomapcollide());
         w.clear();
         map.draw(w, index, 0);
         theman.draw(w, mariomapcollide());
