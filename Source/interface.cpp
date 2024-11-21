@@ -17,33 +17,30 @@ int interface::mariomapcollide()
     Position m = theman.getSurroundingPosition();
     // hitbox
     hitbox characterbox = theman.gethixbox();
-    float x = characterbox.position.x / (float)BLOCK_WIDTH, y = characterbox.position.y / (float)BLOCK_HEIGHT;                                                                                                                                                                                                                                                                           // where to calculate surrounding blocks
-    hitbox topleft(floor(x) * BLOCK_WIDTH, floor(y) * BLOCK_HEIGHT, BLOCK_HEIGHT, BLOCK_WIDTH), topright((floor(x) + 1) * BLOCK_WIDTH, floor(y) * BLOCK_HEIGHT, BLOCK_HEIGHT, BLOCK_WIDTH), botleft(floor(x) * BLOCK_WIDTH, (floor(y) + 1) * BLOCK_HEIGHT, BLOCK_HEIGHT, BLOCK_WIDTH), botright((floor(x) + 1) * BLOCK_WIDTH, (floor(y) + 1) * BLOCK_HEIGHT, BLOCK_HEIGHT, BLOCK_WIDTH); // surrounding blocks, conditions required later to be fixed
+    float x = m.x, y = m.y;// where to calculate surrounding blocks
+    hitbox topleft(x * BLOCK_WIDTH, y * BLOCK_HEIGHT, BLOCK_HEIGHT, BLOCK_WIDTH), topright((x + 1) * BLOCK_WIDTH, y * BLOCK_HEIGHT, BLOCK_HEIGHT, BLOCK_WIDTH), botleft(x * BLOCK_WIDTH, (y + 1) * BLOCK_HEIGHT, BLOCK_HEIGHT, BLOCK_WIDTH), botright((x + 1) * BLOCK_WIDTH, (y + 1) * BLOCK_HEIGHT, BLOCK_HEIGHT, BLOCK_WIDTH); // surrounding blocks, conditions required later to be fixed
     int mapstate = 0, mariostate = 0;
     // state of the 4 surrounding blocks, either blocked or not
-    if (map.getblockstate(floor(x), floor(y)))
+    if (map.getblockstate(x, y))
         mapstate++;
-    if (map.getblockstate(floor(x) + 1, floor(y)))
+    if (map.getblockstate(x + 1, y))
         mapstate += 2;
-    if (map.getblockstate(floor(x), floor(y) + 1))
+    if (map.getblockstate(x, y + 1))
         mapstate += 4;
-    if (map.getblockstate(floor(x) + 1, floor(y) + 1))
+    if (map.getblockstate(x + 1, y + 1))
         mapstate += 8;
     // where mario stands within those 4 blocks
     if (hit(characterbox, topleft))
-        ;
-    mariostate++;
+        mariostate++;
     if (hit(characterbox, topright))
-        ;
-    mariostate += 2;
+        mariostate += 2;
     if (hit(characterbox, botleft))
-        ;
-    mariostate += 4;
+        mariostate += 4;
     if (hit(characterbox, botright))
-        ;
-    mariostate += 8;
+        mariostate += 8;
     // and the 2 numbers, to reveal which direction collision is happening
     int collisiontag = mapstate & mariostate;
+    cout << collisiontag << '\n';
     // to then proceed to collision checking
     return collisiontag;
 }
