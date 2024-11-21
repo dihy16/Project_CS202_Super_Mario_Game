@@ -22,6 +22,21 @@ Mario::Mario(int x, int y)
    smallState();
 }
 
+Position Mario::getSurroundingPosition()
+{
+   int x = mapx - 1.5 * BLOCK_WIDTH / 2, y = mapy - 1.5 * BLOCK_HEIGHT;
+   if (x % BLOCK_WIDTH == 0)
+      x = x / BLOCK_WIDTH - 1;
+   else
+      x = x / BLOCK_WIDTH;
+
+   if (y % BLOCK_HEIGHT == 0)
+      y = y / BLOCK_HEIGHT - 1;
+   else
+      y = y / BLOCK_HEIGHT;
+   return Position(x, y);
+}
+
 void Mario::draw(RenderWindow &window, int collisiontag)
 {
    window.draw(marioSprite);
@@ -62,12 +77,18 @@ void Mario::superState()
 
 void Mario::handleEvents(Event &e)
 {
-   if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) goRight = true;
-   else goRight = false;
-   if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A)) goLeft = true;
-   else goLeft = false;
-   if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) goUp = true;
-   else goUp = false;
+   if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+      goRight = true;
+   else
+      goRight = false;
+   if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+      goLeft = true;
+   else
+      goLeft = false;
+   if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+      goUp = true;
+   else
+      goUp = false;
    // switch (e.type)
    // {
    // case Event::KeyPressed:

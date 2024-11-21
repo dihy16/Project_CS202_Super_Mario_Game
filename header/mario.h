@@ -9,6 +9,7 @@ private:
    float acceleration[2], startJumpPosition;
    Area marioArea;
    int mapx, mapy;
+
 public:
    Texture marioTexture, marioSuperTexture;
    Sprite marioSprite;
@@ -17,7 +18,8 @@ public:
    float speed[2];
    hitbox gethixbox()
    {
-      return hitbox(mapx, mapy, marioArea.width, marioArea.height);
+      // move the origin from middle leg to top left corner
+      return hitbox(mapx - 1.5 * marioArea.width / 2, mapy - 1.5 * marioArea.height, marioArea.width, marioArea.height);
    }
    // Constructor
    Mario(int x, int y);
@@ -29,10 +31,7 @@ public:
    void animation(RenderWindow &window, int collisiontag);
    // Move
    void move(RenderWindow &window, int collisiontag);
-   Position getPosition()
-   {
-      return Position(mapx, mapy);
-   }
+   Position getSurroundingPosition();
    void setRectForWalking(IntRect &rect);
    void standing();
    void jumping(IntRect &rect, int RectPosition, float waitingTime);
