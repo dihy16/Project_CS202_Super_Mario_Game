@@ -5,6 +5,7 @@
 #include <vector>
 #include <unordered_map>
 #include <algorithm>
+#include <functional>
 
 using std::vector;
 
@@ -14,6 +15,7 @@ private:
     ColliderManager();
     std::unordered_map<int, vector<int>> collisionMap;
 public:
+    std::function<void(BoxCollider*, BoxCollider*)> ResolveCollision;
     vector<BoxCollider*> colliderVector;
     bool visisbleCollider;
     ColliderManager(const ColliderManager&) = delete;
@@ -21,6 +23,8 @@ public:
     static ColliderManager& GetInstance();
     void AddCollider(BoxCollider* collider);
     void FixedUpdate();
+    bool isGrounded(BoxCollider* collider);
+    
 };
 
 #endif

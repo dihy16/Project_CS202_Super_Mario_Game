@@ -4,6 +4,7 @@
 #include "Component.h"
 #include "../Entity.h"
 #include <functional>
+class RigidBody;
 
 class BoxCollider : public Component{
 
@@ -12,7 +13,9 @@ public:
     float width, height;
     std::function<void(BoxCollider*)> OnCollisionEnter, OnCollisionStay, OnCollisionExit;
     bool OverlayWith(BoxCollider* collider);
-
+    RigidBody* body;
+    friend float CalculateOverlapX(BoxCollider* a, BoxCollider* b);
+    friend float CalculateOverlapY(BoxCollider* a, BoxCollider* b);
 };
 
 #endif

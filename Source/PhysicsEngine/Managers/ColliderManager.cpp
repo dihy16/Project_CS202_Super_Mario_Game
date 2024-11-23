@@ -16,6 +16,7 @@ void ColliderManager::AddCollider(BoxCollider* collider)
     colliderVector.push_back(collider);
 }
 
+
 void ColliderManager::FixedUpdate()
 {
     std::unordered_map<int, std::vector<int>> currentCollisions;
@@ -25,12 +26,14 @@ void ColliderManager::FixedUpdate()
         {
             BoxCollider* a = colliderVector[i];
             BoxCollider* b = colliderVector[j];
+            int aID = a->GetOwner()->getID();
+            int bID = b->GetOwner()->getID();
             if (a->OverlayWith(b))
             {
-                currentCollisions[i].push_back(j);
-                currentCollisions[j].push_back(i);
-                if (collisionMap[i].empty()
-                || std::find(collisionMap[i].begin(), collisionMap[i].end(), j) == collisionMap[i].end()
+                currentCollisions[aID].push_back(bID);
+                currentCollisions[bID].push_back(aID);
+                if (collisionMap[aID].empty()
+                || std::find(collisionMap[aID].begin(), collisionMap[aID].end(), bID) == collisionMap[aID].end()
                 )
                 {
                     if (a->OnCollisionEnter)
@@ -40,6 +43,10 @@ void ColliderManager::FixedUpdate()
                     if (b->OnCollisionEnter)
                     {
                         b->OnCollisionEnter(a);
+                    }
+                    if (ResolveCollision)
+                    {
+                        ResolveCollision(a, b);
                     }
                 }
                 else 
@@ -76,4 +83,30 @@ void ColliderManager::FixedUpdate()
         }
     }
     collisionMap = currentCollisions;
+}
+
+bool ColliderManager::isGrounded(BoxCollider* collider)
+{
+    for (int id : collisionMap[collider->GetOwner()->getID()])
+    {
+        BoxCollider* other = nullptr;
+        for (auto col : colliderVector)
+        {
+            if (col->GetOwner()->getID() == id)
+            {
+                other = col;
+            }
+        }
+        if (other)
+        {
+            float maxA = collider->GetOwner()->yPos + collider->height;
+            float minB = other->GetOwner()->yPos;
+            float maxB = minB + other->height;
+            if (minB < maxA && maxA < maxB)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
 }

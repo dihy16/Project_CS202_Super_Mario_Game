@@ -1,6 +1,7 @@
 #ifndef _physicsmanager_h_
 #define _physicsmanager_h_
 
+class BoxCollider;
 #include "../Components/RigidBody.h"
 #include <vector>
 
@@ -15,6 +16,7 @@ public:
     static PhysicsManager& GetInstance();
     void FixedUpdate();
     std::vector<RigidBody*> rbList;
+    void ResolveCollision(BoxCollider* a, BoxCollider* b);
 };
 
 #endif

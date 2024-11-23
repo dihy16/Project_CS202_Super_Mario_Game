@@ -42,16 +42,18 @@ void InitialFunction()
             
         }
     };
-    bc->OnCollisionEnter = testBoxCollider;
+   // bc->OnCollisionEnter = testBoxCollider;
     ColliderManager::GetInstance().visisbleCollider = true;
     RigidBody* rb = AddComponent<RigidBody>(e);
-    rb->myBoxCollider = bc;
+    bc->body = rb;
+    rb->collider = bc;
+    rb->isUsingGravity = true;
     //bowser
     Entity* bowser = RenderManager::GetInstance().listEntity[0];
     bowser->scaleX = 1.f;
     bowser->scaleY = 1.f;
-    bowser->xPos = 500;
-    bowser->yPos = 100;
+    bowser->xPos = 100;
+    bowser->yPos = 500;
     bowser->name = "bowser";
     SpriteRenderer* sr2 = AddComponent<SpriteRenderer>(bowser);
     sr2->layer = 0;
@@ -64,6 +66,10 @@ void InitialFunction()
     BoxCollider* bc2 = AddComponent<BoxCollider>(bowser);
     bc2->width = 100;
     bc2->height = 100;
+    RigidBody* rb2 = AddComponent<RigidBody>(bowser);
+    bc2->body = rb2;
+    rb2->collider = bc2;
+    rb2->isStatic = true;
 
     //unfinished code for debug console
     sf::Font font;
@@ -112,9 +118,9 @@ int main() {
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-            rb->xVel = -50.f;
+            rb->AddForce(-10.f, 0.f);
         } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-            rb->xVel = 50.f;
+            rb->AddForce(10.f, 0.f);
         }
         
         //fixed update

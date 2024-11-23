@@ -1,15 +1,19 @@
 #ifndef _rigidbody_h_
 #define _rigidbody_h_
 
-#include "BoxCollider.h"
+#include "Component.h"
+
+class BoxCollider;
+
 
 class RigidBody : public Component
 {
 public:
     RigidBody(Entity* _entity);
-    float xVel, yVel;
-    bool isUsingGravity;
-    BoxCollider* myBoxCollider;
+    float xVel, yVel, mass;
+    bool isUsingGravity, isStatic;
+    BoxCollider* collider;
+    void AddForce(float xForce, float yForce);
 };
 
 #endif

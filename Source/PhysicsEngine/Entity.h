@@ -21,6 +21,7 @@ class Entity
         std::string name, tag;
         float rotation, scaleX, scaleY;
         std::unordered_map<std::type_index, Component*> components;
+        int getID();
         
 };
 
