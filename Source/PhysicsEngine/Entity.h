@@ -3,9 +3,10 @@
 
 #include <memory>
 #include <unordered_map>
-#include "Component.h"
+#include "Components/Component.h"
 #include <typeindex>
 #include <type_traits>
+#include <string>
 
 
 class Entity
@@ -16,7 +17,8 @@ class Entity
 
     public:
         Entity();
-        int xPos, yPos;
+        float xPos, yPos;
+        std::string name, tag;
         float rotation, scaleX, scaleY;
         std::unordered_map<std::type_index, Component*> components;
         
