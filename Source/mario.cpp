@@ -37,9 +37,15 @@ Position Mario::getSurroundingPosition()
     return Position(x, y);
 }
 
+Position Mario::convertmaptodraw()
+{
+    return Position(mapx - 3 * BLOCK_WIDTH, mapy);
+}
+
 void Mario::draw(RenderWindow& window, int collisiontag)
 {
     cout << mapx << " " << mapy << '\n';
+    marioSprite.setPosition(convertmaptodraw().x, convertmaptodraw().y);
     window.draw(marioSprite);
 }
 
@@ -298,7 +304,6 @@ void Mario::move(RenderWindow& window, int collisiontag)
 
             timer2.restart();
         }
-        marioSprite.move(speed[0], speed[1]);
         mapx += speed[0];
         mapy += speed[1];
 
@@ -313,30 +318,59 @@ void Mario::adjustposition(int collisiontag)
     Position p = getSurroundingPosition();
     if (collisiontag & 1)
     {
-        speed[1] = 0;
-        speed[0] = 0;
-        if (mapx < p.x * BLOCK_WIDTH + 1.5 * marioArea.width/2) mapx = p.x * BLOCK_WIDTH + 1.5 * marioArea.width / 2;
-        if (mapx < p.y * BLOCK_HEIGHT + 1.5 * marioArea.height) mapx = p.y * BLOCK_HEIGHT + 1.5 * marioArea.height;
+        if (mapx < (p.x + 1) * BLOCK_WIDTH + 1.5 * marioArea.width/2)
+        {
+            speed[0] = 0;
+            mapx = (p.x + 1) * BLOCK_WIDTH + 1.5 * marioArea.width / 2;
+        }
+        if (mapy < (p.y + 1) * BLOCK_HEIGHT + 1.5 * marioArea.height)
+        {
+            speed[1] = 0;
+            mapy = (p.y + 1) * BLOCK_HEIGHT + 1.5 * marioArea.height;
+        }
     }
     if (collisiontag & 4)
     {
-        speed[1] = 0;
-        speed[0] = 0;
-        if (mapx < p.x * BLOCK_WIDTH + 1.5 * marioArea.width/2) mapx = p.x * BLOCK_WIDTH + 1.5 * marioArea.width/2;
-        if (mapx > p.y * BLOCK_HEIGHT - 1.5 * marioArea.height) mapx = p.y * BLOCK_WIDTH;
+        if (mapx < (p.x + 1) * BLOCK_WIDTH + 1.5 * marioArea.width/2)
+        {
+            speed[0] = 0; 
+            mapx = (p.x + 1) * BLOCK_WIDTH + 1.5 * marioArea.width / 2;
+        }
+        if (mapy > (p.y + 1) * BLOCK_HEIGHT)
+        {
+            mapy = (p.y + 1) * BLOCK_HEIGHT;
+            isJumping = false;
+            isOnGround = true;
+            speed[1] = 0;
+            standing();
+        }
     }
     if (collisiontag & 2)
     {
-        speed[1] = 0;
-        speed[0] = 0;
-        if (mapx > p.x * BLOCK_WIDTH + 1.5 * marioArea.width/2) mapx = p.x * BLOCK_WIDTH + 1.5 * marioArea.width/2;
-        if (mapx < p.y * BLOCK_WIDTH) mapx = p.y * BLOCK_WIDTH;
+        if (mapx > (p.x + 1) * BLOCK_WIDTH - 1.5 * marioArea.width/2)
+        {
+            speed[0] = 0;
+            mapx = (p.x + 1) * BLOCK_WIDTH - 1.5 * marioArea.width/2;
+        }
+        if (mapy < (p.y + 1) * BLOCK_WIDTH)
+        {
+            speed[1] = 0;
+            mapy = (p.y + 1) * BLOCK_WIDTH;
+        }
     }
     if (collisiontag & 8)
     {
-        speed[1] = 0;
-        speed[0] = 0;
-        if (mapx > p.x * BLOCK_WIDTH + 1.5 * marioArea.width/2) mapx = p.x * BLOCK_WIDTH + 1.5 * marioArea.width/2;
-        if (mapx > p.y * BLOCK_WIDTH) mapx = p.y * BLOCK_WIDTH;
+        if (mapx > (p.x + 1) * BLOCK_WIDTH - 1.5 * marioArea.width/2)
+        {
+            speed[0] = 0;
+            mapx = (p.x + 1) * BLOCK_WIDTH - 1.5 * marioArea.width/2;
+        }
+        if (mapy > (p.y + 1) * BLOCK_WIDTH)
+        {
+            speed[1] = 0;
+            isJumping = false;
+            isOnGround = true;
+            mapy = (p.y + 1) * BLOCK_WIDTH;
+        }
     }
 }

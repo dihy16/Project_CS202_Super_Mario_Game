@@ -41,6 +41,7 @@ public:
 private:
    // set to small state
    void smallState();
+   Position convertmaptodraw();
    // set to big state
    void bigState();
    // set to super state
