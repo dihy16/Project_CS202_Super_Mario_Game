@@ -8,6 +8,7 @@ Mario::Mario(int x, int y)
    isJumping = false;
    isOnGround = true;
    startJumpPosition = 500;
+   timer = clock();
 
    mapx = x;
    mapy = y;
@@ -62,53 +63,65 @@ void Mario::superState()
 
 void Mario::handleEvents(Event &e)
 {
-   switch (e.type)
-   {
-   case Event::KeyPressed:
-      switch (e.key.code)
-      {
-      case Keyboard::Right:
-      case Keyboard::D:
-         goRight = true;
-         break;
-      case Keyboard::Left:
-      case Keyboard::A:
-         goLeft = true;
-         break;
-      case Keyboard::Up:
-      case Keyboard::W:
-         goUp = true;
-         break;
-      case Keyboard::Down:
-      case Keyboard::S:
-         goDown = true;
-         break;
-      }
-      break;
-   case Event::KeyReleased:
-      switch (e.key.code)
-      {
-      case Keyboard::Right:
-      case Keyboard::D:
-         goRight = false;
-         speed[0] = 0;
-         break;
-      case Keyboard::Left:
-      case Keyboard::A:
-         goLeft = false;
-         speed[0] = 0;
-         break;
-      case Keyboard::Up:
-      case Keyboard::W:
-         goUp = false;
-         break;
-      case Keyboard::Down:
-      case Keyboard::S:
-         goDown = false;
-         break;
-      }
-      break;
-   }
+   // switch (e.type)
+   // {
+   // case Event::KeyPressed:
+   //    switch (e.key.code)
+   //    {
+   //    case Keyboard::Right:
+   //    case Keyboard::D:
+   //       goRight = true;
+   //       break;
+   //    case Keyboard::Left:
+   //    case Keyboard::A:
+   //       goLeft = true;
+   //       break;
+   //    case Keyboard::Up:
+   //    case Keyboard::W:
+   //       goUp = true;
+   //       break;
+   //    case Keyboard::Down:
+   //    case Keyboard::S:
+   //       goDown = true;
+   //       break;
+   //    }
+   //    break;
+   // case Event::KeyReleased:
+   //    switch (e.key.code)
+   //    {
+   //    case Keyboard::Right:
+   //    case Keyboard::D:
+   //       goRight = false;
+   //       speed[0] = 0;
+   //       break;
+   //    case Keyboard::Left:
+   //    case Keyboard::A:
+   //       goLeft = false;
+   //       speed[0] = 0;
+   //       break;
+   //    case Keyboard::Up:
+   //    case Keyboard::W:
+   //       goUp = false;
+   //       break;
+   //    case Keyboard::Down:
+   //    case Keyboard::S:
+   //       goDown = false;
+   //       break;
+   //    }
+   //    break;
+   // }
+   if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+      goRight = true;
+   else
+      goRight = false;
+   if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+      goLeft = true;
+   else
+      goLeft = false;
+   if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+      goUp = true;
+   else
+      goUp = false;
 }
 
 void Mario::setRectForWalking(IntRect &rect)
@@ -135,15 +148,12 @@ void Mario::jumping(IntRect &rect, int RectPosition, float waitingTime)
 {
    if (isOnGround)
    {
-      isJumping = false;
-      speed[1] = 0;
+      // isJumping = false;
+      // speed[1] = 0;
    }
    else
    {
-      if (speed[1] > 0)
-         acceleration[1] = 200;
-      else
-         acceleration[1] = 120;
+      acceleration[1] = GRAVITY;
 
       speed[1] += acceleration[1] * waitingTime;
       // Check if Mario has landed
@@ -243,6 +253,8 @@ void Mario::move(RenderWindow &window)
          goUp = false;
       }
       jumping(marioRect, jumpRectPosition, waitingTime);
+      speed[1] += (int)(GRAVITY * (float)(clock() - timer) * 0.001);
+      timer = clock();
       waitingTime += 0.05;
       if (timer2.getElapsedTime().asSeconds() > waitingTime)
       {
@@ -258,7 +270,7 @@ void Mario::move(RenderWindow &window)
                setRectForWalking(marioRect);
                if (!isJumping)
                   marioSprite.setTextureRect(marioRect);
-               speed[0] += acceleration[0] * waitingTime;
+               speed[0] = 0;
             }
          }
          if (goDown)

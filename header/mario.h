@@ -1,4 +1,5 @@
 #include "definition.h"
+#include <ctime>
 
 class Mario
 {
@@ -9,6 +10,7 @@ private:
    float acceleration[2], startJumpPosition;
    Area marioArea;
    int mapx, mapy;
+   std::clock_t timer;
 public:
    Texture marioTexture, marioSuperTexture;
    Sprite marioSprite;
