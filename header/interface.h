@@ -7,7 +7,7 @@ class interface
 private:
     RenderWindow w{VideoMode(16 * BLOCK_WIDTH, 15 * BLOCK_HEIGHT), "Window", Style::Default};
     Event ev;
-    Mario theman{8 * BLOCK_WIDTH, 12 * BLOCK_HEIGHT};
+    Mario theman{8 * BLOCK_WIDTH, 7 * BLOCK_HEIGHT};
     Map map;
 
 public:

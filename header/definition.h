@@ -78,6 +78,7 @@ bool hit(hitbox, hitbox);
 
 #define BLOCK_WIDTH 64
 #define BLOCK_HEIGHT 64
+#define GRAVITY 120
 
 #define MARIO "resource/Mario.png"
 #define MARIO_SUPER "resource/MarioSuper.png"
