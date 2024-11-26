@@ -15,6 +15,16 @@ typedef enum
    SUPER
 } MarioState;
 
+typedef enum
+{
+   GOOMBA,
+   KOOPA_TROOPA,
+   HAMMER_BRO,
+   LAKITU,
+   SPINY,
+   PIRANHA_PLANT,
+} EnemyType;
+
 struct Player
 {
    string name;
@@ -29,47 +39,45 @@ struct Area
 {
    float width;
    float height;
-Area()
-{
-   width = 0;
-   height = 0;
-}
-Area(int w, int h)
-{
-   width = w;
-   height = h;
-}
+   Area()
+   {
+      width = 0;
+      height = 0;
+   }
+   Area(int w, int h)
+   {
+      width = w;
+      height = h;
+   }
 };
 
 struct Position
 {
-   float x; //left
-   float y; //top
-Position()
-{
-   x = 0;
-   y = 0;
-}
-Position(int left, int top)
-{
-   x = left;
-   y = top;
-}
+   float x; // left
+   float y; // top
+   Position()
+   {
+      x = 0;
+      y = 0;
+   }
+   Position(int left, int top)
+   {
+      x = left;
+      y = top;
+   }
 };
-
-
 
 struct hitbox
 {
    Position position;
    Area size;
-hitbox(int left, int top, int xheight, int xwidth)
-{
-   position.x = left;
-   position.y = top;
-   size.height = xheight;
-   size.width = xwidth;
-}
+   hitbox(int left, int top, int xheight, int xwidth)
+   {
+      position.x = left;
+      position.y = top;
+      size.height = xheight;
+      size.width = xwidth;
+   }
 };
 
 bool in(Position, hitbox);
@@ -81,3 +89,4 @@ bool hit(hitbox, hitbox);
 
 #define MARIO "resource/Mario.png"
 #define MARIO_SUPER "resource/MarioSuper.png"
+#define ENEMY "resource/Enemies.png"
