@@ -24,13 +24,14 @@ void interface::operate()
                 w.close();
                 break;
             default:
-                theman.handleEvents(ev);
                 break;
             }
         }
 
         w.clear();
         map.draw(w, index, 0);
+        theman.keycheck();
+        theman.handlemovement();
         theman.draw(w);
         w.display();
     }

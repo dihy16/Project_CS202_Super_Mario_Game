@@ -1,6 +1,7 @@
 #pragma once
 
-#include "mario.h"
+// #include "mario.h"
+#include "character.h"
 
 class Map
 {

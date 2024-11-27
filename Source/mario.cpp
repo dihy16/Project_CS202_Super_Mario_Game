@@ -22,16 +22,18 @@ Mario::Mario(int x, int y)
 
    smallState();
 }
+// move();
+// draw(); --> animation() // setrect --> draw sprite
 
 void Mario::draw(RenderWindow &window)
 {
-   window.draw(marioSprite);
    animation(window);
+   window.draw(marioSprite);
 }
 
 void Mario::animation(RenderWindow &window)
 {
-   move(window);
+   // move(window);
 }
 
 void Mario::smallState()
@@ -51,7 +53,7 @@ void Mario::bigState()
    marioArea.width = 32;
    marioArea.height = 60;
    marioSprite.setTextureRect(IntRect(0, 36, marioArea.width, marioArea.height));
-   marioSprite.setOrigin(marioArea.width / 2, marioArea.height);
+   marioSprite.setOrigin(marioArea.width / 2 * 1.5, marioArea.height);
 }
 
 void Mario::superState()
@@ -173,8 +175,8 @@ void Mario::moveRight(IntRect &rect, RenderWindow &window)
       rect.left = 130;
    else
       setRectForWalking(rect);
-   if (!isJumping)
-      marioSprite.setTextureRect(rect);
+   // if (!isJumping)
+   //    marioSprite.setTextureRect(rect);
    marioSprite.setScale(1.5, 1.5);
 
    if (window.getSize().x - marioSprite.getPosition().x - marioArea.width - 25 / 2 < 0)
