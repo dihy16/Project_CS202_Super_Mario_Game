@@ -42,14 +42,17 @@ void InitialFunction()
             
         }
     };
-   // bc->OnCollisionEnter = testBoxCollider;
+    bc->OnCollisionEnter = testBoxCollider;
     ColliderManager::GetInstance().visisbleCollider = true;
     RigidBody* rb = AddComponent<RigidBody>(e);
     bc->body = rb;
     rb->collider = bc;
     rb->isUsingGravity = true;
     //bowser
-    Entity* bowser = RenderManager::GetInstance().listEntity[0];
+
+    Entity* bowser = new Entity;
+    RenderManager::GetInstance().listEntity.push_back(bowser);
+    
     bowser->scaleX = 1.f;
     bowser->scaleY = 1.f;
     bowser->xPos = 100;
@@ -106,9 +109,7 @@ int main() {
             if (event.type == sf::Event::Closed) {
                 RenderManager::GetInstance().window.close();
             }
-                if (event.key.code == sf::Keyboard::Escape) {
-                    
-                }
+                
             
             
             

@@ -4,7 +4,6 @@
 RenderManager::RenderManager()
 {
     trackE = new Entity();
-    listEntity.push_back(new Entity());
     displayDebugConsole = false;
   
 

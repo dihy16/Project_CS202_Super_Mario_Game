@@ -1,4 +1,4 @@
-build: compile link clean
+build: compile link
 compile:
 	g++ -c -g main.cpp $(wildcard Source/PhysicsEngine/*.cpp)  $(wildcard Source/PhysicsEngine/Managers/*.cpp) $(wildcard Source/PhysicsEngine/Components/*.cpp)      -I.\libraries\SFML-2.6.1\include -DSFML_STATIC
 
