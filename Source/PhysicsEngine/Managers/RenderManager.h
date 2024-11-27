@@ -25,6 +25,7 @@ class RenderManager
         static RenderManager& GetInstance();
         void AddSpriteRenderer(SpriteRenderer* sr);
         void Update();
+        sf::IntRect intRect;
         
 
 };

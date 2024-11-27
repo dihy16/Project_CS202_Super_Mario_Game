@@ -25,14 +25,15 @@ void InitialFunction()
     sr->layer = 1;
     
     sf::Texture texture;
-    if (!texture.loadFromFile("resource/player.png")) {
+    if (!texture.loadFromFile("Images/TilesBackup.png")) {
         return;
     }
     sr->texture = texture;
+    sr->sprite.setTextureRect(sf::IntRect(0, 0, 64, 64));
     
     BoxCollider* bc =  AddComponent<BoxCollider>(e);
-    bc->width = 100.f;
-    bc->height = 100.f;
+    bc->width = 64.f;
+    bc->height = 64.f;
     auto testBoxCollider = [sr](BoxCollider* bc)
     {
         //disappear if the player collides with Bowser
@@ -42,8 +43,8 @@ void InitialFunction()
             
         }
     };
-    bc->OnCollisionEnter = testBoxCollider;
-    ColliderManager::GetInstance().visisbleCollider = true;
+    //bc->OnCollisionEnter = testBoxCollider;
+    //ColliderManager::GetInstance().visisbleCollider = true;
     RigidBody* rb = AddComponent<RigidBody>(e);
     bc->body = rb;
     rb->collider = bc;
