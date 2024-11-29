@@ -71,7 +71,7 @@ struct hitbox
 {
    Position position;
    Area size;
-   hitbox(int left, int top, int xheight, int xwidth)
+   hitbox(int left, int top, int xwidth, int xheight)
    {
       position.x = left;
       position.y = top;

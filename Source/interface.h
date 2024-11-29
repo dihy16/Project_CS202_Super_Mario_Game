@@ -1,6 +1,7 @@
 #pragma once
 
 #include "map.h"
+#include <cmath>
 
 class interface
 {
@@ -14,4 +15,5 @@ public:
     interface();
     void draw();
     void operate();
+    int mariomapcollide();
 };
