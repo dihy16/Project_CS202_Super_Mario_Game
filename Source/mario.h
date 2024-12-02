@@ -1,5 +1,4 @@
 #include "definition.h"
-#include <ctime>
 
 class Mario
 {
