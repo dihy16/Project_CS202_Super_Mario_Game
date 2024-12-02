@@ -29,7 +29,7 @@ int main()
         mario.goRight = sf::Keyboard::isKeyPressed(sf::Keyboard::D);
         mario.goUp = sf::Keyboard::isKeyPressed(sf::Keyboard::W);
 
-        // mario.handleMovement();
+        mario.handleMovement();
 
         // fixed update
         while (accumulator >= PhysicsManager::FIXED_TIMESTEP)

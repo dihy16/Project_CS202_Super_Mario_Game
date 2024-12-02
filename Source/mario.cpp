@@ -1,143 +1,55 @@
-#include "../header/mario.h"
+#include "mario.h"
 
 Mario::Mario(int x, int y)
 {
-    acceleration[0] = 25, acceleration[1] = 40;
-    speed[0] = 0, speed[1] = 0;
-    goRight = goLeft = goUp = goDown = false;
-    isJumping = false;
-    isOnGround = true;
-    startJumpPosition = y;
+    // RenderManager::GetInstance().listEntity.push_back(mario);
+    goRight = goLeft = goUp = false;
 
-    mapx = x;
-    mapy = y;
-    marioTexture.loadFromFile(MARIO);
-    marioSuperTexture.loadFromFile(MARIO_SUPER);
-    marioTexture.setSmooth(true);
-    marioSuperTexture.setSmooth(true);
-    marioSprite.setTexture(marioTexture);
-    marioSprite.setPosition(5 * BLOCK_WIDTH, y);
-    marioSprite.setScale(1.5, 1.5);
+    mario->scaleX = 1.5;
+    mario->scaleY = 1.5;
+    mario->xPos = x;
+    mario->yPos = y;
 
-    smallState();
+    marioSprite->layer = 1;
+    marioSprite->texture.loadFromFile(MARIO);
+    marioSprite->texture.setSmooth(true);
+    marioSprite->sprite.setTexture(marioSprite->texture);
+    marioSprite->sprite.setTextureRect(sf::IntRect(0, 96, 32, 32));
+
+    marioCollider->width = 32;
+    marioCollider->height = 32;
+
+    marioCollider->body = marioRigidBody;
+    marioRigidBody->collider = marioCollider;
+    marioRigidBody->isStatic = false;
+    marioRigidBody->xVel = 0, marioRigidBody->yVel = 0;
 }
-// move();
-// draw(); --> animation() // setrect --> draw sprite
 
-Position Mario::getSurroundingPosition()
+void Mario::moveRight()
 {
-    animation(window);
-    window.draw(marioSprite);
+    goRight = true, goLeft = false;
+    marioRigidBody->AddForce(25.f, 0.f);
+    sf::IntRect rect = marioSprite->sprite.getTextureRect();
+    if (marioRigidBody->xVel >= 1)
+        // set rect.left = 130
+        rect.left = 130;
+    mario->scaleX = 1.5;
 }
 
-void Mario::draw(RenderWindow &window, int collisiontag)
+void Mario::moveLeft()
 {
-    // move(window);
+    goLeft = true, goRight = false;
+    marioRigidBody->AddForce(-25.f, 0.f);
+    sf::IntRect rect = marioSprite->sprite.getTextureRect();
+    if (marioRigidBody->xVel <= -1)
+        rect.left = 130;
+    mario->scaleX = -1.5;
 }
 
-void Mario::smallState()
-{
-    marioSprite.setTexture(marioTexture);
-    marioState = MarioState::SMALL;
-    marioArea.width = 28;
-    marioArea.height = 32;
-    marioSprite.setTextureRect(IntRect(0, 96, marioArea.width, marioArea.height));
-    marioSprite.setOrigin(marioArea.width / 2, marioArea.height);
-}
-
-void Mario::bigState()
-{
-    marioSprite.setTexture(marioTexture);
-    marioState = MarioState::BIG;
-    marioArea.width = 32;
-    marioArea.height = 60;
-    marioSprite.setTextureRect(IntRect(0, 36, marioArea.width, marioArea.height));
-    marioSprite.setOrigin(marioArea.width / 2 * 1.5, marioArea.height);
-}
-
-void Mario::superState()
-{
-    bigState();
-    marioState = MarioState::SUPER;
-    marioSprite.setTexture(marioSuperTexture);
-}
-
-void Mario::handleEvents(Event &e)
-{
-    // switch (e.type)
-    // {
-    // case Event::KeyPressed:
-    //    switch (e.key.code)
-    //    {
-    //    case Keyboard::Right:
-    //    case Keyboard::D:
-    //       goRight = true;
-    //       break;
-    //    case Keyboard::Left:
-    //    case Keyboard::A:
-    //       goLeft = true;
-    //       break;
-    //    case Keyboard::Up:
-    //    case Keyboard::W:
-    //       goUp = true;
-    //       break;
-    //    case Keyboard::Down:
-    //    case Keyboard::S:
-    //       goDown = true;
-    //       break;
-    //    }
-    //    break;
-    // case Event::KeyReleased:
-    //    switch (e.key.code)
-    //    {
-    //    case Keyboard::Right:
-    //    case Keyboard::D:
-    //       goRight = false;
-    //       speed[0] = 0;
-    //       break;
-    //    case Keyboard::Left:
-    //    case Keyboard::A:
-    //       goLeft = false;
-    //       speed[0] = 0;
-    //       break;
-    //    case Keyboard::Up:
-    //    case Keyboard::W:
-    //       goUp = false;
-    //       break;
-    //    case Keyboard::Down:
-    //    case Keyboard::S:
-    //       goDown = false;
-    //       break;
-    //    }
-    //    break;
-    // }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-        goRight = true;
-    else
-        goRight = false;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-        goLeft = true;
-    else
-        goLeft = false;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) || sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-        goUp = true;
-    else
-        goUp = false;
-}
-
-void Mario::setRectForWalking(IntRect &rect)
+void Mario::setRectForWalking(sf::IntRect &rect)
 {
     int maxLeft = 0, picWidth = 0;
-    if (marioState == MarioState::SMALL)
-    {
-        maxLeft = 99;
-        picWidth = 33;
-    }
-    else if (marioState == MarioState::BIG || marioState == MarioState::SUPER)
-    {
-        maxLeft = 96;
-        picWidth = 32;
-    }
+    maxLeft = 99, picWidth = 33;
 
     if (rect.left >= maxLeft)
         rect.left = picWidth;
@@ -145,213 +57,37 @@ void Mario::setRectForWalking(IntRect &rect)
         rect.left += picWidth;
 }
 
-void Mario::jumping(IntRect &rect, int RectPosition, float waitingTime)
+void Mario::handleMovement()
 {
-    if (isOnGround)
-    {
-        // isJumping = false;
-        // speed[1] = 0;
-    }
-    else
-    {
-        acceleration[1] = GRAVITY;
-
-        speed[1] += acceleration[1] * waitingTime;
-        // Check if Mario has landed
-        if (marioSprite.getPosition().y + speed[1] > startJumpPosition)
-        {
-            marioSprite.setPosition(marioSprite.getPosition().x, startJumpPosition);
-            isOnGround = true;
-            speed[1] = 0;
-            isJumping = false;
-        }
-    }
-}
-
-void Mario::moveRight(IntRect &rect, RenderWindow &window)
-{
-    if (speed[0] <= -1)
-        rect.left = 130;
-    else
-        setRectForWalking(rect);
-    // if (!isJumping)
-    //    marioSprite.setTextureRect(rect);
-    marioSprite.setScale(1.5, 1.5);
-
-    if (window.getSize().x - marioSprite.getPosition().x - 1.5 * marioArea.width - 25 / 2 < 0)
-        marioSprite.setPosition(window.getSize().x - 1.5 * marioArea.width / 2, marioSprite.getPosition().y);
-    if (marioSprite.getPosition().x == window.getSize().x - 1.5 * marioArea.width / 2)
-    {
-        speed[0] = 0;
-        acceleration[0] = 0;
-    }
-    else
-        speed[0] = 25;
-    if (acceleration[0] > 0)
-        acceleration[0] *= -1;
-}
-
-void Mario::moveLeft(IntRect &rect, RenderWindow &window)
-{
-    if (speed[0] >= 1)
-        rect.left = 130;
-    else
-        setRectForWalking(rect);
-    if (!isJumping)
-        marioSprite.setTextureRect(rect);
-    marioSprite.setScale(-1.5, 1.5);
-
-    if (marioSprite.getPosition().x - 45 <= 0)
-        marioSprite.setPosition(1.5 * marioArea.width / 2, marioSprite.getPosition().y);
-    if (marioSprite.getPosition().x == 1.5 * marioArea.width / 2)
-        speed[0] = 0;
-    else
-        speed[0] = -25;
-    // if (acceleration[0] < 0)
-    //    acceleration[0] *= -1;
-}
-
-void Mario::standing()
-{
-    speed[0] = 0;
-    switch (marioState)
-    {
-    case MarioState::SMALL:
-        smallState();
-        break;
-    case MarioState::BIG:
-        bigState();
-        break;
-    case MarioState::SUPER:
-        superState();
-        break;
-    default:
-        break;
-    }
-}
-
-void Mario::move(RenderWindow &window, int collisiontag)
-{
-    if (isOnGround)
-        isJumping = false;
-    IntRect marioRect = marioSprite.getTextureRect();
     float waitingTime = 0.05;
+    sf::IntRect rect = marioSprite->sprite.getTextureRect();
+
     if (timer1.getElapsedTime().asSeconds() > waitingTime)
     {
-        // jump when press arrow up
-        int jumpRectPosition = 160;
-        if (goUp)
-        {
-            marioRect.left = jumpRectPosition;
-            marioSprite.setTextureRect(marioRect);
-            if (!isJumping)
-            {
-                isJumping = true;
-                isOnGround = false;
-                startJumpPosition = marioSprite.getPosition().y;
-                speed[1] = -60;
-            }
-            goUp = false;
-        }
-        jumping(marioRect, jumpRectPosition, waitingTime);
-        speed[1] += (int)(GRAVITY * (float)(clock() - timer) * 0.001);
-        timer = clock();
         waitingTime += 0.05;
         if (timer2.getElapsedTime().asSeconds() > waitingTime)
         {
-            if (goRight)
-                moveRight(marioRect, window);
+            if (goRight == goLeft)
+            {
+                marioRigidBody->xVel = 0;
+            }
+            else if (goRight)
+            {
+                moveRight();
+                setRectForWalking(rect);
+            }
             else if (goLeft)
-                moveLeft(marioRect, window);
-            else
             {
-                // acceleration movement when release keyboard
-                if (speed[0] >= 1 || speed[0] <= -1)
-                {
-                    setRectForWalking(marioRect);
-                    if (!isJumping)
-                        marioSprite.setTextureRect(marioRect);
-                    speed[0] = 0;
-                }
-                goUp = false;
+                moveLeft();
+                setRectForWalking(rect);
             }
-            jumping(marioRect, jumpRectPosition, waitingTime);
-            waitingTime += 0.05;
-            if (timer2.getElapsedTime().asSeconds() > waitingTime)
-            {
-                if (goRight && goLeft)
-                {
-                    speed[0] = 0;
-                }
-                if (goRight)
-                    moveRight(marioRect, window);
-                else if (goLeft)
-                    moveLeft(marioRect, window);
-                else
-                {
-                    speed[0] = 0;
-                    // acceleration movement when release keyboard
-                    if (speed[0] >= 1 || speed[0] <= -1)
-                    {
-                        setRectForWalking(marioRect);
-                        if (!isJumping)
-                            marioSprite.setTextureRect(marioRect);
-                        speed[0] += acceleration[0] * waitingTime;
-                    }
-                }
-                if (goDown)
-                    goDown = false;
 
-                timer2.restart();
-            }
-            marioSprite.move(speed[0], speed[1]);
-            mapx += speed[0];
-            mapy += speed[1];
-
-            timer1.restart();
+            timer2.restart();
         }
-        if (speed[0] < 1 && speed[0] > -1 && isOnGround)
-            standing();
+        marioSprite->sprite.move(marioRigidBody->xVel, marioRigidBody->yVel);
+        // mario->xPos += marioRigidBody->xVel;
+        // mario->yPos += marioRigidBody->yVel;
+        timer1.restart();
     }
-}
-
-void Mario::adjustposition(int collisiontag)
-{
-    Position p = getSurroundingPosition();
-    if (collisiontag & 1)
-    {
-        speed[1] = 0;
-        speed[0] = 0;
-        if (mapx < p.x * BLOCK_WIDTH + 1.5 * marioArea.width / 2)
-            mapx = p.x * BLOCK_WIDTH + 1.5 * marioArea.width / 2;
-        if (mapx < p.y * BLOCK_HEIGHT + 1.5 * marioArea.height)
-            mapx = p.y * BLOCK_HEIGHT + 1.5 * marioArea.height;
-    }
-    if (collisiontag & 4)
-    {
-        speed[1] = 0;
-        speed[0] = 0;
-        if (mapx < p.x * BLOCK_WIDTH + 1.5 * marioArea.width / 2)
-            mapx = p.x * BLOCK_WIDTH + 1.5 * marioArea.width / 2;
-        if (mapx > p.y * BLOCK_HEIGHT - 1.5 * marioArea.height)
-            mapx = p.y * BLOCK_WIDTH;
-    }
-    if (collisiontag & 2)
-    {
-        speed[1] = 0;
-        speed[0] = 0;
-        if (mapx > p.x * BLOCK_WIDTH + 1.5 * marioArea.width / 2)
-            mapx = p.x * BLOCK_WIDTH + 1.5 * marioArea.width / 2;
-        if (mapx < p.y * BLOCK_WIDTH)
-            mapx = p.y * BLOCK_WIDTH;
-    }
-    if (collisiontag & 8)
-    {
-        speed[1] = 0;
-        speed[0] = 0;
-        if (mapx > p.x * BLOCK_WIDTH + 1.5 * marioArea.width / 2)
-            mapx = p.x * BLOCK_WIDTH + 1.5 * marioArea.width / 2;
-        if (mapx > p.y * BLOCK_WIDTH)
-            mapx = p.y * BLOCK_WIDTH;
-    }
+    marioSprite->sprite.setTextureRect(rect);
 }
