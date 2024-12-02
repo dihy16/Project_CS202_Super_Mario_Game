@@ -64,21 +64,21 @@ void Mario::handleMovement()
       waitingTime += 0.05;
       if (timer2.getElapsedTime().asSeconds() > waitingTime)
       {
-         //    if (goRight == goLeft)
-         //    {
-         //       rb->xVel = 0;
-         //       setRectForWalking(rect);
-         //    }
-         //    else if (goRight)
-         //       moveRight();
-         //    else if (goLeft)
-         //       moveLeft();
-         // marioSprite->sprite.setTextureRect(rect);
+         if (goRight == goLeft)
+         {
+            marioRigidBody->xVel = 0;
+            setRectForWalking(rect);
+         }
+         else if (goRight)
+            moveRight();
+         else if (goLeft)
+            moveLeft();
+         marioSprite->sprite.setTextureRect(rect);
          timer2.restart();
       }
-      // marioSprite->sprite.move(marioRigidBody->xVel, marioRigidBody->yVel);
-      // mario->xPos += rb->xVel;
-      // mario->yPos += rb->yVel;
+      marioSprite->sprite.move(marioRigidBody->xVel, marioRigidBody->yVel);
+      mario->xPos += marioRigidBody->xVel;
+      mario->yPos += marioRigidBody->yVel;
       timer1.restart();
    }
 }

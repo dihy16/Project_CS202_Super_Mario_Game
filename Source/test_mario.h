@@ -15,11 +15,11 @@ class Mario : public Entity
 {
 private:
    Entity *mario = RenderManager::GetInstance().trackE;
-   RigidBody *marioRigidBody = GetComponent<RigidBody>(RenderManager::GetInstance().trackE);
+   RigidBody *rb = GetComponent<RigidBody>(RenderManager::GetInstance().trackE);
 
    SpriteRenderer *marioSprite = AddComponent<SpriteRenderer>(mario);
    BoxCollider *marioCollider = AddComponent<BoxCollider>(mario);
-   // RigidBody *marioRigidBody = AddComponent<RigidBody>(mario);
+   RigidBody *marioRigidBody = AddComponent<RigidBody>(mario);
 
    sf::Clock timer1, timer2;
 
