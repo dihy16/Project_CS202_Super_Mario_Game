@@ -1,4 +1,5 @@
-// #include "./mario.h"
+#ifndef MARIO_H
+#define MARIO_H
 #include "./PhysicsEngine/Managers/ComponentEntityManager.h"
 #include "./PhysicsEngine/Components/BoxCollider.h"
 #include "./PhysicsEngine/Components/RigidBody.h"
@@ -33,3 +34,5 @@ public:
    void handleMovement();
    void handleAnimation();
 };
+
+#endif // MARIO_H

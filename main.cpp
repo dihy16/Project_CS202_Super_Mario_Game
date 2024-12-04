@@ -1,9 +1,25 @@
-#include "./Source/test_mario.h"
+#include "./Source/mario.h"
+#include "./Source/enemy.h"
 
 int main()
 {
     // InitialFunction();
     Mario mario(100, 100);
+    std::vector<std::unique_ptr<Enemy>> enemies;
+
+    // enemies.push_back(EnemyFactory::createEnemy("Goomba", 200, 100));
+    // enemies.push_back(EnemyFactory::createEnemy("Koopa", 300, 100));
+    enemies.push_back(EnemyFactory::createEnemy("HammerBro", 400, 100));
+
+    // enemies.push_back(EnemyFactory::createEnemy("PiranhaPlant", 500, 100));
+
+    for (auto &enemy : enemies)
+    {
+        if (HammerBro *hammerBro = dynamic_cast<HammerBro *>(enemy.get()))
+        {
+            hammerBro->throwHammer(enemies);
+        }
+    }
     RenderManager::GetInstance().window.create(sf::VideoMode(800, 600), "SFML Sprite Example");
 
     sf::Clock clock;
@@ -30,6 +46,11 @@ int main()
         mario.goUp = sf::Keyboard::isKeyPressed(sf::Keyboard::W);
 
         mario.handleMovement();
+        for (auto &enemy : enemies)
+        {
+
+            enemy->move();
+        }
 
         // fixed update
         while (accumulator >= PhysicsManager::FIXED_TIMESTEP)

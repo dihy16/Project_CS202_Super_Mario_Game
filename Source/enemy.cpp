@@ -1,161 +1,210 @@
-// #include "../header/enemy.h"
+#include "./enemy.h"
 
-// void WalkBehavior::move()
-// {
-//    // Walk implementation
-//    std::cout << "Walking on the ground." << std::endl;
-// }
+Enemy::Enemy(int x, int y) {}
+void Enemy::move() {}
 
-// void JumpBehavior::move()
-// {
-//    // Jump implementation
-//    std::cout << "Jumping." << std::endl;
-// }
+void Enemy::initialize(int x, int y, sf::IntRect &rect, std::string name)
+{
+   currentRect = 0;
+   maxRect = 2;
+   display = moving = true;
+   Entity *enemy = new Entity;
+   RenderManager::GetInstance().listEntity.push_back(enemy);
+   enemy->scaleX = 1.0;
+   enemy->scaleY = 1.0;
+   enemy->xPos = x;
+   enemy->yPos = y;
+   enemy->name = name;
+   sr = AddComponent<SpriteRenderer>(enemy);
+   sr->layer = 3;
+   sr->texture.loadFromFile(ENEMY);
+   sr->texture.setSmooth(true);
+   sr->sprite.setTexture(sr->texture);
+   sr->sprite.setTextureRect(rect);
+   bc = AddComponent<BoxCollider>(enemy);
+   bc->width = rect.width;
+   bc->height = rect.height;
+   rb = AddComponent<RigidBody>(enemy);
+   bc->body = rb;
+   rb->collider = bc;
+   rb->isStatic = false;
+   rb->xVel = 0.001, rb->yVel = 0;
 
-// // Enemy base class methods
-// Enemy::Enemy(int x, int y)
-// {
-//    display = moving = true;
-//    speed[0] = 20, speed[1] = 0;
-//    maxRect = 2, currentRect = 0;
-//    isKilled = onGround = fading = false;
-//    enemySprite.setPosition(x, y);
-// }
+   enemyRect = rect;
+}
 
-// void Enemy::animation()
-// {
-//    if (timer.getElapsedTime().asSeconds() > 0.2f)
-//    {
-//       enemyRect.left = currentRect * enemyRect.width;
-//       enemySprite.setTextureRect(enemyRect);
-//       if (moving)
-//          currentRect++;
-//       if (currentRect == maxRect)
-//          currentRect = 0;
-//       timer.restart();
-//    }
-//    movementBehavior->move();
-// }
+Goomba::Goomba(int x, int y) : Enemy(x, y)
+{
+   sf::IntRect rect(0, 0, 32, 31); // live goomba
+   // sf::IntRect rect(64, 0, 32, 31); dead goomba
 
-// void Enemy::changeDirection()
-// {
-//    // Implement changing direction logic
-// }
+   initialize(x, y, rect, "goomba");
+}
+void Goomba::move()
+{
+   if (timer.getElapsedTime().asSeconds() > 0.2)
+   {
+      enemyRect.left = currentRect * sr->sprite.getTextureRect().width;
+      sr->sprite.setTextureRect(enemyRect);
 
-// void Enemy::checkGround()
-// {
-//    // Implement ground check logic
-// }
+      if (moving)
+      {
+         currentRect++;
+         if (currentRect == maxRect)
+            currentRect = 0;
+      }
 
-// void Enemy::checkKilled()
-// {
-//    // Implement check killed logic
-// }
+      timer.restart();
+   }
+   if (moving)
+      sr->sprite.move(rb->xVel, rb->yVel);
 
-// void Enemy::setKilled()
-// {
-//    // Implement set killed logic
-// }
+   sr->GetOwner()->xPos += rb->xVel;
+   sr->GetOwner()->yPos += rb->yVel;
+}
 
-// void Enemy::setFading()
-// {
-//    // Implement set fading logic
-// }
+Koopa::Koopa(int x, int y) : Enemy(x, y)
+{
+   sf::IntRect rect(0, 34, 32, 46); // live koopa
+   // sf::IntRect rect(64, 36, 32, 42); dead koopa
 
-// void Enemy::draw(RenderWindow &window)
-// {
-//    if (display)
-//    {
-//       animation();
-//       window.draw(enemySprite);
-//    }
-// }
+   initialize(x, y, rect, "koopa");
+}
 
-// // Goomba class methods
-// Goomba::Goomba(int x, int y) : Enemy(x, y)
-// {
-//    enemyRect = IntRect(0, 0, 32, 31);
-//    enemySprite.setTextureRect(enemyRect);
-//    enemySprite.setOrigin(enemyRect.width / 2, enemyRect.height);
-//    enemySprite.setScale(1.5, 1.5);
-//    movementBehavior = make_unique<WalkBehavior>();
-// }
+void Koopa::move()
+{
+   if (timer.getElapsedTime().asSeconds() > 0.2)
+   {
+      enemyRect.left = currentRect * sr->sprite.getTextureRect().width;
+      sr->sprite.setTextureRect(enemyRect);
 
-// void Goomba::animation()
-// {
-//    Enemy::animation();
-//    std::cout << "Goomba specific animation." << std::endl;
-// }
+      if (moving)
+      {
+         currentRect++;
+         if (currentRect == maxRect)
+            currentRect = 0;
+      }
 
-// // Koopa class methods
-// Koopa::Koopa(int x, int y) : Enemy(x, y)
-// {
-//    enemyRect = IntRect(0, 34, 32, 46);
-//    enemySprite.setTextureRect(enemyRect);
-//    enemySprite.setOrigin(enemyRect.width / 2, enemyRect.height);
-//    enemySprite.setScale(1.5, 1.5);
-//    movementBehavior = make_unique<WalkBehavior>();
-// }
+      timer.restart();
+   }
+   if (moving)
+      sr->sprite.move(rb->xVel, rb->yVel);
 
-// void Koopa::animation()
-// {
-//    Enemy::animation();
-//    std::cout << "Koopa specific animation." << std::endl;
-// }
+   sr->GetOwner()->xPos += rb->xVel;
+   sr->GetOwner()->yPos += rb->yVel;
+}
 
-// // HammerBro class methods
-// HammerBro::HammerBro(int x, int y) : Enemy(x, y)
-// {
-//    enemyRect = IntRect(0, 70, 32, 46);
-//    enemySprite.setTextureRect(enemyRect);
-//    enemySprite.setOrigin(enemyRect.width / 2, enemyRect.height);
-//    enemySprite.setScale(1.5, 1.5);
-//    movementBehavior = make_unique<JumpBehavior>();
-// }
+HammerBro::HammerBro(int x, int y) : Enemy(x, y)
+{
+   sf::IntRect rect(96, 161, 32, 46);
+   initialize(x, y, rect, "hammerBro");
+}
 
-// void HammerBro::animation()
-// {
-//    Enemy::animation();
-//    std::cout << "HammerBro specific animation." << std::endl;
-// }
+void HammerBro::move()
+{
+   maxRect = 4;
+   if (timer.getElapsedTime().asSeconds() > 0.2)
+   {
+      enemyRect.left = 96 + currentRect * sr->sprite.getTextureRect().width;
+      sr->sprite.setTextureRect(enemyRect);
 
-// // PiranhaPlant class methods
-// PiranhaPlant::PiranhaPlant(int x, int y) : Enemy(x, y)
-// {
-//    enemyRect = IntRect(0, 120, 32, 46);
-//    enemySprite.setTextureRect(enemyRect);
-//    enemySprite.setOrigin(enemyRect.width / 2, enemyRect.height);
-//    enemySprite.setScale(1.5, 1.5);
-//    movementBehavior = make_unique<WalkBehavior>();
-// }
+      if (moving)
+      {
+         currentRect++;
+         if (currentRect == maxRect)
+            currentRect = 0;
+      }
+      timer.restart();
+   }
+   if (moving)
+      sr->sprite.move(rb->xVel, rb->yVel);
 
-// void PiranhaPlant::animation()
-// {
-//    Enemy::animation();
-//    std::cout << "PiranhaPlant specific animation." << std::endl;
-// }
+   sr->GetOwner()->xPos += rb->xVel;
+   sr->GetOwner()->yPos += rb->yVel;
+}
 
-// // Factory Method implementation
-// unique_ptr<Enemy> EnemyFactory::createEnemy(const string &type, int x, int y)
-// {
-//    if (type == "Goomba")
-//    {
-//       return make_unique<Goomba>(x, y);
-//    }
-//    else if (type == "Koopa")
-//    {
-//       return make_unique<Koopa>(x, y);
-//    }
-//    else if (type == "HammerBro")
-//    {
-//       return make_unique<HammerBro>(x, y);
-//    }
-//    else if (type == "PiranhaPlant")
-//    {
-//       return make_unique<PiranhaPlant>(x, y);
-//    }
-//    else
-//    {
-//       return nullptr;
-//    }
-// }
+void HammerBro::throwHammer(std::vector<std::unique_ptr<Enemy>> &enemies)
+{
+   // if (!throwing && throwTimer.getElapsedTime().asSeconds() > 5)
+   // {
+
+   //    throwing = true;
+   //    throwTimer.restart();
+   // }
+   enemies.push_back(EnemyFactory::createEnemy("Hammer", sr->GetOwner()->xPos - 40, sr->GetOwner()->yPos));
+}
+
+Hammer::Hammer(int x, int y) : Enemy(x, y)
+{
+   sf::IntRect rect(96, 113, 32, 32);
+   initialize(x, y, rect, "hammer");
+   rb->xVel = -0.01;
+}
+
+void Hammer::move()
+{
+   maxRect = 4;
+   if (timer.getElapsedTime().asSeconds() > 0.2)
+   {
+      enemyRect.left = 96 + currentRect * sr->sprite.getTextureRect().width;
+      sr->sprite.setTextureRect(enemyRect);
+
+      if (moving)
+      {
+         currentRect++;
+         if (currentRect == maxRect)
+            currentRect = 0;
+      }
+      timer.restart();
+   }
+   if (moving)
+      sr->sprite.move(rb->xVel, rb->yVel);
+
+   sr->GetOwner()->xPos += rb->xVel;
+   sr->GetOwner()->yPos += rb->yVel;
+}
+
+PiranhaPlant::PiranhaPlant(int x, int y) : Enemy(x, y)
+{
+   sf::IntRect rect(0, 80, 32, 46);
+   initialize(x, y, rect, "piranhaPlant");
+}
+
+void PiranhaPlant::move()
+{
+   if (timer.getElapsedTime().asSeconds() > 0.2)
+   {
+      enemyRect.left = currentRect * sr->sprite.getTextureRect().width;
+      sr->sprite.setTextureRect(enemyRect);
+
+      if (moving)
+      {
+         currentRect++;
+         if (currentRect == maxRect)
+            currentRect = 0;
+      }
+
+      timer.restart();
+   }
+   if (moving)
+      sr->sprite.move(rb->xVel, rb->yVel);
+
+   sr->GetOwner()->xPos += rb->xVel;
+   sr->GetOwner()->yPos += rb->yVel;
+}
+
+std::unique_ptr<Enemy> EnemyFactory::createEnemy(const std::string &type, int x, int y)
+{
+   if (type == "Goomba")
+      return std::make_unique<Goomba>(x, y);
+   else if (type == "Koopa")
+      return std::make_unique<Koopa>(x, y);
+   else if (type == "HammerBro")
+      return std::make_unique<HammerBro>(x, y);
+   else if (type == "Hammer")
+      return std::make_unique<Hammer>(x, y);
+   else if (type == "PiranhaPlant")
+      return std::make_unique<PiranhaPlant>(x, y);
+   else
+      return nullptr;
+}

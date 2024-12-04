@@ -28,10 +28,10 @@ Mario::Mario(int x, int y)
 void Mario::moveRight()
 {
     goRight = true, goLeft = false;
+    marioRigidBody->isStatic = false;
     marioRigidBody->AddForce(25.f, 0.f);
     sf::IntRect rect = marioSprite->sprite.getTextureRect();
     if (marioRigidBody->xVel >= 1)
-        // set rect.left = 130
         rect.left = 130;
     mario->scaleX = 1.5;
 }
@@ -59,12 +59,12 @@ void Mario::setRectForWalking(sf::IntRect &rect)
 
 void Mario::handleMovement()
 {
-    float waitingTime = 0.05;
+    float waitingTime = 0.04;
     sf::IntRect rect = marioSprite->sprite.getTextureRect();
 
     if (timer1.getElapsedTime().asSeconds() > waitingTime)
     {
-        waitingTime += 0.05;
+        waitingTime += 0.04;
         if (timer2.getElapsedTime().asSeconds() > waitingTime)
         {
             if (goRight == goLeft)
@@ -74,11 +74,13 @@ void Mario::handleMovement()
             else if (goRight)
             {
                 moveRight();
+                // marioRigidBody->xVel = 25;
                 setRectForWalking(rect);
             }
             else if (goLeft)
             {
                 moveLeft();
+                // marioRigidBody->xVel = -25;
                 setRectForWalking(rect);
             }
 

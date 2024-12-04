@@ -1,83 +1,69 @@
-// #include "definition.h"
+#ifndef ENEMY_H
+#define ENEMY_H
+#include "./mario.h"
+#include <memory>
 
-// // Movement behavior interface (Strategy pattern)
-// class MovementBehavior
-// {
-// public:
-//    virtual void move() = 0;
-//    virtual ~MovementBehavior() = default;
-// };
+#define ENEMY "resource/Enemies.png"
 
-// // Concrete movement behaviors
-// class WalkBehavior : public MovementBehavior
-// {
-// public:
-//    void move() override;
-// };
+class Enemy : public Entity
+{
+protected:
+   bool display, moving, isKilled, onGround, fading;
+   sf::Clock timer;
+   sf::IntRect enemyRect;
+   sf::Sprite enemySprite;
+   SpriteRenderer *sr;
+   BoxCollider *bc;
+   RigidBody *rb;
+   int currentRect, maxRect;
+   void initialize(int x, int y, sf::IntRect &rect, std::string name);
 
-// class JumpBehavior : public MovementBehavior
-// {
-// public:
-//    void move() override;
-// };
+public:
+   Enemy(int x, int y);
+   virtual void move() = 0;
+};
+class Goomba : public Enemy
+{
+public:
+   Goomba(int x, int y);
+   void move() override;
+};
+class Koopa : public Enemy
+{
+public:
+   Koopa(int x, int y);
+   void move() override;
+};
 
-// // Enemy base class
-// class Enemy
-// {
-// protected:
-//    unique_ptr<MovementBehavior> movementBehavior;
-//    bool isKilled, onGround, fading, display, moving;
-//    int currentRect, maxRect;
-//    float speed[2];
-//    IntRect enemyRect;
-//    Texture enemyTexture;
-//    Clock timer;
-//    Sprite enemySprite;
+class HammerBro : public Enemy
+{
+private:
+   sf::Clock throwTimer;
+   bool throwing = false;
 
-// public:
-//    Enemy(int x, int y);
-//    virtual void animation();
-//    virtual void changeDirection();
-//    virtual void checkGround();
-//    virtual void checkKilled();
-//    virtual void setKilled();
-//    virtual void setFading();
-//    virtual void draw(RenderWindow &window);
-//    virtual ~Enemy() = default;
-// };
+public:
+   HammerBro(int x, int y);
+   void move() override;
+   void throwHammer(std::vector<std::unique_ptr<Enemy>> &enemies);
+};
 
-// // Concrete enemy classes
-// class Goomba : public Enemy
-// {
-// public:
-//    Goomba(int x, int y);
-//    void animation() override;
-// };
+class Hammer : public Enemy
+{
+public:
+   Hammer(int x, int y);
+   void move();
+};
 
-// class Koopa : public Enemy
-// {
-// public:
-//    Koopa(int x, int y);
-//    void animation() override;
-// };
+class PiranhaPlant : public Enemy
+{
+public:
+   PiranhaPlant(int x, int y);
+   void move() override;
+};
 
-// class HammerBro : public Enemy
-// {
-// public:
-//    HammerBro(int x, int y);
-//    void animation() override;
-// };
-
-// class PiranhaPlant : public Enemy
-// {
-// public:
-//    PiranhaPlant(int x, int y);
-//    void animation() override;
-// };
-
-// // Factory Method to create enemies
-// class EnemyFactory
-// {
-// public:
-//    static unique_ptr<Enemy> createEnemy(const string &type, int x, int y);
-// };
+class EnemyFactory
+{
+public:
+   static std::unique_ptr<Enemy> createEnemy(const std::string &type, int x, int y);
+};
+#endif
