@@ -117,12 +117,17 @@ int main() {
         }
          if (!sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
             rb->xVel = 0.f;
+            rb->isJumping = false;
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
             rb->AddForce(-10.f, 0.f);
         } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
             rb->AddForce(10.f, 0.f);
+        }
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        {
+            rb->isJumping = true;
         }
         
         //fixed update
