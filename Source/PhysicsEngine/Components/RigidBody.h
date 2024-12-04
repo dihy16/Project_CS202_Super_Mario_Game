@@ -11,9 +11,11 @@ class RigidBody : public Component
 public:
     RigidBody(Entity* _entity);
     float xVel, yVel, mass;
-    bool isUsingGravity, isStatic;
+    bool isUsingGravity, isStatic, isJumping;
     BoxCollider* collider;
     void AddForce(float xForce, float yForce);
+    
+
 };
 
 #endif

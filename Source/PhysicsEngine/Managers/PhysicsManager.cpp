@@ -25,11 +25,20 @@ void PhysicsManager::FixedUpdate()
     {
         if (ColliderManager::GetInstance().isGrounded(rb->collider))
         {
+            if (rb->isJumping)
+            {
+                rb->AddForce(0, -300.f);
+                rb->isJumping = false;
+            }
+            else{
             rb->yVel = 0;
+
+            }
         }
-        if (rb->isUsingGravity && !ColliderManager::GetInstance().isGrounded(rb->collider))
+        else if (rb->isUsingGravity)
         {
             rb->AddForce(0, 9.8f);
+            
         }
 
         rb->GetOwner()->xPos += rb->xVel * FIXED_TIMESTEP;
