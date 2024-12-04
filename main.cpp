@@ -1,17 +1,22 @@
 #include "./Source/mario.h"
 #include "./Source/enemy.h"
+#include "./Source/items.h"
 
 int main()
 {
     // InitialFunction();
     Mario mario(100, 100);
     std::vector<std::unique_ptr<Enemy>> enemies;
+    std::vector<std::unique_ptr<Item>> items;
 
     // enemies.push_back(EnemyFactory::createEnemy("Goomba", 200, 100));
     // enemies.push_back(EnemyFactory::createEnemy("Koopa", 300, 100));
-    enemies.push_back(EnemyFactory::createEnemy("HammerBro", 400, 100));
-
+    // enemies.push_back(EnemyFactory::createEnemy("HammerBro", 400, 100));
     // enemies.push_back(EnemyFactory::createEnemy("PiranhaPlant", 500, 100));
+    items.push_back(ItemFactory::createItem("Mushroom", 200, 100));
+    items.push_back(ItemFactory::createItem("Coin", 300, 100));
+    items.push_back(ItemFactory::createItem("Sparkle", 400, 100));
+    items.push_back(ItemFactory::createItem("Flower", 500, 100));
 
     for (auto &enemy : enemies)
     {
@@ -47,11 +52,10 @@ int main()
 
         mario.handleMovement();
         for (auto &enemy : enemies)
-        {
-
             enemy->move();
-        }
 
+        for (auto &item : items)
+            item->animation();
         // fixed update
         while (accumulator >= PhysicsManager::FIXED_TIMESTEP)
         {
