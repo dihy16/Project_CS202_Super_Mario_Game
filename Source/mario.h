@@ -20,12 +20,12 @@ private:
 
    SpriteRenderer *marioSprite = AddComponent<SpriteRenderer>(mario);
    BoxCollider *marioCollider = AddComponent<BoxCollider>(mario);
-   RigidBody *marioRigidBody = AddComponent<RigidBody>(mario);
 
    sf::Clock timer1, timer2;
 
 public:
    bool goRight, goLeft, goUp;
+   RigidBody *marioRigidBody = AddComponent<RigidBody>(mario);
 
    Mario(int x, int y);
    void moveRight();

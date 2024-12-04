@@ -61,6 +61,11 @@ void Mario::handleMovement()
 {
     float waitingTime = 0.04;
     sf::IntRect rect = marioSprite->sprite.getTextureRect();
+    if (goUp)
+    {
+        marioRigidBody->isJumping = true;
+        goUp = false;
+    }
 
     if (timer1.getElapsedTime().asSeconds() > waitingTime)
     {
