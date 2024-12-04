@@ -11,20 +11,13 @@ int main()
 
     // enemies.push_back(EnemyFactory::createEnemy("Goomba", 200, 100));
     // enemies.push_back(EnemyFactory::createEnemy("Koopa", 300, 100));
-    // enemies.push_back(EnemyFactory::createEnemy("HammerBro", 400, 100));
+    enemies.push_back(EnemyFactory::createEnemy("HammerBro", 400, 100));
     // enemies.push_back(EnemyFactory::createEnemy("PiranhaPlant", 500, 100));
-    items.push_back(ItemFactory::createItem("Mushroom", 200, 100));
-    items.push_back(ItemFactory::createItem("Coin", 300, 100));
-    items.push_back(ItemFactory::createItem("Sparkle", 400, 100));
-    items.push_back(ItemFactory::createItem("Flower", 500, 100));
+    // items.push_back(ItemFactory::createItem("Mushroom", 200, 100));
+    // items.push_back(ItemFactory::createItem("Coin", 300, 100));
+    // items.push_back(ItemFactory::createItem("Sparkle", 400, 100));
+    // items.push_back(ItemFactory::createItem("Flower", 500, 100));
 
-    for (auto &enemy : enemies)
-    {
-        if (HammerBro *hammerBro = dynamic_cast<HammerBro *>(enemy.get()))
-        {
-            hammerBro->throwHammer(enemies);
-        }
-    }
     RenderManager::GetInstance().window.create(sf::VideoMode(800, 600), "SFML Sprite Example");
 
     sf::Clock clock;

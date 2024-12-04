@@ -21,6 +21,9 @@ protected:
 public:
    Enemy(int x, int y);
    virtual void move() = 0;
+   // Getter methods to access protected members
+   RigidBody *getRigidBody() const { return rb; }
+   BoxCollider *getBoxCollider() const { return bc; }
 };
 class Goomba : public Enemy
 {
@@ -40,15 +43,19 @@ class HammerBro : public Enemy
 private:
    sf::Clock throwTimer;
    bool throwing = false;
+   std::unique_ptr<Enemy> hammer = nullptr;
 
 public:
    HammerBro(int x, int y);
    void move() override;
-   void throwHammer(std::vector<std::unique_ptr<Enemy>> &enemies);
+   void throwHammer();
 };
 
 class Hammer : public Enemy
 {
+private:
+   sf::Clock gravityTimer;
+
 public:
    Hammer(int x, int y);
    void move();

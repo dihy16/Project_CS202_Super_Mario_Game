@@ -40,6 +40,7 @@ Goomba::Goomba(int x, int y) : Enemy(x, y)
 
    initialize(x, y, rect, "goomba");
 }
+
 void Goomba::move()
 {
    if (timer.getElapsedTime().asSeconds() > 0.2)
@@ -96,7 +97,8 @@ void Koopa::move()
 
 HammerBro::HammerBro(int x, int y) : Enemy(x, y)
 {
-   sf::IntRect rect(96, 161, 32, 46);
+   // sf::IntRect rect(96, 161, 32, 46);
+   sf::IntRect rect(160, 160, 32, 48);
    initialize(x, y, rect, "hammerBro");
 }
 
@@ -107,13 +109,19 @@ void HammerBro::move()
    {
       enemyRect.left = 96 + currentRect * sr->sprite.getTextureRect().width;
       sr->sprite.setTextureRect(enemyRect);
-
       if (moving)
       {
          currentRect++;
          if (currentRect == maxRect)
             currentRect = 0;
       }
+      if (!hammer && throwTimer.getElapsedTime().asSeconds() > 2)
+      {
+         hammer = EnemyFactory::createEnemy("Hammer", sr->GetOwner()->xPos - 35, sr->GetOwner()->yPos - 30);
+         throwTimer.restart();
+      }
+      else if (hammer)
+         throwHammer();
       timer.restart();
    }
    if (moving)
@@ -123,22 +131,17 @@ void HammerBro::move()
    sr->GetOwner()->yPos += rb->yVel;
 }
 
-void HammerBro::throwHammer(std::vector<std::unique_ptr<Enemy>> &enemies)
+void HammerBro::throwHammer()
 {
-   // if (!throwing && throwTimer.getElapsedTime().asSeconds() > 5)
-   // {
-
-   //    throwing = true;
-   //    throwTimer.restart();
-   // }
-   enemies.push_back(EnemyFactory::createEnemy("Hammer", sr->GetOwner()->xPos - 40, sr->GetOwner()->yPos));
+   hammer->getRigidBody()->AddForce(-1, -2);
+   hammer->move();
 }
 
 Hammer::Hammer(int x, int y) : Enemy(x, y)
 {
    sf::IntRect rect(96, 113, 32, 32);
    initialize(x, y, rect, "hammer");
-   rb->xVel = -0.01;
+   sr->layer = 1;
 }
 
 void Hammer::move()
@@ -155,8 +158,14 @@ void Hammer::move()
          if (currentRect == maxRect)
             currentRect = 0;
       }
+      if (gravityTimer.getElapsedTime().asSeconds() > 2)
+      {
+         rb->isUsingGravity = true;
+         gravityTimer.restart();
+      }
       timer.restart();
    }
+
    if (moving)
       sr->sprite.move(rb->xVel, rb->yVel);
 

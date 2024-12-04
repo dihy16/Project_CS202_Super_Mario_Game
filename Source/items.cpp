@@ -104,7 +104,7 @@ void Sparkle::animation()
 Flower::Flower(int x, int y) : Item(x, y)
 {
    sf::IntRect rect(32, 213, 32, 30);
-   initialize(x, y, rect, "flower", 2);
+   initialize(x, y, rect, "flower", 3);
 }
 
 void Flower::animation()

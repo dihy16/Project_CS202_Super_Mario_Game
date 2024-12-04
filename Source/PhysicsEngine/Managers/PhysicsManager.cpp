@@ -9,10 +9,11 @@ using sf::Vector2f;
 
 PhysicsManager::PhysicsManager()
 {
-    ColliderManager::GetInstance().ResolveCollision = [this] (BoxCollider* bc1, BoxCollider* bc2) {ResolveCollision(bc1, bc2);};
+    ColliderManager::GetInstance().ResolveCollision = [this](BoxCollider *bc1, BoxCollider *bc2)
+    { ResolveCollision(bc1, bc2); };
 }
 
-PhysicsManager& PhysicsManager::GetInstance()
+PhysicsManager &PhysicsManager::GetInstance()
 {
     static PhysicsManager instance;
     return instance;
@@ -30,15 +31,14 @@ void PhysicsManager::FixedUpdate()
                 rb->AddForce(0, -300.f);
                 rb->isJumping = false;
             }
-            else{
-            rb->yVel = 0;
-
+            else
+            {
+                rb->yVel = 0;
             }
         }
         else if (rb->isUsingGravity)
         {
-            rb->AddForce(0, 9.8f);
-            
+            rb->AddForce(0, 4.0f);
         }
 
         rb->GetOwner()->xPos += rb->xVel * FIXED_TIMESTEP;
@@ -46,54 +46,60 @@ void PhysicsManager::FixedUpdate()
     }
 }
 
-void PhysicsManager::ResolveCollision(BoxCollider* a, BoxCollider* b)
+void PhysicsManager::ResolveCollision(BoxCollider *a, BoxCollider *b)
 {
-    if (a->body == nullptr || b->body == nullptr) return;
-    RigidBody* rbA = a->body;
-    RigidBody* rbB = b->body;
+    if (a->body == nullptr || b->body == nullptr)
+        return;
+    RigidBody *rbA = a->body;
+    RigidBody *rbB = b->body;
 
     float overlapX = CalculateOverlapX(a, b);
     float overlapY = CalculateOverlapY(a, b);
-    if (rbA->isStatic && rbB->isStatic) return;
-    
+    if (rbA->isStatic && rbB->isStatic)
+        return;
+
     if (overlapX < overlapY)
     {
         // Resolve the collision along the X axis
-        if (a->GetOwner()->xPos > b->GetOwner()->xPos) {
+        if (a->GetOwner()->xPos > b->GetOwner()->xPos)
+        {
             // Push `a` to the right of `b`
             a->GetOwner()->xPos += overlapX;
-        } else {
+        }
+        else
+        {
             // Push `a` to the left of `b`
             a->GetOwner()->xPos -= overlapX;
         }
 
         // Adjust velocities based on the resolution
-        if (a->body && b->body) {
-            
-            a->body->xVel = -a->body->xVel * ( 1.0f / 3.0f);  
-            b->body->xVel = -b->body->xVel * ( 1.0f / 3.0f);
-            
+        if (a->body && b->body)
+        {
+
+            a->body->xVel = -a->body->xVel * (1.0f / 3.0f);
+            b->body->xVel = -b->body->xVel * (1.0f / 3.0f);
         }
-    } else 
+    }
+    else
     {
         // Resolve the collision along the Y axis
-        if (a->GetOwner()->yPos > b->GetOwner()->yPos) {
+        if (a->GetOwner()->yPos > b->GetOwner()->yPos)
+        {
             // Push `a` above `b`
             a->GetOwner()->yPos += overlapY;
-        } else {
+        }
+        else
+        {
             // Push `a` below `b`
             a->GetOwner()->yPos -= overlapY;
         }
 
         // Adjust velocities for Y direction
-        if (a->body && b->body) {
-            
+        if (a->body && b->body)
+        {
+
             a->body->yVel = 0; // Reflect the velocity
             b->body->yVel = 0;
-            
         }
     }
-
-        
-
 }
