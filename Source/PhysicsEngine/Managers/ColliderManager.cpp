@@ -63,25 +63,25 @@ void ColliderManager::FixedUpdate()
             }
         }
     }
-    for (const auto& [id, collidingIds] : collisionMap)
-    {
-        for (int collidingId: collidingIds)
-        {
-            BoxCollider* a = colliderVector[id];
-            BoxCollider* b = colliderVector[collidingId];
-            if (currentCollisions[id].empty()|| std::find(currentCollisions[id].begin(), currentCollisions[id].end(), collidingId) == currentCollisions[id].end())
-            {
-                if (a->OnCollisionExit)
-                {
-                    a->OnCollisionExit(b);
-                }
-                if (b->OnCollisionExit)
-                {
-                    b->OnCollisionExit(a);
-                }
-            }
-        }
-    }
+    // for (const auto& [id, collidingIds] : collisionMap)
+    // {
+    //     for (int collidingId: collidingIds)
+    //     {
+    //         BoxCollider* a = colliderVector[id];
+    //         BoxCollider* b = colliderVector[collidingId];
+    //         if (currentCollisions[id].empty()|| std::find(currentCollisions[id].begin(), currentCollisions[id].end(), collidingId) == currentCollisions[id].end())
+    //         {
+    //             if (a->OnCollisionExit)
+    //             {
+    //                 a->OnCollisionExit(b);
+    //             }
+    //             if (b->OnCollisionExit)
+    //             {
+    //                 b->OnCollisionExit(a);
+    //             }
+    //         }
+    //     }
+    // }
     collisionMap = currentCollisions;
 }
 

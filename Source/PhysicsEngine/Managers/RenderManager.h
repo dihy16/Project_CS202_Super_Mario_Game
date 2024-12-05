@@ -26,6 +26,7 @@ class RenderManager
         void AddSpriteRenderer(SpriteRenderer* sr);
         void Update();
         sf::IntRect intRect;
+        std::string debugText;
         
 
 };

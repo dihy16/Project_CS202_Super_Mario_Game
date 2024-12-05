@@ -53,7 +53,10 @@ void RenderManager::Update()
         }
     }
     if (displayDebugConsole)
-    {window.draw(debugConsole);}
+    {
+        debugConsole.setString(debugText);
+        window.draw(debugConsole);
+    }
     
     window.display();
 }

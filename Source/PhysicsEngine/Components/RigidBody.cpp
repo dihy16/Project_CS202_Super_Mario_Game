@@ -1,6 +1,6 @@
 #include "RigidBody.h"
 #include "../Entity.h"
-RigidBody::RigidBody(Entity *_entity) : Component(_entity)
+RigidBody::RigidBody(Entity* _entity) : Component(_entity)
 {
     xVel = 0;
     yVel = 0;
@@ -8,6 +8,7 @@ RigidBody::RigidBody(Entity *_entity) : Component(_entity)
     isStatic = false;
     mass = 1.f;
     collider = nullptr;
+    isJumping = false;
 }
 
 void RigidBody::AddForce(float xForce, float yForce)

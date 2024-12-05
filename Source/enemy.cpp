@@ -29,7 +29,7 @@ void Enemy::initialize(int x, int y, sf::IntRect &rect, std::string name)
    rb->collider = bc;
    rb->isStatic = false;
    rb->xVel = 0.001, rb->yVel = 0;
-
+   rb->isUsingGravity = true;
    enemyRect = rect;
 }
 
@@ -60,8 +60,8 @@ void Goomba::move()
    if (moving)
       sr->sprite.move(rb->xVel, rb->yVel);
 
-   sr->GetOwner()->xPos += rb->xVel;
-   sr->GetOwner()->yPos += rb->yVel;
+   // sr->GetOwner()->xPos += rb->xVel;
+   // sr->GetOwner()->yPos += rb->yVel;
 }
 
 Koopa::Koopa(int x, int y) : Enemy(x, y)
@@ -91,8 +91,8 @@ void Koopa::move()
    if (moving)
       sr->sprite.move(rb->xVel, rb->yVel);
 
-   sr->GetOwner()->xPos += rb->xVel;
-   sr->GetOwner()->yPos += rb->yVel;
+   // sr->GetOwner()->xPos += rb->xVel;
+   // sr->GetOwner()->yPos += rb->yVel;
 }
 
 HammerBro::HammerBro(int x, int y) : Enemy(x, y)

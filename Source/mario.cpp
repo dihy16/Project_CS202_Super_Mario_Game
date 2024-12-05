@@ -16,24 +16,21 @@ Mario::Mario(int x, int y)
    marioSprite->sprite.setTexture(marioSprite->texture);
    marioSprite->sprite.setTextureRect(sf::IntRect(0, 96, 32, 32));
 
-<<<<<<< HEAD
-    marioCollider->width = 64;
-    marioCollider->height = 64;
-
-    marioCollider->body = marioRigidBody;
-    marioRigidBody->collider = marioCollider;
-    marioRigidBody->isUsingGravity = true;
-    marioRigidBody->xVel = 0, marioRigidBody->yVel = 0;
-=======
-   marioCollider->width = 32;
-   marioCollider->height = 32;
+   marioCollider->width = 64;
+   marioCollider->height = 64;
 
    marioCollider->body = marioRigidBody;
    marioRigidBody->collider = marioCollider;
    marioRigidBody->isStatic = false;
    marioRigidBody->isUsingGravity = true;
    marioRigidBody->xVel = 0, marioRigidBody->yVel = 0;
->>>>>>> 5d54568fb349913e425a9738ed74344cf2dc7477
+   auto collison = [](BoxCollider* bc)
+   {
+    if (bc->GetOwner()->name == "goomba")
+    RenderManager::GetInstance().debugText += "hit";
+
+   };
+   marioCollider->OnCollisionEnter = collison;
 }
 
 void Mario::moveRight()
@@ -97,7 +94,7 @@ void Mario::handleMovement()
 
          timer2.restart();
       }
-      marioSprite->sprite.move(marioRigidBody->xVel, marioRigidBody->yVel);
+      //marioSprite->sprite.move(marioRigidBody->xVel, marioRigidBody->yVel);
       // mario->xPos += marioRigidBody->xVel;
       // mario->yPos += marioRigidBody->yVel;
       timer1.restart();

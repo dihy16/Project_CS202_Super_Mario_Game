@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <cmath>
 #include <SFML/System/Vector2.hpp>
+#include "RenderManager.h"
 
 using sf::Vector2f;
 
@@ -48,6 +49,8 @@ void PhysicsManager::FixedUpdate()
 
 void PhysicsManager::ResolveCollision(BoxCollider *a, BoxCollider *b)
 {
+    RenderManager::GetInstance().debugText += "hit";
+
     if (a->body == nullptr || b->body == nullptr)
         return;
     RigidBody *rbA = a->body;
@@ -60,6 +63,7 @@ void PhysicsManager::ResolveCollision(BoxCollider *a, BoxCollider *b)
 
     if (overlapX < overlapY)
     {
+
         // Resolve the collision along the X axis
         if (a->GetOwner()->xPos > b->GetOwner()->xPos)
         {
