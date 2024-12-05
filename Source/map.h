@@ -1,7 +1,8 @@
 #pragma once
 
 // #include "mario.h"
-#include "character.h"
+#include <fstream>
+#include "enemy.h"
 
 class Map
 {
@@ -9,17 +10,32 @@ private:
     vector<vector<int>> projectionmap;
     vector<vector<int>> backgroundmap;
     vector<vector<int>> entitymap;
-    Sprite block;
-    Texture blocktexture;
+    sf::Sprite block;
+    sf::Texture blocktexture;
 
 public:
     Map();
     void readmap();
-    void draw(RenderWindow &w, int MarioX, int MarioY);
+    void draw(sf::RenderWindow &w, int MarioX, int MarioY);
     vector<vector<int>> getmap(int option);
-    hitbox gethitbox(int x, int y);
     int getblockstate(int x, int y)
     {
         return projectionmap[y][x];
     }
+    //function creates a list of block entities
+    void createblock(int marioX, int marioY);
+    void blockgenerator(int, int);
+    //function checks for entity availability within map sight
 };
+
+// class block: public Entity
+// {
+// private:
+//     SpriteRenderer* blockSprite;
+//     BoxCollider* hitbox;
+//     RigidBody* hitboxbody;
+//     sf::Texture texture;
+// public:
+//     block(float x, float y): xPos(x), yPos(y){}
+//     void initiate(int, int, int);
+// };

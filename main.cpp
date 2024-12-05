@@ -1,11 +1,14 @@
 #include "./Source/mario.h"
 #include "./Source/enemy.h"
 #include "./Source/items.h"
+#include "./Source/map.h"
 
 int main()
 {
     // InitialFunction();
     Mario mario(100, 100);
+    Map m;
+    m.blockgenerator(mario.xPos, mario.yPos);
     std::vector<std::unique_ptr<Enemy>> enemies;
     std::vector<std::unique_ptr<Item>> items;
 
@@ -18,7 +21,7 @@ int main()
     // items.push_back(ItemFactory::createItem("Sparkle", 400, 100));
     // items.push_back(ItemFactory::createItem("Flower", 500, 100));
 
-    RenderManager::GetInstance().window.create(sf::VideoMode(800, 600), "SFML Sprite Example");
+    RenderManager::GetInstance().window.create(sf::VideoMode(16 * BLOCK_WIDTH, 15 * BLOCK_HEIGHT), "SFML Sprite Example");
 
     sf::Clock clock;
     float accumulator = 0.0f;
