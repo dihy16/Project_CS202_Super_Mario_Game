@@ -14,7 +14,7 @@ int main()
 
     // enemies.push_back(EnemyFactory::createEnemy("Goomba", 200, 100));
     // enemies.push_back(EnemyFactory::createEnemy("Koopa", 300, 100));
-    enemies.push_back(EnemyFactory::createEnemy("HammerBro", 400, 100));
+    //enemies.push_back(EnemyFactory::createEnemy("HammerBro", 400, 100));
     // enemies.push_back(EnemyFactory::createEnemy("PiranhaPlant", 500, 100));
     // items.push_back(ItemFactory::createItem("Mushroom", 200, 100));
     // items.push_back(ItemFactory::createItem("Coin", 300, 100));
@@ -22,9 +22,20 @@ int main()
     // items.push_back(ItemFactory::createItem("Flower", 500, 100));
 
     RenderManager::GetInstance().window.create(sf::VideoMode(16 * BLOCK_WIDTH, 15 * BLOCK_HEIGHT), "SFML Sprite Example");
+    sf::Font font;
+    if (!font.loadFromFile("resource/Arial.ttf")) {
 
+    }
+    RenderManager::GetInstance().debugConsole.setFont(font);
+    RenderManager::GetInstance().debugConsole.setString("hello");
+    RenderManager::GetInstance().debugConsole.setCharacterSize(12);         // Set character size (in pixels)
+    RenderManager::GetInstance().debugConsole.setFillColor(sf::Color::White); // Set text color
+    RenderManager::GetInstance().debugConsole.setStyle(sf::Text::Bold);     // 
+    RenderManager::GetInstance().debugConsole.setPosition(0, 0);    // 
+    RenderManager::GetInstance().displayDebugConsole = true;
     sf::Clock clock;
     float accumulator = 0.0f;
+    //ColliderManager::GetInstance().visisbleCollider = true;
 
     // RigidBody *rb = GetComponent<RigidBody>(RenderManager::GetInstance().trackE);
 
