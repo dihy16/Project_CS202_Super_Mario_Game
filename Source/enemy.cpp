@@ -158,11 +158,11 @@ void Hammer::move()
          if (currentRect == maxRect)
             currentRect = 0;
       }
-      if (gravityTimer.getElapsedTime().asSeconds() > 2)
-      {
-         rb->isUsingGravity = true;
-         gravityTimer.restart();
-      }
+      // if (gravityTimer.getElapsedTime().asSeconds() > 2)
+      // {
+      //    rb->isUsingGravity = true;
+      //    gravityTimer.restart();
+      // }
       timer.restart();
    }
 

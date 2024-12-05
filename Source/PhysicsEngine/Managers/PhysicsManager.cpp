@@ -38,7 +38,7 @@ void PhysicsManager::FixedUpdate()
         }
         else if (rb->isUsingGravity)
         {
-            rb->AddForce(0, 4.0f);
+            rb->AddForce(0, 9.8f);
         }
 
         rb->GetOwner()->xPos += rb->xVel * FIXED_TIMESTEP;

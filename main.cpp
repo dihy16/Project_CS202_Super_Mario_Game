@@ -6,7 +6,7 @@
 int main()
 {
     // InitialFunction();
-    Mario mario(100, 100);
+    Mario mario(100, 12 * BLOCK_HEIGHT);
     Map m;
     m.blockgenerator(mario.xPos, mario.yPos);
     std::vector<std::unique_ptr<Enemy>> enemies;
@@ -14,7 +14,11 @@ int main()
 
     // enemies.push_back(EnemyFactory::createEnemy("Goomba", 200, 100));
     // enemies.push_back(EnemyFactory::createEnemy("Koopa", 300, 100));
+<<<<<<< HEAD
     //enemies.push_back(EnemyFactory::createEnemy("HammerBro", 400, 100));
+=======
+    // // enemies.push_back(EnemyFactory::createEnemy("HammerBro", 400, 100));
+>>>>>>> 5d54568fb349913e425a9738ed74344cf2dc7477
     // enemies.push_back(EnemyFactory::createEnemy("PiranhaPlant", 500, 100));
     // items.push_back(ItemFactory::createItem("Mushroom", 200, 100));
     // items.push_back(ItemFactory::createItem("Coin", 300, 100));
@@ -55,7 +59,7 @@ int main()
         }
         mario.goLeft = sf::Keyboard::isKeyPressed(sf::Keyboard::A);
         mario.goRight = sf::Keyboard::isKeyPressed(sf::Keyboard::D);
-        mario.goUp = sf::Keyboard::isKeyPressed(sf::Keyboard::W);
+        mario.marioRigidBody->isJumping = sf::Keyboard::isKeyPressed(sf::Keyboard::W);
 
         mario.handleMovement();
         for (auto &enemy : enemies)
