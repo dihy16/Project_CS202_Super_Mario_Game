@@ -10,10 +10,11 @@ private:
     vector<vector<int>> projectionmap;
     vector<vector<int>> backgroundmap;
     vector<vector<int>> entitymap;
-    sf::Sprite block;
+    int xstart, ystart, offset;
     sf::Texture blocktexture;
-
+    std::vector<Entity*> availableblocks;
 public:
+    bool left = false, right = false;
     Map();
     void readmap();
     void draw(sf::RenderWindow &w, int MarioX, int MarioY);
@@ -26,6 +27,10 @@ public:
     void createblock(int marioX, int marioY);
     void blockgenerator(int, int);
     //function checks for entity availability within map sight
+    //map nudge functions, default 5 pixels
+    void moveleft(/*float step*/);
+    void moveright(/*float step */);
+
 };
 
 // class block: public Entity

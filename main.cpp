@@ -6,9 +6,9 @@
 int main()
 {
     // InitialFunction();
-    Mario mario(100, 12 * BLOCK_HEIGHT);
+    // Mario mario(100, 12 * BLOCK_HEIGHT);
     Map m;
-    m.blockgenerator(mario.xPos, mario.yPos);
+    m.blockgenerator(100, 12 * BLOCK_HEIGHT);
     // std::vector<std::unique_ptr<Enemy>> enemies;
     // std::vector<std::unique_ptr<Item>> items;
 
@@ -30,7 +30,7 @@ int main()
 
     }
     RenderManager::GetInstance().debugConsole.setFont(font);
-    RenderManager::GetInstance().debugConsole.setString("hello");
+    RenderManager::GetInstance().debugConsole.setString("lmao");
     RenderManager::GetInstance().debugConsole.setCharacterSize(12);         // Set character size (in pixels)
     RenderManager::GetInstance().debugConsole.setFillColor(sf::Color::White); // Set text color
     RenderManager::GetInstance().debugConsole.setStyle(sf::Text::Bold);     // 
@@ -56,11 +56,17 @@ int main()
                 RenderManager::GetInstance().window.close();
             }
         }
-        mario.goLeft = sf::Keyboard::isKeyPressed(sf::Keyboard::A);
-        mario.goRight = sf::Keyboard::isKeyPressed(sf::Keyboard::D);
-        mario.marioRigidBody->isJumping = sf::Keyboard::isKeyPressed(sf::Keyboard::W);
+        // mario.goLeft = sf::Keyboard::isKeyPressed(sf::Keyboard::A);
+        // mario.goRight = sf::Keyboard::isKeyPressed(sf::Keyboard::D);
+        // mario.marioRigidBody->isJumping = sf::Keyboard::isKeyPressed(sf::Keyboard::W);
 
-        mario.handleMovement();
+        // mario.handleMovement();
+        m.left = sf::Keyboard::isKeyPressed(sf::Keyboard::A);
+        m.right = sf::Keyboard::isKeyPressed(sf::Keyboard::D);
+        if (m.left && m.right);
+        else if (m.left) m.moveleft();
+        else if (m.right) m.moveright();
+
         // for (auto &enemy : enemies)
         //     enemy->move();
 
