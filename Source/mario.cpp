@@ -31,21 +31,13 @@ Mario::Mario(int x, int y)
    };
    marioCollider->OnCollisionEnter = collison;
    stateManager.setState(std::make_unique<SmallMario>());
-   == == == =
-                marioCollider->width = 64;
-   marioCollider->height = 64;
-
-   marioCollider->body = marioRigidBody;
-   marioRigidBody->collider = marioCollider;
-   marioRigidBody->isUsingGravity = true;
-   marioRigidBody->xVel = 0, marioRigidBody->yVel = 0;
 }
 
 void Mario::moveRight()
 {
    goRight = true, goLeft = false;
    marioRigidBody->isStatic = false;
-   marioRigidBody->AddForce(25.f, 0.f);
+   marioRigidBody->AddForce(2.5f, 0.f);
    sf::IntRect rect = marioSprite->sprite.getTextureRect();
    if (marioRigidBody->xVel >= 1)
       rect.left = 130;
@@ -55,7 +47,7 @@ void Mario::moveRight()
 void Mario::moveLeft()
 {
    goLeft = true, goRight = false;
-   marioRigidBody->AddForce(-25.f, 0.f);
+   marioRigidBody->AddForce(-2.5f, 0.f);
    sf::IntRect rect = marioSprite->sprite.getTextureRect();
    if (marioRigidBody->xVel <= -1)
       rect.left = 130;

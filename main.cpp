@@ -51,19 +51,22 @@ int main()
                 RenderManager::GetInstance().window.close();
             }
         }
-        // mario.goLeft = sf::Keyboard::isKeyPressed(sf::Keyboard::A);
-        // mario.goRight = sf::Keyboard::isKeyPressed(sf::Keyboard::D);
-        // mario.marioRigidBody->isJumping = sf::Keyboard::isKeyPressed(sf::Keyboard::W);
+        mario.goLeft = sf::Keyboard::isKeyPressed(sf::Keyboard::A);
+        mario.goRight = sf::Keyboard::isKeyPressed(sf::Keyboard::D);
+        mario.marioRigidBody->isJumping = sf::Keyboard::isKeyPressed(sf::Keyboard::W);
 
-        // mario.handleMovement();
-        m.left = sf::Keyboard::isKeyPressed(sf::Keyboard::A);
-        m.right = sf::Keyboard::isKeyPressed(sf::Keyboard::D);
-        if (m.left && m.right)
-            ;
-        else if (m.left)
-            m.moveleft();
-        else if (m.right)
-            m.moveright();
+        mario.handleMovement();
+        if (mario.goLeft)
+            m.moveleft(-mario.marioRigidBody->xVel);
+        else if (mario.goRight)
+            m.moveright(mario.marioRigidBody->xVel);
+
+        // if (m.left && m.right)
+        //     ;
+        // else if (m.left)
+        //     m.moveleft(2);
+        // else if (m.right)
+        //     m.moveright(2);
 
         // for (auto &enemy : enemies)
         //     enemy->move();

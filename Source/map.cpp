@@ -3,7 +3,7 @@
 Map::Map()
 {
     blocktexture.loadFromFile("Images/TilesBackup.png");
-    //block.setTexture(blocktexture);
+    // block.setTexture(blocktexture);
     readmap();
 }
 
@@ -209,15 +209,16 @@ vector<vector<int>> Map::getmap(int option)
 
 void Map::createblock(int x, int y)
 {
-    if (projectionmap[y][x] == 0) return;
-    Entity* block = new Entity;
+    if (projectionmap[y][x] == 0)
+        return;
+    Entity *block = new Entity;
     RenderManager::GetInstance().listEntity.push_back(block);
     block->scaleX = 1.0;
     block->scaleY = 1.0;
     block->xPos = (x - 5) * BLOCK_WIDTH;
     block->yPos = y * BLOCK_HEIGHT;
     block->name = "Block";
-    SpriteRenderer* sr = AddComponent<SpriteRenderer>(block);
+    SpriteRenderer *sr = AddComponent<SpriteRenderer>(block);
     sr->layer = 1;
     sr->texture.loadFromFile("Images/TilesBackup.png");
     sr->texture.setSmooth(true);
@@ -305,10 +306,10 @@ void Map::createblock(int x, int y)
         break;
     }
     sr->sprite.setTextureRect(sf::IntRect(xtex * BLOCK_WIDTH, ytex * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT));
-    BoxCollider* bc = AddComponent<BoxCollider>(block);
+    BoxCollider *bc = AddComponent<BoxCollider>(block);
     bc->width = BLOCK_WIDTH;
     bc->height = BLOCK_HEIGHT;
-    RigidBody* rb = AddComponent<RigidBody>(block);
+    RigidBody *rb = AddComponent<RigidBody>(block);
     bc->body = rb;
     rb->collider = bc;
     rb->isUsingGravity = false;
@@ -318,19 +319,20 @@ void Map::createblock(int x, int y)
     availableblocks.push_back(block);
 }
 
-void Map::moveleft(/*float step*/)
+void Map::moveleft(float step)
 {
-    if (xstart == 0 && offset == 0) return;
-    for (Entity* e: availableblocks)
+    if (xstart == 0 && offset == 0)
+        return;
+    for (Entity *e : availableblocks)
     {
-        e->xPos += 5;
+        e->xPos += step;
     }
-    offset -= 5;
+    offset -= step;
     if (offset < 0)
     {
         if (xstart == 0)
         {
-            for (Entity* e: availableblocks)
+            for (Entity *e : availableblocks)
             {
                 e->xPos += offset;
             }
@@ -344,21 +346,22 @@ void Map::moveleft(/*float step*/)
     }
 }
 
-void Map::moveright(/*float step*/)
+void Map::moveright(float step)
 {
-    if (xstart == 56 && offset == 0) return;
-    for (Entity* e: availableblocks)
+    if (xstart == 56 && offset == 0)
+        return;
+    for (Entity *e : availableblocks)
     {
-        e->xPos -= 5;
+        e->xPos -= step;
     }
-    offset += 5;
+    offset += step;
     if (offset > BLOCK_WIDTH)
     {
         xstart++;
         offset -= BLOCK_WIDTH;
         if (xstart == 56)
         {
-            for (Entity* e: availableblocks)
+            for (Entity *e : availableblocks)
             {
                 e->xPos -= offset;
             }
@@ -369,7 +372,8 @@ void Map::moveright(/*float step*/)
 
 void Map::blockgenerator(int MarioX, int MarioY)
 {
-    xstart = 0; ystart = 0;
+    xstart = 0;
+    ystart = 0;
     if (MarioX <= 8 * BLOCK_WIDTH)
     {
         xstart = 0;
@@ -386,7 +390,8 @@ void Map::blockgenerator(int MarioX, int MarioY)
         offset = MarioX % BLOCK_WIDTH;
     }
     for (int i = 0; i < 15; i++)
-        for (int j = xstart; j < projectionmap[0].size(); j++) createblock(j, i);
+        for (int j = xstart; j < projectionmap[0].size(); j++)
+            createblock(j, i);
 }
 
 // void block::initiate(int x, int y, int blocktype)

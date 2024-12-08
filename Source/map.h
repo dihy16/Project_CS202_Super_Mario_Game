@@ -12,7 +12,8 @@ private:
     vector<vector<int>> entitymap;
     int xstart, ystart, offset;
     sf::Texture blocktexture;
-    std::vector<Entity*> availableblocks;
+    std::vector<Entity *> availableblocks;
+
 public:
     bool left = false, right = false;
     Map();
@@ -23,14 +24,13 @@ public:
     {
         return projectionmap[y][x];
     }
-    //function creates a list of block entities
+    // function creates a list of block entities
     void createblock(int marioX, int marioY);
     void blockgenerator(int, int);
-    //function checks for entity availability within map sight
-    //map nudge functions, default 5 pixels
-    void moveleft(/*float step*/);
-    void moveright(/*float step */);
-
+    // function checks for entity availability within map sight
+    // map nudge functions, default 5 pixels
+    void moveleft(float step);
+    void moveright(float step);
 };
 
 // class block: public Entity
