@@ -1,6 +1,5 @@
 #pragma once
-
-#include "definition.h"
+#include "mario.h"
 
 template <typename T>
 class ResourceManager

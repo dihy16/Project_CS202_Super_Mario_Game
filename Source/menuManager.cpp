@@ -1,5 +1,5 @@
-#include "../header/menuManager.h"
-#include "../header/marioGameManager.h"
+#include "menuManager.h"
+#include "marioGameManager.h"
 #include <iostream>
 using namespace std;
 MenuManager::MenuManager()
@@ -45,8 +45,8 @@ void MenuManager::draw(sf::RenderWindow& window) {
             break;
         case eGame:
             int index = 8 * BLOCK_WIDTH;
-            MarioGameManager::getMap()->draw(window, index, 0);
-            MarioGameManager::getMario()->draw(window);
+            // MarioGameManager::getMap()->draw(window, index, 0);
+            // MarioGameManager::getMario()->draw(window);
             break;
     }
 }

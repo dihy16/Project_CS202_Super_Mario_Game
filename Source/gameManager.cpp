@@ -1,6 +1,6 @@
-#include "../header/gameManager.h"
+#include "gameManager.h"
 
-void GameManager::playMusic(const string& musicName)
+void GameManager::playMusic(const std::string& musicName)
 {
     musicManager.play(musicName);
 }

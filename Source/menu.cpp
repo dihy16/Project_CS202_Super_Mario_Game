@@ -1,4 +1,4 @@
-#include "../header/menu.h"
+#include "menu.h"
 
 Menu::Menu(void) {
 	this->activeMenuOption = 0;

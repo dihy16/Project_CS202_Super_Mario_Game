@@ -1,6 +1,15 @@
-#include "../header/mainMenu.h"
+#include "mainMenu.h"
 #include <iostream>
 using namespace std;
+
+#define MAIN_MENU_BG "resource/Menu/MainMenuBG.png"
+#define NEW_GAME_BUT "resource/Menu/NewGameBut.png"
+#define SETTINGS_BUT "resource/Menu/SettingsBut.png"
+#define SCORE_BUT "resource/Menu/ScoreBut.png"
+#define H2P_BUT "resource/Menu/H2PBut.png"
+
+
+
 MainMenu::MainMenu() 
 {
     // menuOptions[0] = new MenuObject(MAIN_MENU_BG,0.0f,0.0f);

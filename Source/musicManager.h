@@ -4,8 +4,8 @@
 
 class MusicManager : public ResourceManager<sf::Music> {
 private:
-    string currentMusic;
+    std::string currentMusic;
 public:
-    void play(const string& musicName);
+    void play(const std::string& musicName);
     void stop();
 };

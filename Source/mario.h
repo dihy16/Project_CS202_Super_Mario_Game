@@ -7,6 +7,7 @@
 #include "./marioState.h"
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <SFML/System.hpp>
 
 #define MARIO "resource/Mario.png"

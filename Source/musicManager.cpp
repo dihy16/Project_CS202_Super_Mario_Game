@@ -1,6 +1,6 @@
-#include "../header/musicManager.h"
+#include "musicManager.h"
 
-void MusicManager::play(const string &musicName)
+void MusicManager::play(const std::string &musicName)
 {
     if (musicName != "")
 		this->currentMusic = musicName;

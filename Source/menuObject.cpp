@@ -1,4 +1,4 @@
-#include "../header/menuObject.h"
+#include "menuObject.h"
 
 MenuObject::MenuObject(std::string filename, float x, float y) {
     isHidden = false;

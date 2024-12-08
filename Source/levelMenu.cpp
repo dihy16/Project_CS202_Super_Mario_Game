@@ -1,6 +1,14 @@
-#include "../header/LevelMenu.h"
+#include "LevelMenu.h"
 #include <iostream>
 using namespace std;
+
+#define DIFFICULTY_BG "resource/Menu/Difficulty/DifficultyBG.png"
+#define PEACEFUL_BUT "resource/Menu/Difficulty/PeacefulBut.png"
+#define EASY_BUT "resource/Menu/Difficulty/EasyBut.png"
+#define MEDIUM_BUT "resource/Menu/Difficulty/MediumBut.png"
+#define EXPERT_BUT "resource/Menu/Difficulty/ExpertBut.png"
+#define MASTER_BUT "resource/Menu/Difficulty/MasterBut.png"
+
 LevelMenu::LevelMenu() 
 {
     // oBackGround.init(DIFFICULTY_BG,0.0f,0.0f);

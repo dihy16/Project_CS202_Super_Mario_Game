@@ -7,14 +7,14 @@
 class MarioGameManager : public GameManager {
 private:
     static MarioGameManager* instance;
-    static Mario *theman;
-    static Map* map;
+    // static Mario *theman;
+    // static Map* map;
     MenuManager* menuManager;   
 	enum class GameState {menu, status, playing, levelOver, gameOver} gameState = GameState::menu;
     int marioLives = 3;
 	int score = 0;
 	int marioCoins = 0;
-    string currentLevel;
+    std::string currentLevel;
     MarioGameManager();
 public:
     MarioGameManager* getInstance();
@@ -22,8 +22,8 @@ public:
     void run();
     void draw(sf::RenderWindow& w);
     void handleEvents(sf::RenderWindow& w, sf::Event& ev);
-    static Map* getMap();
-    static Mario* getMario();
+    // static Map* getMap();
+    // static Mario* getMario();
     void addScore();
     void addCoin();
     void setState(GameState gameState);

@@ -2,6 +2,7 @@
 #include "./Source/enemy.h"
 #include "./Source/items.h"
 #include "./Source/map.h"
+#include "./Source/marioGameManager.h"
 
 int main()
 {
@@ -36,6 +37,8 @@ int main()
     sf::Clock clock;
     float accumulator = 0.0f;
     ColliderManager::GetInstance().visisbleCollider = true;
+
+    MarioGameManager *mGameManager;
 
     while (RenderManager::GetInstance().window.isOpen())
     {
@@ -80,6 +83,7 @@ int main()
             accumulator -= PhysicsManager::FIXED_TIMESTEP;
         }
 
+        mGameManager->draw(RenderManager::GetInstance().window);
         RenderManager::GetInstance().Update();
     }
 
