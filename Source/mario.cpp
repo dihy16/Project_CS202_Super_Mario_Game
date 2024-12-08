@@ -31,6 +31,14 @@ Mario::Mario(int x, int y)
    };
    marioCollider->OnCollisionEnter = collison;
    stateManager.setState(std::make_unique<SmallMario>());
+   == == == =
+                marioCollider->width = 64;
+   marioCollider->height = 64;
+
+   marioCollider->body = marioRigidBody;
+   marioRigidBody->collider = marioCollider;
+   marioRigidBody->isUsingGravity = true;
+   marioRigidBody->xVel = 0, marioRigidBody->yVel = 0;
 }
 
 void Mario::moveRight()

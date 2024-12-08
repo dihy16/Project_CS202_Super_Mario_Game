@@ -3,7 +3,7 @@
 Map::Map()
 {
     blocktexture.loadFromFile("Images/TilesBackup.png");
-    block.setTexture(blocktexture);
+    //block.setTexture(blocktexture);
     readmap();
 }
 
@@ -315,11 +315,61 @@ void Map::createblock(int x, int y)
     rb->isStatic = true;
     rb->xVel = 0;
     rb->yVel = 0;
+    availableblocks.push_back(block);
+}
+
+void Map::moveleft(/*float step*/)
+{
+    if (xstart == 0 && offset == 0) return;
+    for (Entity* e: availableblocks)
+    {
+        e->xPos += 5;
+    }
+    offset -= 5;
+    if (offset < 0)
+    {
+        if (xstart == 0)
+        {
+            for (Entity* e: availableblocks)
+            {
+                e->xPos += offset;
+            }
+            offset = 0;
+        }
+        else
+        {
+            offset += BLOCK_WIDTH;
+            xstart--;
+        }
+    }
+}
+
+void Map::moveright(/*float step*/)
+{
+    if (xstart == 56 && offset == 0) return;
+    for (Entity* e: availableblocks)
+    {
+        e->xPos -= 5;
+    }
+    offset += 5;
+    if (offset > BLOCK_WIDTH)
+    {
+        xstart++;
+        offset -= BLOCK_WIDTH;
+        if (xstart == 56)
+        {
+            for (Entity* e: availableblocks)
+            {
+                e->xPos -= offset;
+            }
+            offset = 0;
+        }
+    }
 }
 
 void Map::blockgenerator(int MarioX, int MarioY)
 {
-    int xstart, ystart = 0, offset;
+    xstart = 0; ystart = 0;
     if (MarioX <= 8 * BLOCK_WIDTH)
     {
         xstart = 0;
@@ -336,7 +386,7 @@ void Map::blockgenerator(int MarioX, int MarioY)
         offset = MarioX % BLOCK_WIDTH;
     }
     for (int i = 0; i < 15; i++)
-        for (int j = xstart; j < xstart + 21; j++) createblock(j, i);
+        for (int j = xstart; j < projectionmap[0].size(); j++) createblock(j, i);
 }
 
 // void block::initiate(int x, int y, int blocktype)
