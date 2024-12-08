@@ -16,21 +16,21 @@ Mario::Mario(int x, int y)
    marioSprite->sprite.setTexture(marioSprite->texture);
    marioSprite->sprite.setTextureRect(sf::IntRect(0, 96, 32, 32));
 
-   marioCollider->width = 64;
-   marioCollider->height = 64;
+   marioCollider->width = 44;
+   marioCollider->height = 44;
 
    marioCollider->body = marioRigidBody;
    marioRigidBody->collider = marioCollider;
    marioRigidBody->isStatic = false;
    marioRigidBody->isUsingGravity = true;
    marioRigidBody->xVel = 0, marioRigidBody->yVel = 0;
-   auto collison = [](BoxCollider* bc)
+   auto collison = [](BoxCollider *bc)
    {
-    if (bc->GetOwner()->name == "goomba")
-    RenderManager::GetInstance().debugText += "hit";
-
+      if (bc->GetOwner()->name == "goomba")
+         RenderManager::GetInstance().debugText += "hit";
    };
    marioCollider->OnCollisionEnter = collison;
+   stateManager.setState(std::make_unique<SmallMario>());
 }
 
 void Mario::moveRight()
@@ -52,6 +52,7 @@ void Mario::moveLeft()
    if (marioRigidBody->xVel <= -1)
       rect.left = 130;
    mario->scaleX = -1.5;
+   // marioCollider->width = -48;
 }
 
 void Mario::setRectForWalking(sf::IntRect &rect)
@@ -94,10 +95,22 @@ void Mario::handleMovement()
 
          timer2.restart();
       }
-      //marioSprite->sprite.move(marioRigidBody->xVel, marioRigidBody->yVel);
-      // mario->xPos += marioRigidBody->xVel;
-      // mario->yPos += marioRigidBody->yVel;
+      // marioSprite->sprite.move(marioRigidBody->xVel, marioRigidBody->yVel);
+      //  mario->xPos += marioRigidBody->xVel;
+      //  mario->yPos += marioRigidBody->yVel;
       timer1.restart();
    }
    marioSprite->sprite.setTextureRect(rect);
+}
+
+void Mario::handleCollision() {}
+
+void Mario::handlePowerUp()
+{
+   stateManager.handlePowerUp();
+}
+
+void Mario::handleDamage()
+{
+   stateManager.handleDamage();
 }

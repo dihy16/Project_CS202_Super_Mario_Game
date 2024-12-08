@@ -21,21 +21,48 @@ protected:
 public:
    Enemy(int x, int y);
    virtual void move() = 0;
+   virtual void kickFromTop(Mario *mario) = 0;
+   virtual void kickFromBottom(Mario *mario) = 0;
+   virtual void touchSide(Mario *mario) = 0;
    // Getter methods to access protected members
    RigidBody *getRigidBody() const { return rb; }
    BoxCollider *getBoxCollider() const { return bc; }
 };
 class Goomba : public Enemy
 {
+private:
+   enum State
+   {
+      Normal,
+      Cramped,
+      Dead
+   } state = Normal;
+   void setState(State state);
+
 public:
    Goomba(int x, int y);
    void move() override;
+   void kickFromTop(Mario *mario) override;
+   void kickFromBottom(Mario *mario) override;
+   void touchSide(Mario *mario) override;
 };
 class Koopa : public Enemy
 {
+private:
+   enum State
+   {
+      Normal,
+      Jumping,
+      Hidden,
+      Dead
+   } state = Normal;
+
 public:
    Koopa(int x, int y);
    void move() override;
+   void kickFromTop(Mario *mario) override;
+   void kickFromBottom(Mario *mario) override;
+   void touchSide(Mario *mario) override;
 };
 
 class HammerBro : public Enemy
@@ -49,6 +76,9 @@ public:
    HammerBro(int x, int y);
    void move() override;
    void throwHammer();
+   void kickFromTop(Mario *mario) override;
+   void kickFromBottom(Mario *mario) override;
+   void touchSide(Mario *mario) override;
 };
 
 class Hammer : public Enemy
@@ -58,7 +88,10 @@ private:
 
 public:
    Hammer(int x, int y);
-   void move();
+   void move() override;
+   void kickFromTop(Mario *mario) override;
+   void kickFromBottom(Mario *mario) override;
+   void touchSide(Mario *mario) override;
 };
 
 class PiranhaPlant : public Enemy
@@ -66,6 +99,9 @@ class PiranhaPlant : public Enemy
 public:
    PiranhaPlant(int x, int y);
    void move() override;
+   void kickFromTop(Mario *mario) override;
+   void kickFromBottom(Mario *mario) override;
+   void touchSide(Mario *mario) override;
 };
 
 class EnemyFactory

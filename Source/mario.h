@@ -4,6 +4,7 @@
 #include "./PhysicsEngine/Components/BoxCollider.h"
 #include "./PhysicsEngine/Components/RigidBody.h"
 #include "./PhysicsEngine/Components/SpriteRenderer.h"
+#include "./marioState.h"
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
@@ -22,6 +23,7 @@ private:
    BoxCollider *marioCollider = AddComponent<BoxCollider>(mario);
 
    sf::Clock timer1, timer2;
+   MarioStateManager stateManager;
 
 public:
    bool goRight, goLeft, goUp;
@@ -32,7 +34,9 @@ public:
    void moveLeft();
    void setRectForWalking(sf::IntRect &rect);
    void handleMovement();
-   void handleAnimation();
+   void handleCollision();
+   void handlePowerUp();
+   void handleDamage();
 };
 
 #endif // MARIO_H
