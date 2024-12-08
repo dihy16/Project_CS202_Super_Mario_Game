@@ -10,6 +10,7 @@ private:
 public:
     GameManager() = default;
     void playMusic(const std::string& musicName);
+    void stopMusic();
     MusicManager& getMusicManager();
 };
 

@@ -44,9 +44,6 @@ void MenuManager::draw(sf::RenderWindow& window) {
             levelMenu->draw(window);
             break;
         case eGame:
-            int index = 8 * BLOCK_WIDTH;
-            // MarioGameManager::getMap()->draw(window, index, 0);
-            // MarioGameManager::getMario()->draw(window);
             break;
     }
 }

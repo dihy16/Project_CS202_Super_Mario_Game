@@ -1,11 +1,10 @@
 #include "marioGameManager.h"
 
-// Map* MarioGameManager::map = new Map();
-// Mario* MarioGameManager::theman = new Mario(8 * BLOCK_WIDTH, 12 * BLOCK_HEIGHT);
 MarioGameManager* MarioGameManager::instance = nullptr;
+MarioGameManager::GameState MarioGameManager::gameState = MarioGameManager::GameState::menu;
+
 MarioGameManager::MarioGameManager()
 {
-    // map->readmap();
     menuManager = new MenuManager();
     getMusicManager().loadFromFile("overworld", "resource/Music/overworld.ogg");
 }
@@ -20,9 +19,12 @@ MarioGameManager *MarioGameManager::getInstance()
 
 MarioGameManager::~MarioGameManager()
 {
-    // delete map;
     delete menuManager;
-    // delete theman;
+}
+
+MenuManager *MarioGameManager::getMenuManager()
+{
+    return this->menuManager;
 }
 
 void MarioGameManager::run()
@@ -36,7 +38,6 @@ void MarioGameManager::draw(sf::RenderWindow &w)
 void MarioGameManager::handleEvents(sf::RenderWindow &w, sf::Event &ev)
 {
     menuManager->handleEvents(w, ev);
-    // theman->handleEvents(ev);
 }
 
 // Map *MarioGameManager::getMap()

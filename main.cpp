@@ -83,7 +83,7 @@ int main()
             accumulator -= PhysicsManager::FIXED_TIMESTEP;
         }
 
-        mGameManager->draw(RenderManager::GetInstance().window);
+        mGameManager->getInstance()->draw(RenderManager::GetInstance().window);
         RenderManager::GetInstance().Update();
     }
 
