@@ -60,7 +60,7 @@ void Map::readmap()
 void Map::draw(RenderWindow &w, int MarioX, int MarioY)
 {
     int xstart, ystart = 0, xtex, ytex, offset;
-    if (MarioX < 3 * BLOCK_WIDTH)
+    if (MarioX <= 8 * BLOCK_WIDTH)
     {
         xstart = 0;
         offset = 0;
@@ -72,7 +72,7 @@ void Map::draw(RenderWindow &w, int MarioX, int MarioY)
     }
     else
     {
-        xstart = MarioX / BLOCK_WIDTH - 3;
+        xstart = MarioX / BLOCK_WIDTH - 8;
         offset = MarioX % BLOCK_WIDTH;
     }
     //cout << xstart << '\n';
@@ -196,7 +196,10 @@ void Map::draw(RenderWindow &w, int MarioX, int MarioY)
     }
 }
 
-
+hitbox Map::gethitbox(int x, int y)
+{
+    return hitbox(x, y, BLOCK_HEIGHT, BLOCK_WIDTH);
+}
 
 vector<vector<int>> Map::getmap(int option)
 {

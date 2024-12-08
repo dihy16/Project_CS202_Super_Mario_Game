@@ -66,7 +66,7 @@ struct hitbox
 {
    Position position;
    Area size;
-hitbox(int left, int top, int xheight, int xwidth)
+hitbox(int left, int top, int xwidth, int xheight)
 {
    position.x = left;
    position.y = top;
@@ -81,6 +81,7 @@ bool hit(hitbox, hitbox);
 
 #define BLOCK_WIDTH 64
 #define BLOCK_HEIGHT 64
+#define GRAVITY 120
 
 #define MARIO "resource/Mario.png"
 #define MARIO_SUPER "resource/MarioSuper.png"

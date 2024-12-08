@@ -12,4 +12,5 @@ public:
     // interface();
     // void draw();
     void operate();
+    int mariomapcollide();
 };
