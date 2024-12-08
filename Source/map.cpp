@@ -319,24 +319,24 @@ void Map::createblock(int x, int y)
 
 void Map::blockgenerator(int MarioX, int MarioY)
 {
-    int xstart, ystart = 0, offset;
-    if (MarioX <= 8 * BLOCK_WIDTH)
-    {
-        xstart = 0;
-        offset = 0;
-    }
-    else if (MarioX > 78 * BLOCK_WIDTH)
-    {
-        xstart = 59;
-        offset = 0;
-    }
-    else
-    {
-        xstart = MarioX / BLOCK_WIDTH - 8;
-        offset = MarioX % BLOCK_WIDTH;
-    }
+    int xstart = 0, ystart = 0, offset;
+    // if (MarioX <= 8 * BLOCK_WIDTH)
+    // {
+    //     xstart = 0;
+    //     offset = 0;
+    // }
+    // else if (MarioX > 78 * BLOCK_WIDTH)
+    // {
+    //     xstart = 59;
+    //     offset = 0;
+    // }
+    // else
+    // {
+    //     xstart = MarioX / BLOCK_WIDTH - 8;
+    //     offset = MarioX % BLOCK_WIDTH;
+    // }
     for (int i = 0; i < 15; i++)
-        for (int j = xstart; j < xstart + 21; j++) createblock(j, i);
+        for (int j = xstart; j < projectionmap[0].size(); j++) createblock(j, i);
 }
 
 // void block::initiate(int x, int y, int blocktype)
