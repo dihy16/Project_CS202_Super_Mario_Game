@@ -1,17 +1,15 @@
 #pragma once
 
-#include "map.h"
+#include "marioGameManager.h"
 
 class interface
 {
 private:
     RenderWindow w{VideoMode(16 * BLOCK_WIDTH, 15 * BLOCK_HEIGHT), "Window", Style::Default};
     Event ev;
-    Mario theman{8 * BLOCK_WIDTH, 12 * BLOCK_HEIGHT};
-    Map map;
-
+    MarioGameManager* mGameManager;
 public:
-    interface();
-    void draw();
+    // interface();
+    // void draw();
     void operate();
 };

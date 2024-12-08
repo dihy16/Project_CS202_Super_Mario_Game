@@ -1,3 +1,6 @@
+#ifndef DEFINITION_H
+#define DEFINITION_H
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <iostream>
@@ -81,3 +84,18 @@ bool hit(hitbox, hitbox);
 
 #define MARIO "resource/Mario.png"
 #define MARIO_SUPER "resource/MarioSuper.png"
+
+#define MAIN_MENU_BG "resource/Menu/MainMenuBG.png"
+#define NEW_GAME_BUT "resource/Menu/NewGameBut.png"
+#define SETTINGS_BUT "resource/Menu/SettingsBut.png"
+#define SCORE_BUT "resource/Menu/ScoreBut.png"
+#define H2P_BUT "resource/Menu/H2PBut.png"
+
+#define DIFFICULTY_BG "resource/Menu/Difficulty/DifficultyBG.png"
+#define PEACEFUL_BUT "resource/Menu/Difficulty/PeacefulBut.png"
+#define EASY_BUT "resource/Menu/Difficulty/EasyBut.png"
+#define MEDIUM_BUT "resource/Menu/Difficulty/MediumBut.png"
+#define EXPERT_BUT "resource/Menu/Difficulty/ExpertBut.png"
+#define MASTER_BUT "resource/Menu/Difficulty/MasterBut.png"
+
+#endif

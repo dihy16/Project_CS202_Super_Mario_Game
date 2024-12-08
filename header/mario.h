@@ -1,3 +1,5 @@
+#ifndef MARIO_H
+#define MARIO_H
 #include "definition.h"
 
 class Mario
@@ -40,3 +42,5 @@ private:
    // set to super state
    void superState();
 };
+
+#endif

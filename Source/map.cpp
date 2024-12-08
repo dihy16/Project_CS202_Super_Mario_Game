@@ -75,7 +75,7 @@ void Map::draw(RenderWindow &w, int MarioX, int MarioY)
         xstart = MarioX / BLOCK_WIDTH - 3;
         offset = MarioX % BLOCK_WIDTH;
     }
-    cout << xstart << '\n';
+    //cout << xstart << '\n';
     for (int i = 0; i < 15; i++)
     {
         for (int j = xstart; j < xstart + 21; j++)

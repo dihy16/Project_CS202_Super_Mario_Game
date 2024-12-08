@@ -1,15 +1,16 @@
 #include "../header/interface.h"
+#include <iostream>
+using namespace std;
+// interface::interface()
+// {
+//     map.readmap();
+// }
 
-interface::interface()
-{
-    map.readmap();
-}
-
-void interface::draw()
-{
-    map.draw(w, 96, 0);
-    // theman.draw(w);
-}
+// void interface::draw()
+// {
+//     map.draw(w, 96, 0);
+//     // theman.draw(w);
+// }
 
 void interface::operate()
 {
@@ -24,14 +25,12 @@ void interface::operate()
                 w.close();
                 break;
             default:
-                theman.handleEvents(ev);
+                mGameManager->handleEvents(w, ev);
                 break;
             }
         }
-
         w.clear();
-        map.draw(w, index, 0);
-        theman.draw(w);
+        mGameManager->draw(w);
         w.display();
     }
 }

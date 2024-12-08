@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MAP_H
+#define MAP_H
 
 #include "mario.h"
 
@@ -18,3 +19,5 @@ public:
     vector<vector<int>> getmap(int option);
     hitbox gethitbox(int x, int y);
 };
+
+#endif
