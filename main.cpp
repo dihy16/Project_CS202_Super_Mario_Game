@@ -38,8 +38,8 @@ int main()
     float accumulator = 0.0f;
     ColliderManager::GetInstance().visisbleCollider = true;
 
-    MarioGameManager *mGameManager;
-    mGameManager->getInstance()->playMusic("overworld");
+    //MarioGameManager *mGameManager;
+    MarioGameManager::getInstance()->playMusic("overworld");
 
     while (RenderManager::GetInstance().window.isOpen())
     {
@@ -84,7 +84,7 @@ int main()
             accumulator -= PhysicsManager::FIXED_TIMESTEP;
         }
 
-        mGameManager->getInstance()->draw(RenderManager::GetInstance().window);
+        //mGameManager->getInstance()->draw(RenderManager::GetInstance().window);
         RenderManager::GetInstance().Update();
     }
 

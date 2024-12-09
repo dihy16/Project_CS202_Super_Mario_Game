@@ -15,7 +15,7 @@ private:
     MarioGameManager();
 public:
 	static enum class GameState {menu, status, playing, levelOver, gameOver} gameState;
-    MarioGameManager* getInstance();
+    static MarioGameManager* getInstance();
     ~MarioGameManager();
     MenuManager* getMenuManager();
     void run();

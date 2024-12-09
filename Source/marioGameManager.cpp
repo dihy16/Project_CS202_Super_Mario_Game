@@ -11,10 +11,10 @@ MarioGameManager::MarioGameManager()
 
 MarioGameManager *MarioGameManager::getInstance()
 {
-    if (this->instance == nullptr) {
-        this->instance = new MarioGameManager();
+    if (instance == nullptr) {
+        instance = new MarioGameManager();
     }
-    return this->instance;
+    return instance;
 }
 
 MarioGameManager::~MarioGameManager()
