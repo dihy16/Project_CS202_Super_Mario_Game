@@ -39,6 +39,7 @@ int main()
     ColliderManager::GetInstance().visisbleCollider = true;
 
     MarioGameManager *mGameManager;
+    mGameManager->getInstance()->playMusic("overworld");
 
     while (RenderManager::GetInstance().window.isOpen())
     {
