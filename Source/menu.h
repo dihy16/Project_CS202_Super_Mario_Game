@@ -1,5 +1,3 @@
-#pragma once
-
 #ifndef MENU_H
 #define MENU_H
 
@@ -10,7 +8,7 @@
 class Menu
 {
 private:
-	vector<MenuObject*> menuOptions;
+	std::vector<MenuObject*> menuOptions;
 
 	int activeMenuOption;
 	int numOfMenuOptions;

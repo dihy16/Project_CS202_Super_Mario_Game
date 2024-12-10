@@ -1,8 +1,9 @@
 #include "menuObject.h"
-
+#include <iostream>
+using namespace std;
 MenuObject::MenuObject(std::string filename, float x, float y) {
     isHidden = false;
-    texture.loadFromFile(filename);
+    if (!texture.loadFromFile(filename)) cout << "texture not loaded" << endl;
     sprite.setTexture(texture);
     sprite.setPosition(x, y);
 }

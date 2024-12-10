@@ -3,6 +3,7 @@
 
 #include "gameManager.h"
 #include "menuManager.h" 
+#include "PhysicsEngine/Managers/RenderManager.h"
 
 class MarioGameManager : public GameManager {
 private:

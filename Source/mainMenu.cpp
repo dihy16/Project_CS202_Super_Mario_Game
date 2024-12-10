@@ -18,6 +18,23 @@ MainMenu::MainMenu()
     this->addMenuOption(new MenuObject(H2P_BUT,252.0f,428.0f));
     this->addMenuOption(new MenuObject(SCORE_BUT,252.0f,550.0f));
     this->addMenuOption(new MenuObject(SETTINGS_BUT,252.0f,672.0f));
+     
+    //MenuObject* o1 = new MenuObject;
+    //o1->init(MAIN_MENU_BG, 0.0f, 0.0f);
+    //addMenuOption(o1);
+    //MenuObject* o2 = new MenuObject;
+    //o2->init(NEW_GAME_BUT, 252.0f, 306.0f);
+    //addMenuOption(o2);
+    //MenuObject* o3 = new MenuObject;
+    //o3->init(H2P_BUT, 252.0f, 428.0f);
+    //addMenuOption(o3);
+    //MenuObject* o4 = new MenuObject;
+    //o4->init(SCORE_BUT, 252.0f, 550.0f);
+    //addMenuOption(o4);
+    //MenuObject* o5 = new MenuObject;
+    //o5->init(SETTINGS_BUT, 252.0f, 672.0f);
+    //addMenuOption(o5);
+    // 
     // oBackGround.init(MAIN_MENU_BG,0.0f,0.0f);
     // oNewGame.init(NEW_GAME_BUT,252.0f,306.0f);
     // oH2P.init(H2P_BUT,252.0f,428.0f);

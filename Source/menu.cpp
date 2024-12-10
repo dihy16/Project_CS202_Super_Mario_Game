@@ -1,4 +1,7 @@
 #include "menu.h"
+#include <iostream> 
+using namespace std;
+
 
 Menu::Menu(void) {
 	this->activeMenuOption = 0;

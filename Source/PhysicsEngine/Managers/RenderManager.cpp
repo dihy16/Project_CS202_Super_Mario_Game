@@ -20,7 +20,7 @@ void RenderManager::AddSpriteRenderer(SpriteRenderer *sr)
 
 void RenderManager::Update()
 {
-    window.clear();
+    // window.clear();
     // sort by
     for (int i = 0; i < 15; i++)
     {
@@ -54,5 +54,5 @@ void RenderManager::Update()
         window.draw(debugConsole);
     }
 
-    window.display();
+    // window.display();
 }

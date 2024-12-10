@@ -44,6 +44,7 @@ void MenuManager::draw(sf::RenderWindow& window) {
             levelMenu->draw(window);
             break;
         case eGame:
+            RenderManager::GetInstance().Update();
             break;
     }
 }

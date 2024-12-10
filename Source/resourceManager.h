@@ -1,5 +1,9 @@
-#pragma once
-#include "mario.h"
+#ifndef ResourceManager_h
+#define ResourceManager_h
+
+#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
+#include <iostream>
 
 template <typename T>
 class ResourceManager
@@ -69,3 +73,4 @@ ResourceManager<T>::~ResourceManager()
 			r.second = NULL;
 		}
 }
+#endif // !define ResourceManager_h

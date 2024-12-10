@@ -38,8 +38,7 @@ int main()
     float accumulator = 0.0f;
     ColliderManager::GetInstance().visisbleCollider = true;
 
-    //MarioGameManager *mGameManager;
-    MarioGameManager::getInstance()->playMusic("overworld");
+    MarioGameManager::getInstance()->playMusic("overworld"); 
 
     while (RenderManager::GetInstance().window.isOpen())
     {
@@ -54,6 +53,7 @@ int main()
             {
                 RenderManager::GetInstance().window.close();
             }
+            MarioGameManager::getInstance()->handleEvents(RenderManager::GetInstance().window, event);
         }
         mario.goLeft = sf::Keyboard::isKeyPressed(sf::Keyboard::A);
         mario.goRight = sf::Keyboard::isKeyPressed(sf::Keyboard::D);
@@ -83,9 +83,9 @@ int main()
             PhysicsManager::GetInstance().FixedUpdate();
             accumulator -= PhysicsManager::FIXED_TIMESTEP;
         }
-
-        //mGameManager->getInstance()->draw(RenderManager::GetInstance().window);
-        RenderManager::GetInstance().Update();
+        RenderManager::GetInstance().window.clear();
+        MarioGameManager::getInstance()->draw(RenderManager::GetInstance().window);
+        RenderManager::GetInstance().window.display();
     }
 
     return 0;

@@ -1,4 +1,7 @@
-#include "map.h"
+#ifndef MENU_OBJECT_H
+#define MENU_OBJECT_H
+
+#include <SFML/Graphics.hpp>
 
 class MenuObject {
 public:
@@ -18,3 +21,5 @@ public:
 	bool isMouseOver(sf::RenderWindow& window) const;
 	void updateColorOnHover(sf::RenderWindow& window);
 };
+
+#endif
