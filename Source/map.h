@@ -13,7 +13,7 @@ private:
     int xstart, ystart, offset;
     sf::Texture blocktexture;
     std::vector<Entity *> availableblocks;
-
+    sf::Image layout;
 public:
     bool left = false, right = false;
     Map();
