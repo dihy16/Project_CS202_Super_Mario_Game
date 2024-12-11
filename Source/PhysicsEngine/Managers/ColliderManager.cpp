@@ -20,12 +20,18 @@ void ColliderManager::AddCollider(BoxCollider* collider)
 void ColliderManager::FixedUpdate()
 {
     std::unordered_map<int, std::vector<int>> currentCollisions;
+        //check for collision
+
     for (int i = 0; i < colliderVector.size(); i++)
-    {
+    {   
+        BoxCollider* a = colliderVector[i];
+        if (!a->GetActive()) continue;
+
         for (int j = i + 1; j < colliderVector.size(); j++)
         {
-            BoxCollider* a = colliderVector[i];
             BoxCollider* b = colliderVector[j];
+            if (!b->GetActive())
+            continue;
             int aID = a->GetOwner()->getID();
             int bID = b->GetOwner()->getID();
             if (a->OverlayWith(b))
@@ -87,6 +93,8 @@ void ColliderManager::FixedUpdate()
 
 bool ColliderManager::isGrounded(BoxCollider* collider)
 {
+    if (!collider->GetActive())
+    return false;
     for (int id : collisionMap[collider->GetOwner()->getID()])
     {
         BoxCollider* other = nullptr;
@@ -97,7 +105,7 @@ bool ColliderManager::isGrounded(BoxCollider* collider)
                 other = col;
             }
         }
-        if (other)
+        if (other && other->GetActive())
         {
             float maxA = collider->GetOwner()->yPos + collider->height;
             float minB = other->GetOwner()->yPos;
