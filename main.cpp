@@ -8,7 +8,7 @@ int main()
 {
     // InitialFunction();
     Mario mario(100, 100);
-    Map m;
+    Map m("Data/maps.txt");
     m.blockgenerator(100, 12 * BLOCK_HEIGHT);
     // std::vector<std::unique_ptr<Enemy>> enemies;
     // std::vector<std::unique_ptr<Item>> items;

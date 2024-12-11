@@ -7,6 +7,13 @@ Map::Map()
     readmap();
 }
 
+Map::Map(std::string file) 
+{
+    blocktexture.loadFromFile("Images/TilesBackup.png");
+    // block.setTexture(blocktexture);
+    readmap(file);
+}
+
 // read map organization from a file
 // the map file contains 3 layers: the first layer for blocks, the second layer for background details, the third layer for entity spawns
 // corresponding numbers for certain objects will be shown below
@@ -54,6 +61,55 @@ void Map::readmap()
         count++;
     }
 }
+
+// read map organization from a file
+// the map file contains 3 layers: the first layer for blocks, the second layer for background details, the third layer for entity spawns
+// corresponding numbers for certain objects will be shown below
+void Map::readmap(std::string file)
+{
+    projectionmap.clear();
+    backgroundmap.clear();
+    int height, width;
+    int coordinates;
+    std::ifstream mapfile(file);
+    mapfile >> height >> width;
+    int count = width;
+    for (int i = 0; i < height * width; i++)
+    {
+        mapfile >> coordinates;
+        if (count == width)
+        {
+            count = 0;
+            projectionmap.push_back(vector<int>({}));
+        }
+        projectionmap[projectionmap.size() - 1].push_back(coordinates);
+        count++;
+    }
+    count = width;
+    for (int i = 0; i < height * width; i++)
+    {
+        mapfile >> coordinates;
+        if (count == width)
+        {
+            count = 0;
+            backgroundmap.push_back(vector<int>({}));
+        }
+        backgroundmap[backgroundmap.size() - 1].push_back(coordinates);
+        count++;
+    }
+    for (int i = 0; i < height * width; i++)
+    {
+        mapfile >> coordinates;
+        if (count == width)
+        {
+            count = 0;
+            entitymap.push_back(vector<int>({}));
+        }
+        entitymap[entitymap.size() - 1].push_back(coordinates);
+        count++;
+    }
+}
+
 
 // draw a map.
 // Note that for every map, the last 3 blocks from either side will not be accessible.

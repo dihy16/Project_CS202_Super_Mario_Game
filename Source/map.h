@@ -17,7 +17,9 @@ private:
 public:
     bool left = false, right = false;
     Map();
+    Map(std::string file);
     void readmap();
+    void readmap(std::string file);
     void draw(sf::RenderWindow &w, int MarioX, int MarioY);
     vector<vector<int>> getmap(int option);
     int getblockstate(int x, int y)
