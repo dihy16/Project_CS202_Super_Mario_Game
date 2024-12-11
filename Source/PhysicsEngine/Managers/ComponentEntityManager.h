@@ -49,3 +49,33 @@ T* GetComponent(Entity* _entity) {
     return nullptr;
 }
 
+inline void DeleteObjects()
+{
+    //Delete all Rigidbodies
+    for (RigidBody* rb : PhysicsManager::GetInstance().rbList)
+    {
+        delete rb;
+    }
+    PhysicsManager::GetInstance().rbList.clear();
+    //delete all box colliders
+    for (BoxCollider* bc : ColliderManager::GetInstance().colliderVector)
+    {
+        delete bc;
+    }
+    ColliderManager::GetInstance().colliderVector.clear();
+    //delete all Sprite Renderers
+    for (SpriteRenderer* sr : RenderManager::GetInstance().srVector)
+    {
+        delete sr;
+    }
+     RenderManager::GetInstance().srVector.clear();
+     //delete all entities
+     for (Entity* e :  RenderManager::GetInstance().listEntity)
+     {
+        delete e;
+     }
+      RenderManager::GetInstance().listEntity.clear();
+    delete  RenderManager::GetInstance().trackE;
+     RenderManager::GetInstance().trackE = nullptr;
+
+}
