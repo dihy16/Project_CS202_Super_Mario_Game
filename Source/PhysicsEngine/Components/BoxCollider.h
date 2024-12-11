@@ -11,7 +11,7 @@ class BoxCollider : public Component{
 public:
     BoxCollider(Entity* _entity);
     float width, height;
-    std::function<void(BoxCollider*)> OnCollisionEnter, OnCollisionStay, OnCollisionExit;
+    std::function<void(BoxCollider*)> OnCollisionEnter, OnCollisionStay, OnCollisionExit, OnColliderLanded, OnHorizontalCollision;
     bool OverlayWith(BoxCollider* collider);
     RigidBody* body;
     friend float CalculateOverlapX(BoxCollider* a, BoxCollider* b);

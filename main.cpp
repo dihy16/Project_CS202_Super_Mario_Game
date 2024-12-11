@@ -61,7 +61,7 @@ int main()
     sf::Clock clock;
     float accumulator = 0.0f;
     ColliderManager::GetInstance().visisbleCollider = true;
-
+    
     // RigidBody *rb = GetComponent<RigidBody>(RenderManager::GetInstance().trackE);
 
     while (RenderManager::GetInstance().window.isOpen())

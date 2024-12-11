@@ -9,6 +9,7 @@ Mario::Mario(int x, int y)
    mario->scaleY = 1.5;
    mario->xPos = x;
    mario->yPos = y;
+   mario->name = "mario";
 
    marioSprite->layer = 1;
    marioSprite->texture.loadFromFile(MARIO);
