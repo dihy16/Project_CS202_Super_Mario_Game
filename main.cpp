@@ -38,7 +38,7 @@ int main()
     float accumulator = 0.0f;
     ColliderManager::GetInstance().visisbleCollider = true;
 
-    MarioGameManager::getInstance()->playMusic("overworld"); 
+    MarioGameManager::getInstance()->playMusic("overworld");
 
     while (RenderManager::GetInstance().window.isOpen())
     {

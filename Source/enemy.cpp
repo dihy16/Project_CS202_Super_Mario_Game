@@ -31,6 +31,25 @@ void Enemy::initialize(int x, int y, sf::IntRect &rect, std::string name)
    rb->xVel = 0.1, rb->yVel = 0;
    rb->isUsingGravity = true;
    enemyRect = rect;
+   bc->OnColliderLanded =  [this](BoxCollider*)
+    {
+        RenderManager::GetInstance().debugText += "landed";
+        bc->SetActive(false);
+        rb->SetActive(false);
+        sr->SetActive(false);
+    };
+   bc->OnHorizontalCollision = [this](BoxCollider* collider)
+   {
+      if (collider->body->GetOwner()->name == "mario")
+      {
+        RenderManager::GetInstance().debugText += " hp - 1 ";
+
+      }
+      else {
+        RenderManager::GetInstance().debugText += " hit by something not mario";
+
+      }
+   };
 }
 
 Goomba::Goomba(int x, int y) : Enemy(x, y)
