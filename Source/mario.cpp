@@ -15,7 +15,7 @@ Mario::Mario(int x, int y)
    marioSprite->texture.loadFromFile(MARIO);
    marioSprite->texture.setSmooth(true);
    marioSprite->sprite.setTexture(marioSprite->texture);
-   marioSprite->sprite.setTextureRect(sf::IntRect(0, 96, 32, 32));
+   marioSprite->sprite.setTextureRect(sf::IntRect(0, 96, 28, 32));
 
    marioCollider->width = 48;
    marioCollider->height = 48;
@@ -25,7 +25,6 @@ Mario::Mario(int x, int y)
    marioRigidBody->isStatic = false;
    marioRigidBody->isUsingGravity = true;
    marioRigidBody->xVel = 0, marioRigidBody->yVel = 0;
-   stateManager.setState(std::make_unique<SmallMario>());
 }
 
 void Mario::moveRight()
@@ -34,8 +33,17 @@ void Mario::moveRight()
    marioRigidBody->isStatic = false;
    marioRigidBody->AddForce(50.0f, 0.f);
    sf::IntRect rect = marioSprite->sprite.getTextureRect();
-   // if (marioRigidBody->xVel >= 1)
-   //    rect.left = 130;
+   if (marioRigidBody->xVel <= -1)
+   {
+      if (state == Small)
+         rect.left = 132;
+      else if (state == Super || state == Fire)
+         rect.left = 129;
+   }
+   else
+      setRectForWalking(rect);
+   if (!marioRigidBody->isJumping)
+      marioSprite->sprite.setTextureRect(rect);
    mario->scaleX = 1.5;
 }
 
@@ -44,8 +52,17 @@ void Mario::moveLeft()
    goLeft = true, goRight = false;
    marioRigidBody->AddForce(-50.0f, 0.f);
    sf::IntRect rect = marioSprite->sprite.getTextureRect();
-   // if (marioRigidBody->xVel <= -1)
-   //    rect.left = 130;
+   if (marioRigidBody->xVel >= 1)
+   {
+      if (state == Small)
+         rect.left = 132;
+      else if (state == Super || state == Fire)
+         rect.left = 129;
+   }
+   else
+      setRectForWalking(rect);
+   if (!marioRigidBody->isJumping)
+      marioSprite->sprite.setTextureRect(rect);
    mario->scaleX = -1.5;
    // marioCollider->width = -48;
 }
@@ -53,7 +70,10 @@ void Mario::moveLeft()
 void Mario::setRectForWalking(sf::IntRect &rect)
 {
    int maxLeft = 0, picWidth = 0;
-   maxLeft = 99, picWidth = 33;
+   if (state == Small)
+      maxLeft = 99, picWidth = 33;
+   else if (state == Super || state == Fire)
+      maxLeft = 96, picWidth = 32;
 
    if (rect.left >= maxLeft)
       rect.left = picWidth;
@@ -69,50 +89,77 @@ void Mario::handleMovement()
    if (timer1.getElapsedTime().asSeconds() > waitingTime)
    {
       if (marioRigidBody->isJumping)
-         rect.left = 161;
+      {
+         if (state == Small)
+            rect.left = 162.5;
+         else if (state == Super || state == Fire)
+            rect.left = 161;
+         marioSprite->sprite.setTextureRect(rect);
+      }
       waitingTime += 0.07;
       if (timer2.getElapsedTime().asSeconds() > waitingTime)
       {
          if (goRight == goLeft)
-         {
             marioRigidBody->xVel = 0;
-         }
          else if (goRight)
-         {
             moveRight();
-            setRectForWalking(rect);
-         }
          else if (goLeft)
-         {
             moveLeft();
-            setRectForWalking(rect);
-         }
 
          timer2.restart();
       }
       timer1.restart();
    }
-   marioSprite->sprite.setTextureRect(rect);
+   // marioSprite->sprite.setTextureRect(rect);
+   stand();
 }
 
-// void Mario::handleCollision(std::vector<std::unique_ptr<Enemy>> &enemies)
-// {
-//    marioCollider->OnCollisionEnter = [&enemies](BoxCollider *bc)
-//    {
-//       // if (bc->GetOwner()->name == "goomba")
-//       RenderManager::GetInstance().debugText += "hit";
-//       for (auto &enemy : enemies)
-//       {
-//       }
-//    };
-// }
+void Mario::stand()
+{
+   if (!goRight && !goLeft && !marioRigidBody->isJumping)
+   {
+      if (state == Small)
+         marioSprite->sprite.setTextureRect(sf::IntRect(0, 96, 28, 32));
+      else if (state == Super || state == Fire)
+         marioSprite->sprite.setTextureRect(sf::IntRect(0, 36, 31, 60));
+   }
+}
 
 void Mario::handlePowerUp()
 {
-   stateManager.handlePowerUp();
+   marioCollider->OnCollisionEnter = [this](BoxCollider *collider)
+   {
+      if (collider->body->GetOwner()->name == "mushroom")
+      {
+         state = Super;
+         marioSprite->sprite.setTextureRect(sf::IntRect(0, 36, 31, 60));
+         marioCollider->width = 48;
+         marioCollider->height = 86;
+         collider->body->SetActive(false);
+      }
+      else if (collider->body->GetOwner()->name == "coin")
+      {
+         // collider->body->SetActive(false);
+         // increase coin state and score and play sound
+      }
+      else if (collider->body->GetOwner()->name == "flower")
+      {
+         state = Fire;
+         // marioSprite->sprite.setTexture(superMarioTexture);
+         marioSprite->texture.loadFromFile(SUPERMARIO);
+         marioSprite->texture.setSmooth(true);
+         marioSprite->sprite.setTexture(marioSprite->texture);
+         marioSprite->sprite.setTextureRect(sf::IntRect(0, 36, 31, 60));
+
+         marioCollider->width = 48;
+         marioCollider->height = 86;
+         collider->body->SetActive(false);
+      }
+   };
 }
 
-void Mario::handleDamage()
+void Mario::update()
 {
-   stateManager.handleDamage();
+   handleMovement();
+   handlePowerUp();
 }
