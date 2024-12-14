@@ -1,46 +1,45 @@
 #include "ColliderManager.h"
+#include "RenderManager.h"
 
 ColliderManager::ColliderManager()
 {
     visisbleCollider = false;
 }
 
-ColliderManager& ColliderManager::GetInstance()
+ColliderManager &ColliderManager::GetInstance()
 {
     static ColliderManager instance;
     return instance;
 }
 
-void ColliderManager::AddCollider(BoxCollider* collider)
+void ColliderManager::AddCollider(BoxCollider *collider)
 {
     colliderVector.push_back(collider);
 }
 
-
 void ColliderManager::FixedUpdate()
 {
     std::unordered_map<int, std::vector<int>> currentCollisions;
-        //check for collision
+    // check for collision
 
     for (int i = 0; i < colliderVector.size(); i++)
-    {   
-        BoxCollider* a = colliderVector[i];
-        if (!a->GetActive()) continue;
+    {
+        BoxCollider *a = colliderVector[i];
+        if (!a->GetActive())
+            continue;
 
         for (int j = i + 1; j < colliderVector.size(); j++)
         {
-            BoxCollider* b = colliderVector[j];
+            BoxCollider *b = colliderVector[j];
             if (!b->GetActive())
-            continue;
+                continue;
             int aID = a->GetOwner()->getID();
             int bID = b->GetOwner()->getID();
             if (a->OverlayWith(b))
             {
                 currentCollisions[aID].push_back(bID);
                 currentCollisions[bID].push_back(aID);
-                if (collisionMap[aID].empty()
-                || std::find(collisionMap[aID].begin(), collisionMap[aID].end(), bID) == collisionMap[aID].end()
-                )
+                if (collisionMap[aID].empty() || std::find(collisionMap[aID].begin(), collisionMap[aID].end(), bID) == collisionMap[aID].end())
                 {
                     if (a->OnCollisionEnter)
                     {
@@ -55,7 +54,7 @@ void ColliderManager::FixedUpdate()
                         ResolveCollision(a, b);
                     }
                 }
-                else 
+                else
                 {
                     if (a->OnCollisionStay)
                     {
@@ -91,13 +90,13 @@ void ColliderManager::FixedUpdate()
     collisionMap = currentCollisions;
 }
 
-bool ColliderManager::isGrounded(BoxCollider* collider)
+bool ColliderManager::isGrounded(BoxCollider *collider)
 {
     if (!collider->GetActive())
-    return false;
+        return false;
     for (int id : collisionMap[collider->GetOwner()->getID()])
     {
-        BoxCollider* other = nullptr;
+        BoxCollider *other = nullptr;
         for (auto col : colliderVector)
         {
             if (col->GetOwner()->getID() == id)
@@ -112,6 +111,10 @@ bool ColliderManager::isGrounded(BoxCollider* collider)
             float maxB = minB + other->height;
             if (minB < maxA && maxA < maxB)
             {
+                // if (collider->GetOwner()->name == "enemy")
+                // {
+                //     RenderManager::GetInstance().debugText += (std::to_string(maxA) + " " + std::to_string(minB) + " ");
+                // }
                 return true;
             }
         }

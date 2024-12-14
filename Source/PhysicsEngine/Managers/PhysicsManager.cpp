@@ -26,12 +26,12 @@ void PhysicsManager::FixedUpdate()
     for (auto rb : rbList)
     {
         if (!rb->GetActive())
-        continue;
+            continue;
         if (ColliderManager::GetInstance().isGrounded(rb->collider))
         {
             if (rb->isJumping)
             {
-                rb->AddForce(0, -300.f);
+                rb->AddForce(0, -350.f);
                 rb->isJumping = false;
             }
             else
@@ -111,10 +111,9 @@ void PhysicsManager::ResolveCollision(BoxCollider *a, BoxCollider *b)
             a->GetOwner()->yPos += overlapY;
             if (a->OnColliderLanded)
             {
-                
+
                 a->OnColliderLanded(b);
             }
-        
         }
         else
         {
@@ -122,7 +121,7 @@ void PhysicsManager::ResolveCollision(BoxCollider *a, BoxCollider *b)
             a->GetOwner()->yPos -= overlapY;
             if (b->OnColliderLanded)
             {
-                
+
                 b->OnColliderLanded(a);
             }
         }
@@ -131,7 +130,7 @@ void PhysicsManager::ResolveCollision(BoxCollider *a, BoxCollider *b)
         if (a->body && b->body)
         {
 
-            a->body->yVel = 0; 
+            a->body->yVel = 0;
             b->body->yVel = 0;
         }
     }
