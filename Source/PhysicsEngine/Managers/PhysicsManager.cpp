@@ -60,7 +60,7 @@ void PhysicsManager::ResolveCollision(BoxCollider *a, BoxCollider *b)
 
     float overlapX = CalculateOverlapX(a, b);
     float overlapY = CalculateOverlapY(a, b);
-    if (rbA->isStatic && rbB->isStatic)
+    if (rbA->isStatic || rbB->isStatic)
         return;
 
     if (overlapX < overlapY)

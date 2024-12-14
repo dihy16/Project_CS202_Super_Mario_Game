@@ -111,10 +111,7 @@ bool ColliderManager::isGrounded(BoxCollider *collider)
             float maxB = minB + other->height;
             if (minB < maxA && maxA < maxB)
             {
-                // if (collider->GetOwner()->name == "enemy")
-                // {
-                //     RenderManager::GetInstance().debugText += (std::to_string(maxA) + " " + std::to_string(minB) + " ");
-                // }
+                collider->GetOwner()->yPos = other->GetOwner()->yPos - collider->height;
                 return true;
             }
         }
