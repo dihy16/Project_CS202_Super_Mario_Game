@@ -11,10 +11,10 @@ protected:
    bool display, moving, isKilled, onGround, fading;
    sf::Clock timer, movetimer;
    sf::IntRect enemyRect;
-   sf::Sprite enemySprite;
-   SpriteRenderer *sr;
-   BoxCollider *bc;
-   RigidBody *rb;
+   Entity *enemy = new Entity;
+   SpriteRenderer *sr = AddComponent<SpriteRenderer>(enemy);
+   BoxCollider *bc = AddComponent<BoxCollider>(enemy);
+   RigidBody *rb = AddComponent<RigidBody>(enemy);
    int currentRect, maxRect;
    void initialize(int x, int y, sf::IntRect &rect, std::string name);
 

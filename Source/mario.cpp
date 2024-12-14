@@ -11,7 +11,7 @@ Mario::Mario(int x, int y)
    mario->yPos = y;
    mario->name = "mario";
 
-   marioSprite->layer = 1;
+   marioSprite->layer = 2;
    marioSprite->texture.loadFromFile(MARIO);
    marioSprite->texture.setSmooth(true);
    marioSprite->sprite.setTexture(marioSprite->texture);

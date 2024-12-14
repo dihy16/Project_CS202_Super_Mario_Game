@@ -8,23 +8,23 @@ void Enemy::initialize(int x, int y, sf::IntRect &rect, std::string name)
    currentRect = 0;
    maxRect = 2;
    isKilled = false;
-   Entity *enemy = new Entity;
+
    RenderManager::GetInstance().listEntity.push_back(enemy);
    enemy->scaleX = 1.05;
    enemy->scaleY = 1.05;
    enemy->xPos = x;
    enemy->yPos = y;
    enemy->name = "enemy";
-   sr = AddComponent<SpriteRenderer>(enemy);
+
    sr->layer = 1;
    sr->texture.loadFromFile(ENEMY);
    sr->texture.setSmooth(true);
    sr->sprite.setTexture(sr->texture);
    sr->sprite.setTextureRect(rect);
-   bc = AddComponent<BoxCollider>(enemy);
+
    bc->width = rect.width;
    bc->height = rect.height;
-   rb = AddComponent<RigidBody>(enemy);
+
    bc->body = rb;
    rb->collider = bc;
    rb->isStatic = false;
@@ -56,10 +56,10 @@ void Goomba::collideWithMario()
       {
          RenderManager::GetInstance().debugText += " hp - 1 ";
       }
-      else
-      {
-         RenderManager::GetInstance().debugText += " hit ";
-      }
+      // else
+      // {
+      //    RenderManager::GetInstance().debugText += " hit ";
+      // }
    };
 
    bc->OnCollisionEnter = [this](BoxCollider *collider)
@@ -185,7 +185,7 @@ void Koopa::move()
    }
    if (movetimer.getElapsedTime().asSeconds() > 2)
    {
-      rb->AddForce(5.0f, 0);
+      rb->isJumping = true;
       movetimer.restart();
    }
 }
