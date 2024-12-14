@@ -7,7 +7,7 @@ Map::Map()
     readmap();
 }
 
-Map::Map(std::string file) 
+Map::Map(std::string file)
 {
     blocktexture.loadFromFile("Images/TilesBackup.png");
     // block.setTexture(blocktexture);
@@ -109,7 +109,6 @@ void Map::readmap(std::string file)
         count++;
     }
 }
-
 
 // draw a map.
 // Note that for every map, the last 3 blocks from either side will not be accessible.
@@ -449,18 +448,3 @@ void Map::blockgenerator(int MarioX, int MarioY)
         for (int j = xstart; j < projectionmap[0].size(); j++)
             createblock(j, i);
 }
-
-// void block::initiate(int x, int y, int blocktype)
-// {
-//     Entity* block = new Entity;
-//     RenderManager::GetInstance().listEntity.push_back(block);
-//     block->scaleX = 1.0;
-//     block->scaleY = 1.0;
-//     block->xPos = x;
-//     block->yPos = y;
-//     block->name = "Block";
-//     blockSprite = AddComponent<SpriteRenderer>(block);
-//     blockSprite->layer = 1;
-//     blockSprite->texture.loadFromFile("Images/TilesBackup.png");
-
-// }

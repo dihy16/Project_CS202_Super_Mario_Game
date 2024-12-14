@@ -7,16 +7,16 @@ void Enemy::initialize(int x, int y, sf::IntRect &rect, std::string name)
 {
    currentRect = 0;
    maxRect = 2;
-   display = moving = true;
+   isKilled = false;
    Entity *enemy = new Entity;
    RenderManager::GetInstance().listEntity.push_back(enemy);
-   enemy->scaleX = 1.0;
-   enemy->scaleY = 1.0;
+   enemy->scaleX = 1.05;
+   enemy->scaleY = 1.05;
    enemy->xPos = x;
    enemy->yPos = y;
-   enemy->name = name;
+   enemy->name = "enemy";
    sr = AddComponent<SpriteRenderer>(enemy);
-   sr->layer = 3;
+   sr->layer = 1;
    sr->texture.loadFromFile(ENEMY);
    sr->texture.setSmooth(true);
    sr->sprite.setTexture(sr->texture);
@@ -28,63 +28,58 @@ void Enemy::initialize(int x, int y, sf::IntRect &rect, std::string name)
    bc->body = rb;
    rb->collider = bc;
    rb->isStatic = false;
-   rb->xVel = 0.1, rb->yVel = 0;
    rb->isUsingGravity = true;
+   rb->xVel = 0, rb->yVel = 0;
    enemyRect = rect;
-   bc->OnColliderLanded =  [this](BoxCollider*)
-    {
-        RenderManager::GetInstance().debugText += "landed";
-        bc->SetActive(false);
-        rb->SetActive(false);
-        sr->SetActive(false);
-    };
-   bc->OnHorizontalCollision = [this](BoxCollider* collider)
-   {
-      if (collider->body->GetOwner()->name == "mario")
-      {
-        RenderManager::GetInstance().debugText += " hp - 1 ";
-
-      }
-      else {
-        RenderManager::GetInstance().debugText += " hit by something not mario";
-
-      }
-   };
 }
 
 Goomba::Goomba(int x, int y) : Enemy(x, y)
 {
    sf::IntRect rect(0, 0, 32, 31); // live goomba
-   // sf::IntRect rect(64, 0, 32, 31); dead goomba
-
    initialize(x, y, rect, "goomba");
 }
 
-void Goomba::kickFromTop(Mario *mario)
+void Goomba::collideWithMario()
 {
-   state = Cramped;
-   sr->sprite.setTextureRect(sf::IntRect(64, 0, 32, 31));
-   rb->isStatic = true;
-}
-
-void Goomba::kickFromBottom(Mario *mario) {}
-
-void Goomba::touchSide(Mario *mario) {}
-
-void Goomba::setState(State state)
-{
-   this->state = state;
-   if (state == Dead)
+   bc->OnColliderLanded = [this](BoxCollider *)
    {
-      rb->isStatic = true;
+      RenderManager::GetInstance().debugText += "landed";
+      bc->SetActive(false);
+      rb->SetActive(false);
       sr->sprite.setTextureRect(sf::IntRect(64, 0, 32, 31));
-      // add score to player
-      // play mario sound
-   }
+      isKilled = true;
+   };
+
+   bc->OnHorizontalCollision = [this](BoxCollider *collider)
+   {
+      if (collider->body->GetOwner()->name == "mario")
+      {
+         RenderManager::GetInstance().debugText += " hp - 1 ";
+      }
+      else
+      {
+         RenderManager::GetInstance().debugText += " hit ";
+      }
+   };
+
+   bc->OnCollisionEnter = [this](BoxCollider *collider)
+   {
+      if (collider->body->GetOwner()->name == "fireball")
+      {
+         RenderManager::GetInstance().debugText += " cut ";
+         rb->GetOwner()->scaleY = -1;
+         bc->SetActive(false);
+         rb->SetActive(false);
+         isKilled = true;
+      }
+   };
 }
 
 void Goomba::move()
 {
+   moving = true;
+   if (isKilled)
+      return;
    if (timer.getElapsedTime().asSeconds() > 0.2)
    {
       enemyRect.left = currentRect * sr->sprite.getTextureRect().width;
@@ -99,36 +94,84 @@ void Goomba::move()
 
       timer.restart();
    }
-   if (moving)
-      sr->sprite.move(rb->xVel, rb->yVel);
+   if (movetimer.getElapsedTime().asSeconds() > 2)
+   {
+      rb->AddForce(5.0f, 0);
+      movetimer.restart();
+   }
+}
 
-   // sr->GetOwner()->xPos += rb->xVel;
+void Goomba::fadingAnimation()
+{
+   if (!isKilled)
+      return;
+   if (timer.getElapsedTime().asSeconds() > 3)
+      sr->SetActive(false);
 }
 
 Koopa::Koopa(int x, int y) : Enemy(x, y)
 {
-   sf::IntRect rect(0, 34, 32, 46); // live koopa
-   // sf::IntRect rect(64, 36, 32, 42); dead koopa
-
+   sf::IntRect rect(224, 32, 32, 48); // live koopa
    initialize(x, y, rect, "koopa");
 }
 
-void Koopa::kickFromTop(Mario *mario)
+void Koopa::collideWithMario()
 {
-   state = Dead;
-   sr->sprite.setTextureRect(sf::IntRect(64, 36, 32, 42));
-   rb->isStatic = true;
+   bc->OnColliderLanded = [this](BoxCollider *)
+   {
+      RenderManager::GetInstance().debugText += "landed";
+      if (state == Jumping)
+      {
+         sr->sprite.setTextureRect(sf::IntRect(0, 32, 32, 48));
+         state = Normal;
+      }
+      else if (state == Normal)
+      {
+         bc->SetActive(false);
+         rb->SetActive(false);
+
+         sr->sprite.setTextureRect(sf::IntRect(64, 32, 32, 48));
+         state = Hidden;
+         isKilled = true;
+      }
+   };
+
+   bc->OnHorizontalCollision = [this](BoxCollider *collider)
+   {
+      if (collider->body->GetOwner()->name == "mario")
+      {
+         RenderManager::GetInstance().debugText += " hp - 1 ";
+      }
+      else
+      {
+         RenderManager::GetInstance().debugText += " hit ";
+      }
+   };
+
+   bc->OnCollisionEnter = [this](BoxCollider *collider)
+   {
+      if (collider->body->GetOwner()->name == "fireball")
+      {
+         RenderManager::GetInstance().debugText += " cut ";
+         rb->GetOwner()->scaleY = -1;
+         bc->SetActive(false);
+         rb->SetActive(false);
+         isKilled = true;
+      }
+   };
 }
-
-void Koopa::kickFromBottom(Mario *mario) {}
-
-void Koopa::touchSide(Mario *mario) {}
 
 void Koopa::move()
 {
+   moving = true;
+   if (isKilled)
+      return;
    if (timer.getElapsedTime().asSeconds() > 0.2)
    {
-      enemyRect.left = currentRect * sr->sprite.getTextureRect().width;
+      if (state == Jumping)
+         enemyRect.left = 224 + currentRect * sr->sprite.getTextureRect().width;
+      else if (state == Normal)
+         enemyRect.left = currentRect * sr->sprite.getTextureRect().width;
       sr->sprite.setTextureRect(enemyRect);
 
       if (moving)
@@ -140,11 +183,19 @@ void Koopa::move()
 
       timer.restart();
    }
-   if (moving)
-      sr->sprite.move(rb->xVel, rb->yVel);
+   if (movetimer.getElapsedTime().asSeconds() > 2)
+   {
+      rb->AddForce(5.0f, 0);
+      movetimer.restart();
+   }
+}
 
-   // sr->GetOwner()->xPos += rb->xVel;
-   // sr->GetOwner()->yPos += rb->yVel;
+void Koopa::fadingAnimation()
+{
+   if (!isKilled)
+      return;
+   if (timer.getElapsedTime().asSeconds() > 3)
+      sr->SetActive(false);
 }
 
 HammerBro::HammerBro(int x, int y) : Enemy(x, y)
@@ -154,9 +205,11 @@ HammerBro::HammerBro(int x, int y) : Enemy(x, y)
    initialize(x, y, rect, "hammerBro");
 }
 
-void HammerBro::kickFromTop(Mario *mario) {}
-void HammerBro::kickFromBottom(Mario *mario) {}
-void HammerBro::touchSide(Mario *mario) {}
+void HammerBro::collideWithMario() {}
+
+// void HammerBro::kickFromTop(Mario *mario) {}
+// void HammerBro::kickFromBottom(Mario *mario) {}
+// void HammerBro::touchSide(Mario *mario) {}
 
 void HammerBro::move()
 {
@@ -186,6 +239,8 @@ void HammerBro::move()
    // sr->GetOwner()->xPos += rb->xVel;
 }
 
+void HammerBro::fadingAnimation() {}
+
 void HammerBro::throwHammer()
 {
    hammer->getRigidBody()->AddForce(-1, -1);
@@ -201,9 +256,11 @@ Hammer::Hammer(int x, int y) : Enemy(x, y)
    sr->layer = 3;
 }
 
-void Hammer::kickFromTop(Mario *mario) {}
-void Hammer::kickFromBottom(Mario *mario) {}
-void Hammer::touchSide(Mario *mario) {}
+void Hammer::collideWithMario() {}
+
+// void Hammer::kickFromTop(Mario *mario) {}
+// void Hammer::kickFromBottom(Mario *mario) {}
+// void Hammer::touchSide(Mario *mario) {}
 
 void Hammer::move()
 {
@@ -233,26 +290,53 @@ void Hammer::move()
    sr->GetOwner()->yPos += rb->yVel;
 }
 
+void Hammer::fadingAnimation() {}
+
 PiranhaPlant::PiranhaPlant(int x, int y) : Enemy(x, y)
 {
    sf::IntRect rect(0, 80, 32, 46);
    initialize(x, y, rect, "piranhaPlant");
 }
 
-void PiranhaPlant::kickFromTop(Mario *mario)
+void PiranhaPlant::collideWithMario()
 {
-   // mario receive damage
-}
+   // bc->OnColliderLanded = [this](BoxCollider *)
+   // {
+   //    RenderManager::GetInstance().debugText += "landed";
+   //    bc->SetActive(false);
+   //    rb->SetActive(false);
+   //    // set mario dead instead
+   //    isKilled = true;
+   // };
 
-void PiranhaPlant::kickFromBottom(Mario *mario) {}
+   bc->OnHorizontalCollision = [this](BoxCollider *collider)
+   {
+      if (collider->body->GetOwner()->name == "mario")
+      {
+         RenderManager::GetInstance().debugText += " hp - 1 ";
+      }
+      else
+      {
+         RenderManager::GetInstance().debugText += " hit ";
+      }
+   };
 
-void PiranhaPlant::touchSide(Mario *mario)
-{
-   // mario receive damage
+   bc->OnCollisionEnter = [this](BoxCollider *collider)
+   {
+      if (collider->body->GetOwner()->name == "fireball")
+      {
+         RenderManager::GetInstance().debugText += " cut ";
+         rb->GetOwner()->scaleY = -1;
+         bc->SetActive(false);
+         rb->SetActive(false);
+         isKilled = true;
+      }
+   };
 }
 
 void PiranhaPlant::move()
 {
+   moving = true;
    if (timer.getElapsedTime().asSeconds() > 0.2)
    {
       enemyRect.left = currentRect * sr->sprite.getTextureRect().width;
@@ -267,10 +351,19 @@ void PiranhaPlant::move()
 
       timer.restart();
    }
-   if (moving)
-      sr->sprite.move(rb->xVel, rb->yVel);
+   if (movetimer.getElapsedTime().asSeconds() > 0.2)
+   {
+      rb->AddForce(rb->xVel, 0);
+      movetimer.restart();
+   }
+}
 
-   // sr->GetOwner()->xPos += rb->xVel;
+void PiranhaPlant::fadingAnimation()
+{
+   if (!isKilled)
+      return;
+   if (timer.getElapsedTime().asSeconds() > 3)
+      sr->SetActive(false);
 }
 
 std::unique_ptr<Enemy> EnemyFactory::createEnemy(const std::string &type, int x, int y)

@@ -2,7 +2,7 @@
 
 Mario::Mario(int x, int y)
 {
-   // RenderManager::GetInstance().listEntity.push_back(mario);
+   RenderManager::GetInstance().listEntity.push_back(mario);
    goRight = goLeft = goUp = false;
 
    mario->scaleX = 1.5;
@@ -17,20 +17,14 @@ Mario::Mario(int x, int y)
    marioSprite->sprite.setTexture(marioSprite->texture);
    marioSprite->sprite.setTextureRect(sf::IntRect(0, 96, 32, 32));
 
-   marioCollider->width = 44;
-   marioCollider->height = 44;
+   marioCollider->width = 48;
+   marioCollider->height = 48;
 
    marioCollider->body = marioRigidBody;
    marioRigidBody->collider = marioCollider;
    marioRigidBody->isStatic = false;
    marioRigidBody->isUsingGravity = true;
    marioRigidBody->xVel = 0, marioRigidBody->yVel = 0;
-   auto collison = [](BoxCollider *bc)
-   {
-      if (bc->GetOwner()->name == "goomba")
-         RenderManager::GetInstance().debugText += "hit";
-   };
-   marioCollider->OnCollisionEnter = collison;
    stateManager.setState(std::make_unique<SmallMario>());
 }
 
@@ -38,20 +32,20 @@ void Mario::moveRight()
 {
    goRight = true, goLeft = false;
    marioRigidBody->isStatic = false;
-   marioRigidBody->AddForce(2.5f, 0.f);
+   marioRigidBody->AddForce(50.0f, 0.f);
    sf::IntRect rect = marioSprite->sprite.getTextureRect();
-   if (marioRigidBody->xVel >= 1)
-      rect.left = 130;
+   // if (marioRigidBody->xVel >= 1)
+   //    rect.left = 130;
    mario->scaleX = 1.5;
 }
 
 void Mario::moveLeft()
 {
    goLeft = true, goRight = false;
-   marioRigidBody->AddForce(-2.5f, 0.f);
+   marioRigidBody->AddForce(-50.0f, 0.f);
    sf::IntRect rect = marioSprite->sprite.getTextureRect();
-   if (marioRigidBody->xVel <= -1)
-      rect.left = 130;
+   // if (marioRigidBody->xVel <= -1)
+   //    rect.left = 130;
    mario->scaleX = -1.5;
    // marioCollider->width = -48;
 }
@@ -69,12 +63,14 @@ void Mario::setRectForWalking(sf::IntRect &rect)
 
 void Mario::handleMovement()
 {
-   float waitingTime = 0.04;
+   float waitingTime = 0.05;
    sf::IntRect rect = marioSprite->sprite.getTextureRect();
 
    if (timer1.getElapsedTime().asSeconds() > waitingTime)
    {
-      waitingTime += 0.04;
+      if (marioRigidBody->isJumping)
+         rect.left = 161;
+      waitingTime += 0.07;
       if (timer2.getElapsedTime().asSeconds() > waitingTime)
       {
          if (goRight == goLeft)
@@ -84,27 +80,32 @@ void Mario::handleMovement()
          else if (goRight)
          {
             moveRight();
-            // marioRigidBody->xVel = 25;
             setRectForWalking(rect);
          }
          else if (goLeft)
          {
             moveLeft();
-            // marioRigidBody->xVel = -25;
             setRectForWalking(rect);
          }
 
          timer2.restart();
       }
-      // marioSprite->sprite.move(marioRigidBody->xVel, marioRigidBody->yVel);
-      //  mario->xPos += marioRigidBody->xVel;
-      //  mario->yPos += marioRigidBody->yVel;
       timer1.restart();
    }
    marioSprite->sprite.setTextureRect(rect);
 }
 
-void Mario::handleCollision() {}
+// void Mario::handleCollision(std::vector<std::unique_ptr<Enemy>> &enemies)
+// {
+//    marioCollider->OnCollisionEnter = [&enemies](BoxCollider *bc)
+//    {
+//       // if (bc->GetOwner()->name == "goomba")
+//       RenderManager::GetInstance().debugText += "hit";
+//       for (auto &enemy : enemies)
+//       {
+//       }
+//    };
+// }
 
 void Mario::handlePowerUp()
 {

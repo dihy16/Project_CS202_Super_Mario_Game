@@ -1,26 +1,10 @@
-#include "./Source/mario.h"
-#include "./Source/enemy.h"
-#include "./Source/items.h"
-#include "./Source/map.h"
+#include "./Source/level1.h"
 #include "./Source/marioGameManager.h"
 
 int main()
 {
     // InitialFunction();
-    Mario mario(100, 100);
-    Map m("Data/maps.txt");
-    m.blockgenerator(100, 12 * BLOCK_HEIGHT);
-    // std::vector<std::unique_ptr<Enemy>> enemies;
-    // std::vector<std::unique_ptr<Item>> items;
-
-    // enemies.push_back(EnemyFactory::createEnemy("Goomba", 200, 100));
-    // enemies.push_back(EnemyFactory::createEnemy("Koopa", 300, 100));
-    // enemies.push_back(EnemyFactory::createEnemy("HammerBro", 400, 700));
-    // enemies.push_back(EnemyFactory::createEnemy("PiranhaPlant", 500, 100));
-    //  items.push_back(ItemFactory::createItem("Mushroom", 200, 100));
-    //  items.push_back(ItemFactory::createItem("Coin", 300, 100));
-    //  items.push_back(ItemFactory::createItem("Sparkle", 400, 100));
-    //  items.push_back(ItemFactory::createItem("Flower", 500, 100));
+    Level1 lv1;
 
     RenderManager::GetInstance().window.create(sf::VideoMode(16 * BLOCK_WIDTH, 15 * BLOCK_HEIGHT), "SFML Sprite Example");
     sf::Font font;
@@ -55,15 +39,12 @@ int main()
             }
             MarioGameManager::getInstance()->handleEvents(RenderManager::GetInstance().window, event);
         }
-        mario.goLeft = sf::Keyboard::isKeyPressed(sf::Keyboard::A);
-        mario.goRight = sf::Keyboard::isKeyPressed(sf::Keyboard::D);
-        mario.marioRigidBody->isJumping = sf::Keyboard::isKeyPressed(sf::Keyboard::W);
+        lv1.execute();
 
-        mario.handleMovement();
-        if (mario.goLeft)
-            m.moveleft(-mario.marioRigidBody->xVel);
-        else if (mario.goRight)
-            m.moveright(mario.marioRigidBody->xVel);
+        // if (mario.goLeft)
+        //     m.moveleft(-mario.marioRigidBody->xVel);
+        // else if (mario.goRight)
+        //     m.moveright(mario.marioRigidBody->xVel);
 
         // if (m.left && m.right)
         //     ;
@@ -72,11 +53,6 @@ int main()
         // else if (m.right)
         //     m.moveright(2);
 
-        // for (auto &enemy : enemies)
-        //     enemy->move();
-
-        // for (auto &item : items)
-        //     item->animation();
         // fixed update
         while (accumulator >= PhysicsManager::FIXED_TIMESTEP)
         {

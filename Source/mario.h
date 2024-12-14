@@ -5,6 +5,7 @@
 #include "./PhysicsEngine/Components/RigidBody.h"
 #include "./PhysicsEngine/Components/SpriteRenderer.h"
 #include "./marioState.h"
+#include "./enemy.h"
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
@@ -17,8 +18,9 @@
 class Mario : public Entity
 {
 private:
-   Entity *mario = RenderManager::GetInstance().trackE;
-   RigidBody *rb = GetComponent<RigidBody>(RenderManager::GetInstance().trackE);
+   // Entity *mario = RenderManager::GetInstance().trackE;
+   // RigidBody *rb = GetComponent<RigidBody>(RenderManager::GetInstance().trackE);
+   Entity *mario = new Entity;
 
    SpriteRenderer *marioSprite = AddComponent<SpriteRenderer>(mario);
    BoxCollider *marioCollider = AddComponent<BoxCollider>(mario);
@@ -35,7 +37,7 @@ public:
    void moveLeft();
    void setRectForWalking(sf::IntRect &rect);
    void handleMovement();
-   void handleCollision();
+   // void handleCollision(std::vector<std::unique_ptr<Enemy>> &enemies);
    void handlePowerUp();
    void handleDamage();
 };
