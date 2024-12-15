@@ -93,6 +93,7 @@ int main()
             MarioGameManager::getInstance()->updateGameState(static_cast<int>(PhysicsManager::FIXED_TIMESTEP * 1000));
         }
         RenderManager::GetInstance().window.clear();
+        m.draw(RenderManager::GetInstance().window);
         MarioGameManager::getInstance()->draw(RenderManager::GetInstance().window);
         
         RenderManager::GetInstance().window.display();
