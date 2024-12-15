@@ -111,7 +111,12 @@ bool ColliderManager::isGrounded(BoxCollider *collider)
             float maxB = minB + other->height;
             if (minB < maxA && maxA < maxB)
             {
-                collider->GetOwner()->yPos = other->GetOwner()->yPos - collider->height;
+                // if (collider->GetOwner()->name == "Block" && other->GetOwner()->name == "mario" && maxA < 768)
+                // {
+                //     RenderManager::GetInstance().debugText += " checked ";
+                //     return false;
+                // }
+                collider->GetOwner()->yPos = other->GetOwner()->yPos - collider->height + 1;
                 return true;
             }
         }
