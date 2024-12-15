@@ -25,11 +25,13 @@ void PhysicsManager::FixedUpdate()
     ColliderManager::GetInstance().FixedUpdate();
     for (auto rb : rbList)
     {
+        if (!rb->GetActive())
+            continue;
         if (ColliderManager::GetInstance().isGrounded(rb->collider))
         {
             if (rb->isJumping)
             {
-                rb->AddForce(0, -300.f);
+                rb->AddForce(0, -350.f);
                 rb->isJumping = false;
             }
             else
@@ -49,7 +51,7 @@ void PhysicsManager::FixedUpdate()
 
 void PhysicsManager::ResolveCollision(BoxCollider *a, BoxCollider *b)
 {
-    //RenderManager::GetInstance().debugText += "hit";
+    // RenderManager::GetInstance().debugText += "hit";
 
     if (a->body == nullptr || b->body == nullptr)
         return;
@@ -58,7 +60,7 @@ void PhysicsManager::ResolveCollision(BoxCollider *a, BoxCollider *b)
 
     float overlapX = CalculateOverlapX(a, b);
     float overlapY = CalculateOverlapY(a, b);
-    if (rbA->isStatic && rbB->isStatic)
+    if (rbA->isStatic || rbB->isStatic)
         return;
 
     if (overlapX < overlapY)
@@ -69,11 +71,27 @@ void PhysicsManager::ResolveCollision(BoxCollider *a, BoxCollider *b)
         {
             // Push `a` to the right of `b`
             a->GetOwner()->xPos += overlapX;
+            if (a->OnHorizontalCollision)
+            {
+                a->OnHorizontalCollision(b);
+            }
+            if (b->OnHorizontalCollision)
+            {
+                b->OnHorizontalCollision(a);
+            }
         }
         else
         {
             // Push `a` to the left of `b`
             a->GetOwner()->xPos -= overlapX;
+            if (a->OnHorizontalCollision)
+            {
+                a->OnHorizontalCollision(b);
+            }
+            if (b->OnHorizontalCollision)
+            {
+                b->OnHorizontalCollision(a);
+            }
         }
 
         // Adjust velocities based on the resolution
@@ -91,18 +109,28 @@ void PhysicsManager::ResolveCollision(BoxCollider *a, BoxCollider *b)
         {
             // Push `a` above `b`
             a->GetOwner()->yPos += overlapY;
+            if (a->OnColliderLanded)
+            {
+
+                a->OnColliderLanded(b);
+            }
         }
         else
         {
             // Push `a` below `b`
             a->GetOwner()->yPos -= overlapY;
+            if (b->OnColliderLanded)
+            {
+
+                b->OnColliderLanded(a);
+            }
         }
 
         // Adjust velocities for Y direction
         if (a->body && b->body)
         {
 
-            a->body->yVel = 0; // Reflect the velocity
+            a->body->yVel = 0;
             b->body->yVel = 0;
         }
     }

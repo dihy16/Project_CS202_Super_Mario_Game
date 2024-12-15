@@ -13,8 +13,9 @@ class RenderManager
 {
     private:
         RenderManager();
-        vector<SpriteRenderer*> srVector;
     public:
+        vector<SpriteRenderer*> srVector;
+
         vector<Entity*> listEntity;
         Entity* trackE;
         sf::Text debugConsole;

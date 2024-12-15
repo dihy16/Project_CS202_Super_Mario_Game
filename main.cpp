@@ -1,7 +1,4 @@
-#include "./Source/mario.h"
-#include "./Source/enemy.h"
-#include "./Source/items.h"
-#include "./Source/map.h"
+#include "./Source/level1.h"
 #include "./Source/marioGameManager.h"
 #include <windows.h>
 #include <stdio.h>
@@ -12,10 +9,11 @@
 int main()
 {
     // InitialFunction();
+    Level1 lv1;
     // Mario mario(100, 100);
-    bool left, right;
-    Map m("Data/Level1");
-    m.blockgenerator(100, 12 * BLOCK_HEIGHT);
+    //bool left, right;
+    //Map m("Data/Level1");
+    //m.blockgenerator(100, 12 * BLOCK_HEIGHT);
     MEMORYSTATUSEX statex;
     GlobalMemoryStatusEx (&statex);
     // std::vector<std::unique_ptr<Enemy>> enemies;
@@ -46,7 +44,7 @@ int main()
     float accumulator = 0.0f;
     ColliderManager::GetInstance().visisbleCollider = true;
 
-    MarioGameManager::getInstance()->playMusic("overworld"); 
+    MarioGameManager::getInstance()->playMusic("overworld");
 
     while (RenderManager::GetInstance().window.isOpen())
     {
@@ -63,28 +61,20 @@ int main()
             }
             MarioGameManager::getInstance()->handleEvents(RenderManager::GetInstance().window, event);
         }
-        left = sf::Keyboard::isKeyPressed(sf::Keyboard::A);
-        right = sf::Keyboard::isKeyPressed(sf::Keyboard::D);
-        //mario.marioRigidBody->isJumping = sf::Keyboard::isKeyPressed(sf::Keyboard::W);
+        lv1.execute();
 
-        //mario.handleMovement();
-        // if (left)
-        //     m.moveleft(4);
-        // else if (right)
-        //     m.moveright(4);
+        // if (mario.goLeft)
+        //     m.moveleft(-mario.marioRigidBody->xVel);
+        // else if (mario.goRight)
+        //     m.moveright(mario.marioRigidBody->xVel);
 
-        if (left && right)
-            ;
-        else if (left)
-            m.moveleft(2);
-        else if (right)
-            m.moveright(2);
+        //if (left && right)
+        //    ;
+        //else if (left)
+        //    m.moveleft(2);
+        //else if (right)
+        //    m.moveright(2);
 
-        // for (auto &enemy : enemies)
-        //     enemy->move();
-
-        // for (auto &item : items)
-        //     item->animation();
         // fixed update
         while (accumulator >= PhysicsManager::FIXED_TIMESTEP)
         {

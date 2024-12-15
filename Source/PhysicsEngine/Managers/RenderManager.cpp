@@ -40,6 +40,8 @@ void RenderManager::Update()
     {
         for (auto collider : ColliderManager::GetInstance().colliderVector)
         {
+            if (!collider->GetActive())
+            continue;
             sf::RectangleShape rectangle(sf::Vector2(collider->width, collider->height));
             rectangle.setPosition(collider->GetOwner()->xPos, collider->GetOwner()->yPos);
             rectangle.setOutlineColor(sf::Color::Red);
