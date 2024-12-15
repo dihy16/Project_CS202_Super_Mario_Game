@@ -72,7 +72,6 @@ void Map::readmap(std::string file)
     projectionmap.clear();
     backgroundmap.clear();
     layout.loadFromFile(file + "/layout.png");
-    int coordinates;
     // std::ifstream mapfile(file);
     // mapfile >> height >> width;
     for (int i = 0; i < layout.getSize().y; i++)
@@ -250,18 +249,18 @@ void Map::createblock(int x, int y)
 {
     if (projectionmap[y][x] == 0)
         return;
-    Entity *block = new Entity;
+    Block *block = new Block;
     RenderManager::GetInstance().listEntity.push_back(block);
     block->scaleX = 1.0;
     block->scaleY = 1.0;
     block->xPos = (x - 5) * BLOCK_WIDTH;
     block->yPos = y * BLOCK_HEIGHT;
     block->name = "Block";
-    SpriteRenderer *sr = AddComponent<SpriteRenderer>(block);
-    sr->layer = 1;
-    sr->texture.loadFromFile("Images/TilesBackup.png");
-    sr->texture.setSmooth(true);
-    sr->sprite.setTexture(sr->texture);
+    // SpriteRenderer *sr = AddComponent<SpriteRenderer>(block);
+    // sr->layer = 1;
+    // sr->texture.loadFromFile("Images/TilesBackup.png");
+    // sr->texture.setSmooth(true);
+    // sr->sprite.setTexture(blocktexture);
     int xtex, ytex;
     switch (projectionmap[y][x])
     {
@@ -363,7 +362,8 @@ void Map::createblock(int x, int y)
         ytex = 7;
         break;
     }
-    sr->sprite.setTextureRect(sf::IntRect(xtex * BLOCK_WIDTH, ytex * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT));
+    // sr->sprite.setTextureRect(sf::IntRect(xtex * BLOCK_WIDTH, ytex * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT));
+    block->spritearea = sf::IntRect(xtex * BLOCK_WIDTH, ytex * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT);
     availableblocks.push_back(block);
     if (projectionmap[y][x] == 5 || projectionmap[y][x] == 6) return;
     BoxCollider *bc = AddComponent<BoxCollider>(block);
@@ -376,6 +376,17 @@ void Map::createblock(int x, int y)
     rb->isStatic = true;
     rb->xVel = 0;
     rb->yVel = 0;
+}
+
+void Map::draw(sf::RenderWindow& w)
+{
+    for (Block* i: availableblocks)
+    {
+        sprite.setTexture(blocktexture);
+        sprite.setTextureRect(i->spritearea);
+        sprite.setPosition(i->xPos, i->yPos);
+        w.draw(sprite);
+    }
 }
 
 void Map::moveleft(float step)

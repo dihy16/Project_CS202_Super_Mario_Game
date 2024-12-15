@@ -40,4 +40,4 @@ public:
 		return label_coins->getString();
 	}
 };
-#endif GUI_H
+#endif
