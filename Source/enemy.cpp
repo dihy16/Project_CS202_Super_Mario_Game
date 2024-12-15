@@ -16,7 +16,7 @@ void Enemy::initialize(int x, int y, sf::IntRect &rect, std::string name)
    enemy->yPos = y;
    enemy->name = "enemy";
 
-   sr->layer = 1;
+   sr->layer = 3;
    sr->texture.loadFromFile(ENEMY);
    sr->texture.setSmooth(true);
    sr->sprite.setTexture(sr->texture);
@@ -41,13 +41,16 @@ Goomba::Goomba(int x, int y) : Enemy(x, y)
 
 void Goomba::collideWithMario()
 {
-   bc->OnColliderLanded = [this](BoxCollider *)
+   bc->OnColliderLanded = [this](BoxCollider *collider)
    {
-      RenderManager::GetInstance().debugText += "landed";
-      bc->SetActive(false);
-      rb->SetActive(false);
-      sr->sprite.setTextureRect(sf::IntRect(64, 0, 32, 31));
-      isKilled = true;
+      if (collider->body->GetOwner()->name == "mario")
+      {
+         RenderManager::GetInstance().debugText += "landed";
+         bc->SetActive(false);
+         rb->SetActive(false);
+         sr->sprite.setTextureRect(sf::IntRect(64, 0, 32, 31));
+         isKilled = true;
+      }
    };
 
    bc->OnHorizontalCollision = [this](BoxCollider *collider)
@@ -67,10 +70,10 @@ void Goomba::collideWithMario()
       if (collider->body->GetOwner()->name == "fireball")
       {
          RenderManager::GetInstance().debugText += " cut ";
-         rb->GetOwner()->scaleY = -1;
+         // rb->GetOwner()->scaleY = -1;
          bc->SetActive(false);
          rb->SetActive(false);
-         isKilled = true;
+         sr->SetActive(false);
       }
    };
 }
@@ -96,7 +99,7 @@ void Goomba::move()
    }
    if (movetimer.getElapsedTime().asSeconds() > 2)
    {
-      rb->AddForce(5.0f, 0);
+      // rb->AddForce(5.0f, 0);
       movetimer.restart();
    }
 }
@@ -153,7 +156,7 @@ void Koopa::collideWithMario()
       if (collider->body->GetOwner()->name == "fireball")
       {
          RenderManager::GetInstance().debugText += " cut ";
-         rb->GetOwner()->scaleY = -1;
+         // rb->GetOwner()->scaleY = -1;
          bc->SetActive(false);
          rb->SetActive(false);
          isKilled = true;

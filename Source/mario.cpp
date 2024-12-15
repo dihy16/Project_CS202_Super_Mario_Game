@@ -3,7 +3,7 @@
 Mario::Mario(int x, int y)
 {
    RenderManager::GetInstance().listEntity.push_back(mario);
-   goRight = goLeft = goUp = false;
+   goRight = goLeft = goUp = created = false;
 
    mario->scaleX = 1.5;
    mario->scaleY = 1.5;
@@ -94,8 +94,18 @@ void Mario::handleMovement()
             rect.left = 162.5;
          else if (state == Super || state == Fire)
             rect.left = 161;
-         marioSprite->sprite.setTextureRect(rect);
       }
+      if (firing)
+      {
+         if (state == Super || state == Fire)
+         {
+            rect.left = 224;
+            created = true;
+            RenderManager::GetInstance().debugText += "fire";
+         }
+      }
+      marioSprite->sprite.setTextureRect(rect);
+
       waitingTime += 0.07;
       if (timer2.getElapsedTime().asSeconds() > waitingTime)
       {
@@ -116,7 +126,7 @@ void Mario::handleMovement()
 
 void Mario::stand()
 {
-   if (!goRight && !goLeft && !marioRigidBody->isJumping)
+   if (!goRight && !goLeft && !marioRigidBody->isJumping && !firing)
    {
       if (state == Small)
          marioSprite->sprite.setTextureRect(sf::IntRect(0, 96, 28, 32));
@@ -158,8 +168,14 @@ void Mario::handlePowerUp()
    };
 }
 
-void Mario::update()
+void Mario::update(std::vector<std::unique_ptr<Item>> &items)
 {
    handleMovement();
    handlePowerUp();
+   if (firing && created && timer3.getElapsedTime().asSeconds() > 1)
+   {
+      items.push_back(ItemFactory::createItem("Fireball", mario->xPos + marioCollider->width + 1, mario->yPos));
+      created = false;
+      timer3.restart();
+   }
 }

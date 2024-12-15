@@ -15,7 +15,7 @@ protected:
    BoxCollider *bc;
    RigidBody *rb;
    int currentRect, maxRect;
-   void initialize(int x, int y, sf::IntRect &rect, std::string name, int maxRect);
+   void initialize(float x, float y, sf::IntRect &rect, std::string name, int maxRect);
 
 public:
    Item(int x, int y);
@@ -52,6 +52,24 @@ class Flower : public Item
 {
 public:
    Flower(int x, int y);
+   void animation() override;
+   void fadeOut() override;
+};
+
+class Bullet : public Item
+{
+private:
+   sf::Clock fadeTimer;
+   enum State
+   {
+      Flying,
+      Splash
+   } state = Flying;
+   bool finished = false;
+   bool thrown = false;
+
+public:
+   Bullet(int x, int y);
    void animation() override;
    void fadeOut() override;
 };
