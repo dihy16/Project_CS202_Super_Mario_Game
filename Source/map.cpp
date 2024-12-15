@@ -7,6 +7,13 @@ Map::Map()
     readmap();
 }
 
+Map::Map(std::string file) 
+{
+    blocktexture.loadFromFile("Images/TilesBackup.png");
+    // block.setTexture(blocktexture);
+    readmap(file);
+}
+
 // read map organization from a file
 // the map file contains 3 layers: the first layer for blocks, the second layer for background details, the third layer for entity spawns
 // corresponding numbers for certain objects will be shown below
@@ -54,6 +61,41 @@ void Map::readmap()
         count++;
     }
 }
+
+// read map organization from a file
+// the map file contains 3 layers: the first layer for blocks, the second layer for background details, the third layer for entity spawns
+// corresponding numbers for certain objects will be shown below
+void Map::readmap(std::string file)
+{
+    sf::Color c;
+    int target;
+    projectionmap.clear();
+    backgroundmap.clear();
+    layout.loadFromFile(file + "/layout.png");
+    int height, width;
+    int coordinates;
+    // std::ifstream mapfile(file);
+    // mapfile >> height >> width;
+    int count = width;
+    for (int i = 0; i < layout.getSize().y; i++)
+    {
+        projectionmap.push_back(vector<int>({}));
+        for (int j = 0; j < layout.getSize().x; j++)
+        {
+            c = sf::Color(layout.getPixel(j, i));
+            if (c == sf::Color(95, 205, 228)) target = 0; //no block
+            else if (c == sf::Color(143, 86, 59)) target = 1; // wall
+            else if (c == sf::Color(255, 242, 0)) target = 2; // mystery box
+            else if (c == sf::Color(98, 232, 112)) target = 3; //vertical up pipe
+            else if (c == sf::Color(38, 223, 57)) target = 4; //horizontal left-ward pipe
+            else if (c == sf::Color(153, 229, 80)) target = 5; //flag pole
+            else if (c == sf::Color(223, 113, 38)) target = 6; //castle
+            else target = 0;
+            projectionmap[i].push_back(target);
+        }
+    }
+}
+
 
 // draw a map.
 // Note that for every map, the last 3 blocks from either side will not be accessible.
@@ -293,6 +335,23 @@ void Map::createblock(int x, int y)
         else
             xtex = 5;
         break;
+    case 5: //flag pole
+        xtex = 7;
+        if (y == 0)
+        {
+            ytex = 8;
+            break;
+        }
+        else if (projectionmap[y - 1][x] != 5)
+        {
+            ytex = 8;
+            break;
+        }
+        else
+        {
+            ytex = 9;
+            break;
+        }
     case 7: // mushroom tile, not mushroom buff
         ytex = 0;
         if (projectionmap[y][x - 1] != 7)
@@ -303,9 +362,13 @@ void Map::createblock(int x, int y)
             xtex = 5;
         break;
     default:
+        xtex = 1;
+        ytex = 7;
         break;
     }
     sr->sprite.setTextureRect(sf::IntRect(xtex * BLOCK_WIDTH, ytex * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT));
+    availableblocks.push_back(block);
+    if (projectionmap[y][x] == 5 || projectionmap[y][x] == 6) return;
     BoxCollider *bc = AddComponent<BoxCollider>(block);
     bc->width = BLOCK_WIDTH;
     bc->height = BLOCK_HEIGHT;
@@ -316,7 +379,6 @@ void Map::createblock(int x, int y)
     rb->isStatic = true;
     rb->xVel = 0;
     rb->yVel = 0;
-    availableblocks.push_back(block);
 }
 
 void Map::moveleft(float step)
@@ -348,7 +410,7 @@ void Map::moveleft(float step)
 
 void Map::moveright(float step)
 {
-    if (xstart == 56 && offset == 0)
+    if (xstart == projectionmap[0].size() - 24 && offset == 0)
         return;
     for (Entity *e : availableblocks)
     {
@@ -359,7 +421,7 @@ void Map::moveright(float step)
     {
         xstart++;
         offset -= BLOCK_WIDTH;
-        if (xstart == 56)
+        if (xstart == projectionmap[0].size() - 24)
         {
             for (Entity *e : availableblocks)
             {
