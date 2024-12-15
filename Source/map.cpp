@@ -72,11 +72,8 @@ void Map::readmap(std::string file)
     projectionmap.clear();
     backgroundmap.clear();
     layout.loadFromFile(file + "/layout.png");
-    int height, width;
-    int coordinates;
     // std::ifstream mapfile(file);
     // mapfile >> height >> width;
-    int count = width;
     for (int i = 0; i < layout.getSize().y; i++)
     {
         projectionmap.push_back(vector<int>({}));
