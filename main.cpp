@@ -28,9 +28,9 @@ int main()
     {
     }
     RenderManager::GetInstance().debugConsole.setFont(font);
-    RenderManager::GetInstance().debugConsole.setString("lmao");
+    RenderManager::GetInstance().debugConsole.setString("abcseds");
     RenderManager::GetInstance().debugConsole.setCharacterSize(12);           // Set character size (in pixels)
-    RenderManager::GetInstance().debugConsole.setFillColor(sf::Color::White); // Set text color
+    RenderManager::GetInstance().debugConsole.setFillColor(sf::Color::Red); // Set text color
     RenderManager::GetInstance().debugConsole.setStyle(sf::Text::Bold);       //
     RenderManager::GetInstance().debugConsole.setPosition(0, 0);              //
     RenderManager::GetInstance().displayDebugConsole = true;
@@ -82,6 +82,7 @@ int main()
         {
             PhysicsManager::GetInstance().FixedUpdate();
             accumulator -= PhysicsManager::FIXED_TIMESTEP;
+            MarioGameManager::getInstance()->updateGameState(static_cast<int>(PhysicsManager::FIXED_TIMESTEP * 1000));
         }
         RenderManager::GetInstance().window.clear();
         MarioGameManager::getInstance()->draw(RenderManager::GetInstance().window);

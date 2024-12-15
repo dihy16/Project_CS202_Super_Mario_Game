@@ -28,9 +28,15 @@ void MenuManager::handleEvents(sf::RenderWindow &window, sf::Event &ev)
     switch(currentGameState) {
         case eMainMenu:
             mainMenu->EventHandling(window, ev);
+            RenderManager::GetInstance().debugConsole.setString("MainMenu");
             break;
         case eLevelMenu:
             levelMenu->EventHandling(window, ev);
+            RenderManager::GetInstance().debugConsole.setString("levelMenu");
+            break;
+        case eGame:
+            MarioGameManager::getInstance()->setState(MarioGameManager::GameState::playing);
+            RenderManager::GetInstance().debugConsole.setString("Game");
             break;
     }
 }
@@ -45,6 +51,9 @@ void MenuManager::draw(sf::RenderWindow& window) {
             break;
         case eGame:
             RenderManager::GetInstance().Update();
+            MarioGameManager::getInstance()->updateGUI();
+            MarioGameManager::getInstance()->getGUI()->draw(window);
+            //RenderManager::GetInstance().debugConsole.setString("Game");
             break;
     }
 }
