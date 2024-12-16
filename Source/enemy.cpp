@@ -39,7 +39,7 @@ Goomba::Goomba(int x, int y) : Enemy(x, y)
    initialize(x, y, rect, "goomba");
 }
 
-void Goomba::collideWithMario()
+void Goomba::collideWithMario(Mario &mario)
 {
    bc->OnColliderLanded = [this](BoxCollider *collider)
    {
@@ -118,7 +118,7 @@ Koopa::Koopa(int x, int y) : Enemy(x, y)
    initialize(x, y, rect, "koopa");
 }
 
-void Koopa::collideWithMario()
+void Koopa::collideWithMario(Mario &mario)
 {
    bc->OnColliderLanded = [this](BoxCollider *)
    {
@@ -208,7 +208,7 @@ HammerBro::HammerBro(int x, int y) : Enemy(x, y)
    initialize(x, y, rect, "hammerBro");
 }
 
-void HammerBro::collideWithMario() {}
+void HammerBro::collideWithMario(Mario &mario) {}
 
 // void HammerBro::kickFromTop(Mario *mario) {}
 // void HammerBro::kickFromBottom(Mario *mario) {}
@@ -259,7 +259,7 @@ Hammer::Hammer(int x, int y) : Enemy(x, y)
    sr->layer = 3;
 }
 
-void Hammer::collideWithMario() {}
+void Hammer::collideWithMario(Mario &mario) {}
 
 // void Hammer::kickFromTop(Mario *mario) {}
 // void Hammer::kickFromBottom(Mario *mario) {}
@@ -301,7 +301,7 @@ PiranhaPlant::PiranhaPlant(int x, int y) : Enemy(x, y)
    initialize(x, y, rect, "piranhaPlant");
 }
 
-void PiranhaPlant::collideWithMario()
+void PiranhaPlant::collideWithMario(Mario &mario)
 {
    // bc->OnColliderLanded = [this](BoxCollider *)
    // {

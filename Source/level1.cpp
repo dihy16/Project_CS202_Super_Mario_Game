@@ -38,7 +38,7 @@ void Level1::execute()
    for (auto &enemy : enemies)
    {
       enemy->move();
-      enemy->collideWithMario();
+      enemy->collideWithMario(mario);
       enemy->fadingAnimation();
    }
 
