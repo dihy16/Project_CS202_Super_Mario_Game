@@ -41,9 +41,8 @@ void PhysicsManager::FixedUpdate()
         }
         else if (rb->isUsingGravity)
         {
-            rb->AddForce(0, 9.8f);
+            rb->AddForce(0, 10.0f);
         }
-
         rb->GetOwner()->xPos += rb->xVel * FIXED_TIMESTEP;
         rb->GetOwner()->yPos += rb->yVel * FIXED_TIMESTEP;
     }
@@ -60,9 +59,8 @@ void PhysicsManager::ResolveCollision(BoxCollider *a, BoxCollider *b)
 
     float overlapX = CalculateOverlapX(a, b);
     float overlapY = CalculateOverlapY(a, b);
-    if (rbA->isStatic || rbB->isStatic)
+    if ((a->GetOwner()->name == "Block" || b->GetOwner()->name == "Block") || (rbA->isStatic && rbB->isStatic))
         return;
-
     if (overlapX < overlapY)
     {
 
