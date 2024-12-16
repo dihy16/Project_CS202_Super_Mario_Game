@@ -94,9 +94,6 @@ bool ColliderManager::isGrounded(BoxCollider *collider)
 {
     if (!collider->GetActive())
         return false;
-    int ownerId = collider->GetOwner()->getID();
-    if (originalPosition.find(ownerId) == originalPosition.end())
-        originalPosition[ownerId] = std::vector<float>();
 
     for (int id : collisionMap[collider->GetOwner()->getID()])
     {

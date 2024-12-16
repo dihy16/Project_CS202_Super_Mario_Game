@@ -14,6 +14,9 @@
 #define SUPERMARIO "resource/MarioSuper.png"
 #define BLOCK_WIDTH 64
 #define BLOCK_HEIGHT 64
+#define MAX_SPEED 1000
+#define MIN_SPEED -1000
+#define JUMP_FORCE -300
 
 class Item; // forward declaration
 class Mario : public Entity
