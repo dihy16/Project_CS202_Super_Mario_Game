@@ -1,7 +1,7 @@
 #include "./enemy.h"
 #include <iostream>
 Enemy::Enemy(int x, int y) {}
-void Enemy::move() {}
+void Enemy::animation() {}
 
 void Enemy::initialize(int x, int y, sf::IntRect &rect, std::string name)
 {
@@ -78,7 +78,25 @@ void Goomba::collideWithMario(Mario &mario)
    };
 }
 
-void Goomba::move()
+void Goomba::moveWithMario(Mario &mario)
+{
+   float marioPos = mario.marioRigidBody->GetOwner()->xPos;
+   float enemyPos = rb->GetOwner()->xPos;
+
+   if (abs(marioPos - enemyPos) <= 500 && movetimer.getElapsedTime().asSeconds() > 1)
+   {
+      if ((enemyPos - marioPos) > 0)
+         // rb->AddForce(-5, 0);
+         rb->xVel = -20;
+      else if ((marioPos - enemyPos) > 0)
+         // rb->AddForce(5, 0);
+         rb->xVel = 20;
+
+      movetimer.restart();
+   }
+}
+
+void Goomba::animation()
 {
    moving = true;
    if (isKilled)
@@ -96,11 +114,6 @@ void Goomba::move()
       }
 
       timer.restart();
-   }
-   if (movetimer.getElapsedTime().asSeconds() > 2)
-   {
-      // rb->AddForce(5.0f, 0);
-      movetimer.restart();
    }
 }
 
@@ -164,7 +177,9 @@ void Koopa::collideWithMario(Mario &mario)
    };
 }
 
-void Koopa::move()
+void Koopa::moveWithMario(Mario &mario) {}
+
+void Koopa::animation()
 {
    moving = true;
    if (isKilled)
@@ -210,11 +225,9 @@ HammerBro::HammerBro(int x, int y) : Enemy(x, y)
 
 void HammerBro::collideWithMario(Mario &mario) {}
 
-// void HammerBro::kickFromTop(Mario *mario) {}
-// void HammerBro::kickFromBottom(Mario *mario) {}
-// void HammerBro::touchSide(Mario *mario) {}
+void HammerBro::moveWithMario(Mario &mario) {}
 
-void HammerBro::move()
+void HammerBro::animation()
 {
    maxRect = 4;
    if (timer.getElapsedTime().asSeconds() > 0.2)
@@ -247,7 +260,7 @@ void HammerBro::fadingAnimation() {}
 void HammerBro::throwHammer()
 {
    hammer->getRigidBody()->AddForce(-1, -1);
-   hammer->move();
+   hammer->animation();
 }
 
 Hammer::Hammer(int x, int y) : Enemy(x, y)
@@ -261,11 +274,9 @@ Hammer::Hammer(int x, int y) : Enemy(x, y)
 
 void Hammer::collideWithMario(Mario &mario) {}
 
-// void Hammer::kickFromTop(Mario *mario) {}
-// void Hammer::kickFromBottom(Mario *mario) {}
-// void Hammer::touchSide(Mario *mario) {}
+void Hammer::moveWithMario(Mario &mario) {}
 
-void Hammer::move()
+void Hammer::animation()
 {
    maxRect = 4;
    if (timer.getElapsedTime().asSeconds() > 0.2)
@@ -337,7 +348,9 @@ void PiranhaPlant::collideWithMario(Mario &mario)
    };
 }
 
-void PiranhaPlant::move()
+void PiranhaPlant::moveWithMario(Mario &mario) {}
+
+void PiranhaPlant::animation()
 {
    moving = true;
    if (timer.getElapsedTime().asSeconds() > 0.2)

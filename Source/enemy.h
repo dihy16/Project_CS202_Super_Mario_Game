@@ -22,8 +22,9 @@ protected:
 
 public:
    Enemy(int x, int y);
-   virtual void move() = 0;
+   virtual void animation() = 0;
    virtual void collideWithMario(Mario &mario) = 0;
+   virtual void moveWithMario(Mario &mario) = 0;
    virtual void fadingAnimation() = 0;
    // Getter methods to access protected members
    RigidBody *getRigidBody() const { return rb; }
@@ -42,11 +43,12 @@ private:
 
 public:
    Goomba(int x, int y);
-   void move() override;
+   void animation() override;
    // void kickFromTop(Mario *mario) override;
    // void kickFromBottom(Mario *mario) override;
    // void touchSide(Mario *mario) override;
    void collideWithMario(Mario &mario) override;
+   void moveWithMario(Mario &mario) override;
    void fadingAnimation() override;
 };
 class Koopa : public Enemy
@@ -62,11 +64,10 @@ private:
 
 public:
    Koopa(int x, int y);
-   void move() override;
-   // void kickFromTop(Mario *mario) override;
-   // void kickFromBottom(Mario *mario) override;
-   // void touchSide(Mario *mario) override;
+   void animation() override;
    void collideWithMario(Mario &mario) override;
+   void moveWithMario(Mario &mario) override;
+
    void fadingAnimation() override;
 };
 
@@ -79,12 +80,10 @@ private:
 
 public:
    HammerBro(int x, int y);
-   void move() override;
+   void animation() override;
    void throwHammer();
-   // void kickFromTop(Mario *mario) override;
-   // void kickFromBottom(Mario *mario) override;
-   // void touchSide(Mario *mario) override;
    void collideWithMario(Mario &mario) override;
+   void moveWithMario(Mario &mario) override;
    void fadingAnimation() override;
 };
 
@@ -95,11 +94,9 @@ private:
 
 public:
    Hammer(int x, int y);
-   void move() override;
-   // void kickFromTop(Mario *mario) override;
-   // void kickFromBottom(Mario *mario) override;
-   // void touchSide(Mario *mario) override;
+   void animation() override;
    void collideWithMario(Mario &mario) override;
+   void moveWithMario(Mario &mario) override;
    void fadingAnimation() override;
 };
 
@@ -107,11 +104,10 @@ class PiranhaPlant : public Enemy
 {
 public:
    PiranhaPlant(int x, int y);
-   void move() override;
-   // void kickFromTop(Mario *mario) override;
-   // void kickFromBottom(Mario *mario) override;
-   // void touchSide(Mario *mario) override;
+   void animation() override;
    void collideWithMario(Mario &mario) override;
+   void moveWithMario(Mario &mario) override;
+
    void fadingAnimation() override;
 };
 

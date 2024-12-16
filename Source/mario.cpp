@@ -28,6 +28,11 @@ Mario::Mario(int x, int y)
    marioRigidBody->xVel = 0, marioRigidBody->yVel = 0;
 }
 
+bool Mario::getDirection()
+{
+   return direction == Right;
+}
+
 void Mario::moveRight()
 {
    goRight = true, goLeft = false;

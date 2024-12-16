@@ -49,6 +49,7 @@ public:
    Mario(int x, int y);
    void moveRight();
    void moveLeft();
+   bool getDirection();
    void setRectForWalking(sf::IntRect &rect);
    void handleMovement();
    // void handleCollision(std::vector<std::unique_ptr<Enemy>> &enemies);
