@@ -87,7 +87,7 @@ void Mario::setRectForWalking(sf::IntRect &rect)
       if (state == Small)
          maxLeft = 1024 - 99, picWidth = 33;
       else if (state == Super || state == Fire)
-         maxLeft = 1024 - 96, picWidth = 32;
+         maxLeft = 1024 - 94, picWidth = 30;
 
       if (rect.left <= maxLeft)
          rect.left = 1024 - picWidth;
@@ -124,11 +124,13 @@ void Mario::handleMovement()
       }
       if (firing)
       {
+         created = true;
          if (state == Super || state == Fire)
          {
-            rect.left = 224;
-            created = true;
-            RenderManager::GetInstance().debugText += "fire";
+            if (direction == Right)
+               rect.left = 224;
+            else
+               rect.left = 1024 - 248;
          }
          MarioGameManager::getInstance()->playSound(MarioGameManager::fireball);
       }
@@ -160,11 +162,16 @@ void Mario::stand()
          if (direction == Right)
             marioSprite->sprite.setTextureRect(sf::IntRect(0, 96, 28, 32));
          else if (direction == Left)
-            marioSprite->sprite.setTextureRect(sf::IntRect(992, 96, 28, 32));
+            marioSprite->sprite.setTextureRect(sf::IntRect(996, 96, 28, 32));
       }
 
       else if (state == Super || state == Fire)
-         marioSprite->sprite.setTextureRect(sf::IntRect(0, 36, 28, 60));
+      {
+         if (direction == Right)
+            marioSprite->sprite.setTextureRect(sf::IntRect(0, 36, 28, 60));
+         else if (direction == Left)
+            marioSprite->sprite.setTextureRect(sf::IntRect(1024 - 28, 36, 28, 60));
+      }
    }
 }
 
@@ -259,7 +266,11 @@ void Mario::update(std::vector<std::unique_ptr<Item>> &items)
    handlePowerUp();
    if (firing && created && timer3.getElapsedTime().asSeconds() > 1)
    {
-      items.push_back(ItemFactory::createItem("Fireball", mario->xPos + marioCollider->width + 1, mario->yPos));
+      bool bulletDirection = (direction == Right);
+      if (bulletDirection)
+         items.push_back(ItemFactory::createItem("Fireball", mario->xPos + marioCollider->width + 1, mario->yPos, bulletDirection));
+      else
+         items.push_back(ItemFactory::createItem("Fireball", mario->xPos - 20, mario->yPos, bulletDirection));
       created = false;
       timer3.restart();
    }

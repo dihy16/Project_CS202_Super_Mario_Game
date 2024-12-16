@@ -160,8 +160,9 @@ void Flower::fadeOut()
    }
 }
 
-Bullet::Bullet(int x, int y) : Item(x, y)
+Bullet::Bullet(int x, int y, bool direction) : Item(x, y)
 {
+   this->direction = direction; // true for right, false for left
    sf::IntRect rect(0, 0, 16, 16);
    initialize(x, y, rect, "fireball", 2);
    fadeTimer.restart();
@@ -178,24 +179,51 @@ void Bullet::animation()
    {
       if (state == Flying)
       {
-         itemRect.left = currentRect * sr->sprite.getTextureRect().width;
-         sr->sprite.setTextureRect(itemRect);
-         currentRect++;
-         if (currentRect == maxRect)
-            currentRect = 0;
+         if (!direction)
+         {
+            itemRect.left = 992 + currentRect * sr->sprite.getTextureRect().width;
+            sr->sprite.setTextureRect(itemRect);
+            currentRect++;
+            if (currentRect == maxRect)
+               currentRect = 0;
 
-         rb->AddForce(10, 0);
+            rb->AddForce(-10, 0);
+         }
+         else
+         {
+            itemRect.left = currentRect * sr->sprite.getTextureRect().width;
+            sr->sprite.setTextureRect(itemRect);
+            currentRect++;
+            if (currentRect == maxRect)
+               currentRect = 0;
+
+            rb->AddForce(10, 0);
+         }
       }
       else if (state == Splash)
       {
          maxRect = 3;
-         itemRect.left = 32 + currentRect * sr->sprite.getTextureRect().width;
-         sr->sprite.setTextureRect(itemRect);
-         currentRect++;
-         if (currentRect == maxRect)
+         if (!direction)
          {
-            currentRect = 0;
-            finished = true;
+            itemRect.left = 960 - currentRect * sr->sprite.getTextureRect().width;
+            sr->sprite.setTextureRect(itemRect);
+            currentRect++;
+            if (currentRect == maxRect)
+            {
+               currentRect = 0;
+               finished = true;
+            }
+         }
+         else
+         {
+            itemRect.left = 32 + currentRect * sr->sprite.getTextureRect().width;
+            sr->sprite.setTextureRect(itemRect);
+            currentRect++;
+            if (currentRect == maxRect)
+            {
+               currentRect = 0;
+               finished = true;
+            }
          }
       }
       timer.restart();
@@ -224,7 +252,7 @@ void Bullet::fadeOut()
    }
 }
 
-std::unique_ptr<Item> ItemFactory::createItem(const std::string &type, int x, int y)
+std::unique_ptr<Item> ItemFactory::createItem(const std::string &type, int x, int y, bool direction)
 {
    if (type == "Mushroom")
       return std::make_unique<Mushroom>(x, y);
@@ -233,12 +261,6 @@ std::unique_ptr<Item> ItemFactory::createItem(const std::string &type, int x, in
    else if (type == "Flower")
       return std::make_unique<Flower>(x, y);
    else if (type == "Fireball")
-      return std::make_unique<Bullet>(x, y);
+      return std::make_unique<Bullet>(x, y, direction);
    return nullptr;
 }
-
-// Star::Star(int x, int y) : Item(x, y)
-// {
-//     sf::IntRect rect(32, 213, 32, 30);
-//     initialize(x, y, rect, "star", 3);
-// }
