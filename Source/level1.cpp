@@ -3,12 +3,12 @@ Level1::Level1() : mario(100, 100), m("Data/maps.txt")
 {
    m.blockgenerator(100, 12 * BLOCK_HEIGHT);
    enemies.push_back(EnemyFactory::createEnemy("Goomba", 300, 0));
-   // enemies.push_back(EnemyFactory::createEnemy("Koopa", 400, 0));
+   enemies.push_back(EnemyFactory::createEnemy("Koopa", 400, 0));
    // enemies.push_back(EnemyFactory::createEnemy("PiranhaPlant", 500, 0));
    // enemies.push_back(EnemyFactory::createEnemy("HammerBro", 400, 700));
    items.push_back(ItemFactory::createItem("Mushroom", 200, 700));
    // items.push_back(ItemFactory::createItem("Coin", 500, 700));
-   items.push_back(ItemFactory::createItem("Flower", 350, 700));
+   // items.push_back(ItemFactory::createItem("Flower", 350, 700));
 };
 void Level1::start()
 {

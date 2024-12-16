@@ -34,6 +34,7 @@ protected:
 
 public:
    bool goRight, goLeft, goUp, firing, created;
+   bool eatMushroom, eatFlower;
    RigidBody *marioRigidBody = AddComponent<RigidBody>(mario);
 
    Mario(int x, int y);
@@ -42,6 +43,7 @@ public:
    void setRectForWalking(sf::IntRect &rect);
    void handleMovement();
    // void handleCollision(std::vector<std::unique_ptr<Enemy>> &enemies);
+   void animation(float duration, float interval, std::function<void()> onComplete, bool &finished);
    void handlePowerUp();
    void update(std::vector<std::unique_ptr<Item>> &items);
    void stand();
