@@ -32,6 +32,7 @@ void Mario::moveRight()
 {
    goRight = true, goLeft = false;
    marioRigidBody->isStatic = false;
+   // if (marioRigidBody->xVel < MAX_SPEED)
    marioRigidBody->AddForce(50.0f, 0.f);
    sf::IntRect rect = marioSprite->sprite.getTextureRect();
    if (marioRigidBody->xVel <= -1)
@@ -51,6 +52,7 @@ void Mario::moveRight()
 void Mario::moveLeft()
 {
    goLeft = true, goRight = false;
+   // if (marioRigidBody->xVel > MIN_SPEED)
    marioRigidBody->AddForce(-50.0f, 0.f);
    sf::IntRect rect = marioSprite->sprite.getTextureRect();
    if (marioRigidBody->xVel >= 1)
@@ -188,6 +190,7 @@ void Mario::handlePowerUp()
       else if (collider->body->GetOwner()->name == "coin")
       {
          // Handle coin collection logic
+         collider->body->SetActive(false);
       }
       else if (collider->body->GetOwner()->name == "flower")
       {
