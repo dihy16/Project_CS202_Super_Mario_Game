@@ -1,5 +1,6 @@
 #include "./Source/level1.h"
 #include "./Source/marioGameManager.h"
+#include "./Source/PhysicsEngine/Managers/Camera.h"
 
 int main()
 {
@@ -52,7 +53,16 @@ int main()
         //     m.moveleft(2);
         // else if (m.right)
         //     m.moveright(2);
+            if (event.type == sf::Event::KeyPressed) 
+            {
+                if (event.key.code == sf::Keyboard::Left) {
+                    Camera::GetInstance().posX -= Camera::CAMERA_MOVE_SPPED;
 
+                }
+                if (event.key.code == sf::Keyboard::Right) {
+                    Camera::GetInstance().posX += Camera::CAMERA_MOVE_SPPED;
+                }
+            }
         // fixed update
         while (accumulator >= PhysicsManager::FIXED_TIMESTEP)
         {
