@@ -2,8 +2,9 @@
 
 Mario::Mario(int x, int y)
 {
-   RenderManager::GetInstance().listEntity.push_back(mario);
+   // RenderManager::GetInstance().listEntity.push_back(mario);
    goRight = goLeft = goUp = created = false;
+   eatFlower = eatMushroom = false;
 
    mario->scaleX = 1.5;
    mario->scaleY = 1.5;
@@ -31,6 +32,7 @@ void Mario::moveRight()
 {
    goRight = true, goLeft = false;
    marioRigidBody->isStatic = false;
+   // if (marioRigidBody->xVel < MAX_SPEED)
    marioRigidBody->AddForce(50.0f, 0.f);
    sf::IntRect rect = marioSprite->sprite.getTextureRect();
    if (marioRigidBody->xVel <= -1)
@@ -50,6 +52,7 @@ void Mario::moveRight()
 void Mario::moveLeft()
 {
    goLeft = true, goRight = false;
+   // if (marioRigidBody->xVel > MIN_SPEED)
    marioRigidBody->AddForce(-50.0f, 0.f);
    sf::IntRect rect = marioSprite->sprite.getTextureRect();
    if (marioRigidBody->xVel >= 1)
@@ -137,16 +140,53 @@ void Mario::stand()
    }
 }
 
+void Mario::animation(float duration, float interval, std::function<void()> onComplete, bool &finished)
+{
+   static sf::Clock blinkTimer;
+   float elapsed = blinkTimer.getElapsedTime().asMilliseconds();
+   marioCollider->width = 48;
+   marioCollider->height = 86;
+
+   if (elapsed > duration)
+   {
+      marioSprite->sprite.setColor(sf::Color::White); // Reset to normal
+      blinkTimer.restart();                           // Reset timer for next use
+      finished = false;
+      if (onComplete)
+         onComplete(); // Call the completion callback
+      return;
+   }
+
+   // Toggle visibility
+   if (duration == 1000)
+   {
+      if (int(elapsed / interval) % 2 == 0)
+         marioSprite->sprite.setTextureRect(sf::IntRect(0, 96, 28, 32));
+      else
+         marioSprite->sprite.setTextureRect(sf::IntRect(0, 36, 31, 60));
+   }
+   else if (duration == 1200)
+   {
+      if (int(elapsed / interval) % 2 == 0)
+         marioSprite->texture.loadFromFile(MARIO);
+
+      else
+         marioSprite->texture.loadFromFile(SUPERMARIO);
+
+      marioSprite->texture.setSmooth(true);
+      marioSprite->sprite.setTexture(marioSprite->texture);
+      marioSprite->sprite.setTextureRect(sf::IntRect(0, 36, 31, 60));
+   }
+}
+
 void Mario::handlePowerUp()
 {
    marioCollider->OnCollisionEnter = [this](BoxCollider *collider)
    {
       if (collider->body->GetOwner()->name == "mushroom")
       {
-         state = Super;
-         marioSprite->sprite.setTextureRect(sf::IntRect(0, 36, 31, 60));
-         marioCollider->width = 48;
-         marioCollider->height = 86;
+         // Animate Mario and handle state transition
+         eatMushroom = true;
          collider->body->SetActive(false);
          MarioGameManager::getInstance()->playSound(MarioGameManager::powerup);
       }
@@ -159,19 +199,30 @@ void Mario::handlePowerUp()
       }
       else if (collider->body->GetOwner()->name == "flower")
       {
-         state = Fire;
-         // marioSprite->sprite.setTexture(superMarioTexture);
-         marioSprite->texture.loadFromFile(SUPERMARIO);
-         marioSprite->texture.setSmooth(true);
-         marioSprite->sprite.setTexture(marioSprite->texture);
-         marioSprite->sprite.setTextureRect(sf::IntRect(0, 36, 31, 60));
-
-         marioCollider->width = 48;
-         marioCollider->height = 86;
+         eatFlower = true;
          collider->body->SetActive(false);
          MarioGameManager::getInstance()->playSound(MarioGameManager::powerup);
       }
    };
+   if (eatMushroom)
+   {
+      animation(1000, 100, [this]()
+                {
+                   // Transition to Super Mario state
+                   state = Super;
+                   marioSprite->sprite.setTextureRect(sf::IntRect(0, 36, 31, 60)); }, eatMushroom);
+   }
+   if (eatFlower)
+   {
+      animation(1200, 100, [this]()
+                {
+                   // Transition to Fire Mario state
+                   state = Fire;
+                   marioSprite->texture.loadFromFile(SUPERMARIO);
+                   marioSprite->texture.setSmooth(true);
+                   marioSprite->sprite.setTexture(marioSprite->texture);
+                   marioSprite->sprite.setTextureRect(sf::IntRect(0, 36, 31, 60)); }, eatFlower);
+   }
 }
 
 void Mario::update(std::vector<std::unique_ptr<Item>> &items)

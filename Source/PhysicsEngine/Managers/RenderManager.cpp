@@ -1,5 +1,7 @@
 #include "RenderManager.h"
 #include <iostream>
+#include "Camera.h"
+
 
 RenderManager::RenderManager()
 {
@@ -28,8 +30,17 @@ void RenderManager::Update()
         {
             if (sr->layer == i && sr->GetActive())
             {
+                float newPosX = sr->GetOwner()->xPos - Camera::GetInstance().posX;
+                float newPosY = sr->GetOwner()->yPos - Camera::GetInstance().posY;
+                if (
+                    newPosX < -64
+                    || newPosX > window.getSize().x + 64
+                    ||  newPosY < -64
+                    || newPosY > window.getSize().y + 64
+                )
+                continue;
                 sr->sprite.setTexture(sr->texture);
-                sr->sprite.setPosition(sr->GetOwner()->xPos, sr->GetOwner()->yPos);
+                sr->sprite.setPosition(newPosX, newPosY);
                 sr->sprite.setRotation(sr->GetOwner()->rotation);
                 sr->sprite.setScale(sr->GetOwner()->scaleX, sr->GetOwner()->scaleY);
                 window.draw(sr->sprite);
@@ -42,8 +53,17 @@ void RenderManager::Update()
         {
             if (!collider->GetActive())
             continue;
+            float newPosX = collider->GetOwner()->xPos - Camera::GetInstance().posX;
+            float newPosY = collider->GetOwner()->yPos - Camera::GetInstance().posY;
+            if (
+                newPosX < -64
+                || newPosX > window.getSize().x + 64
+                ||  newPosY < -64
+                || newPosY > window.getSize().y + 64
+            )
+            continue;
             sf::RectangleShape rectangle(sf::Vector2(collider->width, collider->height));
-            rectangle.setPosition(collider->GetOwner()->xPos, collider->GetOwner()->yPos);
+            rectangle.setPosition(newPosX, newPosY);
             rectangle.setOutlineColor(sf::Color::Red);
             rectangle.setOutlineThickness(2.0f);
             rectangle.setFillColor(sf::Color::Transparent);

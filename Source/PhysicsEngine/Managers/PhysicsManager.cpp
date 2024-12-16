@@ -41,11 +41,22 @@ void PhysicsManager::FixedUpdate()
         }
         else if (rb->isUsingGravity)
         {
-            rb->AddForce(0, 9.8f);
+            rb->AddForce(0, 10.0f);
         }
-
         rb->GetOwner()->xPos += rb->xVel * FIXED_TIMESTEP;
+
         rb->GetOwner()->yPos += rb->yVel * FIXED_TIMESTEP;
+
+        if (rb->GetOwner()->name == "mario")
+        {
+            if (rb->GetOwner()->xPos < 0)
+                rb->GetOwner()->xPos = 0;
+            // else if (rb->GetOwner()->xPos > 16 * 64)
+            //     rb->GetOwner()->xPos = 16 * 64 - 48;
+
+            if (rb->GetOwner()->yPos < 0)
+                rb->GetOwner()->yPos = 0;
+        }
     }
 }
 
@@ -60,9 +71,8 @@ void PhysicsManager::ResolveCollision(BoxCollider *a, BoxCollider *b)
 
     float overlapX = CalculateOverlapX(a, b);
     float overlapY = CalculateOverlapY(a, b);
-    if (rbA->isStatic || rbB->isStatic)
+    if ((a->GetOwner()->name == "Block" || b->GetOwner()->name == "Block") || (rbA->isStatic && rbB->isStatic))
         return;
-
     if (overlapX < overlapY)
     {
 
@@ -97,7 +107,6 @@ void PhysicsManager::ResolveCollision(BoxCollider *a, BoxCollider *b)
         // Adjust velocities based on the resolution
         if (a->body && b->body)
         {
-
             a->body->xVel = -a->body->xVel * (1.0f / 3.0f);
             b->body->xVel = -b->body->xVel * (1.0f / 3.0f);
         }

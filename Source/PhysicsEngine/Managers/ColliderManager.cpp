@@ -94,6 +94,7 @@ bool ColliderManager::isGrounded(BoxCollider *collider)
 {
     if (!collider->GetActive())
         return false;
+
     for (int id : collisionMap[collider->GetOwner()->getID()])
     {
         BoxCollider *other = nullptr;
@@ -111,11 +112,8 @@ bool ColliderManager::isGrounded(BoxCollider *collider)
             float maxB = minB + other->height;
             if (minB < maxA && maxA < maxB)
             {
-                // if (collider->GetOwner()->name == "Block" && other->GetOwner()->name == "mario" && maxA < 768)
-                // {
-                //     RenderManager::GetInstance().debugText += " checked ";
-                //     return false;
-                // }
+                if (collider->GetOwner()->name == "MysteryBox" && other->GetOwner()->name == "mario")
+                    return true;
                 collider->GetOwner()->yPos = other->GetOwner()->yPos - collider->height + 1;
                 return true;
             }

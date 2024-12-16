@@ -271,10 +271,12 @@ void Map::createblock(int x, int y)
     case 1: // wall
         xtex = 1;
         ytex = 0;
+        block->name = "Block";
         break;
     case 2: // mystery box
         xtex = 2;
         ytex = 1;
+        block->name = "MysteryBox";
         break;
     case 3: // vertical up pipe
         if (projectionmap[y][x - 1] != 3)

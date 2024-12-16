@@ -119,16 +119,12 @@ void Coin::animation()
 
 void Coin::fadeOut()
 {
-   bc->OnCollisionEnter = [this](BoxCollider *collider)
+   if (!rb->GetActive())
    {
-      if (collider->body->GetOwner()->name == "mario")
-      {
-         state = Sparkling;
-         sr->sprite.setTextureRect(sf::IntRect(0, 116, 40, 32));
-         bc->SetActive(false);
-         rb->SetActive(false);
-      }
-   };
+      bc->SetActive(false);
+      state = Sparkling;
+      sr->sprite.setTextureRect(sf::IntRect(0, 116, 40, 32));
+   }
    if (finished)
       sr->SetActive(false);
 }

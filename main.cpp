@@ -1,5 +1,6 @@
 #include "./Source/level1.h"
 #include "./Source/marioGameManager.h"
+#include "./Source/PhysicsEngine/Managers/Camera.h"
 #include <windows.h>
 #include <stdio.h>
 #include <tchar.h>
@@ -65,15 +66,26 @@ int main()
         //     m.moveleft(-mario.marioRigidBody->xVel);
         // else if (mario.goRight)
         //     m.moveright(mario.marioRigidBody->xVel);
-        //left = sf::Keyboard::isKeyPressed(sf::Keyboard::A);
-        //right = sf::Keyboard::isKeyPressed(sf::Keyboard::D);
-        //if (left && right)
-        //    ;
-        //else if (left)
-        //    m.moveleft(2);
-        //else if (right)
-        //    m.moveright(2);
 
+        // if (m.left && m.right)
+        //     ;
+        // else if (m.left)
+        //     m.moveleft(2);
+        // else if (m.right)
+        //     m.moveright(2);
+        if (event.type == sf::Event::KeyPressed)
+        {
+            if (event.key.code == sf::Keyboard::Left)
+            {
+                Camera::GetInstance().posX -= Camera::CAMERA_MOVE_SPPED;
+                RenderManager::GetInstance().debugText = std::to_string(Camera::GetInstance().posX);
+            }
+            if (event.key.code == sf::Keyboard::Right)
+            {
+                Camera::GetInstance().posX += Camera::CAMERA_MOVE_SPPED;
+                RenderManager::GetInstance().debugText = std::to_string(Camera::GetInstance().posX);
+            }
+        }
         // fixed update
         while (accumulator >= PhysicsManager::FIXED_TIMESTEP)
         {

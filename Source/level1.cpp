@@ -4,7 +4,7 @@ using namespace std;
 Level1::Level1() : mario(100, 100), m("Data/Level1")
 {
    m.blockgenerator(100, 12 * BLOCK_HEIGHT);
-   enemies.push_back(EnemyFactory::createEnemy("Goomba", 300, 0));
+   // enemies.push_back(EnemyFactory::createEnemy("Goomba", 300, 0));
    // enemies.push_back(EnemyFactory::createEnemy("Koopa", 400, 0));
    // enemies.push_back(EnemyFactory::createEnemy("PiranhaPlant", 500, 0));
    // enemies.push_back(EnemyFactory::createEnemy("HammerBro", 400, 700));
