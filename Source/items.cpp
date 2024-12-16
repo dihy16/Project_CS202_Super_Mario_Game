@@ -92,7 +92,7 @@ void Coin::animation()
    {
       if (state == Sparkling)
       {
-         maxRect = 5;
+         maxRect = 6;
          itemRect.left = currentRect * sr->sprite.getTextureRect().width;
          itemRect.top = 116;
          sr->sprite.setTextureRect(itemRect);

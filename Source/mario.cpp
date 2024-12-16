@@ -31,6 +31,7 @@ Mario::Mario(int x, int y)
 void Mario::moveRight()
 {
    goRight = true, goLeft = false;
+   direction = Right;
    marioRigidBody->isStatic = false;
    // if (marioRigidBody->xVel < MAX_SPEED)
    marioRigidBody->AddForce(50.0f, 0.f);
@@ -52,6 +53,7 @@ void Mario::moveRight()
 void Mario::moveLeft()
 {
    goLeft = true, goRight = false;
+   direction = Left;
    // if (marioRigidBody->xVel > MIN_SPEED)
    marioRigidBody->AddForce(-50.0f, 0.f);
    sf::IntRect rect = marioSprite->sprite.getTextureRect();
@@ -66,7 +68,7 @@ void Mario::moveLeft()
       setRectForWalking(rect);
    if (!marioRigidBody->isJumping)
       marioSprite->sprite.setTextureRect(rect);
-   mario->scaleX = -1.5;
+   // mario->scaleX = -1.5;
    // marioCollider->width = -48;
 }
 
@@ -125,7 +127,6 @@ void Mario::handleMovement()
       }
       timer1.restart();
    }
-   // marioSprite->sprite.setTextureRect(rect);
    stand();
 }
 
