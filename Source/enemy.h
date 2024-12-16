@@ -102,6 +102,15 @@ public:
 
 class PiranhaPlant : public Enemy
 {
+private:
+   enum State
+   {
+      MovingUp,
+      WaitingAtTop,
+      MovingDown
+   } state = MovingUp;
+   sf::Clock waitTimer;
+
 public:
    PiranhaPlant(int x, int y);
    void animation() override;

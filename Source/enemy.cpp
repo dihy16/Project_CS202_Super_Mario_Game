@@ -177,7 +177,24 @@ void Koopa::collideWithMario(Mario &mario)
    };
 }
 
-void Koopa::moveWithMario(Mario &mario) {}
+void Koopa::moveWithMario(Mario &mario)
+{
+   float marioPos = mario.marioRigidBody->GetOwner()->xPos;
+   float enemyPos = rb->GetOwner()->xPos;
+
+   if (abs(marioPos - enemyPos) <= 500 && movetimer.getElapsedTime().asSeconds() > 1)
+   {
+      if ((enemyPos - marioPos) > 0)
+         // rb->AddForce(-5, 0);
+         rb->xVel = -40;
+      else if ((marioPos - enemyPos) > 0)
+         // rb->AddForce(5, 0);
+         rb->xVel = 40;
+      rb->isJumping = true;
+
+      movetimer.restart();
+   }
+}
 
 void Koopa::animation()
 {
@@ -201,11 +218,10 @@ void Koopa::animation()
 
       timer.restart();
    }
-   if (movetimer.getElapsedTime().asSeconds() > 2)
-   {
-      rb->isJumping = true;
-      movetimer.restart();
-   }
+   // if (movetimer.getElapsedTime().asSeconds() > 2)
+   // {
+   //    movetimer.restart();
+   // }
 }
 
 void Koopa::fadingAnimation()
@@ -310,6 +326,7 @@ PiranhaPlant::PiranhaPlant(int x, int y) : Enemy(x, y)
 {
    sf::IntRect rect(0, 80, 32, 46);
    initialize(x, y, rect, "piranhaPlant");
+   rb->isUsingGravity = false;
 }
 
 void PiranhaPlant::collideWithMario(Mario &mario)
@@ -348,7 +365,45 @@ void PiranhaPlant::collideWithMario(Mario &mario)
    };
 }
 
-void PiranhaPlant::moveWithMario(Mario &mario) {}
+void PiranhaPlant::moveWithMario(Mario &mario)
+{
+   float maxPos = 12 * BLOCK_HEIGHT - 46; // Bottom position
+   float minPos = 11 * BLOCK_HEIGHT;      // Top position
+
+   if (movetimer.getElapsedTime().asSeconds() > 1)
+   {
+      switch (state)
+      {
+      case MovingUp:
+         if (rb->GetOwner()->yPos <= minPos)
+         {
+            rb->GetOwner()->yPos = minPos; // Ensure it stays at minPos
+            state = WaitingAtTop;
+            waitTimer.restart();
+         }
+         else
+            rb->AddForce(0, -10);
+         break;
+
+      case WaitingAtTop:
+         if (waitTimer.getElapsedTime().asSeconds() > 5)
+            state = MovingDown;
+         break;
+
+      case MovingDown:
+         if (rb->GetOwner()->yPos >= maxPos)
+         {
+            rb->GetOwner()->yPos = maxPos; // Ensure it stays at maxPos
+            state = MovingUp;
+         }
+         else
+            rb->AddForce(0, 10);
+         break;
+      }
+
+      movetimer.restart();
+   }
+}
 
 void PiranhaPlant::animation()
 {
@@ -366,11 +421,6 @@ void PiranhaPlant::animation()
       }
 
       timer.restart();
-   }
-   if (movetimer.getElapsedTime().asSeconds() > 0.2)
-   {
-      rb->AddForce(rb->xVel, 0);
-      movetimer.restart();
    }
 }
 
