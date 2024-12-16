@@ -7,6 +7,15 @@ MarioGameManager::MarioGameManager()
 {
     menuManager = new MenuManager();
     GUIManager = new GUI();
+    initScoreMap();
+}
+
+void MarioGameManager::initScoreMap()
+{
+    scoreMap[Coin] = 200;
+    scoreMap[Mushroom] = 1000;
+    scoreMap[Flower] = 1000;
+    scoreMap[Star] = 1000;
 }
 
 MarioGameManager *MarioGameManager::getInstance()
@@ -39,6 +48,7 @@ void MarioGameManager::updateGUI()
     getGUI()->setCoin(marioCoins);
     getGUI()->setLives(marioLives);
     getGUI()->setTimeRemaining(timeRemaining / 1000);
+    getGUI()->setScore(score);
 }
 
 void MarioGameManager::run()
@@ -55,8 +65,9 @@ void MarioGameManager::handleEvents(sf::RenderWindow &w, sf::Event &ev)
     menuManager->handleEvents(w, ev);
 }
 
-void MarioGameManager::addScore()
+void MarioGameManager::addScore(ScoreID scoreId)
 {
+    score += scoreMap[scoreId];
 }
 
 // Map *MarioGameManager::getMap()
@@ -72,7 +83,17 @@ void MarioGameManager::addScore()
 void MarioGameManager::addCoin()
 {
     ++marioCoins;
-    getGUI()->setCoin(marioCoins);
+    if (marioCoins >= 40) {
+        marioCoins = 0;
+        addLive();
+    }
+    // addScore(ScoreID::Coin);
+    // getGUI()->setCoin(marioCoins);
+}
+
+void MarioGameManager::addLive()
+{
+    ++marioLives;
 }
 
 void MarioGameManager::setState(GameState gameState)

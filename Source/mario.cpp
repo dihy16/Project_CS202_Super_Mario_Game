@@ -189,19 +189,28 @@ void Mario::handlePowerUp()
          eatMushroom = true;
          collider->body->SetActive(false);
          MarioGameManager::getInstance()->playSound(MarioGameManager::powerup);
+         MarioGameManager::getInstance()->addScore(MarioGameManager::Mushroom);
       }
       else if (collider->body->GetOwner()->name == "coin")
       {
           MarioGameManager::getInstance()->addCoin();
           MarioGameManager::getInstance()->playSound(MarioGameManager::add_coin);
           collider->body->SetActive(false);
-         // increase coin state and score and play sound
+         MarioGameManager::getInstance()->addScore(MarioGameManager::Coin);
       }
       else if (collider->body->GetOwner()->name == "flower")
       {
          eatFlower = true;
          collider->body->SetActive(false);
          MarioGameManager::getInstance()->playSound(MarioGameManager::powerup);
+         MarioGameManager::getInstance()->addScore(MarioGameManager::Flower);
+      }
+      else if (collider->body->GetOwner()->name == "star")
+      {
+         eatStar = true;
+         collider->body->SetActive(false);
+         MarioGameManager::getInstance()->playSound(MarioGameManager::powerup);
+         MarioGameManager::getInstance()->addScore(MarioGameManager::Star);
       }
    };
    if (eatMushroom)

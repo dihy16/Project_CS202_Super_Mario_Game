@@ -18,7 +18,15 @@ private:
     int timeRemaining = 300000;
     std::string currentLevel;
     MarioGameManager();
+    void initScoreMap();
 public:
+    enum ScoreID {
+        Coin,
+        Mushroom,
+        Flower,
+        Star
+    };
+    std::map<ScoreID, int> scoreMap;
 	static enum class GameState {menu, pause, playing, levelOver, gameOver} gameState;
     static MarioGameManager* getInstance();
     ~MarioGameManager();
@@ -28,8 +36,9 @@ public:
     void run();
     void draw(sf::RenderWindow& w);
     void handleEvents(sf::RenderWindow& w, sf::Event& ev);
-    void addScore();
+	void addScore(ScoreID scoreId);
     void addCoin();
+    void addLive();
     void setState(GameState gameState);
     void updateGameState(int delta_time); // delta time in milliseconds
 };
