@@ -11,7 +11,7 @@ private:
    Map m;
    std::vector<std::unique_ptr<Enemy>> enemies;
    std::vector<std::unique_ptr<Item>> items;
-
+   sf::Image entitylayout;
 public:
    bool display, finished;
    Level1();

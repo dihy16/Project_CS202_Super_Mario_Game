@@ -4,6 +4,22 @@ using namespace std;
 Level1::Level1() : mario(100, 100), m("Data/Level1")
 {
    m.blockgenerator(100, 12 * BLOCK_HEIGHT);
+   sf::Color c;
+   entitylayout.loadFromFile("Data/Level1/entity.png");
+   for (int i = 0; i < entitylayout.getSize().y; i++)
+    {
+        for (int j = 0; j < entitylayout.getSize().x; j++)
+        {
+            c = sf::Color(entitylayout.getPixel(j, i));
+            if (c == sf::Color(95, 205, 228)); //nothing
+            else if (c == sf::Color(143, 86, 59))
+                enemies.push_back(EnemyFactory::createEnemy("Goomba", j * BLOCK_WIDTH, i * BLOCK_HEIGHT));
+            else if (c == sf::Color(153, 229, 80))
+                enemies.push_back(EnemyFactory::createEnemy("Koopa", j * BLOCK_WIDTH, i * BLOCK_HEIGHT));
+            else if (c == sf::Color(106, 190, 48))
+                enemies.push_back(EnemyFactory::createEnemy("HammerBro", j * BLOCK_WIDTH, i * BLOCK_HEIGHT));
+        }
+    }
    // enemies.push_back(EnemyFactory::createEnemy("Goomba", 300, 0));
    // enemies.push_back(EnemyFactory::createEnemy("Koopa", 400, 0));
    // enemies.push_back(EnemyFactory::createEnemy("PiranhaPlant", 500, 0));
