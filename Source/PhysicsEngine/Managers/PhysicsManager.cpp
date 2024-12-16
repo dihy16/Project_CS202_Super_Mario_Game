@@ -107,7 +107,6 @@ void PhysicsManager::ResolveCollision(BoxCollider *a, BoxCollider *b)
         // Adjust velocities based on the resolution
         if (a->body && b->body)
         {
-
             a->body->xVel = -a->body->xVel * (1.0f / 3.0f);
             b->body->xVel = -b->body->xVel * (1.0f / 3.0f);
         }
