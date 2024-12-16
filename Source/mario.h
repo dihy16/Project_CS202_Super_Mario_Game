@@ -11,8 +11,8 @@
 #include <SFML/System.hpp>
 #include "marioGameManager.h"
 
-#define MARIO "resource/Mario2.png"
-#define SUPERMARIO "resource/MarioSuper.png"
+#define MARIO "resource/Mario1.png"
+#define SUPERMARIO "resource/MarioSuper2.png"
 #define BLOCK_WIDTH 64
 #define BLOCK_HEIGHT 64
 #define MAX_SPEED 1000
