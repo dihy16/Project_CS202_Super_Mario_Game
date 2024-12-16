@@ -28,15 +28,13 @@ void MenuManager::handleEvents(sf::RenderWindow &window, sf::Event &ev)
     switch(currentGameState) {
         case eMainMenu:
             mainMenu->EventHandling(window, ev);
-            RenderManager::GetInstance().debugConsole.setString("MainMenu");
             break;
         case eLevelMenu:
             levelMenu->EventHandling(window, ev);
-            RenderManager::GetInstance().debugConsole.setString("levelMenu");
             break;
         case eGame:
             MarioGameManager::getInstance()->setState(MarioGameManager::GameState::playing);
-            RenderManager::GetInstance().debugConsole.setString("Game");
+            MarioGameManager::getInstance()->playMusic(MarioGameManager::overworld);
             break;
     }
 }
