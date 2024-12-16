@@ -205,13 +205,6 @@ void Mario::handlePowerUp()
          MarioGameManager::getInstance()->playSound(MarioGameManager::powerup);
          MarioGameManager::getInstance()->addScore(MarioGameManager::Flower);
       }
-      else if (collider->body->GetOwner()->name == "star")
-      {
-         eatStar = true;
-         collider->body->SetActive(false);
-         MarioGameManager::getInstance()->playSound(MarioGameManager::powerup);
-         MarioGameManager::getInstance()->addScore(MarioGameManager::Star);
-      }
    };
    if (eatMushroom)
    {
