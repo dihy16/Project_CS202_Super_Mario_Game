@@ -2,7 +2,16 @@
 
 // #include "mario.h"
 #include <fstream>
+#include <memory>
 #include "enemy.h"
+
+class Block: public Entity
+{
+public:
+    sf::IntRect spritearea;
+    Block(): Entity(){}
+    void initiate(int, int, int);
+};
 
 class Map
 {
@@ -12,8 +21,9 @@ private:
     vector<vector<int>> entitymap;
     int xstart, ystart, offset;
     sf::Texture blocktexture;
-    std::vector<Entity *> availableblocks;
-
+    sf::Sprite sprite;
+    std::vector<Block*> availableblocks;
+    sf::Image layout;
 public:
     bool left = false, right = false;
     Map();
@@ -21,6 +31,7 @@ public:
     void readmap();
     void readmap(std::string file);
     void draw(sf::RenderWindow &w, int MarioX, int MarioY);
+    void draw(sf::RenderWindow& w);
     vector<vector<int>> getmap(int option);
     int getblockstate(int x, int y)
     {
@@ -35,14 +46,15 @@ public:
     void moveright(float step);
 };
 
-// class block: public Entity
-// {
-// private:
-//     SpriteRenderer* blockSprite;
-//     BoxCollider* hitbox;
-//     RigidBody* hitboxbody;
-//     sf::Texture texture;
-// public:
-//     block(float x, float y): xPos(x), yPos(y){}
-//     void initiate(int, int, int);
-// };
+
+
+class blockshared
+{
+    public:
+        sf::Sprite sprite;
+        sf::Texture texture;
+        blockshared()
+        {
+            
+        }
+};

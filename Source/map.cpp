@@ -67,46 +67,37 @@ void Map::readmap()
 // corresponding numbers for certain objects will be shown below
 void Map::readmap(std::string file)
 {
+    sf::Color c;
+    int target;
     projectionmap.clear();
     backgroundmap.clear();
-    int height, width;
-    int coordinates;
-    std::ifstream mapfile(file);
-    mapfile >> height >> width;
-    int count = width;
-    for (int i = 0; i < height * width; i++)
+    layout.loadFromFile(file + "/layout.png");
+    // std::ifstream mapfile(file);
+    // mapfile >> height >> width;
+    for (int i = 0; i < layout.getSize().y; i++)
     {
-        mapfile >> coordinates;
-        if (count == width)
+        projectionmap.push_back(vector<int>({}));
+        for (int j = 0; j < layout.getSize().x; j++)
         {
-            count = 0;
-            projectionmap.push_back(vector<int>({}));
+            c = sf::Color(layout.getPixel(j, i));
+            if (c == sf::Color(95, 205, 228))
+                target = 0; // no block
+            else if (c == sf::Color(143, 86, 59))
+                target = 1; // wall
+            else if (c == sf::Color(255, 242, 0))
+                target = 2; // mystery box
+            else if (c == sf::Color(98, 232, 112))
+                target = 3; // vertical up pipe
+            else if (c == sf::Color(38, 223, 57))
+                target = 4; // horizontal left-ward pipe
+            else if (c == sf::Color(153, 229, 80))
+                target = 5; // flag pole
+            else if (c == sf::Color(223, 113, 38))
+                target = 6; // castle
+            else
+                target = 0;
+            projectionmap[i].push_back(target);
         }
-        projectionmap[projectionmap.size() - 1].push_back(coordinates);
-        count++;
-    }
-    count = width;
-    for (int i = 0; i < height * width; i++)
-    {
-        mapfile >> coordinates;
-        if (count == width)
-        {
-            count = 0;
-            backgroundmap.push_back(vector<int>({}));
-        }
-        backgroundmap[backgroundmap.size() - 1].push_back(coordinates);
-        count++;
-    }
-    for (int i = 0; i < height * width; i++)
-    {
-        mapfile >> coordinates;
-        if (count == width)
-        {
-            count = 0;
-            entitymap.push_back(vector<int>({}));
-        }
-        entitymap[entitymap.size() - 1].push_back(coordinates);
-        count++;
     }
 }
 
@@ -266,7 +257,7 @@ void Map::createblock(int x, int y)
 {
     if (projectionmap[y][x] == 0)
         return;
-    Entity *block = new Entity;
+    Block *block = new Block;
     RenderManager::GetInstance().listEntity.push_back(block);
     block->scaleX = 1.0;
     block->scaleY = 1.0;
@@ -350,6 +341,23 @@ void Map::createblock(int x, int y)
         else
             xtex = 5;
         break;
+    case 5: // flag pole
+        xtex = 7;
+        if (y == 0)
+        {
+            ytex = 8;
+            break;
+        }
+        else if (projectionmap[y - 1][x] != 5)
+        {
+            ytex = 8;
+            break;
+        }
+        else
+        {
+            ytex = 9;
+            break;
+        }
     case 7: // mushroom tile, not mushroom buff
         ytex = 0;
         if (projectionmap[y][x - 1] != 7)
@@ -360,10 +368,15 @@ void Map::createblock(int x, int y)
             xtex = 5;
         break;
     default:
-
+        xtex = 1;
+        ytex = 7;
         break;
     }
-    sr->sprite.setTextureRect(sf::IntRect(xtex * BLOCK_WIDTH, ytex * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT));
+    // sr->sprite.setTextureRect(sf::IntRect(xtex * BLOCK_WIDTH, ytex * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT));
+    block->spritearea = sf::IntRect(xtex * BLOCK_WIDTH, ytex * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT);
+    availableblocks.push_back(block);
+    if (projectionmap[y][x] == 5 || projectionmap[y][x] == 6)
+        return;
     BoxCollider *bc = AddComponent<BoxCollider>(block);
     bc->width = BLOCK_WIDTH;
     bc->height = BLOCK_HEIGHT;
@@ -374,7 +387,17 @@ void Map::createblock(int x, int y)
     rb->isStatic = true;
     rb->xVel = 0;
     rb->yVel = 0;
-    availableblocks.push_back(block);
+}
+
+void Map::draw(sf::RenderWindow &w)
+{
+    for (Block *i : availableblocks)
+    {
+        sprite.setTexture(blocktexture);
+        sprite.setTextureRect(i->spritearea);
+        sprite.setPosition(i->xPos, i->yPos);
+        w.draw(sprite);
+    }
 }
 
 void Map::moveleft(float step)
@@ -406,7 +429,7 @@ void Map::moveleft(float step)
 
 void Map::moveright(float step)
 {
-    if (xstart == 56 && offset == 0)
+    if (xstart == projectionmap[0].size() - 24 && offset == 0)
         return;
     for (Entity *e : availableblocks)
     {
@@ -417,7 +440,7 @@ void Map::moveright(float step)
     {
         xstart++;
         offset -= BLOCK_WIDTH;
-        if (xstart == 56)
+        if (xstart == projectionmap[0].size() - 24)
         {
             for (Entity *e : availableblocks)
             {

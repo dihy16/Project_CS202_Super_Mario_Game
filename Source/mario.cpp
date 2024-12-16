@@ -97,6 +97,7 @@ void Mario::handleMovement()
             rect.left = 162.5;
          else if (state == Super || state == Fire)
             rect.left = 161;
+         MarioGameManager::getInstance()->playSound(MarioGameManager::jump);
       }
       if (firing)
       {
@@ -106,6 +107,7 @@ void Mario::handleMovement()
             created = true;
             RenderManager::GetInstance().debugText += "fire";
          }
+         MarioGameManager::getInstance()->playSound(MarioGameManager::fireball);
       }
       marioSprite->sprite.setTextureRect(rect);
 
@@ -186,16 +188,20 @@ void Mario::handlePowerUp()
          // Animate Mario and handle state transition
          eatMushroom = true;
          collider->body->SetActive(false);
+         MarioGameManager::getInstance()->playSound(MarioGameManager::powerup);
       }
       else if (collider->body->GetOwner()->name == "coin")
       {
-         // Handle coin collection logic
+         MarioGameManager::getInstance()->addCoin();
+         MarioGameManager::getInstance()->playSound(MarioGameManager::add_coin);
          collider->body->SetActive(false);
+         // increase coin state and score and play sound
       }
       else if (collider->body->GetOwner()->name == "flower")
       {
          eatFlower = true;
          collider->body->SetActive(false);
+         MarioGameManager::getInstance()->playSound(MarioGameManager::powerup);
       }
    };
    if (eatMushroom)

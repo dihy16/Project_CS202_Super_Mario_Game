@@ -19,6 +19,7 @@ public:
    void start();
    void end();
    void execute();
+   void drawLevel();
 };
 
 #endif
