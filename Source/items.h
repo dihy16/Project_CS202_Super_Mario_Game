@@ -75,9 +75,10 @@ private:
    } state = Flying;
    bool finished = false;
    bool thrown = false;
+   bool direction;
 
 public:
-   Bullet(int x, int y);
+   Bullet(int x, int y, bool direction);
    void animation() override;
    void fadeOut() override;
 };
@@ -85,7 +86,7 @@ public:
 class ItemFactory
 {
 public:
-   static std::unique_ptr<Item> createItem(const std::string &type, int x, int y);
+   static std::unique_ptr<Item> createItem(const std::string &type, int x, int y, bool direction = false);
 };
 
 #endif

@@ -11,8 +11,8 @@
 #include <SFML/System.hpp>
 #include "marioGameManager.h"
 
-#define MARIO "resource/Mario.png"
-#define SUPERMARIO "resource/MarioSuper.png"
+#define MARIO "resource/Mario1.png"
+#define SUPERMARIO "resource/MarioSuper2.png"
 #define BLOCK_WIDTH 64
 #define BLOCK_HEIGHT 64
 #define MAX_SPEED 1000
@@ -35,6 +35,11 @@ protected:
       Super,
       Fire
    } state = Small;
+   enum Direction
+   {
+      Right,
+      Left
+   } direction = Right;
 
 public:
    bool goRight, goLeft, goUp, firing, created;

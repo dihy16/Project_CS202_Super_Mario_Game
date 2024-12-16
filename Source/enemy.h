@@ -5,10 +5,12 @@
 
 #define ENEMY "resource/Enemies.png"
 
+class Mario; // forward declaration
 class Enemy : public Entity
 {
 protected:
    bool display, moving, isKilled, onGround, fading;
+   bool direction = false;
    sf::Clock timer, movetimer;
    sf::IntRect enemyRect;
    Entity *enemy = new Entity;
@@ -21,10 +23,7 @@ protected:
 public:
    Enemy(int x, int y);
    virtual void move() = 0;
-   // virtual void kickFromTop(Mario *mario) = 0;
-   // virtual void kickFromBottom(Mario *mario) = 0;
-   // virtual void touchSide(Mario *mario) = 0;
-   virtual void collideWithMario() = 0;
+   virtual void collideWithMario(Mario &mario) = 0;
    virtual void fadingAnimation() = 0;
    // Getter methods to access protected members
    RigidBody *getRigidBody() const { return rb; }
@@ -47,7 +46,7 @@ public:
    // void kickFromTop(Mario *mario) override;
    // void kickFromBottom(Mario *mario) override;
    // void touchSide(Mario *mario) override;
-   void collideWithMario() override;
+   void collideWithMario(Mario &mario) override;
    void fadingAnimation() override;
 };
 class Koopa : public Enemy
@@ -67,7 +66,7 @@ public:
    // void kickFromTop(Mario *mario) override;
    // void kickFromBottom(Mario *mario) override;
    // void touchSide(Mario *mario) override;
-   void collideWithMario() override;
+   void collideWithMario(Mario &mario) override;
    void fadingAnimation() override;
 };
 
@@ -85,7 +84,7 @@ public:
    // void kickFromTop(Mario *mario) override;
    // void kickFromBottom(Mario *mario) override;
    // void touchSide(Mario *mario) override;
-   void collideWithMario() override;
+   void collideWithMario(Mario &mario) override;
    void fadingAnimation() override;
 };
 
@@ -100,7 +99,7 @@ public:
    // void kickFromTop(Mario *mario) override;
    // void kickFromBottom(Mario *mario) override;
    // void touchSide(Mario *mario) override;
-   void collideWithMario() override;
+   void collideWithMario(Mario &mario) override;
    void fadingAnimation() override;
 };
 
@@ -112,7 +111,7 @@ public:
    // void kickFromTop(Mario *mario) override;
    // void kickFromBottom(Mario *mario) override;
    // void touchSide(Mario *mario) override;
-   void collideWithMario() override;
+   void collideWithMario(Mario &mario) override;
    void fadingAnimation() override;
 };
 

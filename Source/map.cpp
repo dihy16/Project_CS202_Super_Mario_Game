@@ -80,14 +80,22 @@ void Map::readmap(std::string file)
         for (int j = 0; j < layout.getSize().x; j++)
         {
             c = sf::Color(layout.getPixel(j, i));
-            if (c == sf::Color(95, 205, 228)) target = 0; //no block
-            else if (c == sf::Color(143, 86, 59)) target = 1; // wall
-            else if (c == sf::Color(255, 242, 0)) target = 2; // mystery box
-            else if (c == sf::Color(98, 232, 112)) target = 3; //vertical up pipe
-            else if (c == sf::Color(38, 223, 57)) target = 4; //horizontal left-ward pipe
-            else if (c == sf::Color(153, 229, 80)) target = 5; //flag pole
-            else if (c == sf::Color(223, 113, 38)) target = 6; //castle
-            else target = 0;
+            if (c == sf::Color(95, 205, 228))
+                target = 0; // no block
+            else if (c == sf::Color(143, 86, 59))
+                target = 1; // wall
+            else if (c == sf::Color(255, 242, 0))
+                target = 2; // mystery box
+            else if (c == sf::Color(98, 232, 112))
+                target = 3; // vertical up pipe
+            else if (c == sf::Color(38, 223, 57))
+                target = 4; // horizontal left-ward pipe
+            else if (c == sf::Color(153, 229, 80))
+                target = 5; // flag pole
+            else if (c == sf::Color(223, 113, 38))
+                target = 6; // castle
+            else
+                target = 0;
             projectionmap[i].push_back(target);
         }
     }
@@ -333,7 +341,7 @@ void Map::createblock(int x, int y)
         else
             xtex = 5;
         break;
-    case 5: //flag pole
+    case 5: // flag pole
         xtex = 7;
         if (y == 0)
         {
@@ -367,7 +375,8 @@ void Map::createblock(int x, int y)
     // sr->sprite.setTextureRect(sf::IntRect(xtex * BLOCK_WIDTH, ytex * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT));
     block->spritearea = sf::IntRect(xtex * BLOCK_WIDTH, ytex * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT);
     availableblocks.push_back(block);
-    if (projectionmap[y][x] == 5 || projectionmap[y][x] == 6) return;
+    if (projectionmap[y][x] == 5 || projectionmap[y][x] == 6)
+        return;
     BoxCollider *bc = AddComponent<BoxCollider>(block);
     bc->width = BLOCK_WIDTH;
     bc->height = BLOCK_HEIGHT;
@@ -380,9 +389,9 @@ void Map::createblock(int x, int y)
     rb->yVel = 0;
 }
 
-void Map::draw(sf::RenderWindow& w)
+void Map::draw(sf::RenderWindow &w)
 {
-    for (Block* i: availableblocks)
+    for (Block *i : availableblocks)
     {
         sprite.setTexture(blocktexture);
         sprite.setTextureRect(i->spritearea);
