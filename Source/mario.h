@@ -9,6 +9,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/System.hpp>
+#include "marioGameManager.h"
 
 #define MARIO "resource/Mario.png"
 #define SUPERMARIO "resource/MarioSuper.png"

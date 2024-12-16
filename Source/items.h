@@ -56,6 +56,14 @@ public:
    void fadeOut() override;
 };
 
+// class Star : public Item
+// {
+// public:
+//     Star(int x, int y);
+//     void animation() override;
+//     void fadeOut() override;
+// };
+
 class Bullet : public Item
 {
 private:

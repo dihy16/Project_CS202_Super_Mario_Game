@@ -7,14 +7,6 @@ MarioGameManager::MarioGameManager()
 {
     menuManager = new MenuManager();
     GUIManager = new GUI();
-
-    for (const char* sound : { "breakblock", "bump", "coin", "fireball", "jump_super", "kick", "stomp","powerup_appears",
-         "powerup", "pipe","flagpole", "bowser_falls", "bowser_fire", "mario_die","stage_clear",
-         "game_over","1-up","warning", "world_clear","pause","beep","fireworks" })
-        getSoundBufferManager().loadFromFile(sound, std::string("resource/Sound/") + sound + ".wav");
-
-    for (const char* music : { "overworld", "underworld", "bowsercastle", "underwater", "invincibility" })
-        getMusicManager().loadFromFile(music, std::string("resource/Music/") + music + ".ogg");
 }
 
 MarioGameManager *MarioGameManager::getInstance()
@@ -81,7 +73,6 @@ void MarioGameManager::addCoin()
 {
     ++marioCoins;
     getGUI()->setCoin(marioCoins);
-    playSound("1-up");
 }
 
 void MarioGameManager::setState(GameState gameState)

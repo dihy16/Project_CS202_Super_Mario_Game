@@ -94,6 +94,7 @@ void Mario::handleMovement()
             rect.left = 162.5;
          else if (state == Super || state == Fire)
             rect.left = 161;
+         MarioGameManager::getInstance()->playSound(MarioGameManager::jump);
       }
       if (firing)
       {
@@ -103,6 +104,7 @@ void Mario::handleMovement()
             created = true;
             RenderManager::GetInstance().debugText += "fire";
          }
+         MarioGameManager::getInstance()->playSound(MarioGameManager::fireball);
       }
       marioSprite->sprite.setTextureRect(rect);
 
@@ -146,10 +148,13 @@ void Mario::handlePowerUp()
          marioCollider->width = 48;
          marioCollider->height = 86;
          collider->body->SetActive(false);
+         MarioGameManager::getInstance()->playSound(MarioGameManager::powerup);
       }
       else if (collider->body->GetOwner()->name == "coin")
       {
-         // collider->body->SetActive(false);
+          MarioGameManager::getInstance()->addCoin();
+          MarioGameManager::getInstance()->playSound(MarioGameManager::add_coin);
+          collider->body->SetActive(false);
          // increase coin state and score and play sound
       }
       else if (collider->body->GetOwner()->name == "flower")
@@ -164,6 +169,7 @@ void Mario::handlePowerUp()
          marioCollider->width = 48;
          marioCollider->height = 86;
          collider->body->SetActive(false);
+         MarioGameManager::getInstance()->playSound(MarioGameManager::powerup);
       }
    };
 }

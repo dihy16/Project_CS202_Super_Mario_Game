@@ -240,3 +240,9 @@ std::unique_ptr<Item> ItemFactory::createItem(const std::string &type, int x, in
       return std::make_unique<Bullet>(x, y);
    return nullptr;
 }
+
+// Star::Star(int x, int y) : Item(x, y)
+// {
+//     sf::IntRect rect(32, 213, 32, 30);
+//     initialize(x, y, rect, "star", 3);
+// }
