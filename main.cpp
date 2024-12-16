@@ -44,8 +44,6 @@ int main()
     float accumulator = 0.0f;
     ColliderManager::GetInstance().visisbleCollider = true;
 
-    MarioGameManager::getInstance()->playMusic("overworld");
-
     while (RenderManager::GetInstance().window.isOpen())
     {
         sf::Time dt = clock.restart();
@@ -67,7 +65,8 @@ int main()
         //     m.moveleft(-mario.marioRigidBody->xVel);
         // else if (mario.goRight)
         //     m.moveright(mario.marioRigidBody->xVel);
-
+        //left = sf::Keyboard::isKeyPressed(sf::Keyboard::A);
+        //right = sf::Keyboard::isKeyPressed(sf::Keyboard::D);
         //if (left && right)
         //    ;
         //else if (left)
@@ -83,11 +82,10 @@ int main()
             MarioGameManager::getInstance()->updateGameState(static_cast<int>(PhysicsManager::FIXED_TIMESTEP * 1000));
         }
         RenderManager::GetInstance().window.clear();
-        m.draw(RenderManager::GetInstance().window);
+        //m.draw(RenderManager::GetInstance().window);
+        lv1.drawLevel();
         MarioGameManager::getInstance()->draw(RenderManager::GetInstance().window);
-        
         RenderManager::GetInstance().window.display();
     }
-
     return 0;
 }
