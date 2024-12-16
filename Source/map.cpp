@@ -263,12 +263,12 @@ void Map::createblock(int x, int y)
     block->scaleY = 1.0;
     block->xPos = (x - 5) * BLOCK_WIDTH;
     block->yPos = y * BLOCK_HEIGHT;
-    // block->name = "Block";
-    SpriteRenderer *sr = AddComponent<SpriteRenderer>(block);
-    sr->layer = 1;
-    sr->texture.loadFromFile("Images/TilesBackup.png");
-    sr->texture.setSmooth(true);
-    sr->sprite.setTexture(sr->texture);
+    block->name = "Block";
+    // SpriteRenderer *sr = AddComponent<SpriteRenderer>(block);
+    // sr->layer = 1;
+    // sr->texture.loadFromFile("Images/TilesBackup.png");
+    // sr->texture.setSmooth(true);
+    // sr->sprite.setTexture(blocktexture);
     int xtex, ytex;
     switch (projectionmap[y][x])
     {

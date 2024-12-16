@@ -1,11 +1,11 @@
 #include "./Source/level1.h"
 #include "./Source/marioGameManager.h"
+#include "./Source/PhysicsEngine/Managers/Camera.h"
 #include <windows.h>
 #include <stdio.h>
 #include <tchar.h>
 
 #define DIV 1048576
-#include "./Source/PhysicsEngine/Managers/Camera.h"
 
 int main()
 {
@@ -46,6 +46,18 @@ int main()
             MarioGameManager::getInstance()->handleEvents(RenderManager::GetInstance().window, event);
         }
         lv1.execute();
+
+        // if (mario.goLeft)
+        //     m.moveleft(-mario.marioRigidBody->xVel);
+        // else if (mario.goRight)
+        //     m.moveright(mario.marioRigidBody->xVel);
+
+        // if (m.left && m.right)
+        //     ;
+        // else if (m.left)
+        //     m.moveleft(2);
+        // else if (m.right)
+        //     m.moveright(2);
         if (event.type == sf::Event::KeyPressed)
         {
             if (event.key.code == sf::Keyboard::Left)
@@ -59,7 +71,6 @@ int main()
                 RenderManager::GetInstance().debugText = std::to_string(Camera::GetInstance().posX);
             }
         }
-
         // fixed update
         while (accumulator >= PhysicsManager::FIXED_TIMESTEP)
         {
