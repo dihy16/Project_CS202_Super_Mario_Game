@@ -275,6 +275,7 @@ void Map::createblock(int x, int y)
     case 0: // nothing
         xtex = 1;
         ytex = 7;
+        block->name = "Nothing";
         break;
     case 1: // wall
         xtex = 1;
@@ -328,6 +329,7 @@ void Map::createblock(int x, int y)
                 ytex = 2;
             }
         }
+        block->name = "Pipe";
         break;
     case 4: // horizontal left-ward pipe
         if (y == 0)
@@ -340,8 +342,10 @@ void Map::createblock(int x, int y)
             xtex = 4;
         else
             xtex = 5;
+        block->name = "Pipe";
         break;
     case 5: // flag pole
+        block->name = "Flag";
         xtex = 7;
         if (y == 0)
         {
@@ -359,6 +363,7 @@ void Map::createblock(int x, int y)
             break;
         }
     case 7: // mushroom tile, not mushroom buff
+        block->name = "MushroomTile";
         ytex = 0;
         if (projectionmap[y][x - 1] != 7)
             xtex = 4;
