@@ -4,7 +4,7 @@ Mario::Mario(int x, int y)
 {
    // RenderManager::GetInstance().listEntity.push_back(mario);
    goRight = goLeft = goUp = created = false;
-   eatFlower = eatMushroom = false;
+   eatFlower = eatMushroom = touchEnemy = false;
 
    mario->scaleX = 1.5;
    mario->scaleY = 1.5;
@@ -78,9 +78,9 @@ void Mario::setRectForWalking(sf::IntRect &rect)
    if (direction == Right)
    {
       if (state == Small)
-         maxLeft = 99, picWidth = 33;
+         maxLeft = 99, picWidth = 32;
       else if (state == Super || state == Fire)
-         maxLeft = 96, picWidth = 32;
+         maxLeft = 96, picWidth = 30;
 
       if (rect.left >= maxLeft)
          rect.left = picWidth;
@@ -90,9 +90,9 @@ void Mario::setRectForWalking(sf::IntRect &rect)
    else if (direction == Left)
    {
       if (state == Small)
-         maxLeft = 1024 - 99, picWidth = 33;
+         maxLeft = 1024 - 99, picWidth = 32;
       else if (state == Super || state == Fire)
-         maxLeft = 1024 - 94, picWidth = 30;
+         maxLeft = 1024 - 102, picWidth = 30;
 
       if (rect.left <= maxLeft)
          rect.left = 1024 - picWidth;
@@ -180,7 +180,7 @@ void Mario::stand()
    }
 }
 
-void Mario::animation(float duration, float interval, std::function<void()> onComplete, bool &finished)
+void Mario::animation1(float duration, float interval, std::function<void()> onComplete, bool &finished)
 {
    static sf::Clock blinkTimer;
    float elapsed = blinkTimer.getElapsedTime().asMilliseconds();
@@ -219,6 +219,47 @@ void Mario::animation(float duration, float interval, std::function<void()> onCo
    }
 }
 
+void Mario::animation2(float duration, float interval, std::function<void()> onComplete, bool &finished, State &state)
+{
+   static sf::Clock blinkTimer;
+   float elapsed = blinkTimer.getElapsedTime().asMilliseconds();
+   marioCollider->width = 48;
+   marioCollider->height = 48;
+
+   if (elapsed > duration)
+   {
+      marioSprite->sprite.setColor(sf::Color::White); // Reset to normal
+      blinkTimer.restart();                           // Reset timer for next use
+      finished = false;
+      if (onComplete)
+         onComplete(); // Call the completion callback
+      return;
+   }
+
+   if (state == Small)
+   {
+      if (int(elapsed / interval) % 2 == 0)
+         marioSprite->sprite.setColor(sf::Color::Transparent);
+      // RenderManager::GetInstance().debugText += "1 ";
+      else
+         marioSprite->sprite.setColor(sf::Color::White);
+      // RenderManager::GetInstance().debugText += "2 ";
+   }
+   else if (state == Super || state == Fire)
+   {
+      if (int(elapsed / interval) % 2 == 0)
+      {
+         marioSprite->sprite.setTextureRect(sf::IntRect(0, 36, 28, 60));
+         RenderManager::GetInstance().debugText += "1 ";
+      }
+      else
+      {
+         marioSprite->sprite.setTextureRect(sf::IntRect(0, 96, 28, 32));
+         RenderManager::GetInstance().debugText += "2 ";
+      }
+   }
+}
+
 void Mario::handlePowerUp()
 {
    marioCollider->OnCollisionEnter = [this](BoxCollider *collider)
@@ -227,6 +268,7 @@ void Mario::handlePowerUp()
       {
          // Animate Mario and handle state transition
          eatMushroom = true;
+         stateTimer.restart();
          collider->body->SetActive(false);
          MarioGameManager::getInstance()->playSound(MarioGameManager::powerup);
       }
@@ -240,22 +282,23 @@ void Mario::handlePowerUp()
       else if (collider->body->GetOwner()->name == "flower")
       {
          eatFlower = true;
+         stateTimer.restart();
          collider->body->SetActive(false);
          MarioGameManager::getInstance()->playSound(MarioGameManager::powerup);
       }
    };
    if (eatMushroom)
    {
-      animation(1000, 100, [this]()
-                {
+      animation1(1000, 100, [this]()
+                 {
                    // Transition to Super Mario state
                    state = Super;
                    marioSprite->sprite.setTextureRect(sf::IntRect(0, 36, 28, 60)); }, eatMushroom);
    }
    if (eatFlower)
    {
-      animation(1200, 100, [this]()
-                {
+      animation1(1200, 100, [this]()
+                 {
                    // Transition to Fire Mario state
                    state = Fire;
                    marioSprite->texture.loadFromFile(SUPERMARIO);
@@ -265,10 +308,33 @@ void Mario::handlePowerUp()
    }
 }
 
+void Mario::handleEnemy()
+{
+   if (touchEnemy)
+   {
+      if (state == Small)
+      {
+         animation2(1000, 50, [this]()
+                    {
+                       // loss a life
+                    },
+                    touchEnemy, state);
+      }
+      else if (state == Super || state == Fire)
+      {
+         animation2(1000, 50, [this]()
+                    {
+         state = Small;
+         marioSprite->sprite.setTextureRect(sf::IntRect(0, 96, 28, 32)); }, touchEnemy, state);
+      }
+   }
+}
+
 void Mario::update(std::vector<std::unique_ptr<Item>> &items)
 {
    handleMovement();
    handlePowerUp();
+   handleEnemy();
    if (firing && created && timer3.getElapsedTime().asSeconds() > 1)
    {
       bool bulletDirection = (direction == Right);
@@ -278,5 +344,15 @@ void Mario::update(std::vector<std::unique_ptr<Item>> &items)
          items.push_back(ItemFactory::createItem("Fireball", mario->xPos - 20, mario->yPos, bulletDirection));
       created = false;
       timer3.restart();
+   }
+   if (stateTimer.getElapsedTime().asSeconds() > 60)
+   {
+      if (state != Small)
+      {
+         state = Small;
+         marioSprite->sprite.setTextureRect(sf::IntRect(0, 96, 28, 32));
+         marioCollider->width = 48;
+         marioCollider->height = 48;
+      }
    }
 }

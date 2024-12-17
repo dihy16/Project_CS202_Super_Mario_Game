@@ -170,11 +170,6 @@ Bullet::Bullet(int x, int y, bool direction) : Item(x, y)
 
 void Bullet::animation()
 {
-   if (!thrown)
-   {
-      rb->AddForce(0, -100);
-      thrown = true;
-   }
    if (timer.getElapsedTime().asSeconds() > 0.2)
    {
       if (state == Flying)
@@ -187,7 +182,7 @@ void Bullet::animation()
             if (currentRect == maxRect)
                currentRect = 0;
 
-            rb->AddForce(-10, 0);
+            rb->xVel = -120;
          }
          else
          {
@@ -197,7 +192,12 @@ void Bullet::animation()
             if (currentRect == maxRect)
                currentRect = 0;
 
-            rb->AddForce(10, 0);
+            rb->xVel = 120;
+         }
+         if (jumpTimer.getElapsedTime().asSeconds() > 0.2)
+         {
+            rb->isJumping = true;
+            jumpTimer.restart();
          }
       }
       else if (state == Splash)
@@ -252,6 +252,12 @@ void Bullet::fadeOut()
    }
 }
 
+// Star::Star(int x, int y) : Item(x, y)
+// {
+//    sf::IntRect rect(0, 0, 32, 32);
+//    initialize(x, y, rect, "star", 4);
+// }
+
 std::unique_ptr<Item> ItemFactory::createItem(const std::string &type, int x, int y, bool direction)
 {
    if (type == "Mushroom")
@@ -260,6 +266,8 @@ std::unique_ptr<Item> ItemFactory::createItem(const std::string &type, int x, in
       return std::make_unique<Coin>(x, y);
    else if (type == "Flower")
       return std::make_unique<Flower>(x, y);
+   // else if (type == "Star")
+   //    return std::make_unique<Star>(x, y);
    else if (type == "Fireball")
       return std::make_unique<Bullet>(x, y, direction);
    return nullptr;

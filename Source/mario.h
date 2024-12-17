@@ -28,12 +28,13 @@ protected:
    SpriteRenderer *marioSprite = AddComponent<SpriteRenderer>(mario);
    BoxCollider *marioCollider = AddComponent<BoxCollider>(mario);
 
-   sf::Clock timer1, timer2, timer3;
+   sf::Clock timer1, timer2, timer3, stateTimer, touchTimer;
    enum State
    {
       Small,
       Super,
-      Fire
+      Fire,
+      Invicible
    } state = Small;
    enum Direction
    {
@@ -43,7 +44,7 @@ protected:
 
 public:
    bool goRight, goLeft, goUp, firing, created;
-   bool eatMushroom, eatFlower;
+   bool eatMushroom, eatFlower, touchEnemy;
    RigidBody *marioRigidBody = AddComponent<RigidBody>(mario);
 
    Mario(int x, int y);
@@ -52,8 +53,9 @@ public:
    bool getDirection();
    void setRectForWalking(sf::IntRect &rect);
    void handleMovement();
-   // void handleCollision(std::vector<std::unique_ptr<Enemy>> &enemies);
-   void animation(float duration, float interval, std::function<void()> onComplete, bool &finished);
+   void handleEnemy();
+   void animation1(float duration, float interval, std::function<void()> onComplete, bool &finished);
+   void animation2(float duration, float interval, std::function<void()> onComplete, bool &finished, State &state);
    void handlePowerUp();
    void update(std::vector<std::unique_ptr<Item>> &items);
    void stand();

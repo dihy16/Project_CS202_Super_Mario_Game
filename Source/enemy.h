@@ -61,6 +61,12 @@ private:
       Hidden,
       Dead
    } state = Jumping;
+   enum Direction
+   {
+      Left,
+      Right
+   } direction = Left;
+   sf::Clock stateTimer;
 
 public:
    Koopa(int x, int y);

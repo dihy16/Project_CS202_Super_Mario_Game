@@ -53,16 +53,13 @@ void Goomba::collideWithMario(Mario &mario)
       }
    };
 
-   bc->OnHorizontalCollision = [this](BoxCollider *collider)
+   bc->OnHorizontalCollision = [this, &mario](BoxCollider *collider)
    {
       if (collider->body->GetOwner()->name == "mario")
       {
          RenderManager::GetInstance().debugText += " hp - 1 ";
+         mario.touchEnemy = true;
       }
-      // else
-      // {
-      //    RenderManager::GetInstance().debugText += " hit ";
-      // }
    };
 
    bc->OnCollisionEnter = [this](BoxCollider *collider)
@@ -139,9 +136,10 @@ void Koopa::collideWithMario(Mario &mario)
       if (state == Jumping)
       {
          sr->sprite.setTextureRect(sf::IntRect(0, 32, 32, 48));
+         stateTimer.restart();
          state = Normal;
       }
-      else if (state == Normal)
+      else if (state == Normal && stateTimer.getElapsedTime().asSeconds() > 1.5)
       {
          bc->SetActive(false);
          rb->SetActive(false);
@@ -152,15 +150,12 @@ void Koopa::collideWithMario(Mario &mario)
       }
    };
 
-   bc->OnHorizontalCollision = [this](BoxCollider *collider)
+   bc->OnHorizontalCollision = [this, &mario](BoxCollider *collider)
    {
       if (collider->body->GetOwner()->name == "mario")
       {
          RenderManager::GetInstance().debugText += " hp - 1 ";
-      }
-      else
-      {
-         RenderManager::GetInstance().debugText += " hit ";
+         mario.touchEnemy = true;
       }
    };
 
@@ -185,12 +180,19 @@ void Koopa::moveWithMario(Mario &mario)
    if (abs(marioPos - enemyPos) <= 500 && movetimer.getElapsedTime().asSeconds() > 1)
    {
       if ((enemyPos - marioPos) > 0)
-         // rb->AddForce(-5, 0);
+      // rb->AddForce(-5, 0);
+      {
          rb->xVel = -40;
+         direction = Right;
+      }
       else if ((marioPos - enemyPos) > 0)
-         // rb->AddForce(5, 0);
+      // rb->AddForce(5, 0);
+      {
          rb->xVel = 40;
-      rb->isJumping = true;
+         direction = Left;
+      }
+      if (state == Jumping)
+         rb->isJumping = true;
 
       movetimer.restart();
    }
@@ -204,9 +206,20 @@ void Koopa::animation()
    if (timer.getElapsedTime().asSeconds() > 0.2)
    {
       if (state == Jumping)
-         enemyRect.left = 224 + currentRect * sr->sprite.getTextureRect().width;
+      {
+         if (direction == Right)
+            enemyRect.left = 224 + currentRect * sr->sprite.getTextureRect().width;
+         else
+            enemyRect.left = 736 + currentRect * sr->sprite.getTextureRect().width;
+      }
       else if (state == Normal)
-         enemyRect.left = currentRect * sr->sprite.getTextureRect().width;
+      {
+         if (direction == Right)
+            enemyRect.left = currentRect * sr->sprite.getTextureRect().width;
+         else
+            enemyRect.left = 960 + currentRect * sr->sprite.getTextureRect().width;
+      }
+
       sr->sprite.setTextureRect(enemyRect);
 
       if (moving)
@@ -218,10 +231,6 @@ void Koopa::animation()
 
       timer.restart();
    }
-   // if (movetimer.getElapsedTime().asSeconds() > 2)
-   // {
-   //    movetimer.restart();
-   // }
 }
 
 void Koopa::fadingAnimation()

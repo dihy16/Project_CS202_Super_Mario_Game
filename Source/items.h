@@ -59,15 +59,15 @@ public:
 // class Star : public Item
 // {
 // public:
-//     Star(int x, int y);
-//     void animation() override;
-//     void fadeOut() override;
+//    Star(int x, int y);
+//    void animation() override;
+//    void fadeOut() override;
 // };
 
 class Bullet : public Item
 {
 private:
-   sf::Clock fadeTimer;
+   sf::Clock fadeTimer, jumpTimer;
    enum State
    {
       Flying,
