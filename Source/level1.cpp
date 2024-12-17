@@ -18,6 +18,8 @@ Level1::Level1() : mario(100, 100), m("Data/Level1")
                 enemies.push_back(EnemyFactory::createEnemy("Koopa", j * BLOCK_WIDTH, i * BLOCK_HEIGHT));
             else if (c == sf::Color(106, 190, 48))
                 enemies.push_back(EnemyFactory::createEnemy("HammerBro", j * BLOCK_WIDTH, i * BLOCK_HEIGHT));
+            else if (c == sf::Color(255, 255, 0))
+                enemies.push_back(EnemyFactory::createEnemy("PiranhaPlant", j * BLOCK_WIDTH, i * BLOCK_HEIGHT));
         }
     }
    // enemies.push_back(EnemyFactory::createEnemy("Goomba", 300, 0));
