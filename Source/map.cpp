@@ -94,6 +94,8 @@ void Map::readmap(std::string file)
                 target = 5; // flag pole
             else if (c == sf::Color(223, 113, 38))
                 target = 6; // castle
+            else if (c == sf::Color(217, 113, 15))
+                target = 10;
             else
                 target = 0;
             projectionmap[i].push_back(target);
@@ -281,6 +283,11 @@ void Map::createblock(int x, int y)
         xtex = 1;
         ytex = 0;
         block->name = "Block";
+        break;
+    case 10: // wall
+        xtex = 1;
+        ytex = 0;
+        block->name = "FloatingBlock";
         break;
     case 2: // mystery box
         xtex = 2;
