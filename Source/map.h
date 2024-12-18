@@ -3,6 +3,7 @@
 // #include "mario.h"
 #include <fstream>
 #include <memory>
+#include "./PhysicsEngine/Managers/Camera.h"
 #include "enemy.h"
 
 class Block: public Entity
@@ -22,7 +23,7 @@ private:
     int xstart, ystart, offset;
     sf::Texture blocktexture;
     sf::Sprite sprite;
-    std::vector<Block*> availableblocks;
+    std::vector<Block*> availableblocks, backgroundblocks;
     sf::Image layout;
 public:
     bool left = false, right = false;
@@ -39,6 +40,7 @@ public:
     }
     // function creates a list of block entities
     void createblock(int marioX, int marioY);
+    void createbackgroundblock(int x, int y);
     void blockgenerator(int, int);
     // function checks for entity availability within map sight
     // map nudge functions, default 5 pixels
