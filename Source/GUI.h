@@ -7,6 +7,9 @@
 #include <sstream>
 #include <string>
 #include "MenuObject.h"
+#include "marioGameManager.h"
+
+class MarioGameManager;
 
 class Label
 {
@@ -32,9 +35,7 @@ private:
 	Label *label_lives;
 	Label *label_time_remaining;
 	Label *label_score;
-	//MenuObject *exit_button;
-	sf::Sprite exit_button;
-	sf::Texture exit_button_texture;
+	MenuObject *exit_button;
 public:
 	GUI();
 	~GUI();
@@ -45,6 +46,7 @@ public:
 	void setTimeRemaining(int time);
 	void setScore(int score);
 	void draw(sf::RenderWindow &w);
+	void handleClicking(sf::RenderWindow& w);
 	std::string getStringCoins()
 	{
 		return label_coins->getString();
