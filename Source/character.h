@@ -64,6 +64,7 @@ public:
     void handlePowerUp();
     void update(std::vector<std::unique_ptr<Item>> &items, float speed);
     void stand();
+    void freeFall();
     GameStateMemento saveState();
     void restoreState(const GameStateMemento &memento);
 

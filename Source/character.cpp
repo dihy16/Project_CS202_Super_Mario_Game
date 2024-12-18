@@ -14,9 +14,9 @@ Character::Character(int x, int y, const std::string &texture1, const std::strin
     character->name = "character";
 
     characterSprite->layer = 2;
-    if(state == Small || state == Super)
+    if (state == Small || state == Super)
         characterSprite->texture.loadFromFile(textureFile1);
-    else if(state == Fire)
+    else if (state == Fire)
         characterSprite->texture.loadFromFile(textureFile2);
     characterSprite->texture.setSmooth(true);
     characterSprite->sprite.setTexture(characterSprite->texture);
@@ -41,9 +41,9 @@ void Character::moveRight(float speed)
     if (characterRigidBody->xVel <= -1)
     {
         if (state == Small)
-           rect.left = 132;
+            rect.left = 132;
         else if (state == Super || state == Fire)
-           rect.left = 129;
+            rect.left = 129;
     }
     else
         setRectForWalking(rect);
@@ -310,10 +310,7 @@ void Character::handleEnemy()
         if (state == Small)
         {
             animation2(1000, 50, [this]()
-                       {
-                          // loss a life
-                       },
-                       touchEnemy, state);
+                       { MarioGameManager::getInstance()->marioDies(); }, touchEnemy, state);
         }
         else if (state == Super || state == Fire)
         {
@@ -327,6 +324,7 @@ void Character::handleEnemy()
 
 void Character::update(std::vector<std::unique_ptr<Item>> &items, float speed)
 {
+    freeFall();
     handleMovement(speed);
     handlePowerUp();
     handleEnemy();
@@ -409,6 +407,15 @@ void Character::restoreState(const GameStateMemento &memento)
     RenderManager::GetInstance().listEntity = memento.entities;
 }
 
+void Character::freeFall()
+{
+    if (characterRigidBody->GetOwner()->yPos >= 15 * BLOCK_HEIGHT)
+    {
+        character->xPos = 100;
+        character->yPos = 100;
+        touchEnemy = true;
+    }
+}
 
 Mario::Mario(int x, int y) : Character(x, y, MARIO, SUPERMARIO)
 {
@@ -418,4 +425,4 @@ Mario::Mario(int x, int y) : Character(x, y, MARIO, SUPERMARIO)
 Luigi::Luigi(int x, int y) : Character(x, y, LUIGI, SUPERLUIGI)
 {
     character->tag = "luigi";
-} 
+}

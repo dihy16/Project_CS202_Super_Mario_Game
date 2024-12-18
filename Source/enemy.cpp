@@ -60,7 +60,6 @@ void Goomba::collideWithMario(Character &mario)
       {
          RenderManager::GetInstance().debugText += " hp - 1 ";
          mario.touchEnemy = true;
-         MarioGameManager::getInstance()->marioDies();
          MarioGameManager::getInstance()->playSound(MarioGameManager::mario_die);
       }
    };
@@ -159,6 +158,7 @@ void Koopa::collideWithMario(Character &mario)
       {
          RenderManager::GetInstance().debugText += " hp - 1 ";
          mario.touchEnemy = true;
+         MarioGameManager::getInstance()->playSound(MarioGameManager::mario_die);
       }
    };
 
@@ -343,24 +343,23 @@ PiranhaPlant::PiranhaPlant(int x, int y) : Enemy(x, y)
 
 void PiranhaPlant::collideWithMario(Character &mario)
 {
-   // bc->OnColliderLanded = [this](BoxCollider *)
-   // {
-   //    RenderManager::GetInstance().debugText += "landed";
-   //    bc->SetActive(false);
-   //    rb->SetActive(false);
-   //    // set mario dead instead
-   //    isKilled = true;
-   // };
-
-   bc->OnHorizontalCollision = [this](BoxCollider *collider)
+   bc->OnColliderLanded = [this, &mario](BoxCollider *collider)
    {
       if (collider->body->GetOwner()->name == "mario")
       {
          RenderManager::GetInstance().debugText += " hp - 1 ";
+         mario.touchEnemy = true;
+         MarioGameManager::getInstance()->playSound(MarioGameManager::mario_die);
       }
-      else
+   };
+
+   bc->OnHorizontalCollision = [this, &mario](BoxCollider *collider)
+   {
+      if (collider->body->GetOwner()->name == "mario")
       {
-         RenderManager::GetInstance().debugText += " hit ";
+         RenderManager::GetInstance().debugText += " hp - 1 ";
+         mario.touchEnemy = true;
+         MarioGameManager::getInstance()->playSound(MarioGameManager::mario_die);
       }
    };
 
