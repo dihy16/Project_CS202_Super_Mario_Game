@@ -10,7 +10,6 @@
 int main()
 {
     Level1 lv1;
-
     MEMORYSTATUSEX statex;
     GlobalMemoryStatusEx(&statex);
 
