@@ -40,7 +40,7 @@ Goomba::Goomba(int x, int y) : Enemy(x, y)
    initialize(x, y, rect, "goomba");
 }
 
-void Goomba::collideWithMario(Mario &mario)
+void Goomba::collideWithMario(Character &mario)
 {
    bc->OnColliderLanded = [this](BoxCollider *collider)
    {
@@ -78,9 +78,9 @@ void Goomba::collideWithMario(Mario &mario)
    };
 }
 
-void Goomba::moveWithMario(Mario &mario)
+void Goomba::moveWithMario(Character &mario)
 {
-   float marioPos = mario.marioRigidBody->GetOwner()->xPos;
+   float marioPos = mario.characterRigidBody->GetOwner()->xPos;
    float enemyPos = rb->GetOwner()->xPos;
 
    if (abs(marioPos - enemyPos) <= 500 && movetimer.getElapsedTime().asSeconds() > 1)
@@ -131,7 +131,7 @@ Koopa::Koopa(int x, int y) : Enemy(x, y)
    initialize(x, y, rect, "koopa");
 }
 
-void Koopa::collideWithMario(Mario &mario)
+void Koopa::collideWithMario(Character &mario)
 {
    bc->OnColliderLanded = [this](BoxCollider *)
    {
@@ -175,9 +175,9 @@ void Koopa::collideWithMario(Mario &mario)
    };
 }
 
-void Koopa::moveWithMario(Mario &mario)
+void Koopa::moveWithMario(Character &mario)
 {
-   float marioPos = mario.marioRigidBody->GetOwner()->xPos;
+   float marioPos = mario.characterRigidBody->GetOwner()->xPos;
    float enemyPos = rb->GetOwner()->xPos;
 
    if (abs(marioPos - enemyPos) <= 500 && movetimer.getElapsedTime().asSeconds() > 1)
@@ -251,9 +251,9 @@ HammerBro::HammerBro(int x, int y) : Enemy(x, y)
    initialize(x, y, rect, "hammerBro");
 }
 
-void HammerBro::collideWithMario(Mario &mario) {}
+void HammerBro::collideWithMario(Character &mario) {}
 
-void HammerBro::moveWithMario(Mario &mario) {}
+void HammerBro::moveWithMario(Character &mario) {}
 
 void HammerBro::animation()
 {
@@ -300,9 +300,9 @@ Hammer::Hammer(int x, int y) : Enemy(x, y)
    sr->layer = 3;
 }
 
-void Hammer::collideWithMario(Mario &mario) {}
+void Hammer::collideWithMario(Character &mario) {}
 
-void Hammer::moveWithMario(Mario &mario) {}
+void Hammer::moveWithMario(Character &mario) {}
 
 void Hammer::animation()
 {
@@ -341,7 +341,7 @@ PiranhaPlant::PiranhaPlant(int x, int y) : Enemy(x, y)
    rb->isUsingGravity = false;
 }
 
-void PiranhaPlant::collideWithMario(Mario &mario)
+void PiranhaPlant::collideWithMario(Character &mario)
 {
    // bc->OnColliderLanded = [this](BoxCollider *)
    // {
@@ -377,7 +377,7 @@ void PiranhaPlant::collideWithMario(Mario &mario)
    };
 }
 
-void PiranhaPlant::moveWithMario(Mario &mario)
+void PiranhaPlant::moveWithMario(Character &mario)
 {
    float maxPos = 12 * BLOCK_HEIGHT - 46; // Bottom position
    float minPos = 11 * BLOCK_HEIGHT;      // Top position

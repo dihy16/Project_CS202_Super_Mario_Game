@@ -6,7 +6,11 @@ Level::Level(int level, bool resuming)
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist1(0, 2);
     int target;
+    bool choice = false;
     mario = new Mario(8 * BLOCK_WIDTH, 12 * BLOCK_HEIGHT);
+    // luigi = new Luigi(8 * BLOCK_WIDTH, 12 * BLOCK_HEIGHT);
+
+
     m = new Map(resuming);
     m->loadmap(level, 8 * BLOCK_WIDTH, 12 * BLOCK_HEIGHT);
     sf::Color c;
@@ -96,7 +100,7 @@ void Level::handleKeyPress()
     mario->goLeft = sf::Keyboard::isKeyPressed(sf::Keyboard::A);
     mario->goRight = sf::Keyboard::isKeyPressed(sf::Keyboard::D);
     mario->firing = sf::Keyboard::isKeyPressed(sf::Keyboard::F);
-    mario->marioRigidBody->isJumping = sf::Keyboard::isKeyPressed(sf::Keyboard::W);
+    mario->characterRigidBody->isJumping = sf::Keyboard::isKeyPressed(sf::Keyboard::W);
 }
 
 void Level::execute()
@@ -104,7 +108,7 @@ void Level::execute()
     if (MarioGameManager::getInstance()->getState() == MarioGameManager::GameState::pause)
         return;
     handleKeyPress();
-    mario->update(items);
+    mario->update(items, 40);
     for (auto &enemy : enemies)
     {
         enemy->animation();

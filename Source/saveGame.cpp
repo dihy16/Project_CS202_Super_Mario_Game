@@ -53,7 +53,7 @@ void logEvent(const std::string &event, float xPos, int yPos)
 void saveGame(const GameStateMemento &state, const std::string &file)
 {
    std::ofstream outFile(file);
-   outFile << state.marioState.xPos << " " << state.marioState.yPos << " "
+   outFile << state.marioState.name << state.marioState.xPos << " " << state.marioState.yPos << " "
            << state.marioState.lives << " " << state.marioState.coins << " "
            << state.marioState.time << " " << state.marioState.state << "\n";
    outFile.close();

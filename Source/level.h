@@ -1,12 +1,13 @@
 #ifndef LEVEL_H
 #define LEVEL_H
-#include "mario.h"
+#include "character.h"
 #include "enemy.h"
 #include "items.h"
 #include "map.h"
 #include <random>
 
 class Mario;
+class Luigi;
 class Map;
 class Item;
 class Enemy;
@@ -14,6 +15,8 @@ class Enemy;
 class Level
 {
 private:
+    // Mario *mario;
+    // Luigi *luigi;
     Mario *mario;
     Map *m;
     std::vector<std::unique_ptr<Enemy>> enemies;
