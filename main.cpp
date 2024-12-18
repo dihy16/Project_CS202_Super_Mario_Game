@@ -1,4 +1,3 @@
-#include "./Source/level1.h"
 #include "./Source/marioGameManager.h"
 #include "./Source/PhysicsEngine/Managers/Camera.h"
 #include <windows.h>
@@ -9,7 +8,6 @@
 
 int main()
 {
-    Level1 lv1;
 
     MEMORYSTATUSEX statex;
     GlobalMemoryStatusEx(&statex);
@@ -45,7 +43,6 @@ int main()
             }
             MarioGameManager::getInstance()->handleEvents(RenderManager::GetInstance().window, event);
         }
-        lv1.execute();
 
         // if (mario.goLeft)
         //     m.moveleft(-mario.marioRigidBody->xVel);
@@ -80,7 +77,6 @@ int main()
         }
         RenderManager::GetInstance().window.clear();
         // m.draw(RenderManager::GetInstance().window);
-        lv1.drawLevel();
         MarioGameManager::getInstance()->draw(RenderManager::GetInstance().window);
         RenderManager::GetInstance().window.display();
     }
