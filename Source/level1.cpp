@@ -1,7 +1,7 @@
 #include "level1.h"
 #include <iostream>
 using namespace std;
-Level1::Level1() : mario(100, 100), m("Data/Level1")
+Level1::Level1(bool resuming) : mario(100, 100), m("Data/Level1", resuming)
 {
    m.blockgenerator(100, 12 * BLOCK_HEIGHT);
    // enemies.push_back(EnemyFactory::createEnemy("Goomba", 300, 0));
@@ -22,6 +22,9 @@ void Level1::end()
 {
    display = false;
 }
+
+Mario &Level1::getMario() { return mario; }
+Map &Level1::getMap() { return m; }
 
 void Level1::handleKeyPress()
 {

@@ -15,6 +15,7 @@ void Enemy::initialize(int x, int y, sf::IntRect &rect, std::string name)
    enemy->xPos = x;
    enemy->yPos = y;
    enemy->name = "enemy";
+   enemy->tag = name;
 
    sr->layer = 3;
    sr->texture.loadFromFile(ENEMY);

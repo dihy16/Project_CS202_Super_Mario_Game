@@ -10,6 +10,7 @@
 #include <SFML/Audio.hpp>
 #include <SFML/System.hpp>
 #include "marioGameManager.h"
+#include "saveGame.h"
 
 #define MARIO "resource/Mario1.png"
 #define SUPERMARIO "resource/MarioSuper2.png"
@@ -19,7 +20,8 @@
 #define MIN_SPEED -1000
 #define JUMP_FORCE -300
 
-class Item; // forward declaration
+class Item;             // forward declaration
+class GameStateMemento; // forward declaration
 class Mario : public Entity
 {
 protected:
@@ -29,13 +31,7 @@ protected:
    BoxCollider *marioCollider = AddComponent<BoxCollider>(mario);
 
    sf::Clock timer1, timer2, timer3, stateTimer, touchTimer;
-   enum State
-   {
-      Small,
-      Super,
-      Fire,
-      Invicible
-   } state = Small;
+
    enum Direction
    {
       Right,
@@ -45,6 +41,12 @@ protected:
 public:
    bool goRight, goLeft, goUp, firing, created;
    bool eatMushroom, eatFlower, touchEnemy;
+   enum State
+   {
+      Small,
+      Super,
+      Fire,
+   } state = Small;
    RigidBody *marioRigidBody = AddComponent<RigidBody>(mario);
 
    Mario(int x, int y);
@@ -59,14 +61,8 @@ public:
    void handlePowerUp();
    void update(std::vector<std::unique_ptr<Item>> &items);
    void stand();
-};
-
-class SuperMario : public Mario
-{
-public:
-   SuperMario(int x, int y);
-   void handlePowerUp();
-   void handleDamage();
+   GameStateMemento saveState();
+   void restoreState(const GameStateMemento &memento);
 };
 
 #endif // MARIO_H

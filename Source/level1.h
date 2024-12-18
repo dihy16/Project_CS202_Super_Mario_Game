@@ -14,12 +14,14 @@ private:
 
 public:
    bool display, finished;
-   Level1();
+   Level1(bool resuming = false);
    void handleKeyPress();
    void start();
    void end();
    void execute();
    void drawLevel();
+   Mario &getMario();
+   Map &getMap();
 };
 
 #endif

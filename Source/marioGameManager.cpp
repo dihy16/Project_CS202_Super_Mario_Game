@@ -1,6 +1,6 @@
 #include "marioGameManager.h"
 
-MarioGameManager* MarioGameManager::instance = nullptr;
+MarioGameManager *MarioGameManager::instance = nullptr;
 MarioGameManager::GameState MarioGameManager::gameState = MarioGameManager::GameState::menu;
 
 MarioGameManager::MarioGameManager()
@@ -11,7 +11,8 @@ MarioGameManager::MarioGameManager()
 
 MarioGameManager *MarioGameManager::getInstance()
 {
-    if (instance == nullptr) {
+    if (instance == nullptr)
+    {
         instance = new MarioGameManager();
     }
     return instance;
@@ -29,7 +30,7 @@ MenuManager *MarioGameManager::getMenuManager()
     return this->menuManager;
 }
 
-GUI* MarioGameManager::getGUI()
+GUI *MarioGameManager::getGUI()
 {
     return this->GUIManager;
 }
@@ -59,16 +60,6 @@ void MarioGameManager::addScore()
 {
 }
 
-// Map *MarioGameManager::getMap()
-// {
-//     return map;
-// }
-
-// Mario *MarioGameManager::getMario()
-// {
-//     return theman;
-// }
-
 void MarioGameManager::addCoin()
 {
     ++marioCoins;
@@ -82,13 +73,20 @@ void MarioGameManager::setState(GameState gameState)
 
 void MarioGameManager::updateGameState(int delta_time)
 {
-    switch (gameState) {
+    switch (gameState)
+    {
     case GameState::playing:
         timeRemaining -= delta_time;
         break;
     }
 }
 
+int MarioGameManager::getLives() { return marioLives; }
+int MarioGameManager::getCoins() { return marioCoins; }
+int MarioGameManager::getScore() { return score; }
+int MarioGameManager::getTimeRemaining() { return timeRemaining; }
 
-
-
+void MarioGameManager::setLives(int lives) { marioLives = lives; }
+void MarioGameManager::setCoins(int coins) { marioCoins = coins; }
+void MarioGameManager::setScore(int score) { this->score = score; }
+void MarioGameManager::setTimeRemaining(int time) { timeRemaining = time; }

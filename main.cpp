@@ -1,6 +1,7 @@
 #include "./Source/level1.h"
 #include "./Source/marioGameManager.h"
 #include "./Source/PhysicsEngine/Managers/Camera.h"
+#include "./Source/saveGame.h"
 #include <windows.h>
 #include <stdio.h>
 #include <tchar.h>
@@ -9,7 +10,19 @@
 
 int main()
 {
-    Level1 lv1;
+    bool resuming = true;
+
+    Level1 lv1(resuming);
+    Map &gameMap = lv1.getMap();
+    Mario &mario = lv1.getMario();
+    if (resuming)
+    {
+        RenderManager::GetInstance().debugText = "Resuming game";
+        GameStateMemento memento = GameStateMemento::loadState("log/game_state.txt");
+        mario.restoreState(memento);
+    }
+    else
+        RenderManager::GetInstance().debugText = "Starting new game";
 
     MEMORYSTATUSEX statex;
     GlobalMemoryStatusEx(&statex);
@@ -74,5 +87,7 @@ int main()
         MarioGameManager::getInstance()->draw(RenderManager::GetInstance().window);
         RenderManager::GetInstance().window.display();
     }
+    GameStateMemento memento = mario.saveState();
+    saveGame(memento, "log/game_state.txt");
     return 0;
 }

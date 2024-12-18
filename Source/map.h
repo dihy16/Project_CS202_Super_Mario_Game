@@ -5,11 +5,11 @@
 #include <memory>
 #include "enemy.h"
 
-class Block: public Entity
+class Block : public Entity
 {
 public:
     sf::IntRect spritearea;
-    Block(): Entity(){}
+    Block() : Entity() {}
     void initiate(int, int, int);
 };
 
@@ -22,16 +22,17 @@ private:
     int xstart, ystart, offset;
     sf::Texture blocktexture;
     sf::Sprite sprite;
-    std::vector<Block*> availableblocks;
+    std::vector<Block *> availableblocks;
     sf::Image layout;
+
 public:
     bool left = false, right = false;
     Map();
-    Map(std::string file);
+    Map(std::string file, bool resuming);
     void readmap();
     void readmap(std::string file);
     void draw(sf::RenderWindow &w, int MarioX, int MarioY);
-    void draw(sf::RenderWindow& w);
+    void draw(sf::RenderWindow &w);
     vector<vector<int>> getmap(int option);
     int getblockstate(int x, int y)
     {
@@ -44,17 +45,15 @@ public:
     // map nudge functions, default 5 pixels
     void moveleft(float step);
     void moveright(float step);
+    void applyLog(const std::string &logFile);
 };
-
-
 
 class blockshared
 {
-    public:
-        sf::Sprite sprite;
-        sf::Texture texture;
-        blockshared()
-        {
-            
-        }
+public:
+    sf::Sprite sprite;
+    sf::Texture texture;
+    blockshared()
+    {
+    }
 };

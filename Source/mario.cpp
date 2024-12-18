@@ -17,7 +17,6 @@ Mario::Mario(int x, int y)
    marioSprite->texture.setSmooth(true);
    marioSprite->sprite.setTexture(marioSprite->texture);
    marioSprite->sprite.setTextureRect(sf::IntRect(0, 96, 28, 32));
-
    marioCollider->width = 48;
    marioCollider->height = 48;
 
@@ -42,10 +41,10 @@ void Mario::moveRight()
    sf::IntRect rect = marioSprite->sprite.getTextureRect();
    if (marioRigidBody->xVel <= -1)
    {
-      if (state == Small)
-         rect.left = 132;
-      else if (state == Super || state == Fire)
-         rect.left = 129;
+      // if (state == Small)
+      //    rect.left = 132;
+      // else if (state == Super || state == Fire)
+      //    rect.left = 129;
    }
    else
       setRectForWalking(rect);
@@ -271,6 +270,7 @@ void Mario::handlePowerUp()
          stateTimer.restart();
          collider->body->SetActive(false);
          MarioGameManager::getInstance()->playSound(MarioGameManager::powerup);
+         logEvent("Mushroom collected", mario->xPos, mario->yPos);
       }
       else if (collider->body->GetOwner()->name == "coin")
       {
@@ -278,6 +278,7 @@ void Mario::handlePowerUp()
          MarioGameManager::getInstance()->playSound(MarioGameManager::add_coin);
          collider->body->SetActive(false);
          // increase coin state and score and play sound
+         logEvent("Coin collected", mario->xPos, mario->yPos);
       }
       else if (collider->body->GetOwner()->name == "flower")
       {
@@ -285,6 +286,7 @@ void Mario::handlePowerUp()
          stateTimer.restart();
          collider->body->SetActive(false);
          MarioGameManager::getInstance()->playSound(MarioGameManager::powerup);
+         logEvent("Flower collected", mario->xPos, mario->yPos);
       }
    };
    if (eatMushroom)
@@ -355,4 +357,59 @@ void Mario::update(std::vector<std::unique_ptr<Item>> &items)
          marioCollider->height = 48;
       }
    }
+}
+
+GameStateMemento Mario::saveState()
+{
+   std::vector<Entity *> entities = RenderManager::GetInstance().listEntity;
+   MarioState marioState;
+   marioState.xPos = mario->xPos;
+   marioState.yPos = mario->yPos;
+   marioState.lives = MarioGameManager::getInstance()->getLives();
+   marioState.coins = MarioGameManager::getInstance()->getCoins();
+   marioState.score = MarioGameManager::getInstance()->getScore();
+   marioState.time = MarioGameManager::getInstance()->getTimeRemaining();
+   switch (state)
+   {
+   case Small:
+      marioState.state = "Small";
+      break;
+   case Super:
+      marioState.state = "Super";
+      break;
+   case Fire:
+      marioState.state = "Fire";
+      break;
+   }
+   return GameStateMemento(marioState, entities);
+}
+
+void Mario::restoreState(const GameStateMemento &memento)
+{
+   mario->xPos = memento.marioState.xPos;
+   mario->yPos = memento.marioState.yPos;
+   MarioGameManager::getInstance()->setLives(memento.marioState.lives);
+   MarioGameManager::getInstance()->setCoins(memento.marioState.coins);
+   MarioGameManager::getInstance()->setScore(memento.marioState.score);
+   MarioGameManager::getInstance()->setTimeRemaining(memento.marioState.time);
+   if (memento.marioState.state == "Small")
+      state = Small;
+   else if (memento.marioState.state == "Super")
+      state = Super;
+   else if (memento.marioState.state == "Fire")
+      state = Fire;
+
+   if (state == Fire)
+   {
+      marioSprite->texture.loadFromFile(SUPERMARIO);
+      marioSprite->texture.setSmooth(true);
+      marioSprite->sprite.setTexture(marioSprite->texture);
+   }
+   if (state == Super || state == Fire)
+   {
+      marioSprite->sprite.setTextureRect(sf::IntRect(0, 36, 28, 60));
+      marioCollider->width = 48;
+      marioCollider->height = 86;
+   }
+   RenderManager::GetInstance().listEntity = memento.entities;
 }

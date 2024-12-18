@@ -7,10 +7,11 @@ Map::Map()
     readmap();
 }
 
-Map::Map(std::string file)
+Map::Map(std::string file, bool resuming)
 {
     blocktexture.loadFromFile("Images/TilesBackup.png");
-    // block.setTexture(blocktexture);
+    if (resuming)
+        applyLog("../log/game_log.txt");
     readmap(file);
 }
 
@@ -473,4 +474,31 @@ void Map::blockgenerator(int MarioX, int MarioY)
     for (int i = 0; i < 15; i++)
         for (int j = xstart; j < projectionmap[0].size(); j++)
             createblock(j, i);
+}
+
+void Map::applyLog(const std::string &logFile)
+{
+    std::ifstream file(logFile);
+    std::string line;
+    while (std::getline(file, line))
+    {
+        if (line.find("Mushroom collected") != std::string::npos)
+        {
+            int x, y;
+            sscanf(line.c_str(), "Mushroom collected at (%d, %d)", &x, &y);
+            projectionmap[y][x] = 0;
+        }
+        else if (line.find("Coin collected") != std::string::npos)
+        {
+            int x, y;
+            sscanf(line.c_str(), "Coin collected at (%d, %d)", &x, &y);
+            projectionmap[y][x] = 0;
+        }
+        else if (line.find("Flower collected") != std::string::npos)
+        {
+            int x, y;
+            sscanf(line.c_str(), "Flower collected at (%d, %d)", &x, &y);
+            projectionmap[y][x] = 0;
+        }
+    }
 }
