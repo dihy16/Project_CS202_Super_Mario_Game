@@ -1,5 +1,5 @@
-#pragma once
-
+#ifndef MAINMENU_H
+#define MAINMENU_H
 #include "menu.h"
 #include "menuObserver.h"
 
@@ -25,3 +25,4 @@ public:
 	// void handleHovering(sf::RenderWindow& window);
 	// void EventHandling(sf::RenderWindow& window, sf::Event& ev);
 };
+#endif

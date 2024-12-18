@@ -10,6 +10,7 @@ GUI::~GUI()
 	delete label_coins;
 	delete label_lives;
 	delete label_time_remaining;
+	delete label_score;
 }
 
 Label* GUI::createLabel()
@@ -20,11 +21,16 @@ Label* GUI::createLabel()
 void GUI::init()
 {
 	this->label_coins = createLabel();
-	this->label_coins->setPosition(350.0f, 10.0f);
+	this->label_coins->setPosition(210.0f, 10.0f);
+
 	this->label_lives = createLabel();
-	this->label_lives->setPosition(100.0f, 10.0f);
+	this->label_lives->setPosition(50.0f, 10.0f);
+
 	this->label_time_remaining = createLabel();
-	this->label_time_remaining->setPosition(700.0f, 10.0f);
+	this->label_time_remaining->setPosition(800.0f, 10.0f);
+
+	this->label_score = createLabel();
+	this->label_score->setPosition(550.0f, 10.0f);
 }
 
 void GUI::setCoin(int numCoin)
@@ -36,7 +42,7 @@ void GUI::setCoin(int numCoin)
 
 void GUI::setLives(int numLives)
 {
-	label_lives->setString(" x " + std::to_string(numLives));
+	label_lives->setString("x" + std::to_string(numLives));
 }
 
 void GUI::setTimeRemaining(int time)
@@ -46,11 +52,19 @@ void GUI::setTimeRemaining(int time)
 	label_time_remaining->setString(str_stream.str());
 }
 
+void GUI::setScore(int score)
+{
+	std::stringstream str_stream;
+	str_stream << "SCORE\n" << std::setw(6) << std::setfill('0') << score;
+	label_score->setString(str_stream.str());
+}
+
 void GUI::draw(sf::RenderWindow& w)
 {
 	label_coins->draw(w);
 	label_lives->draw(w);
 	label_time_remaining->draw(w);
+	label_score->draw(w);
 }
 
 Label::Label()

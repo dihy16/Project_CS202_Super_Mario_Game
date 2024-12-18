@@ -4,7 +4,7 @@
 using namespace std;
 MenuManager::MenuManager()
 {
-    currentGameState = eMainMenu;
+    menuState = eMainMenu;
 
     mainMenu = new MainMenu();
     levelMenu = new LevelMenu();
@@ -20,12 +20,12 @@ MenuManager::~MenuManager()
 
 void MenuManager::changeState(int state)
 {
-    setGameState(static_cast<gameState>(state));
+    setMenuState(static_cast<MenuState>(state));
 }
 void MenuManager::handleEvents(sf::RenderWindow &window, sf::Event &ev)
 {
     
-    switch(currentGameState) {
+    switch(menuState) {
         case eMainMenu:
             mainMenu->EventHandling(window, ev);
             break;
@@ -34,32 +34,27 @@ void MenuManager::handleEvents(sf::RenderWindow &window, sf::Event &ev)
             break;
         case eGame:
             MarioGameManager::getInstance()->setState(MarioGameManager::GameState::playing);
-            MarioGameManager::getInstance()->playMusic(MarioGameManager::overworld);
             break;
     }
 }
 
 void MenuManager::draw(sf::RenderWindow& window) {
-    switch(currentGameState) {
+    switch(menuState) {
         case eMainMenu:
             mainMenu->draw(window);
             break;
         case eLevelMenu:
             levelMenu->draw(window);
             break;
-        case eGame:
-            RenderManager::GetInstance().Update();
-            MarioGameManager::getInstance()->updateGUI();
-            MarioGameManager::getInstance()->getGUI()->draw(window);
-            //RenderManager::GetInstance().debugConsole.setString("Game");
+        default:
             break;
     }
 }
 
-int MenuManager::getGameState() {
-	return currentGameState;
+int MenuManager::getMenuState() {
+	return menuState;
 }
 
-void MenuManager::setGameState(gameState viewID) {
-	this->currentGameState = viewID;
+void MenuManager::setMenuState(MenuState viewID) {
+	this->menuState = viewID;
 }

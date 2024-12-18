@@ -27,6 +27,7 @@ private:
 	Label* label_coins;
 	Label* label_lives;
 	Label* label_time_remaining;
+	Label* label_score;
 public:
 	GUI();
 	~GUI();
@@ -35,6 +36,7 @@ public:
 	void setCoin(int numCoin);
 	void setLives(int numLives);
 	void setTimeRemaining(int time);
+	void setScore(int score);
 	void draw(sf::RenderWindow& w);
 	std::string getStringCoins() {
 		return label_coins->getString();

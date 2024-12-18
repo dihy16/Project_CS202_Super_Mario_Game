@@ -271,13 +271,14 @@ void Mario::handlePowerUp()
          collider->body->SetActive(false);
          MarioGameManager::getInstance()->playSound(MarioGameManager::powerup);
          logEvent("Mushroom collected", mario->xPos, mario->yPos);
+         MarioGameManager::getInstance()->addScore(MarioGameManager::Mushroom);
       }
       else if (collider->body->GetOwner()->name == "coin")
       {
          MarioGameManager::getInstance()->addCoin();
          MarioGameManager::getInstance()->playSound(MarioGameManager::add_coin);
          collider->body->SetActive(false);
-         // increase coin state and score and play sound
+         MarioGameManager::getInstance()->addScore(MarioGameManager::Coin);
          logEvent("Coin collected", mario->xPos, mario->yPos);
       }
       else if (collider->body->GetOwner()->name == "flower")
@@ -287,6 +288,7 @@ void Mario::handlePowerUp()
          collider->body->SetActive(false);
          MarioGameManager::getInstance()->playSound(MarioGameManager::powerup);
          logEvent("Flower collected", mario->xPos, mario->yPos);
+         MarioGameManager::getInstance()->addScore(MarioGameManager::Flower);
       }
    };
    if (eatMushroom)

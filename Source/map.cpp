@@ -4,7 +4,6 @@ Map::Map()
 {
     blocktexture.loadFromFile("Images/TilesBackup.png");
     // block.setTexture(blocktexture);
-    readmap();
 }
 
 Map::Map(std::string file, bool resuming)
@@ -72,6 +71,22 @@ void Map::readmap(std::string file)
     int target;
     projectionmap.clear();
     backgroundmap.clear();
+    layout.loadFromFile(file + "/background.png");
+    for (int i = 0; i < layout.getSize().y; i++)
+    {
+        backgroundmap.push_back(vector<int>({}));
+        for (int j = 0; j < layout.getSize().x; j++)
+        {
+            c = sf::Color(layout.getPixel(j, i));
+            if (c == sf::Color(95, 205, 228))
+                target = 0; // sky
+            else if (c == sf::Color(255, 255, 255))
+                target = 10;
+            else
+                target = 0;
+            backgroundmap[i].push_back(target);
+        }
+    }
     layout.loadFromFile(file + "/layout.png");
     // std::ifstream mapfile(file);
     // mapfile >> height >> width;
@@ -95,6 +110,10 @@ void Map::readmap(std::string file)
                 target = 5; // flag pole
             else if (c == sf::Color(223, 113, 38))
                 target = 6; // castle
+            else if (c == sf::Color(0, 0, 0))
+                target = 8; //turret
+            else if (c == sf::Color(217, 113, 15))
+                target = 10;
             else
                 target = 0;
             projectionmap[i].push_back(target);
@@ -262,7 +281,7 @@ void Map::createblock(int x, int y)
     RenderManager::GetInstance().listEntity.push_back(block);
     block->scaleX = 1.0;
     block->scaleY = 1.0;
-    block->xPos = (x - 5) * BLOCK_WIDTH;
+    block->xPos = x * BLOCK_WIDTH;
     block->yPos = y * BLOCK_HEIGHT;
     block->name = "Block";
     // SpriteRenderer *sr = AddComponent<SpriteRenderer>(block);
@@ -276,11 +295,17 @@ void Map::createblock(int x, int y)
     case 0: // nothing
         xtex = 1;
         ytex = 7;
+        block->name = "Nothing";
         break;
     case 1: // wall
         xtex = 1;
         ytex = 0;
         block->name = "Block";
+        break;
+    case 10: // wall
+        xtex = 1;
+        ytex = 0;
+        block->name = "FloatingBlock";
         break;
     case 2: // mystery box
         xtex = 2;
@@ -329,6 +354,7 @@ void Map::createblock(int x, int y)
                 ytex = 2;
             }
         }
+        block->name = "Pipe";
         break;
     case 4: // horizontal left-ward pipe
         if (y == 0)
@@ -341,8 +367,10 @@ void Map::createblock(int x, int y)
             xtex = 4;
         else
             xtex = 5;
+        block->name = "Pipe";
         break;
     case 5: // flag pole
+        block->name = "Flag";
         xtex = 7;
         if (y == 0)
         {
@@ -360,6 +388,7 @@ void Map::createblock(int x, int y)
             break;
         }
     case 7: // mushroom tile, not mushroom buff
+        block->name = "MushroomTile";
         ytex = 0;
         if (projectionmap[y][x - 1] != 7)
             xtex = 4;
@@ -367,6 +396,13 @@ void Map::createblock(int x, int y)
             xtex = 6;
         else
             xtex = 5;
+        break;
+    case 8:
+        block->name = "Turret";
+        xtex = 7;
+        if (y == 0) ytex = 3;
+        else if (projectionmap[y - 1][x] != 8) ytex = 3;
+        else ytex = 4;
         break;
     default:
         xtex = 1;
@@ -390,13 +426,60 @@ void Map::createblock(int x, int y)
     rb->yVel = 0;
 }
 
+void Map::createbackgroundblock(int x, int y)
+{
+    Block *block = new Block;
+    block->scaleX = 1.0;
+    block->scaleY = 1.0;
+    block->xPos = x * BLOCK_WIDTH;
+    block->yPos = y * BLOCK_HEIGHT;
+    block->name = "BackgroundBlock";
+    int xtex, ytex;
+    switch (backgroundmap[y][x])
+    {
+    case 0: // sky
+        xtex = 1;
+        ytex = 7;
+        break;
+    case 10: // cloud
+        if (y == 0)
+            ytex = 5;
+        else if (backgroundmap[y - 1][x] != 10)
+            ytex = 5;
+        else
+            ytex = 6;
+        if (backgroundmap[y][x - 1] != 10)
+            xtex = 2;
+        else if (backgroundmap[y][x + 1] != 10)
+            xtex = 4;
+        else
+            xtex = 3;
+        break;
+    default:
+        break;
+    }
+    block->spritearea = sf::IntRect(xtex * BLOCK_WIDTH, ytex * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT);
+    backgroundblocks.push_back(block);
+}
+
 void Map::draw(sf::RenderWindow &w)
 {
+    for (Block *i : backgroundblocks)
+    {
+        sprite.setTexture(blocktexture);
+        sprite.setTextureRect(sf::IntRect(1 * BLOCK_WIDTH, 7 * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT));
+        sprite.setPosition(i->xPos - Camera::GetInstance().posX, i->yPos);
+        w.draw(sprite);
+        sprite.setTexture(blocktexture);
+        sprite.setTextureRect(i->spritearea);
+        sprite.setPosition(i->xPos - Camera::GetInstance().posX, i->yPos);
+        w.draw(sprite);
+    }
     for (Block *i : availableblocks)
     {
         sprite.setTexture(blocktexture);
         sprite.setTextureRect(i->spritearea);
-        sprite.setPosition(i->xPos, i->yPos);
+        sprite.setPosition(i->xPos - Camera::GetInstance().posX, i->yPos);
         w.draw(sprite);
     }
 }
@@ -471,9 +554,31 @@ void Map::blockgenerator(int MarioX, int MarioY)
         xstart = MarioX / BLOCK_WIDTH - 8;
         offset = MarioX % BLOCK_WIDTH;
     }
-    for (int i = 0; i < 15; i++)
+    for (int i = 0; i < projectionmap.size(); i++)
         for (int j = xstart; j < projectionmap[0].size(); j++)
+        {
+            createbackgroundblock(j, i);
             createblock(j, i);
+        }
+}
+
+void Map::loadmap(int level, int MarioX, int MarioY)
+{
+    std::string whichlevel;
+    switch (level)
+    {
+    case 1:
+        whichlevel = "Data/Level1";
+        break;
+    case 2:
+        whichlevel = "Data/Level2";
+        break;
+    case 3:
+        whichlevel = "Data/Level3";
+        break;
+    }
+    readmap(whichlevel);
+    blockgenerator(MarioX, MarioY);
 }
 
 void Map::applyLog(const std::string &logFile)

@@ -1,4 +1,7 @@
-#pragma once
+#ifndef  MenuManager_H
+#define MenuManager_H
+
+
 #include "mainMenu.h"
 #include "levelMenu.h"
 
@@ -8,7 +11,7 @@ private:
 	LevelMenu* levelMenu;
 public:
     // Define pages number
-	enum gameState {    
+	enum MenuState {    
 		eMainMenu,
 		eLevelMenu,
 		eGame,
@@ -17,12 +20,13 @@ public:
 		eScoreboard,
 		// ePause,
 	};
-    gameState currentGameState;
+	MenuState menuState;
     MenuManager();
     ~MenuManager();
-	void changeState(int gameState);
+	void changeState(int menuState);
     void handleEvents(sf::RenderWindow& window, sf::Event& ev);
     void draw(sf::RenderWindow& window);
-    int getGameState();
-	void setGameState(gameState viewID);
+    int getMenuState();
+	void setMenuState(MenuState viewID);
 };
+#endif // ! MenuManager_H

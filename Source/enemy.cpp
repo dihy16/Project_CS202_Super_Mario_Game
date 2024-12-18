@@ -60,6 +60,8 @@ void Goomba::collideWithMario(Mario &mario)
       {
          RenderManager::GetInstance().debugText += " hp - 1 ";
          mario.touchEnemy = true;
+         MarioGameManager::getInstance()->marioDies();
+         MarioGameManager::getInstance()->playSound(MarioGameManager::mario_die);
       }
    };
 

@@ -6,6 +6,7 @@
 #include <cmath>
 #include <SFML/System/Vector2.hpp>
 #include "RenderManager.h"
+#include "../../marioGameManager.h"
 
 using sf::Vector2f;
 
@@ -23,6 +24,7 @@ PhysicsManager &PhysicsManager::GetInstance()
 
 void PhysicsManager::FixedUpdate()
 {
+     if (MarioGameManager::getInstance()->getState() == MarioGameManager::GameState::pause) return;
     ColliderManager::GetInstance().FixedUpdate();
     for (auto rb : rbList)
     {

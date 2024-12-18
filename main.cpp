@@ -1,4 +1,3 @@
-#include "./Source/level1.h"
 #include "./Source/marioGameManager.h"
 #include "./Source/PhysicsEngine/Managers/Camera.h"
 #include "./Source/saveGame.h"
@@ -58,7 +57,6 @@ int main()
             }
             MarioGameManager::getInstance()->handleEvents(RenderManager::GetInstance().window, event);
         }
-        lv1.execute();
 
         Camera::GetInstance().posX = RenderManager::GetInstance().trackE->xPos - 200;
         if (event.type == sf::Event::KeyPressed)
@@ -79,11 +77,10 @@ int main()
         {
             PhysicsManager::GetInstance().FixedUpdate();
             accumulator -= PhysicsManager::FIXED_TIMESTEP;
-            MarioGameManager::getInstance()->updateGameState(static_cast<int>(PhysicsManager::FIXED_TIMESTEP * 1000));
+            MarioGameManager::getInstance()->updateGameState(static_cast<int>(PhysicsManager::FIXED_TIMESTEP * 1000), event);
         }
         RenderManager::GetInstance().window.clear();
         // m.draw(RenderManager::GetInstance().window);
-        lv1.drawLevel();
         MarioGameManager::getInstance()->draw(RenderManager::GetInstance().window);
         RenderManager::GetInstance().window.display();
     }

@@ -112,7 +112,7 @@ bool ColliderManager::isGrounded(BoxCollider *collider)
             float maxB = minB + other->height;
             if (minB < maxA && maxA < maxB)
             {
-                if (collider->GetOwner()->name == "MysteryBox" && other->GetOwner()->name == "mario")
+                if ((collider->GetOwner()->name == "Turret" || collider->GetOwner()->name == "MushroomTile" || collider->GetOwner()->name == "Flag" ||collider->GetOwner()->name == "Pipe" || collider->GetOwner()->name == "FloatingBlock" || collider->GetOwner()->name == "MysteryBox") && other->GetOwner()->name == "mario")
                     return true;
                 collider->GetOwner()->yPos = other->GetOwner()->yPos - collider->height + 1;
                 return true;

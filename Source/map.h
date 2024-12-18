@@ -3,6 +3,7 @@
 // #include "mario.h"
 #include <fstream>
 #include <memory>
+#include "./PhysicsEngine/Managers/Camera.h"
 #include "enemy.h"
 
 class Block : public Entity
@@ -22,7 +23,7 @@ private:
     int xstart, ystart, offset;
     sf::Texture blocktexture;
     sf::Sprite sprite;
-    std::vector<Block *> availableblocks;
+    std::vector<Block *> availableblocks, backgroundblocks;
     sf::Image layout;
 
 public:
@@ -40,12 +41,25 @@ public:
     }
     // function creates a list of block entities
     void createblock(int marioX, int marioY);
+    void createbackgroundblock(int x, int y);
     void blockgenerator(int, int);
     // function checks for entity availability within map sight
     // map nudge functions, default 5 pixels
     void moveleft(float step);
     void moveright(float step);
     void applyLog(const std::string &logFile);
+    void clearmap()
+    {
+        for (Block *i : availableblocks)
+            i = nullptr;
+        for (Block *i : backgroundblocks)
+            i = nullptr;
+        projectionmap.clear();
+        backgroundmap.clear();
+        availableblocks.clear();
+        backgroundblocks.clear();
+    }
+    void loadmap(int, int, int);
 };
 
 class blockshared
