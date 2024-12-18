@@ -45,10 +45,11 @@ void LevelMenu::handleClicking(sf::RenderWindow &window)
     int indexButPressed = this->getButClicked(window);
     switch (indexButPressed) {
         case 1: // Easy
-            notifyObserver(2); // to Game Menu
             MarioGameManager::getInstance()->setCurrentLevel(1);
+            notifyObserver(2); // to Game Screen
             break;
         default:
             break;
     }
+    cout << "out handle clicking" << endl;
 }

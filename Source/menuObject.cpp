@@ -18,7 +18,7 @@ void MenuObject::init(std::string filename, float x, float y)
 
 void MenuObject::draw(sf::RenderWindow& window) const
 {
-    //if (!isHidden)
+    if (!isHidden)
         window.draw(sprite);
 }
 
@@ -41,4 +41,9 @@ void MenuObject::updateColorOnHover(sf::RenderWindow &window)
     else {
         sprite.setColor(sf::Color(255, 255, 255));
     }
+}
+
+void MenuObject::setScale(float scaleX, float scaleY)
+{
+    sprite.setScale(scaleX, scaleY);
 }

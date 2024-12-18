@@ -20,6 +20,7 @@ public:
 	void draw(sf::RenderWindow& window) const;
 	bool isMouseOver(sf::RenderWindow& window) const;
 	void updateColorOnHover(sf::RenderWindow& window);
+	void setScale(float scaleX, float scaleY);
 };
 
 #endif

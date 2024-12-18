@@ -11,6 +11,7 @@
 class Level;
 class LevelMenu;
 class MenuManager;
+class GUI;
 
 class MarioGameManager : public GameManager
 {
@@ -56,7 +57,7 @@ public:
     void addCoin();
     void addLive();
     void setState(GameState gameState);
-    void updateGameState(int delta_time); // delta time in milliseconds
+    //void updateGameState(int delta_time, sf::Event& ev); // delta time in milliseconds
     int getLives();
     int getCoins();
     int getScore();

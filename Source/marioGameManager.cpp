@@ -64,10 +64,10 @@ void MarioGameManager::draw(sf::RenderWindow &w)
         menuManager->draw(w);
         break;
     case GameState::playing:
+        updateGUI();
         if (level)
             level->drawLevel();
         RenderManager::GetInstance().Update();
-        updateGUI();
         getGUI()->draw(w);
         break;
     case GameState::pause:
@@ -80,12 +80,16 @@ void MarioGameManager::draw(sf::RenderWindow &w)
 
 void MarioGameManager::handleEvents(sf::RenderWindow &w, sf::Event &ev)
 {
+    //std::cout << "curlevel" << currentLevel << std::endl;
     switch (gameState)
     {
     case GameState::menu:
         menuManager->handleEvents(w, ev);
         break;
     case GameState::playing:
+        if (ev.type == sf::Event::MouseButtonPressed) {
+            getGUI()->handleClicking(w);
+        }
         if (ev.type == sf::Event::KeyPressed)
         {
             if (ev.key.code == sf::Keyboard::P)
