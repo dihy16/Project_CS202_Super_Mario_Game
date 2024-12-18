@@ -94,6 +94,8 @@ void Map::readmap(std::string file)
                 target = 5; // flag pole
             else if (c == sf::Color(223, 113, 38))
                 target = 6; // castle
+            else if (c == sf::Color(0, 0, 0))
+                target = 8; //turret
             else if (c == sf::Color(217, 113, 15))
                 target = 10;
             else
@@ -378,6 +380,13 @@ void Map::createblock(int x, int y)
             xtex = 6;
         else
             xtex = 5;
+        break;
+    case 8:
+        block->name = "Turret";
+        xtex = 7;
+        if (y == 0) ytex = 3;
+        else if (projectionmap[y - 1][x] != 8) ytex = 3;
+        else ytex = 4;
         break;
     default:
         xtex = 1;
