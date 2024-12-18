@@ -3,3 +3,6 @@ libraries
 *.exe
 .vscode/*
 .vs/*
+Data/Level1/*
+Data/Level2/*
+Data/Level3/*

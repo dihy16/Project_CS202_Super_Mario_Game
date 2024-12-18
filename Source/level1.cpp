@@ -1,7 +1,40 @@
 #include "level1.h"
-Level1::Level1() : mario(100, 100), m("Data/Level1")
+#include <iostream>
+using namespace std;
+Level1::Level1() : mario(8 * BLOCK_WIDTH, 12 * BLOCK_HEIGHT), m()
 {
-   m.blockgenerator(100, 12 * BLOCK_HEIGHT);
+   m.loadmap(1, 8 * BLOCK_WIDTH, 12 * BLOCK_HEIGHT);
+   sf::Color c;
+   std::string whichlevel;
+    switch (1)
+    {
+    case 1:
+        whichlevel = "Data/Level1";
+        break;
+    case 2:
+        whichlevel = "Data/Level2";
+        break;
+    case 3:
+        whichlevel = "Data/Level3";
+        break;
+    }
+   entitylayout.loadFromFile(whichlevel + "/entity.png");
+   for (int i = 0; i < entitylayout.getSize().y; i++)
+    {
+        for (int j = 0; j < entitylayout.getSize().x; j++)
+        {
+            c = sf::Color(entitylayout.getPixel(j, i));
+            if (c == sf::Color(95, 205, 228)); //nothing
+            else if (c == sf::Color(143, 86, 59))
+                enemies.push_back(EnemyFactory::createEnemy("Goomba", j * BLOCK_WIDTH, i * BLOCK_HEIGHT));
+            else if (c == sf::Color(153, 229, 80))
+                enemies.push_back(EnemyFactory::createEnemy("Koopa", j * BLOCK_WIDTH, i * BLOCK_HEIGHT));
+            else if (c == sf::Color(106, 190, 48))
+                enemies.push_back(EnemyFactory::createEnemy("HammerBro", j * BLOCK_WIDTH, i * BLOCK_HEIGHT));
+            else if (c == sf::Color(255, 255, 0))
+                enemies.push_back(EnemyFactory::createEnemy("PiranhaPlant", j * BLOCK_WIDTH, i * BLOCK_HEIGHT));
+        }
+    }
    // enemies.push_back(EnemyFactory::createEnemy("Goomba", 300, 0));
    // enemies.push_back(EnemyFactory::createEnemy("Koopa", 400, 0));
    // enemies.push_back(EnemyFactory::createEnemy("PiranhaPlant", 500, 0));
