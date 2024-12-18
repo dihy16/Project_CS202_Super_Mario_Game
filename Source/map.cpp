@@ -1,17 +1,16 @@
 #include "map.h"
 
-Map::Map()
-{
-    blocktexture.loadFromFile("Images/TilesBackup.png");
-    // block.setTexture(blocktexture);
-}
+// Map::Map()
+// {
+//     blocktexture.loadFromFile("Images/TilesBackup.png");
+//     // block.setTexture(blocktexture);
+// }
 
-Map::Map(std::string file, bool resuming)
+Map::Map(bool resuming)
 {
     blocktexture.loadFromFile("Images/TilesBackup.png");
     if (resuming)
         applyLog("../log/game_log.txt");
-    readmap(file);
 }
 
 // read map organization from a file
@@ -111,7 +110,7 @@ void Map::readmap(std::string file)
             else if (c == sf::Color(223, 113, 38))
                 target = 6; // castle
             else if (c == sf::Color(0, 0, 0))
-                target = 8; //turret
+                target = 8; // turret
             else if (c == sf::Color(217, 113, 15))
                 target = 10;
             else
@@ -400,9 +399,12 @@ void Map::createblock(int x, int y)
     case 8:
         block->name = "Turret";
         xtex = 7;
-        if (y == 0) ytex = 3;
-        else if (projectionmap[y - 1][x] != 8) ytex = 3;
-        else ytex = 4;
+        if (y == 0)
+            ytex = 3;
+        else if (projectionmap[y - 1][x] != 8)
+            ytex = 3;
+        else
+            ytex = 4;
         break;
     default:
         xtex = 1;

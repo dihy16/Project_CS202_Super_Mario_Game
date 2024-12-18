@@ -28,8 +28,8 @@ private:
 
 public:
     bool left = false, right = false;
-    Map();
-    Map(std::string file, bool resuming);
+    // Map();
+    Map(bool resuming);
     void readmap();
     void readmap(std::string file);
     void draw(sf::RenderWindow &w, int MarioX, int MarioY);

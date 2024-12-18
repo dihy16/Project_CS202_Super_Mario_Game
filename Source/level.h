@@ -14,14 +14,15 @@ class Enemy;
 class Level
 {
 private:
-    Mario* mario;
-    Map* m;
+    Mario *mario;
+    Map *m;
     std::vector<std::unique_ptr<Enemy>> enemies;
     std::vector<std::unique_ptr<Item>> items;
     sf::Image entitylayout;
+
 public:
     bool display, finished;
-    Level(int level);
+    Level(int level, bool resuming);
     void handleKeyPress();
     void start();
     void end();

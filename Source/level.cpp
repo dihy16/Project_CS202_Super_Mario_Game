@@ -1,13 +1,13 @@
 #include "level.h"
 
-Level::Level(int level)
+Level::Level(int level, bool resuming)
 {
     std::random_device dev;
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist1(0, 2);
     int target;
     mario = new Mario(8 * BLOCK_WIDTH, 12 * BLOCK_HEIGHT);
-    m = new Map;
+    m = new Map(resuming);
     m->loadmap(level, 8 * BLOCK_WIDTH, 12 * BLOCK_HEIGHT);
     sf::Color c;
     std::string whichlevel;
@@ -32,19 +32,19 @@ Level::Level(int level)
             c = sf::Color(entitylayout.getPixel(j, i));
             if (c == sf::Color(255, 242, 0))
             {
-               target = dist1(rng);
-               switch (target)
-               {
-                  case 0:
-                     items.push_back(ItemFactory::createItem("Coin", j * BLOCK_WIDTH + 20, i * BLOCK_WIDTH + 20));
-                     break;
-                  case 1:
-                     items.push_back(ItemFactory::createItem("Mushroom", j * BLOCK_WIDTH + 20, i * BLOCK_WIDTH + 20));
-                     break;
-                  case 2:
-                     items.push_back(ItemFactory::createItem("Flower", j * BLOCK_WIDTH + 20, i * BLOCK_WIDTH + 20));
-                     break;
-               }
+                target = dist1(rng);
+                switch (target)
+                {
+                case 0:
+                    items.push_back(ItemFactory::createItem("Coin", j * BLOCK_WIDTH + 20, i * BLOCK_WIDTH + 20));
+                    break;
+                case 1:
+                    items.push_back(ItemFactory::createItem("Mushroom", j * BLOCK_WIDTH + 20, i * BLOCK_WIDTH + 20));
+                    break;
+                case 2:
+                    items.push_back(ItemFactory::createItem("Flower", j * BLOCK_WIDTH + 20, i * BLOCK_WIDTH + 20));
+                    break;
+                }
             }
         }
     }
@@ -54,7 +54,8 @@ Level::Level(int level)
         for (int j = 0; j < entitylayout.getSize().x; j++)
         {
             c = sf::Color(entitylayout.getPixel(j, i));
-            if (c == sf::Color(95, 205, 228)); //nothing
+            if (c == sf::Color(95, 205, 228))
+                ; // nothing
             else if (c == sf::Color(143, 86, 59))
                 enemies.push_back(EnemyFactory::createEnemy("Goomba", j * BLOCK_WIDTH, i * BLOCK_HEIGHT));
             else if (c == sf::Color(153, 229, 80))
@@ -95,17 +96,18 @@ void Level::handleKeyPress()
 
 void Level::execute()
 {
-    if (MarioGameManager::getInstance()->getState() == MarioGameManager::GameState::pause) return;
+    if (MarioGameManager::getInstance()->getState() == MarioGameManager::GameState::pause)
+        return;
     handleKeyPress();
     mario->update(items);
-    for (auto& enemy : enemies)
+    for (auto &enemy : enemies)
     {
-        enemy->move();
+        enemy->animation();
         enemy->collideWithMario(*mario);
         enemy->fadingAnimation();
     }
 
-    for (auto& item : items)
+    for (auto &item : items)
     {
         item->animation();
         item->fadeOut();

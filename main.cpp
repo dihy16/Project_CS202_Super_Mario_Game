@@ -9,19 +9,19 @@
 
 int main()
 {
-    bool resuming = true;
+    bool resuming = false;
 
-    Level1 lv1(resuming);
-    Map &gameMap = lv1.getMap();
-    Mario &mario = lv1.getMario();
-    if (resuming)
-    {
-        RenderManager::GetInstance().debugText = "Resuming game";
-        GameStateMemento memento = GameStateMemento::loadState("log/game_state.txt");
-        mario.restoreState(memento);
-    }
-    else
-        RenderManager::GetInstance().debugText = "Starting new game";
+    // MarioGameManager m1;
+    // Map &gameMap = lv1.getMap();
+    // Mario &mario = lv1.getMario();
+    // if (resuming)
+    // {
+    //     RenderManager::GetInstance().debugText = "Resuming game";
+    //     GameStateMemento memento = GameStateMemento::loadState("log/game_state.txt");
+    //     mario.restoreState(memento);
+    // }
+    // else
+    //     RenderManager::GetInstance().debugText = "Starting new game";
 
     MEMORYSTATUSEX statex;
     GlobalMemoryStatusEx(&statex);
@@ -84,7 +84,7 @@ int main()
         MarioGameManager::getInstance()->draw(RenderManager::GetInstance().window);
         RenderManager::GetInstance().window.display();
     }
-    GameStateMemento memento = mario.saveState();
-    saveGame(memento, "log/game_state.txt");
+    // GameStateMemento memento = mario.saveState();
+    // saveGame(memento, "log/game_state.txt");
     return 0;
 }
