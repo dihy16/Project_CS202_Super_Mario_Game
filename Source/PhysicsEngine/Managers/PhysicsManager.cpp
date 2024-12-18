@@ -32,10 +32,11 @@ void PhysicsManager::FixedUpdate()
             continue;
         if (ColliderManager::GetInstance().isGrounded(rb->collider))
         {
-            if (rb->isJumping)
+            if (rb->isJumping && timer.getElapsedTime().asSeconds() > 0.5)
             {
                 rb->AddForce(0, -350.f);
                 rb->isJumping = false;
+                timer.restart();
             }
             else
             {

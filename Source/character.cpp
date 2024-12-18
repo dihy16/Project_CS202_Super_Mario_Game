@@ -76,9 +76,9 @@ void Character::setRectForWalking(sf::IntRect &rect)
     if (direction == Right)
     {
         if (state == Small)
-            maxLeft = 99, picWidth = 32;
+            maxLeft = 99, picWidth = 33;
         else if (state == Super || state == Fire)
-            maxLeft = 96, picWidth = 30;
+            maxLeft = 96, picWidth = 32;
 
         if (rect.left >= maxLeft)
             rect.left = picWidth;
@@ -414,6 +414,7 @@ Mario::Mario(int x, int y) : Character(x, y, MARIO, SUPERMARIO)
 {
     character->tag = "mario";
 }
+
 Luigi::Luigi(int x, int y) : Character(x, y, LUIGI, SUPERLUIGI)
 {
     character->tag = "luigi";
