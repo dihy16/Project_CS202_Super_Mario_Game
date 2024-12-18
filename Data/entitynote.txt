@@ -1,0 +1,4 @@
+143, 86, 59: goomba
+153, 229, 80: koopa
+106, 190, 48: hammer bro
+255, 255, 0: piranha plant
