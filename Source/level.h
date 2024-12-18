@@ -11,6 +11,7 @@ class Luigi;
 class Map;
 class Item;
 class Enemy;
+class MarioGameManager;
 
 class Level
 {
@@ -22,6 +23,8 @@ private:
     std::vector<std::unique_ptr<Enemy>> enemies;
     std::vector<std::unique_ptr<Item>> items;
     sf::Image entitylayout;
+    int lv;
+    sf::Clock timer;
 
 public:
     bool display, finished;

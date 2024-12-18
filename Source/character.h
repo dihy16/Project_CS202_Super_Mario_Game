@@ -13,7 +13,6 @@
 #include "marioGameManager.h"
 #include "saveGame.h"
 
-
 #define BLOCK_WIDTH 64
 #define BLOCK_HEIGHT 64
 #define MARIO "resource/Mario1.png"
@@ -23,15 +22,15 @@
 
 class Item;             // forward declaration
 class GameStateMemento; // forward declaration
-class Level;           // forward declaration
+class Level;            // forward declaration
 
 class Character : public Entity
 {
 protected:
-    Entity *character = RenderManager::GetInstance().trackE;
+    Entity *character;
 
-    SpriteRenderer *characterSprite = AddComponent<SpriteRenderer>(character);
-    BoxCollider *characterCollider = AddComponent<BoxCollider>(character);
+    SpriteRenderer *characterSprite;
+    BoxCollider *characterCollider;
 
     sf::Clock timer1, timer2, timer3, stateTimer, touchTimer;
     std::string textureFile1, textureFile2;
@@ -51,7 +50,7 @@ public:
         Super,
         Fire,
     } state = Small;
-    RigidBody *characterRigidBody = AddComponent<RigidBody>(character);
+    RigidBody *characterRigidBody;
 
     Character(int x, int y, const std::string &texture1, const std::string &texture2);
     void moveRight(float speed);
@@ -71,7 +70,6 @@ public:
     friend class Level;
 };
 
-
 class Mario : public Character
 {
 public:
@@ -82,6 +80,5 @@ class Luigi : public Character
 {
 public:
     Luigi(int x, int y);
-
 };
 #endif // CHARACTER_H

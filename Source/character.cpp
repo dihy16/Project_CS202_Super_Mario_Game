@@ -2,6 +2,14 @@
 
 Character::Character(int x, int y, const std::string &texture1, const std::string &texture2)
 {
+    if (RenderManager::GetInstance().trackE == nullptr)
+        RenderManager::GetInstance().trackE = new Entity();
+
+    character = RenderManager::GetInstance().trackE;
+    characterSprite = AddComponent<SpriteRenderer>(character);
+    characterCollider = AddComponent<BoxCollider>(character);
+    characterRigidBody = AddComponent<RigidBody>(character);
+
     goRight = goLeft = goUp = created = false;
     eatFlower = eatMushroom = touchEnemy = false;
     this->textureFile1 = texture1;
