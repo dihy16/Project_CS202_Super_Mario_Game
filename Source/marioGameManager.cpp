@@ -32,6 +32,7 @@ MarioGameManager::~MarioGameManager()
     delete menuManager;
     delete GUIManager;
     delete instance;
+    delete level;
 }
 
 MenuManager *MarioGameManager::getMenuManager()
