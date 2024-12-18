@@ -1,11 +1,24 @@
 #include "level1.h"
 #include <iostream>
 using namespace std;
-Level1::Level1() : mario(100, 100), m("Data/Level1")
+Level1::Level1() : mario(8 * BLOCK_WIDTH, 12 * BLOCK_HEIGHT), m()
 {
-   m.blockgenerator(100, 12 * BLOCK_HEIGHT);
+   m.loadmap(1, 8 * BLOCK_WIDTH, 12 * BLOCK_HEIGHT);
    sf::Color c;
-   entitylayout.loadFromFile("Data/Level1/entity.png");
+   std::string whichlevel;
+    switch (1)
+    {
+    case 1:
+        whichlevel = "Data/Level1";
+        break;
+    case 2:
+        whichlevel = "Data/Level2";
+        break;
+    case 3:
+        whichlevel = "Data/Level3";
+        break;
+    }
+   entitylayout.loadFromFile(whichlevel + "/entity.png");
    for (int i = 0; i < entitylayout.getSize().y; i++)
     {
         for (int j = 0; j < entitylayout.getSize().x; j++)

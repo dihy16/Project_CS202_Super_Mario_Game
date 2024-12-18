@@ -46,6 +46,16 @@ public:
     // map nudge functions, default 5 pixels
     void moveleft(float step);
     void moveright(float step);
+    void clearmap()
+    {
+        for (Block* i: availableblocks) i = nullptr;
+        for (Block* i: backgroundblocks) i = nullptr;
+        projectionmap.clear();
+        backgroundmap.clear();
+        availableblocks.clear();
+        backgroundblocks.clear();
+    }
+    void loadmap(int, int, int);
 };
 
 

@@ -4,7 +4,6 @@ Map::Map()
 {
     blocktexture.loadFromFile("Images/TilesBackup.png");
     // block.setTexture(blocktexture);
-    readmap();
 }
 
 Map::Map(std::string file)
@@ -560,4 +559,23 @@ void Map::blockgenerator(int MarioX, int MarioY)
             createbackgroundblock(j, i);
             createblock(j, i);
         }
+}
+
+void Map::loadmap(int level, int MarioX, int MarioY)
+{
+    std::string whichlevel;
+    switch (level)
+    {
+    case 1:
+        whichlevel = "Data/Level1";
+        break;
+    case 2:
+        whichlevel = "Data/Level2";
+        break;
+    case 3:
+        whichlevel = "Data/Level3";
+        break;
+    }
+    readmap(whichlevel);
+    blockgenerator(MarioX, MarioY);
 }
