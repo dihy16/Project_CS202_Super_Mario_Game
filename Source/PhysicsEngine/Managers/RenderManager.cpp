@@ -2,7 +2,6 @@
 #include <iostream>
 #include "Camera.h"
 
-
 RenderManager::RenderManager()
 {
     trackE = new Entity();
@@ -32,15 +31,19 @@ void RenderManager::Update()
             {
                 float newPosX = sr->GetOwner()->xPos - Camera::GetInstance().posX;
                 float newPosY = sr->GetOwner()->yPos - Camera::GetInstance().posY;
-                if (
-                    newPosX < -64
-                    || newPosX > window.getSize().x + 64
-                    ||  newPosY < -64
-                    || newPosY > window.getSize().y + 64
-                )
-                continue;
-                sr->sprite.setTexture(sr->texture);
-                sr->sprite.setPosition(newPosX, newPosY);
+
+                if (sr->GetOwner()->name != "mario")
+                {
+                    if (newPosX < -64 || newPosX > window.getSize().x + 64 || newPosY < -64 || newPosY > window.getSize().y + 64)
+                        continue;
+                    sr->sprite.setTexture(sr->texture);
+                    sr->sprite.setPosition(newPosX, newPosY);
+                }
+                else
+                {
+                    sr->sprite.setTexture(sr->texture);
+                    sr->sprite.setPosition(sr->GetOwner()->xPos, sr->GetOwner()->yPos);
+                }
                 sr->sprite.setRotation(sr->GetOwner()->rotation);
                 sr->sprite.setScale(sr->GetOwner()->scaleX, sr->GetOwner()->scaleY);
                 window.draw(sr->sprite);
@@ -52,18 +55,19 @@ void RenderManager::Update()
         for (auto collider : ColliderManager::GetInstance().colliderVector)
         {
             if (!collider->GetActive())
-            continue;
+                continue;
+            sf::RectangleShape rectangle(sf::Vector2(collider->width, collider->height));
             float newPosX = collider->GetOwner()->xPos - Camera::GetInstance().posX;
             float newPosY = collider->GetOwner()->yPos - Camera::GetInstance().posY;
-            if (
-                newPosX < -64
-                || newPosX > window.getSize().x + 64
-                ||  newPosY < -64
-                || newPosY > window.getSize().y + 64
-            )
-            continue;
-            sf::RectangleShape rectangle(sf::Vector2(collider->width, collider->height));
-            rectangle.setPosition(newPosX, newPosY);
+
+            if (collider->GetOwner()->name != "mario")
+            {
+                if (newPosX < -64 || newPosX > window.getSize().x + 64 || newPosY < -64 || newPosY > window.getSize().y + 64)
+                    continue;
+                rectangle.setPosition(newPosX, newPosY);
+            }
+            else
+                rectangle.setPosition(collider->GetOwner()->xPos, collider->GetOwner()->yPos);
             rectangle.setOutlineColor(sf::Color::Red);
             rectangle.setOutlineThickness(2.0f);
             rectangle.setFillColor(sf::Color::Transparent);

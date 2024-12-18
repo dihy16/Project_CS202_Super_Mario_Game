@@ -47,27 +47,17 @@ int main()
         }
         lv1.execute();
 
-        // if (mario.goLeft)
-        //     m.moveleft(-mario.marioRigidBody->xVel);
-        // else if (mario.goRight)
-        //     m.moveright(mario.marioRigidBody->xVel);
-
-        // if (m.left && m.right)
-        //     ;
-        // else if (m.left)
-        //     m.moveleft(2);
-        // else if (m.right)
-        //     m.moveright(2);
+        Camera::GetInstance().posX = RenderManager::GetInstance().trackE->xPos - 200;
         if (event.type == sf::Event::KeyPressed)
         {
             if (event.key.code == sf::Keyboard::Left)
             {
-                Camera::GetInstance().posX -= Camera::CAMERA_MOVE_SPPED;
+                // Camera::GetInstance().posX -= Camera::CAMERA_MOVE_SPPED;
                 RenderManager::GetInstance().debugText = std::to_string(Camera::GetInstance().posX);
             }
             if (event.key.code == sf::Keyboard::Right)
             {
-                Camera::GetInstance().posX += Camera::CAMERA_MOVE_SPPED;
+                // Camera::GetInstance().posX += Camera::CAMERA_MOVE_SPPED;
                 RenderManager::GetInstance().debugText = std::to_string(Camera::GetInstance().posX);
             }
         }

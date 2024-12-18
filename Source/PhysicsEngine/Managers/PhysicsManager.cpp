@@ -1,5 +1,6 @@
 #include "PhysicsManager.h"
 #include "ColliderManager.h"
+#include "Camera.h"
 #include "../Components/BoxCollider.h"
 #include <algorithm>
 #include <cmath>
@@ -43,20 +44,19 @@ void PhysicsManager::FixedUpdate()
         {
             rb->AddForce(0, 10.0f);
         }
-        rb->GetOwner()->xPos += rb->xVel * FIXED_TIMESTEP;
+        rb->GetOwner()->xPos += (rb->xVel * FIXED_TIMESTEP - Camera::GetInstance().posX);
+        rb->GetOwner()->yPos += (rb->yVel * FIXED_TIMESTEP - Camera::GetInstance().posY);
 
-        rb->GetOwner()->yPos += rb->yVel * FIXED_TIMESTEP;
+        // if (rb->GetOwner()->name == "mario")
+        // {
+        //     if (rb->GetOwner()->xPos < 0)
+        //         rb->GetOwner()->xPos = 0;
+        //     // else if (rb->GetOwner()->xPos > 16 * 64)
+        //     //     rb->GetOwner()->xPos = 16 * 64 - 48;
 
-        if (rb->GetOwner()->name == "mario")
-        {
-            if (rb->GetOwner()->xPos < 0)
-                rb->GetOwner()->xPos = 0;
-            // else if (rb->GetOwner()->xPos > 16 * 64)
-            //     rb->GetOwner()->xPos = 16 * 64 - 48;
-
-            if (rb->GetOwner()->yPos < 0)
-                rb->GetOwner()->yPos = 0;
-        }
+        //     if (rb->GetOwner()->yPos < 0)
+        //         rb->GetOwner()->yPos = 0;
+        // }
     }
 }
 
