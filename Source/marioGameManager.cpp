@@ -1,7 +1,7 @@
 #include "marioGameManager.h"
 
 MarioGameManager* MarioGameManager::instance = nullptr;
-MarioGameManager::GameState MarioGameManager::gameState = MarioGameManager::GameState::menu;
+MarioGameManager::GameState MarioGameManager::gameState = GameState::menu;
 
 MarioGameManager::MarioGameManager()
 {
@@ -57,12 +57,44 @@ void MarioGameManager::run()
 }
 void MarioGameManager::draw(sf::RenderWindow &w)
 {
-    menuManager->draw(w);
+    switch (gameState) {
+    case GameState::menu:
+        menuManager->draw(w);
+        break;
+    case GameState::playing:
+        RenderManager::GetInstance().Update();
+        updateGUI();
+        getGUI()->draw(w);
+        break;
+    case GameState::pause:
+        RenderManager::GetInstance().Update();
+        getGUI()->draw(w);
+        break;
+    }
+
 }
 
 void MarioGameManager::handleEvents(sf::RenderWindow &w, sf::Event &ev)
 {
-    menuManager->handleEvents(w, ev);
+    switch (gameState) {
+        case GameState::menu:
+            menuManager->handleEvents(w, ev);
+        break;
+        case GameState::playing:
+            if (ev.type == sf::Event::KeyPressed) {
+                if (ev.key.code == sf::Keyboard::P) {
+                    togglePause();
+                }
+            }
+         break;
+        case GameState::pause:
+            if (ev.type == sf::Event::KeyPressed) {
+                if (ev.key.code == sf::Keyboard::P) {
+                    togglePause();
+                }
+            }
+            break;
+    }
 }
 
 void MarioGameManager::addScore(ScoreID scoreId)
@@ -101,15 +133,51 @@ void MarioGameManager::setState(GameState gameState)
     this->gameState = gameState;
 }
 
-void MarioGameManager::updateGameState(int delta_time)
+void MarioGameManager::updateGameState(int delta_time, sf::Event& ev)
 {
     switch (gameState) {
     case GameState::playing:
+        playMusic(MarioGameManager::overworld);
         timeRemaining -= delta_time;
+        break;
+    case GameState::levelOver:
+        
+        break;
+    case GameState::gameOver:
+        setState(GameState::menu);
+        break;
+    case GameState::pause:
+
+        break;
+    case GameState::menu:
         break;
     }
 }
 
+void MarioGameManager::marioDies()
+{
+    --marioLives;
+    if (marioLives <= 0) {
+        setState(GameState::gameOver);
+    } 
+    //else {
+    //    setState(GameState::levelOver);
+    //}
+}
 
+int MarioGameManager::loadLevel(const std::string &level_name)
+{
+    return 0;
+}
 
+void MarioGameManager::togglePause()
+{
+    if (gameState == GameState::playing) {
+        setState(GameState::pause);
+    }
+    else if (gameState == GameState::pause){
+        setState(GameState::playing);
+    }
+    
+}
 

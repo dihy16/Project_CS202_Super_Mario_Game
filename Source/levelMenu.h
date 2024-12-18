@@ -1,5 +1,5 @@
-#pragma once
-
+#ifndef LEVELMENU_H
+#define LEVELMENU_H
 #include "mainMenu.h"
 
 class LevelMenu : public Menu 
@@ -20,3 +20,4 @@ public:
 	LevelMenu();
 	void handleClicking(sf::RenderWindow& window);
 };
+#endif

@@ -6,6 +6,7 @@
 #include "PhysicsEngine/Managers/RenderManager.h"
 #include "mario.h"  
 #include "GUI.h"
+//#include "level1.h"
 
 class MarioGameManager : public GameManager {
 private:
@@ -17,6 +18,9 @@ private:
 	int marioCoins = 0;
     int timeRemaining = 300000;
     std::string currentLevel;
+    sf::Clock timer;
+    // GameScene* currentScene = nullptr;
+    // std::vector<GameScene*> sceneStack;
     MarioGameManager();
     void initScoreMap();
 public:
@@ -40,7 +44,18 @@ public:
     void addCoin();
     void addLive();
     void setState(GameState gameState);
-    void updateGameState(int delta_time); // delta time in milliseconds
+    GameState getState() { return gameState; }
+    void updateGameState(int delta_time, sf::Event& ev); // delta time in milliseconds
+    void marioDies();
+    int loadLevel(const std::string& level_name);
+    void togglePause();
+};
+
+class GameScene {
+private:
+    // Level* currentLevel = nullptr;
+public:
+    GameScene();
 };
 
 #endif

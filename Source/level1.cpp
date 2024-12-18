@@ -1,6 +1,4 @@
 #include "level1.h"
-#include <iostream>
-using namespace std;
 Level1::Level1() : mario(100, 100), m("Data/Level1")
 {
    m.blockgenerator(100, 12 * BLOCK_HEIGHT);
@@ -12,6 +10,7 @@ Level1::Level1() : mario(100, 100), m("Data/Level1")
    // items.push_back(ItemFactory::createItem("Coin", 500, 700));
    // items.push_back(ItemFactory::createItem("Coin", 600, 700));
    // items.push_back(ItemFactory::createItem("Coin", 700, 700));
+   enemies.push_back(EnemyFactory::createEnemy("Goomba", 200, 0));
    items.push_back(ItemFactory::createItem("Flower", 350, 700));
 };
 void Level1::start()
@@ -33,6 +32,7 @@ void Level1::handleKeyPress()
 
 void Level1::execute()
 {
+   if (MarioGameManager::getInstance()->getState() == MarioGameManager::GameState::pause) return;
    handleKeyPress();
    mario.update(items);
    for (auto &enemy : enemies)
@@ -51,6 +51,7 @@ void Level1::execute()
 
 void Level1::drawLevel()
 {
-   cout << "in draw level" << endl;
-   m.draw(RenderManager::GetInstance().window);
+    m.draw(RenderManager::GetInstance().window);
 }
+
+

@@ -76,7 +76,7 @@ int main()
         {
             PhysicsManager::GetInstance().FixedUpdate();
             accumulator -= PhysicsManager::FIXED_TIMESTEP;
-            MarioGameManager::getInstance()->updateGameState(static_cast<int>(PhysicsManager::FIXED_TIMESTEP * 1000));
+            MarioGameManager::getInstance()->updateGameState(static_cast<int>(PhysicsManager::FIXED_TIMESTEP * 1000), event);
         }
         RenderManager::GetInstance().window.clear();
         // m.draw(RenderManager::GetInstance().window);

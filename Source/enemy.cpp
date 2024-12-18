@@ -58,6 +58,8 @@ void Goomba::collideWithMario(Mario &mario)
       if (collider->body->GetOwner()->name == "mario")
       {
          RenderManager::GetInstance().debugText += " hp - 1 ";
+         MarioGameManager::getInstance()->marioDies();
+         MarioGameManager::getInstance()->playSound(MarioGameManager::mario_die);
       }
       // else
       // {
