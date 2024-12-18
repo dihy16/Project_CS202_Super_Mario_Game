@@ -71,6 +71,9 @@ void MainMenu::handleClicking(sf::RenderWindow &window)
         case 1: // oNewGame
             notifyObserver(1); // to Level Menu
             break;
+        case 2:
+            notifyObserver(3);
+            break;
         default:
             break;
     }

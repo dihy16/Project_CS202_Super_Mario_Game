@@ -1,6 +1,11 @@
 #ifndef LEVELMENU_H
 #define LEVELMENU_H
-#include "mainMenu.h"
+#include "menu.h"
+#include "menuObserver.h"
+#include "marioGameManager.h"
+
+class MarioGameManager;
+class MenuManager;
 
 class LevelMenu : public Menu 
 {

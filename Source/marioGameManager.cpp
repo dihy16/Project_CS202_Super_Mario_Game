@@ -7,7 +7,6 @@ MarioGameManager::MarioGameManager()
 {
     menuManager = new MenuManager();
     GUIManager = new GUI();
-    level = new Level(3, false);
     initScoreMap();
 }
 
@@ -72,6 +71,7 @@ void MarioGameManager::draw(sf::RenderWindow &w)
         getGUI()->draw(w);
         break;
     case GameState::pause:
+        level->drawLevel();
         RenderManager::GetInstance().Update();
         getGUI()->draw(w);
         break;
@@ -178,10 +178,9 @@ void MarioGameManager::marioDies()
     // }
 }
 
-int MarioGameManager::loadLevel(const std::string &level_name)
+void MarioGameManager::loadLevel(bool resuming)
 {
-
-    return 0;
+    this->level = new Level(currentLevel, resuming);
 }
 
 void MarioGameManager::togglePause()
@@ -195,3 +194,14 @@ void MarioGameManager::togglePause()
         setState(GameState::playing);
     }
 }
+
+int MarioGameManager::getCurrentLevel()
+{
+    return currentLevel;
+}
+
+void MarioGameManager::setCurrentLevel(int level)
+{
+    this->currentLevel = level;
+}
+

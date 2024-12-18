@@ -585,27 +585,27 @@ void Map::loadmap(int level, int MarioX, int MarioY)
 
 void Map::applyLog(const std::string &logFile)
 {
-    std::ifstream file(logFile);
-    std::string line;
-    while (std::getline(file, line))
-    {
-        if (line.find("Mushroom collected") != std::string::npos)
-        {
-            int x, y;
-            sscanf(line.c_str(), "Mushroom collected at (%d, %d)", &x, &y);
-            projectionmap[y][x] = 0;
-        }
-        else if (line.find("Coin collected") != std::string::npos)
-        {
-            int x, y;
-            sscanf(line.c_str(), "Coin collected at (%d, %d)", &x, &y);
-            projectionmap[y][x] = 0;
-        }
-        else if (line.find("Flower collected") != std::string::npos)
-        {
-            int x, y;
-            sscanf(line.c_str(), "Flower collected at (%d, %d)", &x, &y);
-            projectionmap[y][x] = 0;
-        }
-    }
+    //std::ifstream file(logFile);
+    //std::string line;
+    //while (std::getline(file, line))
+    //{
+    //    if (line.find("Mushroom collected") != std::string::npos)
+    //    {
+    //        int x, y;
+    //        sscanf(line.c_str(), "Mushroom collected at (%d, %d)", &x, &y);
+    //        projectionmap[y][x] = 0;
+    //    }
+    //    else if (line.find("Coin collected") != std::string::npos)
+    //    {
+    //        int x, y;
+    //        sscanf(line.c_str(), "Coin collected at (%d, %d)", &x, &y);
+    //        projectionmap[y][x] = 0;
+    //    }
+    //    else if (line.find("Flower collected") != std::string::npos)
+    //    {
+    //        int x, y;
+    //        sscanf(line.c_str(), "Flower collected at (%d, %d)", &x, &y);
+    //        projectionmap[y][x] = 0;
+    //    }
+    //}
 }

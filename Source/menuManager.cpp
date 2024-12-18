@@ -34,6 +34,11 @@ void MenuManager::handleEvents(sf::RenderWindow &window, sf::Event &ev)
             break;
         case eGame:
             MarioGameManager::getInstance()->setState(MarioGameManager::GameState::playing);
+            MarioGameManager::getInstance()->loadLevel(false);
+            break;
+        case eSavedGame:
+            MarioGameManager::getInstance()->setState(MarioGameManager::GameState::playing);
+            MarioGameManager::getInstance()->loadLevel(true);
             break;
     }
 }
