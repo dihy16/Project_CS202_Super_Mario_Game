@@ -23,6 +23,7 @@ private:
 public:
     bool display, finished;
     Level(int level, bool resuming);
+    ~Level();
     void handleKeyPress();
     void start();
     void end();

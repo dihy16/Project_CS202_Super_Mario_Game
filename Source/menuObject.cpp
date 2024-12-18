@@ -18,7 +18,7 @@ void MenuObject::init(std::string filename, float x, float y)
 
 void MenuObject::draw(sf::RenderWindow& window) const
 {
-    if (!isHidden)
+    //if (!isHidden)
         window.draw(sprite);
 }
 

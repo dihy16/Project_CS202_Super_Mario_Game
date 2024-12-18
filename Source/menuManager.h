@@ -5,16 +5,20 @@
 #include "mainMenu.h"
 #include "levelMenu.h"
 
+class LevelMenu;
+class MarioGameManager;
+
 class MenuManager : public IGameStateObserver {
 private:
     MainMenu* mainMenu;
 	LevelMenu* levelMenu;
 public:
     // Define pages number
-	enum MenuState {    
+	enum MenuState {
 		eMainMenu,
 		eLevelMenu,
 		eGame,
+		eSavedGame,
 		eInstruction,
 		eOptions,
 		eScoreboard,

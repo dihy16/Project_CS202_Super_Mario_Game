@@ -10,7 +10,6 @@
 int main()
 {
     bool resuming = false;
-
     // MarioGameManager m1;
     // Map &gameMap = lv1.getMap();
     // Mario &mario = lv1.getMario();

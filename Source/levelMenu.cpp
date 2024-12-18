@@ -46,6 +46,7 @@ void LevelMenu::handleClicking(sf::RenderWindow &window)
     switch (indexButPressed) {
         case 1: // Easy
             notifyObserver(2); // to Game Menu
+            MarioGameManager::getInstance()->setCurrentLevel(1);
             break;
         default:
             break;

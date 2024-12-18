@@ -9,6 +9,8 @@
 #include "level.h"
 
 class Level;
+class LevelMenu;
+class MenuManager;
 
 class MarioGameManager : public GameManager
 {
@@ -21,7 +23,7 @@ private:
     int score = 0;
     int marioCoins = 0;
     int timeRemaining = 300000;
-    std::string currentLevel;
+    int currentLevel;
     sf::Clock timer;
     // GameScene* currentScene = nullptr;
     // std::vector<GameScene*> sceneStack;
@@ -66,8 +68,10 @@ public:
     GameState getState() { return gameState; }
     void updateGameState(int delta_time, sf::Event &ev); // delta time in milliseconds
     void marioDies();
-    int loadLevel(const std::string &level_name);
+    void loadLevel(bool resuming);
     void togglePause();
+    int getCurrentLevel();
+    void setCurrentLevel(int currentLevel);
 };
 
 class GameScene
