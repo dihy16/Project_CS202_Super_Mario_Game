@@ -24,4 +24,5 @@ public:
 	LevelMenu();
 	void handleClicking(sf::RenderWindow &window);
 };
+
 #endif
