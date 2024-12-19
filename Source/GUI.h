@@ -36,6 +36,7 @@ private:
 	Label *label_time_remaining;
 	Label *label_score;
 	MenuObject *exit_button;
+
 public:
 	GUI();
 	~GUI();
@@ -46,7 +47,7 @@ public:
 	void setTimeRemaining(int time);
 	void setScore(int score);
 	void draw(sf::RenderWindow &w);
-	void handleClicking(sf::RenderWindow& w);
+	bool handleClicking(sf::RenderWindow &w);
 	std::string getStringCoins()
 	{
 		return label_coins->getString();

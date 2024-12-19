@@ -75,12 +75,15 @@ void GUI::draw(sf::RenderWindow &w)
 	exit_button->draw(w);
 }
 
-void GUI::handleClicking(sf::RenderWindow &w)
+bool GUI::handleClicking(sf::RenderWindow &w)
 {
-	if (exit_button->isMouseOver(w)) {
+	if (exit_button->isMouseOver(w))
+	{
 		MarioGameManager::getInstance()->setState(MarioGameManager::GameState::menu);
 		MarioGameManager::getInstance()->getMenuManager()->setMenuState(MenuManager::eMainMenu);
+		return true;
 	}
+	return false;
 }
 
 Label::Label()

@@ -7,9 +7,11 @@
 #include "mario.h"
 #include "GUI.h"
 #include "level.h"
+#include "saveGame.h"
 
 class Level;
 class LevelMenu;
+class MainMenu;
 class MenuManager;
 class GUI;
 
@@ -57,7 +59,7 @@ public:
     void addCoin();
     void addLive();
     void setState(GameState gameState);
-    //void updateGameState(int delta_time, sf::Event& ev); // delta time in milliseconds
+    // void updateGameState(int delta_time, sf::Event& ev); // delta time in milliseconds
     int getLives();
     int getCoins();
     int getScore();

@@ -10,7 +10,7 @@ Map::Map(bool resuming)
 {
     blocktexture.loadFromFile("Images/TilesBackup.png");
     if (resuming)
-        applyLog("../log/game_log.txt");
+        applyLog("Log/game_log.txt");
 }
 
 // read map organization from a file

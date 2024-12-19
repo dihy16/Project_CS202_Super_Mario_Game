@@ -6,6 +6,7 @@
 #include "levelMenu.h"
 
 class LevelMenu;
+class MainMenu;
 class MarioGameManager;
 
 class MenuManager : public IGameStateObserver {

@@ -66,8 +66,8 @@ void MarioGameManager::draw(sf::RenderWindow &w)
         break;
     case GameState::playing:
         updateGUI();
-        if (level)
-            level->drawLevel();
+        // if (level)
+        level->drawLevel();
         RenderManager::GetInstance().Update();
         getGUI()->draw(w);
         break;
@@ -81,15 +81,19 @@ void MarioGameManager::draw(sf::RenderWindow &w)
 
 void MarioGameManager::handleEvents(sf::RenderWindow &w, sf::Event &ev)
 {
-    //std::cout << "curlevel" << currentLevel << std::endl;
     switch (gameState)
     {
     case GameState::menu:
         menuManager->handleEvents(w, ev);
         break;
     case GameState::playing:
-        if (ev.type == sf::Event::MouseButtonPressed) {
-            getGUI()->handleClicking(w);
+        if (ev.type == sf::Event::MouseButtonPressed)
+        {
+            if (getGUI()->handleClicking(w))
+            {
+                saveGame(level->saveMarioState(), "Log/game_state.txt");
+                DeleteObjects();
+            }
         }
         if (ev.type == sf::Event::KeyPressed)
         {
@@ -124,8 +128,6 @@ void MarioGameManager::addCoin()
         marioCoins = 0;
         addLive();
     }
-    // addScore(ScoreID::Coin);
-    // getGUI()->setCoin(marioCoins);
 }
 
 void MarioGameManager::addLive()
@@ -145,8 +147,8 @@ void MarioGameManager::updateGameState(int delta_time, sf::Event &ev)
     case GameState::playing:
         playMusic(MarioGameManager::overworld);
         timeRemaining -= delta_time;
-        if (level)
-            level->execute();
+        // if (level)
+        level->execute();
         break;
     case GameState::levelOver:
 
@@ -155,7 +157,7 @@ void MarioGameManager::updateGameState(int delta_time, sf::Event &ev)
         setState(GameState::menu);
         break;
     case GameState::pause:
-
+        stopMusic();
         break;
     case GameState::menu:
         break;
@@ -185,6 +187,9 @@ void MarioGameManager::marioDies()
 
 void MarioGameManager::loadLevel(bool resuming)
 {
+    std::cout << "resuming" << resuming << std::endl;
+    if (this->level)
+        delete this->level;
     this->level = new Level(currentLevel, resuming);
 }
 
@@ -209,4 +214,3 @@ void MarioGameManager::setCurrentLevel(int level)
 {
     this->currentLevel = level;
 }
-

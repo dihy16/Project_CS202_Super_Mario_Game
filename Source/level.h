@@ -5,11 +5,13 @@
 #include "items.h"
 #include "map.h"
 #include <random>
+#include "saveGame.h"
 
 class Mario;
 class Map;
 class Item;
 class Enemy;
+class GameStateMemento;
 
 class Level
 {
@@ -29,5 +31,6 @@ public:
     void end();
     void execute();
     void drawLevel();
+    GameStateMemento saveMarioState();
 };
 #endif

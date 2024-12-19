@@ -54,8 +54,8 @@ int main()
             {
                 RenderManager::GetInstance().window.close();
             }
+            MarioGameManager::getInstance()->handleEvents(RenderManager::GetInstance().window, event);
         }
-        MarioGameManager::getInstance()->handleEvents(RenderManager::GetInstance().window, event);
 
         Camera::GetInstance().posX = RenderManager::GetInstance().trackE->xPos - 200;
         if (event.type == sf::Event::KeyPressed)
