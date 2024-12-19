@@ -169,7 +169,7 @@ void MarioGameManager::updateGameState(int delta_time, sf::Event &ev)
     case GameState::menu:
         break;
     case GameState::status:
-        if (timer.getElapsedTime().asSeconds() > 3.0f)
+        if (timer.getElapsedTime().asSeconds() > 4.0f)
         {
             setState(GameState::playing);
             timer.restart();
@@ -226,5 +226,6 @@ int MarioGameManager::getCurrentLevel()
 
 void MarioGameManager::setCurrentLevel(int level)
 {
+    timer.restart();
     this->currentLevel = level;
 }
