@@ -11,7 +11,7 @@ Character::Character(int x, int y, const std::string &texture1, const std::strin
     characterRigidBody = AddComponent<RigidBody>(character);
 
     goRight = goLeft = goUp = created = false;
-    eatFlower = eatMushroom = touchEnemy = false;
+    eatFlower = eatMushroom = touchEnemy = touchFlag = false;
     this->textureFile1 = texture1;
     this->textureFile2 = texture2;
 
@@ -26,11 +26,21 @@ Character::Character(int x, int y, const std::string &texture1, const std::strin
         characterSprite->texture.loadFromFile(textureFile1);
     else if (state == Fire)
         characterSprite->texture.loadFromFile(textureFile2);
+
     characterSprite->texture.setSmooth(true);
     characterSprite->sprite.setTexture(characterSprite->texture);
-    characterSprite->sprite.setTextureRect(sf::IntRect(0, 96, 28, 32));
-    characterCollider->width = 48;
-    characterCollider->height = 48;
+    if (state == Small)
+    {
+        characterCollider->width = 48;
+        characterCollider->height = 48;
+        characterSprite->sprite.setTextureRect(sf::IntRect(0, 96, 28, 32));
+    }
+    else if (state == Super || state == Fire)
+    {
+        characterCollider->width = 48;
+        characterCollider->height = 88;
+        characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 28, 60));
+    }
 
     characterCollider->body = characterRigidBody;
     characterRigidBody->collider = characterCollider;
@@ -181,7 +191,7 @@ void Character::stand()
             if (direction == Right)
                 characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 28, 60));
             else if (direction == Left)
-                characterSprite->sprite.setTextureRect(sf::IntRect(1024 - 28, 36, 28, 60));
+                characterSprite->sprite.setTextureRect(sf::IntRect(1024 - 30, 36, 30, 60));
         }
     }
 }
@@ -309,6 +319,25 @@ void Character::handlePowerUp()
                      characterSprite->sprite.setTexture(characterSprite->texture);
                      characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 28, 60)); }, eatFlower);
     }
+
+    characterCollider->OnHorizontalCollision = [this](BoxCollider *collider)
+    {
+        if (collider->body->GetOwner()->name == "Flag")
+        {
+            touchFlag = true;
+            // for (RigidBody *rb : PhysicsManager::GetInstance().rbList)
+            // {
+            //     if (rb->GetOwner()->name == "Flag")
+            //         rb->SetActive(false);
+            // }
+            for (BoxCollider *bc : ColliderManager::GetInstance().colliderVector)
+            {
+                if (bc->GetOwner()->name == "Flag")
+                    bc->SetActive(false);
+            }
+            finishTimer.restart();
+        }
+    };
 }
 
 void Character::handleEnemy()

@@ -12,11 +12,42 @@ class Luigi;
 class Map;
 class Item;
 class Enemy;
-class Flag: public Entity
+class Flag : public Entity
 {
 private:
 public:
-    Flag(){}
+    SpriteRenderer *sr;
+    BoxCollider *bc;
+    RigidBody *rb;
+    sf::Clock timer;
+    sf::IntRect flagRect;
+    int currentRect, maxRect;
+    bool finished = false;
+    Flag(int x, int y)
+    {
+        xPos = x;
+        yPos = y;
+        currentRect = 0, maxRect = 4;
+        name = "flag";
+        sr = AddComponent<SpriteRenderer>(this);
+        sr->layer = 2;
+        sr->texture.loadFromFile("resource/Items.png");
+        sr->texture.setSmooth(true);
+        sr->sprite.setTexture(sr->texture);
+        sr->sprite.setTextureRect(sf::IntRect(0, 150, 32, 32));
+        bc = AddComponent<BoxCollider>(this);
+        bc->width = 0;
+        bc->height = 0;
+        rb = AddComponent<RigidBody>(this);
+        bc->body = rb;
+        rb->collider = bc;
+        rb->isUsingGravity = false;
+        rb->isStatic = true;
+        rb->xVel = 0;
+        rb->yVel = 0;
+        flagRect = sr->sprite.getTextureRect();
+    }
+    void animation();
 };
 class MarioGameManager;
 class GameStateMemento;
@@ -31,7 +62,7 @@ private:
     std::vector<std::unique_ptr<Enemy>> enemies;
     std::vector<std::unique_ptr<Item>> items;
     sf::Image entitylayout;
-    Flag* f = nullptr;
+    Flag *f = nullptr;
     int lv;
     sf::Clock timer;
 

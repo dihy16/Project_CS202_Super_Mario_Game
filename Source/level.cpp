@@ -14,7 +14,7 @@ Level::Level(int level, bool resuming)
     }
     else
     {
-        mario = new Mario(8 * BLOCK_WIDTH, 12 * BLOCK_HEIGHT);
+        mario = new Mario(8 * BLOCK_WIDTH, 100);
     }
     m = new Map(resuming);
     m->loadmap(level, 8 * BLOCK_WIDTH, 12 * BLOCK_HEIGHT);
@@ -58,54 +58,11 @@ Level::Level(int level, bool resuming)
             }
             else if (c == sf::Color(153, 229, 80))
             {
-                if (i == 0)
+                if (i == 0 || sf::Color(itemlayout.getPixel(j, i - 1)) != c)
                 {
-                    f = new Flag;
-                    f->xPos = j * BLOCK_WIDTH + 35;
-                    f->yPos = i * BLOCK_WIDTH + 67;
-                    SpriteRenderer* sr = AddComponent<SpriteRenderer>(f);
-                    sr->layer = 2;
-                    sr->texture.loadFromFile("resource/Items.png");
-                    sr->texture.setSmooth(true);
-                    sr->sprite.setTexture(sr->texture);
-                    sr->sprite.setTextureRect(sf::IntRect(0, 150, 32, 32));
-                    BoxCollider *bc = AddComponent<BoxCollider>(f);
-                    bc->width = 0;
-                    bc->height = 0;
-                    RigidBody *rb = AddComponent<RigidBody>(f);
-                    bc->body = rb;
-                    rb->collider = bc;
-                    rb->isUsingGravity = false;
-                    rb->isStatic = true;
-                    rb->xVel = 0;
-                    rb->yVel = 0;
-                    RenderManager::GetInstance().listEntity.push_back(f);
-                    
-                }
-                else if (sf::Color(itemlayout.getPixel(j, i - 1)) != c)
-                {
-                    f = new Flag;
-                    f->xPos = j * BLOCK_WIDTH + 35;
-                    f->yPos = i * BLOCK_WIDTH + 67;
-                    SpriteRenderer* sr = AddComponent<SpriteRenderer>(f);
-                    sr->layer = 2;
-                    sr->texture.loadFromFile("resource/Items.png");
-                    sr->texture.setSmooth(true);
-                    sr->sprite.setTexture(sr->texture);
-                    sr->sprite.setTextureRect(sf::IntRect(0, 150, 32, 32));
-                    BoxCollider *bc = AddComponent<BoxCollider>(f);
-                    bc->width = 0;
-                    bc->height = 0;
-                    RigidBody *rb = AddComponent<RigidBody>(f);
-                    bc->body = rb;
-                    rb->collider = bc;
-                    rb->isUsingGravity = false;
-                    rb->isStatic = true;
-                    rb->xVel = 0;
-                    rb->yVel = 0;
+                    f = new Flag(j * BLOCK_WIDTH + 35, i * BLOCK_WIDTH + 67);
                     RenderManager::GetInstance().listEntity.push_back(f);
                 }
-                    
             }
         }
     }
@@ -151,15 +108,22 @@ void Level::start()
 }
 void Level::end()
 {
-    if (timer.getElapsedTime().asSeconds() > 10)
-    // if (mario->characterRigidBody->GetOwner()->xPos > 10 * BLOCK_WIDTH)
+    if (mario->touchFlag)
     {
-        display = false;
-        MarioGameManager::getInstance()->setCurrentLevel(lv + 1);
-        DeleteObjects();
-        MarioGameManager::getInstance()->setState(MarioGameManager::GameState::playing);
-        MarioGameManager::getInstance()->loadLevel(false);
+        f->rb->isUsingGravity = true;
+        f->rb->isStatic = false;
+        finished = true;
+        if (mario->finishTimer.getElapsedTime().asSeconds() > 10)
+        {
+            MarioGameManager::getInstance()->setCurrentLevel(lv + 1);
+            DeleteObjects();
+            MarioGameManager::getInstance()->setState(MarioGameManager::GameState::playing);
+            MarioGameManager::getInstance()->loadLevel(false);
+            mario->finishTimer.restart();
+        }
     }
+    else
+        f->animation();
 }
 
 void Level::handleKeyPress()
@@ -199,4 +163,20 @@ void Level::drawLevel()
 GameStateMemento Level::saveMarioState()
 {
     return mario->saveState();
+}
+
+void Flag::animation()
+{
+    if (timer.getElapsedTime().asSeconds() > 0.3)
+    {
+        flagRect.left = currentRect * sr->sprite.getTextureRect().width;
+        sr->sprite.setTextureRect(flagRect);
+
+        if (!finished)
+            currentRect++;
+        if (currentRect == maxRect)
+            currentRect = 0;
+
+        timer.restart();
+    }
 }

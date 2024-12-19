@@ -24,7 +24,8 @@ PhysicsManager &PhysicsManager::GetInstance()
 
 void PhysicsManager::FixedUpdate()
 {
-     if (MarioGameManager::getInstance()->getState() == MarioGameManager::GameState::pause) return;
+    if (MarioGameManager::getInstance()->getState() == MarioGameManager::GameState::pause)
+        return;
     ColliderManager::GetInstance().FixedUpdate();
     for (auto rb : rbList)
     {
@@ -34,7 +35,7 @@ void PhysicsManager::FixedUpdate()
         {
             if (rb->isJumping && timer.getElapsedTime().asSeconds() > 0.5)
             {
-                rb->AddForce(0, -350.f);
+                rb->AddForce(0, -400.f);
                 rb->isJumping = false;
                 timer.restart();
             }

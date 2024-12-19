@@ -17,7 +17,7 @@ protected:
     SpriteRenderer *characterSprite;
     BoxCollider *characterCollider;
 
-    sf::Clock timer1, timer2, timer3, stateTimer, touchTimer;
+    sf::Clock timer1, timer2, timer3, stateTimer, touchTimer, finishTimer;
     std::string textureFile1, textureFile2;
 
     enum Direction
@@ -28,13 +28,13 @@ protected:
 
 public:
     bool goRight, goLeft, goUp, firing, created;
-    bool eatMushroom, eatFlower, touchEnemy;
+    bool eatMushroom, eatFlower, touchEnemy, touchFlag;
     enum State
     {
         Small,
         Super,
         Fire,
-    } state = Small;
+    } state = Fire;
     RigidBody *characterRigidBody;
 
     Character(int x, int y, const std::string &texture1, const std::string &texture2);

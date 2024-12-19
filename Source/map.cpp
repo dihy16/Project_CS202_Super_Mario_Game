@@ -277,8 +277,8 @@ void Map::createblock(int x, int y)
     BoxCollider *bc = AddComponent<BoxCollider>(block);
     if (projectionmap[y][x] == 5 || projectionmap[y][x] == 6)
     {
-        bc->width = 0;
-        bc->height = 0;
+        bc->width = 64;
+        bc->height = 64;
     }
     else
     {
@@ -336,7 +336,7 @@ void Map::draw(sf::RenderWindow &w)
     {
         sprite.setTexture(blocktexture);
         sprite.setTextureRect(sf::IntRect(1 * BLOCK_WIDTH, 7 * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT));
-        sprite.setPosition(i->xPos - Camera::GetInstance().posX, i->yPos);
+        sprite.setPosition(i->xPos, i->yPos);
         w.draw(sprite);
         sprite.setTexture(blocktexture);
         sprite.setTextureRect(i->spritearea);
