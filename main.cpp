@@ -54,8 +54,8 @@ int main()
             {
                 RenderManager::GetInstance().window.close();
             }
+            MarioGameManager::getInstance()->handleEvents(RenderManager::GetInstance().window, event);
         }
-        MarioGameManager::getInstance()->handleEvents(RenderManager::GetInstance().window, event);
         if (RenderManager::GetInstance().trackE->xPos != 0)
             Camera::GetInstance().posX = RenderManager::GetInstance().trackE->xPos - 200;
         else

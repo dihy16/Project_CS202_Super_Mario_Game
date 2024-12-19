@@ -28,24 +28,19 @@ void MenuManager::handleEvents(sf::RenderWindow &window, sf::Event &ev)
         cout << "mouse released" << endl;
     if (ev.type == sf::Event::MouseButtonPressed)
         cout << "mouse pressed" << endl;
-    switch (menuState)
-    {
-    case eMainMenu:
+    if (menuState == eMainMenu) {
         mainMenu->EventHandling(window, ev);
-        break;
-    case eLevelMenu:
+    }
+    else if (menuState == eLevelMenu) {
         levelMenu->EventHandling(window, ev);
-        break;
-    case eGame:
-        cout << "menu manager handle events, case eGame" << endl;
+    }
+    if (menuState == eGame) {
         MarioGameManager::getInstance()->loadLevel(false);
         MarioGameManager::getInstance()->setState(MarioGameManager::GameState::playing);
-        cout << "finish case eGame" << endl;
-        break;
-    case eSavedGame:
-        MarioGameManager::getInstance()->loadLevel(true);
+    }
+    else if (menuState == eSavedGame) {
+        //MarioGameManager::getInstance()->loadLevel(true);
         MarioGameManager::getInstance()->setState(MarioGameManager::GameState::playing);
-        break;
     }
 }
 

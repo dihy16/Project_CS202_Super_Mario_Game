@@ -57,11 +57,13 @@ void Menu::EventHandling(sf::RenderWindow &window, sf::Event &ev)
 	case sf::Event::Closed:
 		window.close();
 		break;
-	case sf::Event::MouseButtonPressed:
+	case sf::Event::MouseButtonReleased:
 		this->handleClicking(window);
 		break;
 	case sf::Event::MouseMoved:
 		handleHovering(window);
+		break;
+	default:
 		break;
 	}
 }
