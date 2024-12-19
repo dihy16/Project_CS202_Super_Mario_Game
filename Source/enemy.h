@@ -1,9 +1,6 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 #include "character.h"
-#include <memory>
-
-#define ENEMY "resource/Enemies.png"
 
 class Character; // forward declaration
 class Enemy : public Entity

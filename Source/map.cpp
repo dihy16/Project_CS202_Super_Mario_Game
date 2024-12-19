@@ -9,8 +9,7 @@
 Map::Map(bool resuming)
 {
     blocktexture.loadFromFile("Images/TilesBackup.png");
-    if (resuming)
-        applyLog("Log/game_log.txt");
+    this->resuming = resuming;
 }
 
 // read map organization from a file
@@ -118,6 +117,8 @@ void Map::readmap(std::string file)
             projectionmap[i].push_back(target);
         }
     }
+    if (resuming)
+        applyLog("../log/game_log.txt");
 }
 
 vector<vector<int>> Map::getmap(int option)
@@ -276,8 +277,8 @@ void Map::createblock(int x, int y)
     BoxCollider *bc = AddComponent<BoxCollider>(block);
     if (projectionmap[y][x] == 5 || projectionmap[y][x] == 6)
     {
-        bc->width = 0;
-        bc->height = 0;
+        bc->width = 64;
+        bc->height = 64;
     }
     else
     {
@@ -335,7 +336,7 @@ void Map::draw(sf::RenderWindow &w)
     {
         sprite.setTexture(blocktexture);
         sprite.setTextureRect(sf::IntRect(1 * BLOCK_WIDTH, 7 * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT));
-        sprite.setPosition(i->xPos - Camera::GetInstance().posX, i->yPos);
+        sprite.setPosition(i->xPos, i->yPos);
         w.draw(sprite);
         sprite.setTexture(blocktexture);
         sprite.setTextureRect(i->spritearea);
@@ -454,23 +455,23 @@ void Map::applyLog(const std::string &logFile)
     // std::string line;
     // while (std::getline(file, line))
     // {
-    //    if (line.find("Mushroom collected") != std::string::npos)
-    //    {
-    //        int x, y;
-    //        sscanf(line.c_str(), "Mushroom collected at (%d, %d)", &x, &y);
-    //        projectionmap[y][x] = 0;
-    //    }
-    //    else if (line.find("Coin collected") != std::string::npos)
-    //    {
-    //        int x, y;
-    //        sscanf(line.c_str(), "Coin collected at (%d, %d)", &x, &y);
-    //        projectionmap[y][x] = 0;
-    //    }
-    //    else if (line.find("Flower collected") != std::string::npos)
-    //    {
-    //        int x, y;
-    //        sscanf(line.c_str(), "Flower collected at (%d, %d)", &x, &y);
-    //        projectionmap[y][x] = 0;
-    //    }
+    //     if (line.find("Mushroom collected") != std::string::npos)
+    //     {
+    //         int x, y;
+    //         sscanf(line.c_str(), "Mushroom collected at (%d, %d)", &x, &y);
+    //         projectionmap[y][x] = 0;
+    //     }
+    //     else if (line.find("Coin collected") != std::string::npos)
+    //     {
+    //         int x, y;
+    //         sscanf(line.c_str(), "Coin collected at (%d, %d)", &x, &y);
+    //         projectionmap[y][x] = 0;
+    //     }
+    //     else if (line.find("Flower collected") != std::string::npos)
+    //     {
+    //         int x, y;
+    //         sscanf(line.c_str(), "Flower collected at (%d, %d)", &x, &y);
+    //         projectionmap[y][x] = 0;
+    //     }
     // }
 }

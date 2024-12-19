@@ -2,11 +2,16 @@
 #define MusicManager_H
 #include "resourceManager.h"
 
-class MusicManager : public ResourceManager<sf::Music> {
+template <typename T>
+class ResourceManager;
+
+class MusicManager : public ResourceManager<sf::Music>
+{
 private:
     std::string currentMusic;
+
 public:
-    void play(const std::string& musicName);
+    void play(const std::string &musicName);
     void stop();
 };
 

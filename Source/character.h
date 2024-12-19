@@ -1,24 +1,9 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-#include "./PhysicsEngine/Managers/ComponentEntityManager.h"
-#include "./PhysicsEngine/Components/BoxCollider.h"
-#include "./PhysicsEngine/Components/RigidBody.h"
-#include "./PhysicsEngine/Components/SpriteRenderer.h"
-#include "./items.h"
-#include <iostream>
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-#include <SFML/System.hpp>
-#include "marioGameManager.h"
+#include "definition.h"
+#include "items.h"
 #include "saveGame.h"
-
-#define BLOCK_WIDTH 64
-#define BLOCK_HEIGHT 64
-#define MARIO "resource/Mario1.png"
-#define SUPERMARIO "resource/MarioSuper2.png"
-#define LUIGI "resource/Luigi1.png"
-#define SUPERLUIGI "resource/LuigiSuper2.png"
 
 class Item;             // forward declaration
 class GameStateMemento; // forward declaration
@@ -32,7 +17,7 @@ protected:
     SpriteRenderer *characterSprite;
     BoxCollider *characterCollider;
 
-    sf::Clock timer1, timer2, timer3, stateTimer, touchTimer;
+    sf::Clock timer1, timer2, timer3, stateTimer, touchTimer, finishTimer;
     std::string textureFile1, textureFile2;
 
     enum Direction
@@ -43,13 +28,13 @@ protected:
 
 public:
     bool goRight, goLeft, goUp, firing, created;
-    bool eatMushroom, eatFlower, touchEnemy;
+    bool eatMushroom, eatFlower, touchEnemy, touchFlag;
     enum State
     {
         Small,
         Super,
         Fire,
-    } state = Small;
+    } state = Fire;
     RigidBody *characterRigidBody;
 
     Character(int x, int y, const std::string &texture1, const std::string &texture2);

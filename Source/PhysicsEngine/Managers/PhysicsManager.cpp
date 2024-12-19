@@ -24,7 +24,8 @@ PhysicsManager &PhysicsManager::GetInstance()
 
 void PhysicsManager::FixedUpdate()
 {
-     if (MarioGameManager::getInstance()->getState() == MarioGameManager::GameState::pause) return;
+    if (MarioGameManager::getInstance()->getState() == MarioGameManager::GameState::pause)
+        return;
     ColliderManager::GetInstance().FixedUpdate();
     for (auto rb : rbList)
     {
@@ -34,7 +35,14 @@ void PhysicsManager::FixedUpdate()
         {
             if (rb->isJumping && timer.getElapsedTime().asSeconds() > 0.5)
             {
-                rb->AddForce(0, -350.f);
+                if (rb->GetOwner()->tag == "mario")
+                    rb->AddForce(0, -500.f);
+                else if (rb->GetOwner()->tag == "luigi")
+                    rb->AddForce(0, -600.f);
+                else if (rb->GetOwner()->name == "enemy")
+                    rb->AddForce(0, -300.f);
+                else if (rb->GetOwner()->name == "fireball")
+                    rb->AddForce(0, -200.f);
                 rb->isJumping = false;
                 timer.restart();
             }

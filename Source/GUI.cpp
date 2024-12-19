@@ -36,7 +36,7 @@ void GUI::init()
 	exit_button = new MenuObject(EXIT_BUTTON, 900.0f, 5.0f);
 	exit_button->setScale(0.1f, 0.1f);
 
-	statusScreen = new StatusScreen(new MenuObject(MARIO, 430.0f, 510.0f), createLabel(), createLabel());
+	statusScreen = new StatusScreen(new MenuObject(LUIGI, 230.0f, 510.0f), new MenuObject(MARIO, 360.0f, 510.0f), createLabel(), createLabel());
 
 	// marioIcon = new MenuObject(EXIT_BUTTON, 900.0f, 5.0f);
 	// marioIcon->setScale(0.1f, 0.1f);
@@ -61,7 +61,7 @@ void GUI::setTimeRemaining(int time)
 {
 	std::stringstream str_stream;
 	str_stream << "TIME\n"
-			   << std::setw(3) << std::setfill('0') << time;
+				  << std::setw(3) << std::setfill('0') << time;
 	label_time_remaining->setString(str_stream.str());
 }
 
@@ -69,7 +69,7 @@ void GUI::setScore(int score)
 {
 	std::stringstream str_stream;
 	str_stream << "SCORE\n"
-			   << std::setw(6) << std::setfill('0') << score;
+				  << std::setw(6) << std::setfill('0') << score;
 	label_score->setString(str_stream.str());
 }
 
@@ -110,7 +110,7 @@ Label::Label()
 	{
 	}
 	text.setFont(font);
-	text.setCharacterSize(40);			 // Set character size (in pixels)
+	text.setCharacterSize(40);				 // Set character size (in pixels)
 	text.setFillColor(sf::Color::White); // Set text color
 	text.setStyle(sf::Text::Bold);
 }
@@ -130,10 +130,15 @@ void Label::draw(sf::RenderWindow &w)
 	w.draw(text);
 }
 
-StatusScreen::StatusScreen(MenuObject *marioIcon, Label *label_lives, Label *label_level)
+StatusScreen::StatusScreen(MenuObject *marioIcon, MenuObject *luigiIcon, Label *label_lives, Label *label_level)
 {
 	this->marioIcon_status = marioIcon;
 	this->marioIcon_status->setTextureRect(sf::IntRect(0, 96, 28, 32));
+	this->marioIcon_status->setScale(2, 2);
+	this->luigiIcon_status = luigiIcon;
+	this->luigiIcon_status->setTextureRect(sf::IntRect(0, 96, 28, 32));
+	this->luigiIcon_status->setScale(-2, 2);
+
 	this->label_lives = label_lives;
 	this->label_lives->setPosition(475.0f, 500.0f);
 
@@ -144,6 +149,7 @@ StatusScreen::StatusScreen(MenuObject *marioIcon, Label *label_lives, Label *lab
 StatusScreen::~StatusScreen()
 {
 	delete marioIcon_status;
+	delete luigiIcon_status;
 	delete label_level;
 	delete label_lives;
 }
@@ -157,13 +163,14 @@ void StatusScreen::setLabelLevel(int level)
 {
 	std::stringstream str_stream;
 	str_stream << "LEVEL"
-			   << std::setw(2) << level;
+				  << std::setw(2) << level;
 	label_level->setString(str_stream.str());
 }
 
 void StatusScreen::draw(sf::RenderWindow &w)
 {
 	marioIcon_status->draw(w);
+	luigiIcon_status->draw(w);
 	label_level->draw(w);
 	label_lives->draw(w);
 }

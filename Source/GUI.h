@@ -1,16 +1,9 @@
 #ifndef GUI_H
 #define GUI_H
 
-#include <SFML/Graphics.hpp>
-#include <string>
-#include <iomanip>
-#include <sstream>
-#include <string>
+#include "definition.h"
 #include "MenuObject.h"
 #include "marioGameManager.h"
-
-#define EXIT_BUTTON "resource/Menu/ExitButton.png"
-#define MARIO "resource/Mario1.png"
 
 class MarioGameManager;
 
@@ -35,11 +28,12 @@ class StatusScreen
 {
 private:
 	MenuObject *marioIcon_status;
+	MenuObject *luigiIcon_status;
 	Label *label_lives;
 	Label *label_level;
 
 public:
-	StatusScreen(MenuObject *marioIcon_status, Label *label_lives, Label *label_level);
+	StatusScreen(MenuObject *marioIcon_status, MenuObject *luigiIcon_status, Label *label_lives, Label *label_level);
 	~StatusScreen();
 	void setLabelLives(int numLives);
 	void setLabelLevel(int level);

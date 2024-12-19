@@ -10,11 +10,17 @@ Level::Level(int level, bool resuming)
     int target;
     if (resuming)
     {
-        mario->restoreState(GameStateMemento::loadState("Log/game_state.txt"));
+        if (isMario)
+            mario->restoreState(GameStateMemento::loadState("Log/game_state.txt"));
+        else
+            luigi->restoreState(GameStateMemento::loadState("Log/game_state.txt"));
     }
     else
     {
-        mario = new Mario(8 * BLOCK_WIDTH, 12 * BLOCK_HEIGHT);
+        if (isMario)
+            mario = new Mario(8 * BLOCK_WIDTH, 100);
+        else
+            luigi = new Luigi(8 * BLOCK_WIDTH, 100);
     }
     m = new Map(resuming);
     m->loadmap(level, 8 * BLOCK_WIDTH, 12 * BLOCK_HEIGHT);
@@ -58,54 +64,11 @@ Level::Level(int level, bool resuming)
             }
             else if (c == sf::Color(153, 229, 80))
             {
-                if (i == 0)
+                if (i == 0 || sf::Color(itemlayout.getPixel(j, i - 1)) != c)
                 {
-                    f = new Flag;
-                    f->xPos = j * BLOCK_WIDTH + 35;
-                    f->yPos = i * BLOCK_WIDTH + 67;
-                    SpriteRenderer* sr = AddComponent<SpriteRenderer>(f);
-                    sr->layer = 2;
-                    sr->texture.loadFromFile("resource/Items.png");
-                    sr->texture.setSmooth(true);
-                    sr->sprite.setTexture(sr->texture);
-                    sr->sprite.setTextureRect(sf::IntRect(0, 150, 32, 32));
-                    BoxCollider *bc = AddComponent<BoxCollider>(f);
-                    bc->width = 0;
-                    bc->height = 0;
-                    RigidBody *rb = AddComponent<RigidBody>(f);
-                    bc->body = rb;
-                    rb->collider = bc;
-                    rb->isUsingGravity = false;
-                    rb->isStatic = true;
-                    rb->xVel = 0;
-                    rb->yVel = 0;
-                    RenderManager::GetInstance().listEntity.push_back(f);
-                    
-                }
-                else if (sf::Color(itemlayout.getPixel(j, i - 1)) != c)
-                {
-                    f = new Flag;
-                    f->xPos = j * BLOCK_WIDTH + 35;
-                    f->yPos = i * BLOCK_WIDTH + 67;
-                    SpriteRenderer* sr = AddComponent<SpriteRenderer>(f);
-                    sr->layer = 2;
-                    sr->texture.loadFromFile("resource/Items.png");
-                    sr->texture.setSmooth(true);
-                    sr->sprite.setTexture(sr->texture);
-                    sr->sprite.setTextureRect(sf::IntRect(0, 150, 32, 32));
-                    BoxCollider *bc = AddComponent<BoxCollider>(f);
-                    bc->width = 0;
-                    bc->height = 0;
-                    RigidBody *rb = AddComponent<RigidBody>(f);
-                    bc->body = rb;
-                    rb->collider = bc;
-                    rb->isUsingGravity = false;
-                    rb->isStatic = true;
-                    rb->xVel = 0;
-                    rb->yVel = 0;
+                    f = new Flag(j * BLOCK_WIDTH + 35, i * BLOCK_WIDTH + 67);
                     RenderManager::GetInstance().listEntity.push_back(f);
                 }
-                    
             }
         }
     }
@@ -142,32 +105,63 @@ Level::Level(int level, bool resuming)
 }
 Level::~Level()
 {
-    delete mario;
+    if (isMario)
+        delete mario;
+    else
+        delete luigi;
     delete m;
 };
-void Level::start()
-{
-    display = true;
-}
+
 void Level::end()
 {
-    if (timer.getElapsedTime().asSeconds() > 10)
-    // if (mario->characterRigidBody->GetOwner()->xPos > 10 * BLOCK_WIDTH)
+    if (mario->touchFlag)
     {
-        display = false;
-        MarioGameManager::getInstance()->setCurrentLevel(lv + 1);
-        DeleteObjects();
-        MarioGameManager::getInstance()->setState(MarioGameManager::GameState::playing);
-        MarioGameManager::getInstance()->loadLevel(false);
+        f->rb->isUsingGravity = true;
+        f->rb->isStatic = false;
+        finished = true;
+        if (mario->finishTimer.getElapsedTime().asSeconds() > 3)
+        {
+            MarioGameManager::getInstance()->setCurrentLevel(lv + 1);
+            MarioGameManager::getInstance()->setState(MarioGameManager::GameState::status);
+            DeleteObjects();
+            MarioGameManager::getInstance()->loadLevel(false);
+            mario->finishTimer.restart();
+        }
     }
+    else if (luigi->touchFlag)
+    {
+        f->rb->isUsingGravity = true;
+        f->rb->isStatic = false;
+        finished = true;
+        if (luigi->finishTimer.getElapsedTime().asSeconds() > 3)
+        {
+            MarioGameManager::getInstance()->setCurrentLevel(lv + 1);
+            MarioGameManager::getInstance()->setState(MarioGameManager::GameState::status);
+            DeleteObjects();
+            MarioGameManager::getInstance()->loadLevel(false);
+            luigi->finishTimer.restart();
+        }
+    }
+    else
+        f->animation();
 }
 
 void Level::handleKeyPress()
 {
-    mario->goLeft = sf::Keyboard::isKeyPressed(sf::Keyboard::A);
-    mario->goRight = sf::Keyboard::isKeyPressed(sf::Keyboard::D);
-    mario->firing = sf::Keyboard::isKeyPressed(sf::Keyboard::F);
-    mario->characterRigidBody->isJumping = sf::Keyboard::isKeyPressed(sf::Keyboard::W);
+    if (isMario)
+    {
+        mario->goLeft = sf::Keyboard::isKeyPressed(sf::Keyboard::A);
+        mario->goRight = sf::Keyboard::isKeyPressed(sf::Keyboard::D);
+        mario->firing = sf::Keyboard::isKeyPressed(sf::Keyboard::F);
+        mario->characterRigidBody->isJumping = sf::Keyboard::isKeyPressed(sf::Keyboard::W);
+    }
+    else
+    {
+        luigi->goLeft = sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
+        luigi->goRight = sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
+        luigi->firing = sf::Keyboard::isKeyPressed(sf::Keyboard::RShift);
+        luigi->characterRigidBody->isJumping = sf::Keyboard::isKeyPressed(sf::Keyboard::Up);
+    }
 }
 
 void Level::execute()
@@ -175,11 +169,17 @@ void Level::execute()
     if (MarioGameManager::getInstance()->getState() == MarioGameManager::GameState::pause)
         return;
     handleKeyPress();
-    mario->update(items, 40);
+    if (isMario)
+        mario->update(items, 40);
+    else
+        luigi->update(items, 30);
     for (auto &enemy : enemies)
     {
         enemy->animation();
-        enemy->collideWithMario(*mario);
+        if (isMario)
+            enemy->collideWithMario(*mario);
+        else
+            enemy->collideWithMario(*luigi);
         enemy->fadingAnimation();
     }
 
@@ -199,4 +199,20 @@ void Level::drawLevel()
 GameStateMemento Level::saveMarioState()
 {
     return mario->saveState();
+}
+
+void Flag::animation()
+{
+    if (timer.getElapsedTime().asSeconds() > 0.3)
+    {
+        flagRect.left = currentRect * sr->sprite.getTextureRect().width;
+        sr->sprite.setTextureRect(flagRect);
+
+        if (!finished)
+            currentRect++;
+        if (currentRect == maxRect)
+            currentRect = 0;
+
+        timer.restart();
+    }
 }

@@ -1,8 +1,6 @@
 #pragma once
 
-// #include "character.h"
-#include <fstream>
-#include <memory>
+#include "definition.h"
 #include "./PhysicsEngine/Managers/Camera.h"
 #include "enemy.h"
 
@@ -27,7 +25,7 @@ private:
     sf::Image layout;
 
 public:
-    bool left = false, right = false;
+    bool left = false, right = false, resuming = false;
     // Map();
     Map(bool resuming);
     void readmap();
