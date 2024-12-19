@@ -472,17 +472,17 @@ void Map::createbackgroundblock(int x, int y)
 
 void Map::draw(sf::RenderWindow &w)
 {
-    // for (Block *i : backgroundblocks)
-    // {
-    //     sprite.setTexture(blocktexture);
-    //     sprite.setTextureRect(sf::IntRect(1 * BLOCK_WIDTH, 7 * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT));
-    //     sprite.setPosition(i->xPos - Camera::GetInstance().posX, i->yPos);
-    //     w.draw(sprite);
-    //     sprite.setTexture(blocktexture);
-    //     sprite.setTextureRect(i->spritearea);
-    //     sprite.setPosition(i->xPos - Camera::GetInstance().posX, i->yPos);
-    //     w.draw(sprite);
-    // }
+    for (Block *i : backgroundblocks)
+    {
+        sprite.setTexture(blocktexture);
+        sprite.setTextureRect(sf::IntRect(1 * BLOCK_WIDTH, 7 * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT));
+        sprite.setPosition(i->xPos - Camera::GetInstance().posX, i->yPos);
+        w.draw(sprite);
+        sprite.setTexture(blocktexture);
+        sprite.setTextureRect(i->spritearea);
+        sprite.setPosition(i->xPos - Camera::GetInstance().posX, i->yPos);
+        w.draw(sprite);
+    }
     for (Block *i : availableblocks)
     {
         sprite.setTexture(blocktexture);
