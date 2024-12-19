@@ -83,8 +83,8 @@ Level::Level(int level, bool resuming)
     // items.push_back(ItemFactory::createItem("Coin", 500, 700));
     // items.push_back(ItemFactory::createItem("Coin", 600, 700));
     // items.push_back(ItemFactory::createItem("Coin", 700, 700));
-    enemies.push_back(EnemyFactory::createEnemy("Goomba", 200, 0));
-    items.push_back(ItemFactory::createItem("Flower", 350, 700));
+    // enemies.push_back(EnemyFactory::createEnemy("Goomba", 200, 0));
+    // items.push_back(ItemFactory::createItem("Flower", 350, 700));
 }
 Level::~Level()
 {
