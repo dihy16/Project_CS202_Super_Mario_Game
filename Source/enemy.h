@@ -123,6 +123,19 @@ public:
    void fadingAnimation() override;
 };
 
+class Gooner : public Enemy
+{
+private:
+   sf::Clock waitTimer;
+
+public:
+   Gooner(int x, int y);
+   void animation() override;
+   void collideWithMario(Character &mario) override;
+   void moveWithMario(Character &mario) override;
+   void fadingAnimation() override;
+};
+
 class EnemyFactory
 {
 public:

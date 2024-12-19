@@ -44,7 +44,7 @@ void Goomba::collideWithMario(Character &mario)
 {
    bc->OnColliderLanded = [this](BoxCollider *collider)
    {
-      if (collider->body->GetOwner()->name == "mario")
+      if (collider->body->GetOwner()->name == "character")
       {
          RenderManager::GetInstance().debugText += "landed";
          bc->SetActive(false);
@@ -56,7 +56,7 @@ void Goomba::collideWithMario(Character &mario)
 
    bc->OnHorizontalCollision = [this, &mario](BoxCollider *collider)
    {
-      if (collider->body->GetOwner()->name == "mario")
+      if (collider->body->GetOwner()->name == "character")
       {
          RenderManager::GetInstance().debugText += " hp - 1 ";
          mario.touchEnemy = true;
@@ -154,7 +154,7 @@ void Koopa::collideWithMario(Character &mario)
 
    bc->OnHorizontalCollision = [this, &mario](BoxCollider *collider)
    {
-      if (collider->body->GetOwner()->name == "mario")
+      if (collider->body->GetOwner()->name == "character")
       {
          RenderManager::GetInstance().debugText += " hp - 1 ";
          mario.touchEnemy = true;
@@ -345,7 +345,7 @@ void PiranhaPlant::collideWithMario(Character &mario)
 {
    bc->OnColliderLanded = [this, &mario](BoxCollider *collider)
    {
-      if (collider->body->GetOwner()->name == "mario")
+      if (collider->body->GetOwner()->name == "character")
       {
          RenderManager::GetInstance().debugText += " hp - 1 ";
          mario.touchEnemy = true;
@@ -355,7 +355,7 @@ void PiranhaPlant::collideWithMario(Character &mario)
 
    bc->OnHorizontalCollision = [this, &mario](BoxCollider *collider)
    {
-      if (collider->body->GetOwner()->name == "mario")
+      if (collider->body->GetOwner()->name == "character")
       {
          RenderManager::GetInstance().debugText += " hp - 1 ";
          mario.touchEnemy = true;
@@ -443,6 +443,73 @@ void PiranhaPlant::fadingAnimation()
       sr->SetActive(false);
 }
 
+Gooner::Gooner(int x, int y) : Enemy(x, y)
+{
+   sf::IntRect rect(64, 113, 32, 32);
+   initialize(x, y, rect, "gooner");
+   rb->isUsingGravity = false;
+   waitTimer.restart();
+}
+
+void Gooner::animation()
+{
+   maxRect = 3;
+   if (timer.getElapsedTime().asSeconds() > 0.2)
+   {
+      enemyRect.top = 113 + currentRect * sr->sprite.getTextureRect().height;
+      sr->sprite.setTextureRect(enemyRect);
+
+      if (moving)
+      {
+         currentRect++;
+         if (currentRect == maxRect)
+            currentRect = 0;
+      }
+
+      timer.restart();
+   }
+}
+
+void Gooner::collideWithMario(Character &mario)
+{
+
+   bc->OnCollisionEnter = [this, &mario](BoxCollider *collider)
+   {
+      if (collider->body->GetOwner()->name == "character")
+      {
+         RenderManager::GetInstance().debugText += " hp - 1 ";
+         mario.touchEnemy = true;
+         MarioGameManager::getInstance()->playSound(MarioGameManager::mario_die);
+      }
+      else
+      {
+         bc->SetActive(false);
+         rb->SetActive(false);
+         sr->SetActive(false);
+      }
+   };
+}
+
+void Gooner::moveWithMario(Character &mario)
+{
+
+   if (movetimer.getElapsedTime().asSeconds() > 0.5)
+   {
+      rb->xVel = -50;
+      movetimer.restart();
+   }
+}
+
+void Gooner::fadingAnimation()
+{
+   if (waitTimer.getElapsedTime().asSeconds() > 10)
+   {
+      sr->SetActive(false);
+      bc->SetActive(false);
+      rb->SetActive(false);
+   }
+}
+
 std::unique_ptr<Enemy> EnemyFactory::createEnemy(const std::string &type, int x, int y)
 {
    if (type == "Goomba")
@@ -453,6 +520,8 @@ std::unique_ptr<Enemy> EnemyFactory::createEnemy(const std::string &type, int x,
       return std::make_unique<HammerBro>(x, y);
    else if (type == "Hammer")
       return std::make_unique<Hammer>(x, y);
+   else if (type == "Gooner")
+      return std::make_unique<Gooner>(x, y);
    else if (type == "PiranhaPlant")
       return std::make_unique<PiranhaPlant>(x, y);
    else

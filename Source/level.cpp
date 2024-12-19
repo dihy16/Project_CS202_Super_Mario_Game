@@ -93,7 +93,7 @@ Level::Level(int level, bool resuming)
     // enemies.push_back(EnemyFactory::createEnemy("Goomba", 300, 0));
     // enemies.push_back(EnemyFactory::createEnemy("Koopa", 400, 0));
     // enemies.push_back(EnemyFactory::createEnemy("PiranhaPlant", 500, 0));
-    // enemies.push_back(EnemyFactory::createEnemy("HammerBro", 400, 700));
+    enemies.push_back(EnemyFactory::createEnemy("Gooner", 1000, 700));
     // items.push_back(ItemFactory::createItem("Mushroom", 200, 700));
     // items.push_back(ItemFactory::createItem("Coin", 500, 700));
     // items.push_back(ItemFactory::createItem("Coin", 600, 700));
@@ -114,35 +114,41 @@ Level::~Level()
 
 void Level::end()
 {
-    if (mario->touchFlag)
+    if (isMario)
     {
-        f->rb->isUsingGravity = true;
-        f->rb->isStatic = false;
-        finished = true;
-        if (mario->finishTimer.getElapsedTime().asSeconds() > 3)
+        if (mario->touchFlag)
         {
-            MarioGameManager::getInstance()->setCurrentLevel(lv + 1);
-            MarioGameManager::getInstance()->setState(MarioGameManager::GameState::status);
-            DeleteObjects();
-            MarioGameManager::getInstance()->loadLevel(false);
-            mario->finishTimer.restart();
-        }
-    }
-    else if (luigi->touchFlag)
-    {
-        f->rb->isUsingGravity = true;
-        f->rb->isStatic = false;
-        finished = true;
-        if (luigi->finishTimer.getElapsedTime().asSeconds() > 3)
-        {
-            MarioGameManager::getInstance()->setCurrentLevel(lv + 1);
-            MarioGameManager::getInstance()->setState(MarioGameManager::GameState::status);
-            DeleteObjects();
-            MarioGameManager::getInstance()->loadLevel(false);
-            luigi->finishTimer.restart();
+            f->rb->isUsingGravity = true;
+            f->rb->isStatic = false;
+            finished = true;
+            if (mario->finishTimer.getElapsedTime().asSeconds() > 3)
+            {
+                MarioGameManager::getInstance()->setCurrentLevel(lv + 1);
+                MarioGameManager::getInstance()->setState(MarioGameManager::GameState::status);
+                DeleteObjects();
+                MarioGameManager::getInstance()->loadLevel(false);
+                mario->finishTimer.restart();
+            }
         }
     }
     else
+    {
+        if (luigi->touchFlag)
+        {
+            f->rb->isUsingGravity = true;
+            f->rb->isStatic = false;
+            finished = true;
+            if (luigi->finishTimer.getElapsedTime().asSeconds() > 3)
+            {
+                MarioGameManager::getInstance()->setCurrentLevel(lv + 1);
+                MarioGameManager::getInstance()->setState(MarioGameManager::GameState::status);
+                DeleteObjects();
+                MarioGameManager::getInstance()->loadLevel(false);
+                luigi->finishTimer.restart();
+            }
+        }
+    }
+    if (!finished)
         f->animation();
 }
 
@@ -177,9 +183,16 @@ void Level::execute()
     {
         enemy->animation();
         if (isMario)
+        {
             enemy->collideWithMario(*mario);
+            enemy->moveWithMario(*mario);
+        }
         else
+        {
             enemy->collideWithMario(*luigi);
+            enemy->moveWithMario(*luigi);
+        }
+
         enemy->fadingAnimation();
     }
 
