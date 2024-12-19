@@ -1,6 +1,4 @@
 #include "GUI.h"
-#define EXIT_BUTTON "resource/Menu/ExitButton.png"
-
 GUI::GUI()
 {
 	init();
@@ -13,6 +11,7 @@ GUI::~GUI()
 	delete label_time_remaining;
 	delete label_score;
 	delete exit_button;
+	delete statusScreen;
 }
 
 Label *GUI::createLabel()
@@ -36,6 +35,14 @@ void GUI::init()
 
 	exit_button = new MenuObject(EXIT_BUTTON, 900.0f, 5.0f);
 	exit_button->setScale(0.1f, 0.1f);
+
+	statusScreen = new StatusScreen(new MenuObject(MARIO, 430.0f, 510.0f), createLabel(), createLabel());
+
+	// marioIcon = new MenuObject(EXIT_BUTTON, 900.0f, 5.0f);
+	// marioIcon->setScale(0.1f, 0.1f);
+
+	// coinIcon = new MenuObject(EXIT_BUTTON, 900.0f, 5.0f);
+	// coinIcon->setScale(0.1f, 0.1f);
 }
 
 void GUI::setCoin(int numCoin)
@@ -66,6 +73,12 @@ void GUI::setScore(int score)
 	label_score->setString(str_stream.str());
 }
 
+void GUI::setStatus(int numLives, int level)
+{
+	statusScreen->setLabelLevel(level);
+	statusScreen->setLabelLives(numLives);
+}
+
 void GUI::draw(sf::RenderWindow &w)
 {
 	label_coins->draw(w);
@@ -73,6 +86,11 @@ void GUI::draw(sf::RenderWindow &w)
 	label_time_remaining->draw(w);
 	label_score->draw(w);
 	exit_button->draw(w);
+}
+
+void GUI::drawStatus(sf::RenderWindow &w)
+{
+	statusScreen->draw(w);
 }
 
 bool GUI::handleClicking(sf::RenderWindow &w)
@@ -110,4 +128,42 @@ void Label::setPosition(float x, float y)
 void Label::draw(sf::RenderWindow &w)
 {
 	w.draw(text);
+}
+
+StatusScreen::StatusScreen(MenuObject *marioIcon, Label *label_lives, Label *label_level)
+{
+	this->marioIcon_status = marioIcon;
+	this->marioIcon_status->setTextureRect(sf::IntRect(0, 96, 28, 32));
+	this->label_lives = label_lives;
+	this->label_lives->setPosition(475.0f, 500.0f);
+
+	this->label_level = label_level;
+	this->label_level->setPosition(400.0f, 400.0f);
+}
+
+StatusScreen::~StatusScreen()
+{
+	delete marioIcon_status;
+	delete label_level;
+	delete label_lives;
+}
+
+void StatusScreen::setLabelLives(int numLives)
+{
+	label_lives->setString("x" + std::to_string(numLives));
+}
+
+void StatusScreen::setLabelLevel(int level)
+{
+	std::stringstream str_stream;
+	str_stream << "LEVEL"
+			   << std::setw(2) << level;
+	label_level->setString(str_stream.str());
+}
+
+void StatusScreen::draw(sf::RenderWindow &w)
+{
+	marioIcon_status->draw(w);
+	label_level->draw(w);
+	label_lives->draw(w);
 }

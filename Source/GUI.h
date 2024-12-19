@@ -9,6 +9,9 @@
 #include "MenuObject.h"
 #include "marioGameManager.h"
 
+#define EXIT_BUTTON "resource/Menu/ExitButton.png"
+#define MARIO "resource/Mario1.png"
+
 class MarioGameManager;
 
 class Label
@@ -28,6 +31,21 @@ public:
 	}
 };
 
+class StatusScreen
+{
+private:
+	MenuObject *marioIcon_status;
+	Label *label_lives;
+	Label *label_level;
+
+public:
+	StatusScreen(MenuObject *marioIcon_status, Label *label_lives, Label *label_level);
+	~StatusScreen();
+	void setLabelLives(int numLives);
+	void setLabelLevel(int level);
+	void draw(sf::RenderWindow &w);
+};
+
 class GUI
 {
 private:
@@ -36,6 +54,10 @@ private:
 	Label *label_time_remaining;
 	Label *label_score;
 	MenuObject *exit_button;
+	MenuObject *marioIcon;
+	MenuObject *coinIcon;
+
+	StatusScreen *statusScreen;
 
 public:
 	GUI();
@@ -46,7 +68,9 @@ public:
 	void setLives(int numLives);
 	void setTimeRemaining(int time);
 	void setScore(int score);
+	void setStatus(int numLives, int level);
 	void draw(sf::RenderWindow &w);
+	void drawStatus(sf::RenderWindow &w);
 	bool handleClicking(sf::RenderWindow &w);
 	std::string getStringCoins()
 	{

@@ -44,6 +44,7 @@ public:
     std::map<ScoreID, int> scoreMap;
     static enum class GameState { menu,
                                   pause,
+                                  status,
                                   playing,
                                   levelOver,
                                   gameOver } gameState;
@@ -59,7 +60,6 @@ public:
     void addCoin();
     void addLive();
     void setState(GameState gameState);
-    // void updateGameState(int delta_time, sf::Event& ev); // delta time in milliseconds
     int getLives();
     int getCoins();
     int getScore();

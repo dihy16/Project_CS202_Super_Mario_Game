@@ -51,6 +51,7 @@ void MarioGameManager::updateGUI()
     getGUI()->setLives(marioLives);
     getGUI()->setTimeRemaining(timeRemaining / 1000);
     getGUI()->setScore(score);
+    getGUI()->setStatus(marioLives, MarioGameManager::getInstance()->getCurrentLevel());
 }
 
 void MarioGameManager::run()
@@ -75,6 +76,11 @@ void MarioGameManager::draw(sf::RenderWindow &w)
         level->drawLevel();
         RenderManager::GetInstance().Update();
         getGUI()->draw(w);
+        break;
+    case GameState::status:
+        updateGUI();
+        getGUI()->draw(w);
+        getGUI()->drawStatus(w);
         break;
     }
 }
@@ -110,6 +116,8 @@ void MarioGameManager::handleEvents(sf::RenderWindow &w, sf::Event &ev)
                 togglePause();
             }
         }
+        break;
+    case GameState::status:
         break;
     }
 }
@@ -160,6 +168,13 @@ void MarioGameManager::updateGameState(int delta_time, sf::Event &ev)
         break;
     case GameState::menu:
         break;
+    case GameState::status:
+        if (timer.getElapsedTime().asSeconds() > 3.0f)
+        {
+            setState(GameState::playing);
+            timer.restart();
+        }
+        break;
     }
 }
 
@@ -187,8 +202,8 @@ void MarioGameManager::marioDies()
 void MarioGameManager::loadLevel(bool resuming)
 {
     std::cout << "resuming" << resuming << std::endl;
-    //if (this->level)
-    //    delete this->level;
+    // if (this->level)
+    //     delete this->level;
     this->level = new Level(currentLevel, resuming);
 }
 
