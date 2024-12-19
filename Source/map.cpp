@@ -414,11 +414,17 @@ void Map::createblock(int x, int y)
     // sr->sprite.setTextureRect(sf::IntRect(xtex * BLOCK_WIDTH, ytex * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT));
     block->spritearea = sf::IntRect(xtex * BLOCK_WIDTH, ytex * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT);
     availableblocks.push_back(block);
-    if (projectionmap[y][x] == 5 || projectionmap[y][x] == 6)
-        return;
     BoxCollider *bc = AddComponent<BoxCollider>(block);
-    bc->width = BLOCK_WIDTH;
-    bc->height = BLOCK_HEIGHT;
+    if (projectionmap[y][x] == 5 || projectionmap[y][x] == 6)
+    {
+        bc->width = 0;
+        bc->height = 0;
+    }
+    else
+    {
+        bc->width = BLOCK_WIDTH;
+        bc->height = BLOCK_HEIGHT;
+    }
     RigidBody *rb = AddComponent<RigidBody>(block);
     bc->body = rb;
     rb->collider = bc;
@@ -466,17 +472,17 @@ void Map::createbackgroundblock(int x, int y)
 
 void Map::draw(sf::RenderWindow &w)
 {
-    for (Block *i : backgroundblocks)
-    {
-        sprite.setTexture(blocktexture);
-        sprite.setTextureRect(sf::IntRect(1 * BLOCK_WIDTH, 7 * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT));
-        sprite.setPosition(i->xPos - Camera::GetInstance().posX, i->yPos);
-        w.draw(sprite);
-        sprite.setTexture(blocktexture);
-        sprite.setTextureRect(i->spritearea);
-        sprite.setPosition(i->xPos - Camera::GetInstance().posX, i->yPos);
-        w.draw(sprite);
-    }
+    // for (Block *i : backgroundblocks)
+    // {
+    //     sprite.setTexture(blocktexture);
+    //     sprite.setTextureRect(sf::IntRect(1 * BLOCK_WIDTH, 7 * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT));
+    //     sprite.setPosition(i->xPos - Camera::GetInstance().posX, i->yPos);
+    //     w.draw(sprite);
+    //     sprite.setTexture(blocktexture);
+    //     sprite.setTextureRect(i->spritearea);
+    //     sprite.setPosition(i->xPos - Camera::GetInstance().posX, i->yPos);
+    //     w.draw(sprite);
+    // }
     for (Block *i : availableblocks)
     {
         sprite.setTexture(blocktexture);
