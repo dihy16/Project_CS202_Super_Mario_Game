@@ -55,8 +55,7 @@ class GameStateMemento;
 class Level
 {
 private:
-    // Mario *mario;
-    // Luigi *luigi;
+    Luigi *luigi;
     Mario *mario;
     Map *m;
     std::vector<std::unique_ptr<Enemy>> enemies;
@@ -67,7 +66,7 @@ private:
     sf::Clock timer;
 
 public:
-    bool display, finished;
+    bool isMario = true, finished;
     Level(int level, bool resuming);
     ~Level();
     void handleKeyPress();

@@ -25,5 +25,6 @@
 #define SUPERLUIGI "resource/LuigiSuper2.png"
 #define ENEMY "resource/Enemies.png"
 #define ITEM "resource/Items.png"
+#define EXIT_BUTTON "resource/Menu/ExitButton.png"
 
 #endif
