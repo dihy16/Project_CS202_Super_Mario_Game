@@ -2,9 +2,6 @@
 #define SAVEGAME_H
 #include "character.h"
 #include "./PhysicsEngine/Entity.h"
-#include <stack>
-#include <string>
-#include <fstream>
 class Mario;
 struct MarioState
 {

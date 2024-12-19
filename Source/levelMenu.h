@@ -7,7 +7,7 @@
 class MarioGameManager;
 class MenuManager;
 
-class LevelMenu : public Menu 
+class LevelMenu : public Menu
 {
 private:
 	// MenuObject oBackGround;
@@ -15,14 +15,13 @@ private:
 	// MenuObject oMedium;
 	// MenuObject oHard;
 	// std::vector<MenuObject*> menuOptions;
-    std::vector<IGameStateObserver*> observers; // List of observers
+	std::vector<IGameStateObserver *> observers; // List of observers
 public:
-
 	bool isHidden;
-	void addObserver(IGameStateObserver* observer);
-	void removeObserver(IGameStateObserver* observer);
+	void addObserver(IGameStateObserver *observer);
+	void removeObserver(IGameStateObserver *observer);
 	void notifyObserver(int gameState);
 	LevelMenu();
-	void handleClicking(sf::RenderWindow& window);
+	void handleClicking(sf::RenderWindow &window);
 };
 #endif

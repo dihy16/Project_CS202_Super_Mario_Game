@@ -11,6 +11,7 @@
 class Level;
 class LevelMenu;
 class MenuManager;
+class GUI;
 
 class MarioGameManager : public GameManager
 {

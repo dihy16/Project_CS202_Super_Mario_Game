@@ -1,9 +1,7 @@
 #ifndef ITEMS_H
 #define ITEMS_H
-#include "./character.h"
+#include "character.h"
 #include <memory>
-
-#define ITEM "resource/Items.png"
 
 class Item : public Entity
 {

@@ -1,29 +1,29 @@
 #include "saveGame.h"
-class CareTaker
-{
-private:
-   std::stack<GameStateMemento> history;
+// class CareTaker
+// {
+// private:
+//    std::stack<GameStateMemento> history;
 
-public:
-   void saveState(const GameStateMemento &memento)
-   {
-      history.push(memento);
-   }
-   bool hasSavedState() const
-   {
-      return !history.empty();
-   }
-   GameStateMemento restoreState()
-   {
-      if (!history.empty())
-      {
-         GameStateMemento memento = history.top();
-         history.pop();
-         return memento;
-      }
-      throw std::runtime_error("No more states to restore");
-   }
-};
+// public:
+//    void saveState(const GameStateMemento &memento)
+//    {
+//       history.push(memento);
+//    }
+//    bool hasSavedState() const
+//    {
+//       return !history.empty();
+//    }
+//    GameStateMemento restoreState()
+//    {
+//       if (!history.empty())
+//       {
+//          GameStateMemento memento = history.top();
+//          history.pop();
+//          return memento;
+//       }
+//       throw std::runtime_error("No more states to restore");
+//    }
+// };
 GameStateMemento GameStateMemento::loadState(const std::string &file)
 {
    MarioState marioState;

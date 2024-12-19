@@ -1,24 +1,9 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-#include "./PhysicsEngine/Managers/ComponentEntityManager.h"
-#include "./PhysicsEngine/Components/BoxCollider.h"
-#include "./PhysicsEngine/Components/RigidBody.h"
-#include "./PhysicsEngine/Components/SpriteRenderer.h"
-#include "./items.h"
-#include <iostream>
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-#include <SFML/System.hpp>
-#include "marioGameManager.h"
+#include "definition.h"
+#include "items.h"
 #include "saveGame.h"
-
-#define BLOCK_WIDTH 64
-#define BLOCK_HEIGHT 64
-#define MARIO "resource/Mario1.png"
-#define SUPERMARIO "resource/MarioSuper2.png"
-#define LUIGI "resource/Luigi1.png"
-#define SUPERLUIGI "resource/LuigiSuper2.png"
 
 class Item;             // forward declaration
 class GameStateMemento; // forward declaration

@@ -1,11 +1,7 @@
 #ifndef GUI_H
 #define GUI_H
 
-#include <SFML/Graphics.hpp>
-#include <string>
-#include <iomanip>
-#include <sstream>
-#include <string>
+#include "definition.h"
 #include "MenuObject.h"
 
 class Label
@@ -32,9 +28,10 @@ private:
 	Label *label_lives;
 	Label *label_time_remaining;
 	Label *label_score;
-	//MenuObject *exit_button;
+	// MenuObject *exit_button;
 	sf::Sprite exit_button;
 	sf::Texture exit_button_texture;
+
 public:
 	GUI();
 	~GUI();
