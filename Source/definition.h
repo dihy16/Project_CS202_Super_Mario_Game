@@ -14,6 +14,7 @@
 #include <string>
 #include <iomanip>
 #include <memory>
+#include <unordered_map>
 #include <assert.h>
 #include "marioGameManager.h"
 

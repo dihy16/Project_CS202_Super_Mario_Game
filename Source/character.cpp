@@ -145,13 +145,13 @@ void Character::handleMovement(float speed)
         }
         if (firing)
         {
-            created = true;
             if (state == Super || state == Fire)
             {
                 if (direction == Right)
                     rect.left = 224;
                 else
                     rect.left = 1024 - 248;
+                created = true;
             }
             MarioGameManager::getInstance()->playSound(MarioGameManager::fireball);
         }
