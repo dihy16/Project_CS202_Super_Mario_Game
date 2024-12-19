@@ -58,7 +58,8 @@ void saveGame(const GameStateMemento &state, const std::string &file)
 {
    cout << "save game" << endl;
    std::ofstream outFile(file);
-   if (!outFile)    std::cerr << "Unable to open log file\n";
+   if (!outFile)
+      std::cerr << "Unable to open log file\n";
    outFile << state.marioState.xPos << " " << state.marioState.yPos << " "
            << state.marioState.lives << " " << state.marioState.coins << " "
            << state.marioState.time << " " << state.marioState.state << "\n";
