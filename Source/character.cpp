@@ -277,6 +277,7 @@ void Character::handlePowerUp()
             // Animate Character and handle state transition
             eatMushroom = true;
             stateTimer.restart();
+            collider->SetActive(false);
             collider->body->SetActive(false);
             MarioGameManager::getInstance()->playSound(MarioGameManager::powerup);
             logEvent("Mushroom collected", character->xPos, character->yPos);
@@ -286,6 +287,7 @@ void Character::handlePowerUp()
         {
             MarioGameManager::getInstance()->addCoin();
             MarioGameManager::getInstance()->playSound(MarioGameManager::add_coin);
+            collider->SetActive(false);
             collider->body->SetActive(false);
             MarioGameManager::getInstance()->addScore(MarioGameManager::Coin);
             logEvent("Coin collected", character->xPos, character->yPos);
@@ -294,6 +296,7 @@ void Character::handlePowerUp()
         {
             eatFlower = true;
             stateTimer.restart();
+            collider->SetActive(false);
             collider->body->SetActive(false);
             MarioGameManager::getInstance()->playSound(MarioGameManager::powerup);
             logEvent("Flower collected", character->xPos, character->yPos);
@@ -365,13 +368,15 @@ void Character::update(std::vector<std::unique_ptr<Item>> &items, float speed)
     handleMovement(speed);
     handlePowerUp();
     handleEnemy();
-    if (firing && created && timer3.getElapsedTime().asSeconds() > 1)
+    if (firing && created && timer3.getElapsedTime().asSeconds() > 0.5)
     {
         bool bulletDirection = (direction == Right);
         if (bulletDirection)
             items.push_back(ItemFactory::createItem("Fireball", character->xPos + characterCollider->width + 1, character->yPos, bulletDirection));
+        // items.push_back(std::unique_ptr<Item>(ItemFactory::bulletPool.acquireBullet(character->xPos + characterCollider->width + 1, character->yPos, bulletDirection)));
         else
             items.push_back(ItemFactory::createItem("Fireball", character->xPos - 20, character->yPos, bulletDirection));
+        // items.push_back(std::unique_ptr<Item>(ItemFactory::bulletPool.acquireBullet(character->xPos - 20, character->yPos, bulletDirection)));
         created = false;
         timer3.restart();
     }

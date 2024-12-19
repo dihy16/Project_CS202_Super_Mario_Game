@@ -82,7 +82,7 @@ void Mushroom::fadeOut()
 
 Coin::Coin(int x, int y) : Item(x, y)
 {
-   sf::IntRect rect(0, 84, 32, 32);
+   sf::IntRect rect(0, 86, 32, 32);
    initialize(x, y, rect, "coin", 4);
 }
 
@@ -94,11 +94,12 @@ void Coin::animation()
       {
          maxRect = 6;
          itemRect.left = currentRect * sr->sprite.getTextureRect().width;
-         itemRect.top = 116;
+         // itemRect.top = 116;
          sr->sprite.setTextureRect(itemRect);
          currentRect++;
          if (currentRect == maxRect)
          {
+            RenderManager::GetInstance().debugText += std::to_string(currentRect);
             currentRect = 0;
             finished = true;
          }
@@ -107,7 +108,7 @@ void Coin::animation()
       {
          maxRect = 4;
          itemRect.left = currentRect * sr->sprite.getTextureRect().width;
-         itemRect.top = 86;
+         // itemRect.top = 86;
          sr->sprite.setTextureRect(itemRect);
          currentRect++;
          if (currentRect == maxRect)
@@ -121,9 +122,9 @@ void Coin::fadeOut()
 {
    if (!rb->GetActive())
    {
-      bc->SetActive(false);
       state = Sparkling;
       sr->sprite.setTextureRect(sf::IntRect(0, 116, 40, 32));
+      itemRect = sf::IntRect(0, 116, 40, 32);
    }
    if (finished)
       sr->SetActive(false);
@@ -252,11 +253,43 @@ void Bullet::fadeOut()
    }
 }
 
-// Star::Star(int x, int y) : Item(x, y)
-// {
-//    sf::IntRect rect(0, 0, 32, 32);
-//    initialize(x, y, rect, "star", 4);
-// }
+void Bullet::reset(int x, int y, bool direction)
+{
+   this->direction = direction;
+   itemRect = sf::IntRect(0, 0, 16, 16);
+   initialize(x, y, itemRect, "fireball", 2);
+   state = Flying;
+   finished = false;
+   thrown = false;
+   fadeTimer.restart();
+   setActive(true);
+}
+
+BulletPool::BulletPool(int size)
+{
+   for (int i = 0; i < size; i++)
+   {
+      bullets.push_back(std::make_unique<Bullet>(0, 0, true));
+   }
+}
+
+Bullet *BulletPool::acquireBullet(int x, int y, bool direction)
+{
+   for (auto &bullet : bullets)
+   {
+      if (!bullet->isActive())
+      {
+         bullet->reset(x, y, direction);
+         return bullet.get();
+      }
+   }
+   bullets.push_back(std::make_unique<Bullet>(x, y, direction));
+   return bullets.back().get();
+}
+
+void BulletPool::releaseBullet(Bullet *bullet) { bullet->setActive(false); }
+
+BulletPool ItemFactory::bulletPool(5);
 
 std::unique_ptr<Item> ItemFactory::createItem(const std::string &type, int x, int y, bool direction)
 {
@@ -269,6 +302,7 @@ std::unique_ptr<Item> ItemFactory::createItem(const std::string &type, int x, in
    // else if (type == "Star")
    //    return std::make_unique<Star>(x, y);
    else if (type == "Fireball")
+      // return std::unique_ptr<Item>(bulletPool.acquireBullet(x, y, direction));
       return std::make_unique<Bullet>(x, y, direction);
    return nullptr;
 }

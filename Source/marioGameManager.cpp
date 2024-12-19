@@ -97,7 +97,7 @@ void MarioGameManager::handleEvents(sf::RenderWindow &w, sf::Event &ev)
         {
             if (getGUI()->handleClicking(w))
             {
-                saveGame(level->saveMarioState(), "Log/game_state.txt");
+                saveGame(level->saveMarioState(), MARIO_LOG);
             }
         }
         if (ev.type == sf::Event::KeyPressed)

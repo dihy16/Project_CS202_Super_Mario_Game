@@ -14,6 +14,7 @@ protected:
    RigidBody *rb;
    int currentRect, maxRect;
    void initialize(float x, float y, sf::IntRect &rect, std::string name, int maxRect);
+   friend class BulletPool;
 
 public:
    Item(int x, int y);
@@ -79,11 +80,31 @@ public:
    Bullet(int x, int y, bool direction);
    void animation() override;
    void fadeOut() override;
+   void reset(int x, int y, bool direction);
+   bool isActive() const { return rb->GetActive(); }
+   void setActive(bool active)
+   {
+      rb->SetActive(active);
+      bc->SetActive(active);
+      sr->SetActive(active);
+   }
+};
+
+class BulletPool
+{
+private:
+   std::vector<std::unique_ptr<Bullet>> bullets;
+
+public:
+   BulletPool(int size);
+   Bullet *acquireBullet(int x, int y, bool direction);
+   void releaseBullet(Bullet *bullet);
 };
 
 class ItemFactory
 {
 public:
+   static BulletPool bulletPool;
    static std::unique_ptr<Item> createItem(const std::string &type, int x, int y, bool direction = false);
 };
 
