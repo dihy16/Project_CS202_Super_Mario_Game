@@ -12,6 +12,12 @@ class Luigi;
 class Map;
 class Item;
 class Enemy;
+class Flag: public Entity
+{
+private:
+public:
+    Flag(){}
+};
 class MarioGameManager;
 class GameStateMemento;
 
@@ -25,6 +31,7 @@ private:
     std::vector<std::unique_ptr<Enemy>> enemies;
     std::vector<std::unique_ptr<Item>> items;
     sf::Image entitylayout;
+    Flag* f = nullptr;
     int lv;
     sf::Clock timer;
 
