@@ -12,6 +12,7 @@
 class Level;
 class LevelMenu;
 class MainMenu;
+class MenuHighscore;
 class MenuManager;
 class GUI;
 
@@ -28,6 +29,7 @@ private:
     int timeRemaining = 300000;
     int currentLevel;
     sf::Clock timer;
+    vector<int> vHighscore;
     // GameScene* currentScene = nullptr;
     // std::vector<GameScene*> sceneStack;
     MarioGameManager();
@@ -75,6 +77,7 @@ public:
     void togglePause();
     int getCurrentLevel();
     void setCurrentLevel(int currentLevel);
+    void saveHiScore();
 };
 
 class GameScene

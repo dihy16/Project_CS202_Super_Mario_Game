@@ -5,6 +5,7 @@
 #include <stack>
 #include <string>
 #include <fstream>
+
 class Mario;
 struct MarioState
 {
@@ -23,9 +24,12 @@ class GameStateMemento
 public:
    MarioState marioState;
    std::vector<Entity *> entities;
+   std::vector<int> vHighscore;
    GameStateMemento(MarioState marioState, std::vector<Entity *> entities) : marioState(marioState), entities(entities) {}
    static GameStateMemento loadState(const std::string &file);
 };
 void logEvent(const std::string &event, float xPos, int yPos);
 void saveGame(const GameStateMemento &state, const std::string &file);
+std::vector<int> loadHighScores(const std::string &file);
+void saveHighScores(const std::vector<int> &highScores, const std::string &file);
 #endif
