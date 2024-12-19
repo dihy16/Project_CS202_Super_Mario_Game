@@ -8,6 +8,7 @@ class Enemy : public Entity
 protected:
    bool display, moving, isKilled, onGround, fading;
    bool direction = false;
+   float originX, originY;
    sf::Clock timer, movetimer;
    sf::IntRect enemyRect;
    Entity *enemy = new Entity;

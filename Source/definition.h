@@ -27,5 +27,7 @@
 #define ENEMY "resource/Enemies.png"
 #define ITEM "resource/Items.png"
 #define EXIT_BUTTON "resource/Menu/ExitButton.png"
+#define MAP_LOG "resource/Log/game_log.txt"
+#define MARIO_LOG "resource/Log/game_state.txt"
 
 #endif

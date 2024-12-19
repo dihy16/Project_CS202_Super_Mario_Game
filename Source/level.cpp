@@ -11,9 +11,9 @@ Level::Level(int level, bool resuming)
     if (resuming)
     {
         if (isMario)
-            mario->restoreState(GameStateMemento::loadState("Log/game_state.txt"));
+            mario->restoreState(GameStateMemento::loadState(MARIO_LOG));
         else
-            luigi->restoreState(GameStateMemento::loadState("Log/game_state.txt"));
+            luigi->restoreState(GameStateMemento::loadState(MARIO_LOG));
     }
     else
     {
@@ -91,15 +91,14 @@ Level::Level(int level, bool resuming)
         }
     }
     // enemies.push_back(EnemyFactory::createEnemy("Goomba", 300, 0));
-    // enemies.push_back(EnemyFactory::createEnemy("Koopa", 400, 0));
+    enemies.push_back(EnemyFactory::createEnemy("Koopa", 900, 0));
     // enemies.push_back(EnemyFactory::createEnemy("PiranhaPlant", 500, 0));
-    enemies.push_back(EnemyFactory::createEnemy("Gooner", 1000, 700));
+    // enemies.push_back(EnemyFactory::createEnemy("Gooner", 1000, 700));
     // items.push_back(ItemFactory::createItem("Mushroom", 200, 700));
-    // items.push_back(ItemFactory::createItem("Coin", 500, 700));
-    // items.push_back(ItemFactory::createItem("Coin", 600, 700));
-    // items.push_back(ItemFactory::createItem("Coin", 700, 700));
-    // enemies.push_back(EnemyFactory::createEnemy("Goomba", 200, 0));
-    // items.push_back(ItemFactory::createItem("Flower", 350, 700));
+    // items.push_back(ItemFactory::createItem("Coin", 1000, 700));
+    // items.push_back(ItemFactory::createItem("Coin", 1050, 700));
+    // items.push_back(ItemFactory::createItem("Coin", 1100, 700));
+    // items.push_back(ItemFactory::createItem("Flower", 1200, 700));
 
     timer.restart();
 }
@@ -165,7 +164,7 @@ void Level::handleKeyPress()
     {
         luigi->goLeft = sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
         luigi->goRight = sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
-        luigi->firing = sf::Keyboard::isKeyPressed(sf::Keyboard::RShift);
+        luigi->firing = sf::Keyboard::isKeyPressed(sf::Keyboard::Enter);
         luigi->characterRigidBody->isJumping = sf::Keyboard::isKeyPressed(sf::Keyboard::Up);
     }
 }

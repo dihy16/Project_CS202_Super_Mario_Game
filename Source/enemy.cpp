@@ -14,6 +14,8 @@ void Enemy::initialize(int x, int y, sf::IntRect &rect, std::string name)
    enemy->scaleY = 1.05;
    enemy->xPos = x;
    enemy->yPos = y;
+   originX = x;
+   originY = y;
    enemy->name = "enemy";
    enemy->tag = name;
 
@@ -51,6 +53,7 @@ void Goomba::collideWithMario(Character &mario)
          rb->SetActive(false);
          sr->sprite.setTextureRect(sf::IntRect(64, 0, 32, 31));
          isKilled = true;
+         logEvent("Goomba killed", originX, originY);
       }
    };
 
@@ -69,10 +72,10 @@ void Goomba::collideWithMario(Character &mario)
       if (collider->body->GetOwner()->name == "fireball")
       {
          RenderManager::GetInstance().debugText += " cut ";
-         // rb->GetOwner()->scaleY = -1;
          bc->SetActive(false);
          rb->SetActive(false);
-         sr->SetActive(false);
+         isKilled = true;
+         logEvent("Goomba killed", originX, originY);
       }
    };
 }
@@ -149,6 +152,7 @@ void Koopa::collideWithMario(Character &mario)
          sr->sprite.setTextureRect(sf::IntRect(64, 32, 32, 48));
          state = Hidden;
          isKilled = true;
+         logEvent("Koopa killed", originX, originY);
       }
    };
 
@@ -167,10 +171,10 @@ void Koopa::collideWithMario(Character &mario)
       if (collider->body->GetOwner()->name == "fireball")
       {
          RenderManager::GetInstance().debugText += " cut ";
-         // rb->GetOwner()->scaleY = -1;
          bc->SetActive(false);
          rb->SetActive(false);
          isKilled = true;
+         logEvent("Koopa killed", originX, originY);
       }
    };
 }
@@ -368,10 +372,10 @@ void PiranhaPlant::collideWithMario(Character &mario)
       if (collider->body->GetOwner()->name == "fireball")
       {
          RenderManager::GetInstance().debugText += " cut ";
-         rb->GetOwner()->scaleY = -1;
          bc->SetActive(false);
          rb->SetActive(false);
          isKilled = true;
+         logEvent("PiranhaPlant killed", originX, originY);
       }
    };
 }
