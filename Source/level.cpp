@@ -34,11 +34,11 @@ Level::Level(int level, bool resuming)
     }
     sf::Image itemlayout;
     itemlayout.loadFromFile(whichlevel + "/layout.png");
-    for (int i = 0; i < entitylayout.getSize().y; i++)
+    for (int i = 0; i < itemlayout.getSize().y; i++)
     {
-        for (int j = 0; j < entitylayout.getSize().x; j++)
+        for (int j = 0; j < itemlayout.getSize().x; j++)
         {
-            c = sf::Color(entitylayout.getPixel(j, i));
+            c = sf::Color(itemlayout.getPixel(j, i));
             if (c == sf::Color(255, 242, 0))
             {
                 target = dist1(rng);
@@ -54,6 +54,57 @@ Level::Level(int level, bool resuming)
                     items.push_back(ItemFactory::createItem("Flower", j * BLOCK_WIDTH + 20, i * BLOCK_WIDTH + 20));
                     break;
                 }
+            }
+            else if (c == sf::Color(153, 229, 80))
+            {
+                if (i == 0)
+                {
+                    f = new Flag;
+                    f->xPos = j * BLOCK_WIDTH + 35;
+                    f->yPos = i * BLOCK_WIDTH + 67;
+                    SpriteRenderer* sr = AddComponent<SpriteRenderer>(f);
+                    sr->layer = 2;
+                    sr->texture.loadFromFile("resource/Items.png");
+                    sr->texture.setSmooth(true);
+                    sr->sprite.setTexture(sr->texture);
+                    sr->sprite.setTextureRect(sf::IntRect(0, 150, 32, 32));
+                    BoxCollider *bc = AddComponent<BoxCollider>(f);
+                    bc->width = 0;
+                    bc->height = 0;
+                    RigidBody *rb = AddComponent<RigidBody>(f);
+                    bc->body = rb;
+                    rb->collider = bc;
+                    rb->isUsingGravity = false;
+                    rb->isStatic = true;
+                    rb->xVel = 0;
+                    rb->yVel = 0;
+                    RenderManager::GetInstance().listEntity.push_back(f);
+                    
+                }
+                else if (sf::Color(itemlayout.getPixel(j, i - 1)) != c)
+                {
+                    f = new Flag;
+                    f->xPos = j * BLOCK_WIDTH + 35;
+                    f->yPos = i * BLOCK_WIDTH + 67;
+                    SpriteRenderer* sr = AddComponent<SpriteRenderer>(f);
+                    sr->layer = 2;
+                    sr->texture.loadFromFile("resource/Items.png");
+                    sr->texture.setSmooth(true);
+                    sr->sprite.setTexture(sr->texture);
+                    sr->sprite.setTextureRect(sf::IntRect(0, 150, 32, 32));
+                    BoxCollider *bc = AddComponent<BoxCollider>(f);
+                    bc->width = 0;
+                    bc->height = 0;
+                    RigidBody *rb = AddComponent<RigidBody>(f);
+                    bc->body = rb;
+                    rb->collider = bc;
+                    rb->isUsingGravity = false;
+                    rb->isStatic = true;
+                    rb->xVel = 0;
+                    rb->yVel = 0;
+                    RenderManager::GetInstance().listEntity.push_back(f);
+                }
+                    
             }
         }
     }

@@ -11,6 +11,12 @@ class Mario;
 class Map;
 class Item;
 class Enemy;
+class Flag: public Entity
+{
+private:
+public:
+    Flag(){}
+};
 class GameStateMemento;
 
 class Level
@@ -21,7 +27,7 @@ private:
     std::vector<std::unique_ptr<Enemy>> enemies;
     std::vector<std::unique_ptr<Item>> items;
     sf::Image entitylayout;
-
+    Flag* f = nullptr;
 public:
     bool display, finished;
     Level(int level, bool resuming);
