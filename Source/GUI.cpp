@@ -12,7 +12,7 @@ GUI::~GUI()
 	delete label_lives;
 	delete label_time_remaining;
 	delete label_score;
-	//delete exit_button;
+	delete exit_button;
 }
 
 Label *GUI::createLabel()
@@ -34,11 +34,8 @@ void GUI::init()
 	this->label_score = createLabel();
 	this->label_score->setPosition(550.0f, 10.0f);
 
-	//exit_button = new MenuObject(EXIT_BUTTON, 850.0f, 10.0f);
-	exit_button_texture.loadFromFile(EXIT_BUTTON);
-	exit_button_texture.setSmooth(true);
-	exit_button.setTexture(exit_button_texture);
-	exit_button.setPosition(800.0f, 10.0f);
+	exit_button = new MenuObject(EXIT_BUTTON, 900.0f, 5.0f);
+	exit_button->setScale(0.1f, 0.1f);
 }
 
 void GUI::setCoin(int numCoin)
@@ -71,12 +68,22 @@ void GUI::setScore(int score)
 
 void GUI::draw(sf::RenderWindow &w)
 {
-	//exit_button->draw(w);
-	w.draw(exit_button);
 	label_coins->draw(w);
 	label_lives->draw(w);
 	label_time_remaining->draw(w);
 	label_score->draw(w);
+	exit_button->draw(w);
+}
+
+bool GUI::handleClicking(sf::RenderWindow &w)
+{
+	if (exit_button->isMouseOver(w))
+	{
+		MarioGameManager::getInstance()->setState(MarioGameManager::GameState::menu);
+		MarioGameManager::getInstance()->getMenuManager()->setMenuState(MenuManager::eMainMenu);
+		return true;
+	}
+	return false;
 }
 
 Label::Label()

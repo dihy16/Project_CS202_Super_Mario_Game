@@ -21,6 +21,12 @@ LevelMenu::LevelMenu()
     this->addMenuOption(new MenuObject(MEDIUM_BUT, 276.0f, 444.0f));
     this->addMenuOption(new MenuObject(EXPERT_BUT, 276.0f, 558.0f));
     this->addMenuOption(new MenuObject(MASTER_BUT, 276.0f, 672.0f));
+    this->addMenuOption(new MenuObject(DIFFICULTY_BG, 0.0f, 0.0f));
+    this->addMenuOption(new MenuObject(PEACEFUL_BUT, 276.0f, 218.0f));
+    this->addMenuOption(new MenuObject(EASY_BUT, 276.0f, 330.0f));
+    this->addMenuOption(new MenuObject(MEDIUM_BUT, 276.0f, 444.0f));
+    this->addMenuOption(new MenuObject(EXPERT_BUT, 276.0f, 558.0f));
+    this->addMenuOption(new MenuObject(MASTER_BUT, 276.0f, 672.0f));
 }
 
 void LevelMenu::addObserver(IGameStateObserver *observer)
@@ -37,20 +43,32 @@ void LevelMenu::notifyObserver(int gameState)
 {
     for (const auto &o : observers)
     {
-        o->changeState(gameState);
+        for (const auto &o : observers)
+        {
+            o->changeState(gameState);
+        }
     }
-}
 
-void LevelMenu::handleClicking(sf::RenderWindow &window)
-{
-    int indexButPressed = this->getButClicked(window);
-    switch (indexButPressed)
+    void LevelMenu::handleClicking(sf::RenderWindow & window)
     {
-    case 1: // Easy
-        MarioGameManager::getInstance()->setCurrentLevel(1);
-        notifyObserver(2); // to Game Menu
-        break;
-    default:
-        break;
+        int indexButPressed = this->getButClicked(window);
+        cout << "but clicked: " << indexButPressed << endl;
+        switch (indexButPressed)
+        {
+        case 1: // Easy
+            MarioGameManager::getInstance()->setCurrentLevel(1);
+            notifyObserver(2); // to Game Screen
+            break;
+        case 2:
+            MarioGameManager::getInstance()->setCurrentLevel(2);
+            notifyObserver(2);
+            break;
+        case 3:
+            MarioGameManager::getInstance()->setCurrentLevel(3);
+            notifyObserver(2);
+            break;
+        default:
+            break;
+        }
+        cout << "out handle clicking" << endl;
     }
-}

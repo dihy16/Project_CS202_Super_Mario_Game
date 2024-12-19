@@ -1,4 +1,6 @@
 #include "level.h"
+#include <iostream>
+using namespace std;
 
 Level::Level(int level, bool resuming)
 {
@@ -6,10 +8,14 @@ Level::Level(int level, bool resuming)
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist1(0, 2);
     int target;
-    bool choice = false;
-    mario = new Mario(8 * BLOCK_WIDTH, 12 * BLOCK_HEIGHT);
-    // luigi = new Luigi(8 * BLOCK_WIDTH, 12 * BLOCK_HEIGHT);
-
+    if (resuming)
+    {
+        mario->restoreState(GameStateMemento::loadState("Log/game_state.txt"));
+    }
+    else
+    {
+        mario = new Mario(8 * BLOCK_WIDTH, 12 * BLOCK_HEIGHT);
+    }
     m = new Map(resuming);
     m->loadmap(level, 8 * BLOCK_WIDTH, 12 * BLOCK_HEIGHT);
     sf::Color c;
@@ -137,4 +143,9 @@ void Level::execute()
 void Level::drawLevel()
 {
     m->draw(RenderManager::GetInstance().window);
+}
+
+GameStateMemento Level::saveMarioState()
+{
+    return mario->saveState();
 }

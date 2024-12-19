@@ -63,6 +63,7 @@ public:
     void playSound(SoundName soundName);
     void playMusic(MusicName musicName);
     void stopMusic();
+    void pauseMusic();
     MusicManager &getMusicManager();
     SoundBufferManager &getSoundBufferManager();
 };
