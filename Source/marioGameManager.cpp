@@ -204,4 +204,3 @@ void MarioGameManager::setCurrentLevel(int level)
 {
     this->currentLevel = level;
 }
-

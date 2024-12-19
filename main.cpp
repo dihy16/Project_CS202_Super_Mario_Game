@@ -54,10 +54,14 @@ int main()
             {
                 RenderManager::GetInstance().window.close();
             }
-            MarioGameManager::getInstance()->handleEvents(RenderManager::GetInstance().window, event);
         }
+        MarioGameManager::getInstance()->handleEvents(RenderManager::GetInstance().window, event);
+        if (RenderManager::GetInstance().trackE->xPos != 0)
+            Camera::GetInstance().posX = RenderManager::GetInstance().trackE->xPos - 200;
+        else
+            Camera::GetInstance().posX = 8 * BLOCK_WIDTH - 200;
+        RenderManager::GetInstance().debugText = std::to_string(Camera::GetInstance().posX);
 
-        Camera::GetInstance().posX = RenderManager::GetInstance().trackE->xPos - 200;
         if (event.type == sf::Event::KeyPressed)
         {
             if (event.key.code == sf::Keyboard::Left)
