@@ -1,14 +1,16 @@
 #ifndef _physicsmanager_h_
 #define _physicsmanager_h_
 
-class BoxCollider;
 #include "../Components/RigidBody.h"
+#include <SFML/System/Clock.hpp>
 #include <vector>
 
+class BoxCollider;
 class PhysicsManager
 {
 private:
     PhysicsManager();
+    sf::Clock timer;
 
 public:
     static constexpr float FIXED_TIMESTEP = 0.02f;

@@ -20,6 +20,7 @@ Level::Level(int level, bool resuming)
     m->loadmap(level, 8 * BLOCK_WIDTH, 12 * BLOCK_HEIGHT);
     sf::Color c;
     std::string whichlevel;
+    lv = level;
     switch (level)
     {
     case 1:
@@ -136,6 +137,8 @@ Level::Level(int level, bool resuming)
     // items.push_back(ItemFactory::createItem("Coin", 700, 700));
     // enemies.push_back(EnemyFactory::createEnemy("Goomba", 200, 0));
     // items.push_back(ItemFactory::createItem("Flower", 350, 700));
+
+    timer.restart();
 }
 Level::~Level()
 {
@@ -148,7 +151,15 @@ void Level::start()
 }
 void Level::end()
 {
-    display = false;
+    if (timer.getElapsedTime().asSeconds() > 10)
+    // if (mario->characterRigidBody->GetOwner()->xPos > 10 * BLOCK_WIDTH)
+    {
+        display = false;
+        MarioGameManager::getInstance()->setCurrentLevel(lv + 1);
+        DeleteObjects();
+        MarioGameManager::getInstance()->setState(MarioGameManager::GameState::playing);
+        MarioGameManager::getInstance()->loadLevel(false);
+    }
 }
 
 void Level::handleKeyPress()
@@ -156,7 +167,7 @@ void Level::handleKeyPress()
     mario->goLeft = sf::Keyboard::isKeyPressed(sf::Keyboard::A);
     mario->goRight = sf::Keyboard::isKeyPressed(sf::Keyboard::D);
     mario->firing = sf::Keyboard::isKeyPressed(sf::Keyboard::F);
-    mario->marioRigidBody->isJumping = sf::Keyboard::isKeyPressed(sf::Keyboard::W);
+    mario->characterRigidBody->isJumping = sf::Keyboard::isKeyPressed(sf::Keyboard::W);
 }
 
 void Level::execute()
@@ -164,7 +175,7 @@ void Level::execute()
     if (MarioGameManager::getInstance()->getState() == MarioGameManager::GameState::pause)
         return;
     handleKeyPress();
-    mario->update(items);
+    mario->update(items, 40);
     for (auto &enemy : enemies)
     {
         enemy->animation();
@@ -177,6 +188,7 @@ void Level::execute()
         item->animation();
         item->fadeOut();
     }
+    end();
 }
 
 void Level::drawLevel()

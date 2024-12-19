@@ -1,11 +1,11 @@
 #ifndef ENEMY_H
 #define ENEMY_H
-#include "./mario.h"
+#include "character.h"
 #include <memory>
 
 #define ENEMY "resource/Enemies.png"
 
-class Mario; // forward declaration
+class Character; // forward declaration
 class Enemy : public Entity
 {
 protected:
@@ -23,8 +23,8 @@ protected:
 public:
    Enemy(int x, int y);
    virtual void animation() = 0;
-   virtual void collideWithMario(Mario &mario) = 0;
-   virtual void moveWithMario(Mario &mario) = 0;
+   virtual void collideWithMario(Character &mario) = 0;
+   virtual void moveWithMario(Character &mario) = 0;
    virtual void fadingAnimation() = 0;
    // Getter methods to access protected members
    RigidBody *getRigidBody() const { return rb; }
@@ -47,8 +47,8 @@ public:
    // void kickFromTop(Mario *mario) override;
    // void kickFromBottom(Mario *mario) override;
    // void touchSide(Mario *mario) override;
-   void collideWithMario(Mario &mario) override;
-   void moveWithMario(Mario &mario) override;
+   void collideWithMario(Character &mario) override;
+   void moveWithMario(Character &mario) override;
    void fadingAnimation() override;
 };
 class Koopa : public Enemy
@@ -71,8 +71,8 @@ private:
 public:
    Koopa(int x, int y);
    void animation() override;
-   void collideWithMario(Mario &mario) override;
-   void moveWithMario(Mario &mario) override;
+   void collideWithMario(Character &mario) override;
+   void moveWithMario(Character &mario) override;
 
    void fadingAnimation() override;
 };
@@ -88,8 +88,8 @@ public:
    HammerBro(int x, int y);
    void animation() override;
    void throwHammer();
-   void collideWithMario(Mario &mario) override;
-   void moveWithMario(Mario &mario) override;
+   void collideWithMario(Character &mario) override;
+   void moveWithMario(Character &mario) override;
    void fadingAnimation() override;
 };
 
@@ -101,8 +101,8 @@ private:
 public:
    Hammer(int x, int y);
    void animation() override;
-   void collideWithMario(Mario &mario) override;
-   void moveWithMario(Mario &mario) override;
+   void collideWithMario(Character &mario) override;
+   void moveWithMario(Character &mario) override;
    void fadingAnimation() override;
 };
 
@@ -120,8 +120,8 @@ private:
 public:
    PiranhaPlant(int x, int y);
    void animation() override;
-   void collideWithMario(Mario &mario) override;
-   void moveWithMario(Mario &mario) override;
+   void collideWithMario(Character &mario) override;
+   void moveWithMario(Character &mario) override;
 
    void fadingAnimation() override;
 };

@@ -1,6 +1,6 @@
 #ifndef ITEMS_H
 #define ITEMS_H
-#include "./mario.h"
+#include "./character.h"
 #include <memory>
 
 #define ITEM "resource/Items.png"

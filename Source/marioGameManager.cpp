@@ -92,7 +92,6 @@ void MarioGameManager::handleEvents(sf::RenderWindow &w, sf::Event &ev)
             if (getGUI()->handleClicking(w))
             {
                 saveGame(level->saveMarioState(), "Log/game_state.txt");
-                DeleteObjects();
             }
         }
         if (ev.type == sf::Event::KeyPressed)
@@ -188,8 +187,8 @@ void MarioGameManager::marioDies()
 void MarioGameManager::loadLevel(bool resuming)
 {
     std::cout << "resuming" << resuming << std::endl;
-    if (this->level)
-        delete this->level;
+    //if (this->level)
+    //    delete this->level;
     this->level = new Level(currentLevel, resuming);
 }
 

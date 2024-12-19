@@ -1,6 +1,6 @@
 #ifndef SAVEGAME_H
 #define SAVEGAME_H
-#include "mario.h"
+#include "character.h"
 #include "./PhysicsEngine/Entity.h"
 #include <stack>
 #include <string>
@@ -10,10 +10,11 @@ struct MarioState
 {
    float xPos, yPos;
    int lives, coins, score, time;
+   std::string name;
    std::string state;
    friend std::istream &operator>>(std::istream &is, MarioState &state)
    {
-      is >> state.xPos >> state.yPos >> state.lives >> state.coins >> state.time >> state.state;
+      is >> state.name >> state.xPos >> state.yPos >> state.lives >> state.coins >> state.time >> state.state;
       return is;
    }
 };

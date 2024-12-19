@@ -4,7 +4,7 @@
 #include "gameManager.h"
 #include "menuManager.h"
 #include "PhysicsEngine/Managers/RenderManager.h"
-#include "mario.h"
+#include "character.h"
 #include "GUI.h"
 #include "level.h"
 #include "saveGame.h"

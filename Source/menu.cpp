@@ -1,15 +1,17 @@
 #include "menu.h"
-#include <iostream> 
+#include <iostream>
 using namespace std;
 
-
-Menu::Menu(void) {
+Menu::Menu(void)
+{
 	this->activeMenuOption = 0;
 	this->numOfMenuOptions = 0;
 }
 
-Menu::~Menu(void) {
-	for (int i = 0; i < numOfMenuOptions; i++) {
+Menu::~Menu(void)
+{
+	for (int i = 0; i < numOfMenuOptions; i++)
+	{
 		delete menuOptions[i];
 	}
 }
@@ -22,7 +24,8 @@ void Menu::addMenuOption(MenuObject *menuOption)
 // void Menu::updateActiveButton(int iDir) {
 void Menu::draw(sf::RenderWindow &window)
 {
-	for (int i = 0; i < numOfMenuOptions; ++i) {
+	for (int i = 0; i < numOfMenuOptions; ++i)
+	{
 		menuOptions[i]->draw(window);
 	}
 }
@@ -30,7 +33,8 @@ void Menu::draw(sf::RenderWindow &window)
 void Menu::handleHovering(sf::RenderWindow &window)
 {
 	int i = 1; // Do not handle hovering on background
-	for (; i < numOfMenuOptions; ++i) {
+	for (; i < numOfMenuOptions; ++i)
+	{
 		menuOptions[i]->updateColorOnHover(window);
 	}
 }
@@ -38,7 +42,8 @@ void Menu::handleHovering(sf::RenderWindow &window)
 int Menu::getButClicked(sf::RenderWindow &window)
 {
 	int i = 1; // Do not handle clicking on background
-	for (; i < numOfMenuOptions; ++i) {
+	for (; i < numOfMenuOptions; ++i)
+	{
 		if (menuOptions[i]->isMouseOver(window))
 			return i;
 	}
@@ -47,17 +52,20 @@ int Menu::getButClicked(sf::RenderWindow &window)
 
 void Menu::EventHandling(sf::RenderWindow &window, sf::Event &ev)
 {
-	switch (ev.type) {
-        case sf::Event::Closed:
-            window.close();
-        break;
-        case sf::Event::MouseButtonPressed:
-            this->handleClicking(window);
-        break;
-        case sf::Event::MouseMoved:
-            handleHovering(window);
-        break;
-    }
+	switch (ev.type)
+	{
+	case sf::Event::Closed:
+		window.close();
+		break;
+	case sf::Event::MouseButtonReleased:
+		this->handleClicking(window);
+		break;
+	case sf::Event::MouseMoved:
+		handleHovering(window);
+		break;
+	default:
+		break;
+	}
 }
 
 // 		case 0:
