@@ -65,6 +65,11 @@ void PhysicsManager::FixedUpdate()
             }
         }
         rb->GetOwner()->yPos += (rb->yVel * FIXED_TIMESTEP - Camera::GetInstance().posY);
+        if (rb->GetOwner()->name == "character")
+        {
+            rb->GetOwner()->xOrigin += (rb->xVel * FIXED_TIMESTEP);
+            rb->GetOwner()->yOrigin += (rb->yVel * FIXED_TIMESTEP);
+        }
     }
 }
 

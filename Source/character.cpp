@@ -19,6 +19,8 @@ Character::Character(int x, int y, const std::string &texture1, const std::strin
     character->scaleY = 1.5;
     character->xPos = x;
     character->yPos = y;
+    xOrigin = x;
+    yOrigin = y;
     character->name = "character";
 
     characterSprite->layer = 2;
@@ -430,8 +432,8 @@ GameStateMemento Character::saveState()
 {
     std::vector<Entity *> entities = RenderManager::GetInstance().listEntity;
     MarioState characterState;
-    characterState.xPos = character->xPos;
-    characterState.yPos = character->yPos;
+    characterState.xPos = characterRigidBody->GetOwner()->xOrigin;
+    characterState.yPos = characterRigidBody->GetOwner()->yOrigin;
     characterState.name = character->tag;
     characterState.lives = MarioGameManager::getInstance()->getLives();
     characterState.coins = MarioGameManager::getInstance()->getCoins();
@@ -454,13 +456,11 @@ GameStateMemento Character::saveState()
 
 void Character::restoreState(const GameStateMemento &memento)
 {
-    character->xPos = memento.marioState.xPos;
-    character->yPos = memento.marioState.yPos;
     character->tag = memento.marioState.name;
-    MarioGameManager::getInstance()->setLives(memento.marioState.lives);
-    MarioGameManager::getInstance()->setCoins(memento.marioState.coins);
-    MarioGameManager::getInstance()->setScore(memento.marioState.score);
-    MarioGameManager::getInstance()->setTimeRemaining(memento.marioState.time);
+    MarioGameManager::getInstance()->setLives(int(memento.marioState.lives));
+    MarioGameManager::getInstance()->setCoins(int(memento.marioState.coins));
+    MarioGameManager::getInstance()->setScore(int(memento.marioState.score));
+    MarioGameManager::getInstance()->setTimeRemaining(int(memento.marioState.time));
     if (memento.marioState.state == "Small")
         state = Small;
     else if (memento.marioState.state == "Super")
@@ -468,21 +468,32 @@ void Character::restoreState(const GameStateMemento &memento)
     else if (memento.marioState.state == "Fire")
         state = Fire;
 
-    if (state == Fire)
-    {
+    if (state == Small || state == Super)
+        characterSprite->texture.loadFromFile(textureFile1);
+    else if (state == Fire)
         characterSprite->texture.loadFromFile(textureFile2);
-        characterSprite->texture.setSmooth(true);
-        characterSprite->sprite.setTexture(characterSprite->texture);
-        characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 30, 60));
-        characterCollider->width = 48;
-        characterCollider->height = 88;
-    }
-    if (state == Super)
+
+    characterSprite->texture.setSmooth(true);
+    characterSprite->sprite.setTexture(characterSprite->texture);
+    if (state == Small)
     {
-        characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 30, 60));
+        characterCollider->width = 48;
+        characterCollider->height = 48;
+        characterSprite->sprite.setTextureRect(sf::IntRect(0, 96, 28, 32));
+    }
+    else if (state == Super)
+    {
         characterCollider->width = 48;
         characterCollider->height = 88;
+        characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 30, 60));
     }
+    else if (state == Fire)
+    {
+        characterCollider->width = 48;
+        characterCollider->height = 88;
+        characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 30, 60));
+    }
+    // }
     RenderManager::GetInstance().listEntity = memento.entities;
 }
 

@@ -19,6 +19,7 @@ protected:
 
     sf::Clock timer1, timer2, timer3, stateTimer, touchTimer, finishTimer;
     std::string textureFile1, textureFile2;
+    float xOrigin, yOrigin;
 
     enum Direction
     {

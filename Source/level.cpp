@@ -10,10 +10,17 @@ Level::Level(int level, bool resuming)
     int target;
     if (resuming)
     {
+        GameStateMemento oldState = GameStateMemento::loadState(MARIO_LOG);
         if (isMario)
-            mario->restoreState(GameStateMemento::loadState(MARIO_LOG));
+        {
+            mario = new Mario(oldState.marioState.xPos + 200, oldState.marioState.yPos);
+            mario->restoreState(oldState);
+        }
         else
-            luigi->restoreState(GameStateMemento::loadState(MARIO_LOG));
+        {
+            luigi = new Luigi(oldState.marioState.xPos + 200, oldState.marioState.yPos);
+            luigi->restoreState(oldState);
+        }
     }
     else
     {
@@ -120,12 +127,12 @@ void Level::end()
             f->rb->isUsingGravity = true;
             f->rb->isStatic = false;
             finished = true;
-            if (mario->finishTimer.getElapsedTime().asSeconds() > 3)
+            if (mario->finishTimer.getElapsedTime().asSeconds() > 1.5)
             {
                 MarioGameManager::getInstance()->setCurrentLevel(lv + 1);
-                MarioGameManager::getInstance()->setState(MarioGameManager::GameState::status);
                 DeleteObjects();
                 MarioGameManager::getInstance()->loadLevel(false);
+                MarioGameManager::getInstance()->setState(MarioGameManager::GameState::status);
                 mario->finishTimer.restart();
             }
         }
@@ -137,12 +144,12 @@ void Level::end()
             f->rb->isUsingGravity = true;
             f->rb->isStatic = false;
             finished = true;
-            if (luigi->finishTimer.getElapsedTime().asSeconds() > 3)
+            if (luigi->finishTimer.getElapsedTime().asSeconds() > 1.5)
             {
                 MarioGameManager::getInstance()->setCurrentLevel(lv + 1);
-                MarioGameManager::getInstance()->setState(MarioGameManager::GameState::status);
                 DeleteObjects();
                 MarioGameManager::getInstance()->loadLevel(false);
+                MarioGameManager::getInstance()->setState(MarioGameManager::GameState::status);
                 luigi->finishTimer.restart();
             }
         }
@@ -173,6 +180,7 @@ void Level::execute()
 {
     if (MarioGameManager::getInstance()->getState() == MarioGameManager::GameState::pause)
         return;
+
     handleKeyPress();
     if (isMario)
         mario->update(items, 40);

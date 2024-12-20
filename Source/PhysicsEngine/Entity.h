@@ -8,21 +8,20 @@
 #include <type_traits>
 #include <string>
 
-
 class Entity
 {
-    private:
-        int id;
-        static int nextID;
+private:
+    int id;
+    static int nextID;
 
-    public:
-        Entity();
-        float xPos, yPos;
-        std::string name, tag;
-        float rotation, scaleX, scaleY;
-        std::unordered_map<std::type_index, Component*> components;
-        int getID();
-        
+public:
+    Entity();
+    float xPos, yPos;
+    float xOrigin, yOrigin;
+    std::string name, tag;
+    float rotation, scaleX, scaleY;
+    std::unordered_map<std::type_index, Component *> components;
+    int getID();
 };
 
-#endif //entity_h_
+#endif // entity_h_
