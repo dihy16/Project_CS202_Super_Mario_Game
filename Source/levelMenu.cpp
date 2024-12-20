@@ -2,19 +2,9 @@
 #include <iostream>
 using namespace std;
 
-#define DIFFICULTY_BG "resource/Menu/Difficulty/DifficultyBG.png"
-#define PEACEFUL_BUT "resource/Menu/Difficulty/PeacefulBut.png"
-#define EASY_BUT "resource/Menu/Difficulty/EasyBut.png"
-#define MEDIUM_BUT "resource/Menu/Difficulty/MediumBut.png"
-#define EXPERT_BUT "resource/Menu/Difficulty/ExpertBut.png"
-#define MASTER_BUT "resource/Menu/Difficulty/MasterBut.png"
-
 LevelMenu::LevelMenu()
 {
-    // oBackGround.init(DIFFICULTY_BG,0.0f,0.0f);
-    // oEasy.init();
-    // oMedium.init();
-    // oHard.init();
+    isHidden = false;
     this->addMenuOption(new MenuObject(DIFFICULTY_BG, 0.0f, 0.0f));
     this->addMenuOption(new MenuObject(PEACEFUL_BUT, 276.0f, 218.0f));
     this->addMenuOption(new MenuObject(EASY_BUT, 276.0f, 330.0f));
@@ -49,20 +39,69 @@ void LevelMenu::handleClicking(sf::RenderWindow &window)
     cout << "but clicked: " << indexButPressed << endl;
     switch (indexButPressed)
     {
-    case 1: // Easy
+    case 1:
         MarioGameManager::getInstance()->setCurrentLevel(1);
-        notifyObserver(2); // to Game Screen
+        notifyObserver(MenuManager::eCharacterMenu); // to Select Character Screen
         break;
     case 2:
         MarioGameManager::getInstance()->setCurrentLevel(2);
-        notifyObserver(2);
+        notifyObserver(MenuManager::eCharacterMenu);
         break;
     case 3:
         MarioGameManager::getInstance()->setCurrentLevel(3);
-        notifyObserver(2);
+        notifyObserver(MenuManager::eCharacterMenu);
         break;
     default:
         break;
     }
     cout << "out handle clicking" << endl;
+}
+
+void CharacterMenu::addObserver(IGameStateObserver *observer)
+{
+    observers.push_back(observer);
+}
+
+void CharacterMenu::removeObserver(IGameStateObserver *observer)
+{
+    observers.erase(std::remove(observers.begin(), observers.end(), observer), observers.end());
+}
+
+void CharacterMenu::notifyObserver(int gameState)
+{
+    for (const auto &o : observers)
+    {
+        for (const auto &o : observers)
+        {
+            o->changeState(gameState);
+        }
+    }
+}
+
+CharacterMenu::CharacterMenu()
+{
+    isHidden = false;
+    sf::IntRect spriteRect(0, 96, 28, 32);
+    this->addMenuOption(new MenuObject(DIFFICULTY_BG, 0, 0));
+    this->addMenuOption(new MenuObject(MARIO, 360.0f, 510.0f, spriteRect, 3.0f, 3.0f));
+    this->addMenuOption(new MenuObject(LUIGI, 800.0f, 510.0f, spriteRect, -3.0f, 3.0f));
+}
+
+void CharacterMenu::handleClicking(sf::RenderWindow &window)
+{
+    int indexButPressed = this->getButClicked(window);
+    cout << "but clicked: " << indexButPressed << endl;
+    switch (indexButPressed)
+    {
+    case 1: // Mario
+        MarioGameManager::getInstance()->setIsMarioSelected(true);
+        notifyObserver(MenuManager::MenuState::eGame); // to Game Screen
+        break;
+    case 2: // Luigi
+        MarioGameManager::getInstance()->setIsMarioSelected(false);
+        notifyObserver(MenuManager::MenuState::eGame);
+        break;
+    default:
+        break;
+    }
 }

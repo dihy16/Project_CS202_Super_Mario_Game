@@ -66,8 +66,8 @@ private:
     sf::Clock timer;
 
 public:
-    bool isMario = true, finished;
-    Level(int level, bool resuming);
+    bool isMario, finished;
+    Level(int level, bool resuming, bool isMario);
     ~Level();
     void handleKeyPress();
     void start();

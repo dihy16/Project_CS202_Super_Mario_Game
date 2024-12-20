@@ -45,6 +45,11 @@ GUI *MarioGameManager::getGUI()
     return this->GUIManager;
 }
 
+Level* MarioGameManager::getLevel()
+{
+    return this->level;
+}
+
 void MarioGameManager::updateGUI()
 {
     getGUI()->setCoin(marioCoins);
@@ -67,8 +72,8 @@ void MarioGameManager::draw(sf::RenderWindow &w)
         break;
     case GameState::playing:
         updateGUI();
-        // if (level)
-        level->drawLevel();
+        if (level)
+            level->drawLevel();
         RenderManager::GetInstance().Update();
         getGUI()->draw(w);
         break;
@@ -95,18 +100,18 @@ void MarioGameManager::handleEvents(sf::RenderWindow &w, sf::Event &ev)
     case GameState::playing:
         if (ev.type == sf::Event::MouseButtonPressed)
         {
-            if (getGUI()->handleClicking(w))
-            {
-                saveGame(level->saveMarioState(), "Log/game_state.txt");
-            }
+            getGUI()->handleClicking(w);
         }
         if (ev.type == sf::Event::KeyPressed)
         {
+            std::cout << "key pressed" << std::endl;
             if (ev.key.code == sf::Keyboard::P)
             {
                 togglePause();
             }
         }
+        if (level)
+            level->execute();
         break;
     case GameState::pause:
         if (ev.type == sf::Event::KeyPressed)
@@ -118,6 +123,15 @@ void MarioGameManager::handleEvents(sf::RenderWindow &w, sf::Event &ev)
         }
         break;
     case GameState::status:
+        //if (ev.type == sf::Event::MouseButtonPressed)
+        //{
+        //    int isMario = getGUI()->getStatusScr()->handleCharacterSelection(w);
+        //    std::cout << "isMario" << isMario << std::endl;
+        //    if (isMario == -1)
+        //        break;
+        //    loadLevel(false, isMario);
+        //    setState(MarioGameManager::GameState::playing);
+        //}
         break;
     }
 }
@@ -154,8 +168,8 @@ void MarioGameManager::updateGameState(int delta_time, sf::Event &ev)
     case GameState::playing:
         playMusic(MarioGameManager::overworld);
         timeRemaining -= delta_time;
-        // if (level)
-        level->execute();
+        //if (level)
+        //    level->execute();
         break;
     case GameState::levelOver:
 
@@ -169,7 +183,7 @@ void MarioGameManager::updateGameState(int delta_time, sf::Event &ev)
     case GameState::menu:
         break;
     case GameState::status:
-        if (timer.getElapsedTime().asSeconds() > 4.0f)
+        if (timer.getElapsedTime().asSeconds() > 3.5f)
         {
             setState(GameState::playing);
             timer.restart();
@@ -187,6 +201,7 @@ void MarioGameManager::setLives(int lives) { marioLives = lives; }
 void MarioGameManager::setCoins(int coins) { marioCoins = coins; }
 void MarioGameManager::setScore(int score) { this->score = score; }
 void MarioGameManager::setTimeRemaining(int time) { timeRemaining = time; }
+void MarioGameManager::setIsMarioSelected(bool isMarioSelected) { this->isMarioSelected = isMarioSelected; }
 void MarioGameManager::marioDies()
 {
     --marioLives;
@@ -199,12 +214,10 @@ void MarioGameManager::marioDies()
     // }
 }
 
-void MarioGameManager::loadLevel(bool resuming)
+void MarioGameManager::loadLevel(bool resuming, bool isMario)
 {
     std::cout << "resuming" << resuming << std::endl;
-    // if (this->level)
-    //     delete this->level;
-    this->level = new Level(currentLevel, resuming);
+    this->level = new Level(currentLevel, resuming, isMario);
 }
 
 void MarioGameManager::togglePause()

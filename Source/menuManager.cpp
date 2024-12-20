@@ -8,14 +8,17 @@ MenuManager::MenuManager()
 
     mainMenu = new MainMenu();
     levelMenu = new LevelMenu();
+    characterMenu = new CharacterMenu();
     mainMenu->addObserver(this);
     levelMenu->addObserver(this);
+    characterMenu->addObserver(this);
 }
 
 MenuManager::~MenuManager()
 {
     delete mainMenu;
     delete levelMenu;
+    delete characterMenu;
 }
 
 void MenuManager::changeState(int state)
@@ -32,9 +35,13 @@ void MenuManager::handleEvents(sf::RenderWindow &window, sf::Event &ev)
     {
         levelMenu->EventHandling(window, ev);
     }
+    else if (menuState == eCharacterMenu)
+    {
+        characterMenu->EventHandling(window, ev);
+    }
     if (menuState == eGame)
     {
-        MarioGameManager::getInstance()->loadLevel(false);
+        MarioGameManager::getInstance()->loadLevel(false, MarioGameManager::getInstance()->isMarioSelected);
         MarioGameManager::getInstance()->setState(MarioGameManager::GameState::status);
     }
     else if (menuState == eSavedGame)
@@ -53,6 +60,9 @@ void MenuManager::draw(sf::RenderWindow &window)
         break;
     case eLevelMenu:
         levelMenu->draw(window);
+        break;
+    case eCharacterMenu:
+        characterMenu->draw(window);
         break;
     default:
         break;

@@ -28,12 +28,11 @@ class StatusScreen
 {
 private:
 	MenuObject *marioIcon_status;
-	MenuObject *luigiIcon_status;
 	Label *label_lives;
 	Label *label_level;
 
 public:
-	StatusScreen(MenuObject *marioIcon_status, MenuObject *luigiIcon_status, Label *label_lives, Label *label_level);
+	StatusScreen(MenuObject *marioIcon_status, Label *label_lives, Label *label_level);
 	~StatusScreen();
 	void setLabelLives(int numLives);
 	void setLabelLevel(int level);
@@ -65,7 +64,8 @@ public:
 	void setStatus(int numLives, int level);
 	void draw(sf::RenderWindow &w);
 	void drawStatus(sf::RenderWindow &w);
-	bool handleClicking(sf::RenderWindow &w);
+	void handleClicking(sf::RenderWindow &w);
+	StatusScreen *getStatusScr();
 	std::string getStringCoins()
 	{
 		return label_coins->getString();

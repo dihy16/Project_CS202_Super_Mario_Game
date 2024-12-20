@@ -24,3 +24,7 @@ void MenuHighscore::notifyObserver(int gameState)
 MenuHighscore::MenuHighscore()
 {
 }
+
+void MenuHighscore::handleClicking(sf::RenderWindow &window)
+{
+}
