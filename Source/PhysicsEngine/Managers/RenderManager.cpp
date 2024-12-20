@@ -31,54 +31,40 @@ void RenderManager::Update()
             {
                 float newPosX = sr->GetOwner()->xPos - Camera::GetInstance().posX;
                 float newPosY = sr->GetOwner()->yPos - Camera::GetInstance().posY;
-
-                if (sr->GetOwner()->name != "mario")
-                {
-                    if (newPosX < -64 || newPosX > window.getSize().x + 64 || newPosY < -64 || newPosY > window.getSize().y + 64)
-                        continue;
-                    sr->sprite.setTexture(sr->texture);
-                    sr->sprite.setPosition(newPosX, newPosY);
-                }
-                else
-                {
-                    sr->sprite.setTexture(sr->texture);
-                    sr->sprite.setPosition(sr->GetOwner()->xPos, sr->GetOwner()->yPos);
-                }
+                if (
+                    newPosX < -64 || newPosX > window.getSize().x + 64 || newPosY < -64 || newPosY > window.getSize().y + 64)
+                    continue;
+                sr->sprite.setTexture(sr->texture);
+                sr->sprite.setPosition(newPosX, newPosY);
                 sr->sprite.setRotation(sr->GetOwner()->rotation);
                 sr->sprite.setScale(sr->GetOwner()->scaleX, sr->GetOwner()->scaleY);
                 window.draw(sr->sprite);
             }
         }
-    }
-    if (ColliderManager::GetInstance().visisbleCollider)
-    {
-        for (auto collider : ColliderManager::GetInstance().colliderVector)
+        if (ColliderManager::GetInstance().visisbleCollider)
         {
-            if (!collider->GetActive())
-                continue;
-            sf::RectangleShape rectangle(sf::Vector2(collider->width, collider->height));
-            float newPosX = collider->GetOwner()->xPos - Camera::GetInstance().posX;
-            float newPosY = collider->GetOwner()->yPos - Camera::GetInstance().posY;
-
-            if (collider->GetOwner()->name != "mario")
+            for (auto collider : ColliderManager::GetInstance().colliderVector)
             {
-                if (newPosX < -64 || newPosX > window.getSize().x + 64 || newPosY < -64 || newPosY > window.getSize().y + 64)
+                if (!collider->GetActive())
                     continue;
+                float newPosX = collider->GetOwner()->xPos - Camera::GetInstance().posX;
+                float newPosY = collider->GetOwner()->yPos - Camera::GetInstance().posY;
+                if (
+                    newPosX < -64 || newPosX > window.getSize().x + 64 || newPosY < -64 || newPosY > window.getSize().y + 64)
+                    continue;
+                sf::RectangleShape rectangle(sf::Vector2(collider->width, collider->height));
                 rectangle.setPosition(newPosX, newPosY);
+                rectangle.setOutlineColor(sf::Color::Red);
+                rectangle.setOutlineThickness(2.0f);
+                rectangle.setFillColor(sf::Color::Transparent);
             }
-            else
-                rectangle.setPosition(collider->GetOwner()->xPos, collider->GetOwner()->yPos);
-            rectangle.setOutlineColor(sf::Color::Red);
-            rectangle.setOutlineThickness(2.0f);
-            rectangle.setFillColor(sf::Color::Transparent);
-            window.draw(rectangle);
         }
-    }
-    if (displayDebugConsole)
-    {
-        debugConsole.setString(debugText);
-        window.draw(debugConsole);
-    }
+        if (displayDebugConsole)
+        {
+            debugConsole.setString(debugText);
+            window.draw(debugConsole);
+        }
 
-    // window.display();
+        // window.display();
+    }
 }

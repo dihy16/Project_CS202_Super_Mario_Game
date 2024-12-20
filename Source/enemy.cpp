@@ -50,7 +50,7 @@ void Goomba::collideWithMario(Character &mario)
       {
          RenderManager::GetInstance().debugText += "landed";
          bc->SetActive(false);
-         rb->SetActive(false);
+         // rb->SetActive(false);
          sr->sprite.setTextureRect(sf::IntRect(64, 0, 32, 31));
          isKilled = true;
          logEvent("Goomba killed", originX, originY);
@@ -147,7 +147,7 @@ void Koopa::collideWithMario(Character &mario)
       else if (state == Normal && stateTimer.getElapsedTime().asSeconds() > 1.5)
       {
          bc->SetActive(false);
-         rb->SetActive(false);
+         // rb->SetActive(false);
 
          sr->sprite.setTextureRect(sf::IntRect(64, 32, 32, 48));
          state = Hidden;
@@ -373,7 +373,7 @@ void PiranhaPlant::collideWithMario(Character &mario)
       {
          RenderManager::GetInstance().debugText += " cut ";
          bc->SetActive(false);
-         rb->SetActive(false);
+         // rb->SetActive(false);
          isKilled = true;
          logEvent("PiranhaPlant killed", originX, originY);
       }

@@ -33,7 +33,7 @@ void PhysicsManager::FixedUpdate()
             continue;
         if (ColliderManager::GetInstance().isGrounded(rb->collider))
         {
-            if (rb->isJumping && timer.getElapsedTime().asSeconds() > 0.5)
+            if (rb->isJumping && timer.getElapsedTime().asSeconds() > 0.5f)
             {
                 if (rb->GetOwner()->tag == "mario")
                     rb->AddForce(0, -500.f);
@@ -56,18 +56,15 @@ void PhysicsManager::FixedUpdate()
             rb->AddForce(0, 10.0f);
         }
         rb->GetOwner()->xPos += (rb->xVel * FIXED_TIMESTEP - Camera::GetInstance().posX);
+        if (rb->GetOwner()->name == "character")
+        {
+            if (rb->GetOwner()->yPos + (rb->yVel * FIXED_TIMESTEP) < 0)
+            {
+                rb->GetOwner()->yPos = 0;
+                rb->AddForce(0, 10.0f);
+            }
+        }
         rb->GetOwner()->yPos += (rb->yVel * FIXED_TIMESTEP - Camera::GetInstance().posY);
-
-        // if (rb->GetOwner()->name == "mario")
-        // {
-        //     if (rb->GetOwner()->xPos < 0)
-        //         rb->GetOwner()->xPos = 0;
-        //     // else if (rb->GetOwner()->xPos > 16 * 64)
-        //     //     rb->GetOwner()->xPos = 16 * 64 - 48;
-
-        //     if (rb->GetOwner()->yPos < 0)
-        //         rb->GetOwner()->yPos = 0;
-        // }
     }
 }
 
