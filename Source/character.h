@@ -44,6 +44,7 @@ public:
     void setRectForWalking(sf::IntRect &rect);
     void handleMovement(float speed);
     void handleEnemy();
+    void handleMysteryBox(std::vector<std::unique_ptr<Item>> &items);
     void animation1(float duration, float interval, std::function<void()> onComplete, bool &finished);
     void animation2(float duration, float interval, std::function<void()> onComplete, bool &finished, State &state);
     void handlePowerUp();

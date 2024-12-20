@@ -17,9 +17,13 @@ protected:
    friend class BulletPool;
 
 public:
+   bool isTouch = false;
    Item(int x, int y);
    virtual void animation() = 0;
    virtual void fadeOut() = 0;
+   RigidBody *getRigidBody() const { return rb; }
+   SpriteRenderer *getSpriteRenderer() const { return sr; }
+   BoxCollider *getBoxCollider() const { return bc; }
 };
 
 class Mushroom : public Item
@@ -106,6 +110,7 @@ class ItemFactory
 public:
    static BulletPool bulletPool;
    static std::unique_ptr<Item> createItem(const std::string &type, int x, int y, bool direction = false);
+   static void deleteItemAtPosition(std::vector<std::unique_ptr<Item>> &items, int x, int y);
 };
 
 #endif

@@ -5,17 +5,14 @@
 
 class BoxCollider;
 
-
 class RigidBody : public Component
 {
 public:
-    RigidBody(Entity* _entity);
+    RigidBody(Entity *_entity);
     float xVel, yVel, mass;
-    bool isUsingGravity, isStatic, isJumping;
-    BoxCollider* collider;
+    bool isUsingGravity, isStatic, isJumping, isFlying;
+    BoxCollider *collider;
     void AddForce(float xForce, float yForce);
-    
-
 };
 
 #endif

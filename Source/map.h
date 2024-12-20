@@ -2,7 +2,7 @@
 
 #include "definition.h"
 #include "./PhysicsEngine/Managers/Camera.h"
-#include "enemy.h"
+#include "items.h"
 
 class Block : public Entity
 {
@@ -45,7 +45,6 @@ public:
     // map nudge functions, default 5 pixels
     void moveleft(float step);
     void moveright(float step);
-    void applyLog(const std::string &logFile);
     void clearmap()
     {
         for (Block *i : availableblocks)

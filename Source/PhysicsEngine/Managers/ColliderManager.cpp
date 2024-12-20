@@ -3,7 +3,7 @@
 
 ColliderManager::ColliderManager()
 {
-    visisbleCollider = false;
+    visibleCollider = true;
 }
 
 ColliderManager &ColliderManager::GetInstance()
@@ -112,7 +112,7 @@ bool ColliderManager::isGrounded(BoxCollider *collider)
             float maxB = minB + other->height;
             if (minB < maxA && maxA < maxB)
             {
-                if ((collider->GetOwner()->name == "Turret" || collider->GetOwner()->name == "MushroomTile" || collider->GetOwner()->name == "Flag" || collider->GetOwner()->name == "Pipe" || collider->GetOwner()->name == "FloatingBlock" || collider->GetOwner()->name == "MysteryBox") && (other->GetOwner()->name == "character" || other->GetOwner()->name == "enemy"))
+                if ((collider->GetOwner()->name == "Turret" || collider->GetOwner()->name == "MushroomTile" || collider->GetOwner()->name == "Flag" || collider->GetOwner()->name == "Pipe" || collider->GetOwner()->name == "FloatingBlock" || collider->GetOwner()->name == "MysteryBox" || collider->GetOwner()->name == "EmptyBox") && (other->GetOwner()->name == "character" || other->GetOwner()->name == "enemy"))
                 {
                     return true;
                 }

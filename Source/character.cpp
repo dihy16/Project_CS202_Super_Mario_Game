@@ -47,7 +47,7 @@ Character::Character(int x, int y, const std::string &texture1, const std::strin
     {
         characterCollider->width = 48;
         characterCollider->height = 88;
-        characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 30, 60));
+        characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 29, 60));
     }
 
     characterCollider->body = characterRigidBody;
@@ -116,7 +116,7 @@ void Character::setRectForWalking(sf::IntRect &rect)
         if (state == Small || state == Super)
             maxLeft = 1024 - 128, picWidth = 32;
         else if (state == Super || state == Fire)
-            maxLeft = 1024 - 124, picWidth = 31;
+            maxLeft = 1024 - 122, picWidth = 31;
 
         if (rect.left <= maxLeft)
             rect.left = 1024 - picWidth;
@@ -132,14 +132,14 @@ void Character::handleMovement(float speed)
 
     if (timer1.getElapsedTime().asSeconds() > waitingTime)
     {
-        if (characterRigidBody->isJumping)
+        if (characterRigidBody->isFlying)
         {
             if (direction == Right)
             {
                 if (state == Small || state == Super)
                     rect.left = 160;
                 else if (state == Fire)
-                    rect.left = 155;
+                    rect.left = 156;
             }
             else if (direction == Left)
             {
@@ -148,7 +148,7 @@ void Character::handleMovement(float speed)
                 else if (state == Fire)
                     rect.left = 1024 - 186;
             }
-            // characterRigidBody->isJumping = false;
+            characterRigidBody->isFlying = false;
             MarioGameManager::getInstance()->playSound(MarioGameManager::jump);
         }
         if (firing)
@@ -205,9 +205,9 @@ void Character::stand()
         else if (state == Fire)
         {
             if (direction == Right)
-                characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 30, 60));
+                characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 29, 60));
             else if (direction == Left)
-                characterSprite->sprite.setTextureRect(sf::IntRect(993, 36, 30, 60));
+                characterSprite->sprite.setTextureRect(sf::IntRect(995, 36, 29, 60));
         }
         else if (state == Super)
         {
@@ -240,7 +240,7 @@ void Character::animation1(float duration, float interval, std::function<void()>
     if (duration == 1000)
     {
         if (int(elapsed / interval) % 2 == 0)
-            characterSprite->sprite.setTextureRect(sf::IntRect(0, 96, 28, 32));
+            characterSprite->sprite.setTextureRect(sf::IntRect(0, 96, 29, 32));
         else
             characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 30, 60));
     }
@@ -296,7 +296,7 @@ void Character::animation2(float duration, float interval, std::function<void()>
     else if (state == Fire)
     {
         if (int(elapsed / interval) % 2 == 0)
-            characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 30, 60));
+            characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 29, 60));
         else
             characterSprite->sprite.setTextureRect(sf::IntRect(0, 96, 28, 32));
     }
@@ -398,12 +398,33 @@ void Character::handleEnemy()
     }
 }
 
+void Character::handleMysteryBox(std::vector<std::unique_ptr<Item>> &items)
+{
+    characterCollider->OnColliderLanded = [this, &items](BoxCollider *collider)
+    {
+        if (collider->body->GetOwner()->name == "MysteryBox")
+        {
+            for (auto &item : items)
+            {
+                if (item->getRigidBody()->GetOwner()->xPos == collider->body->GetOwner()->xPos + 20)
+                {
+                    item->isTouch = true;
+                    collider->body->GetOwner()->name = "EmptyBox";
+                    logEvent("Mystery Box opened", character->xPos, character->yPos);
+                    RenderManager::GetInstance().debugText += item->name + " ";
+                }
+            }
+        }
+    };
+}
+
 void Character::update(std::vector<std::unique_ptr<Item>> &items, float speed)
 {
     freeFall();
     handleMovement(speed);
     handlePowerUp();
     handleEnemy();
+    handleMysteryBox(items);
     if (firing && created && timer3.getElapsedTime().asSeconds() > 0.5)
     {
         bool bulletDirection = (direction == Right);

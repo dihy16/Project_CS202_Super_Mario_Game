@@ -45,7 +45,8 @@ void Item::initialize(float x, float y, sf::IntRect &rect, std::string name, int
    rb->isStatic = false;
    rb->isUsingGravity = true;
    rb->xVel = 0, rb->yVel = 0;
-
+   sr->SetActive(false);
+   // bc->SetActive(false);
    itemRect = rect;
 }
 
@@ -57,6 +58,7 @@ Mushroom::Mushroom(int x, int y) : Item(x, y)
 
 void Mushroom::animation()
 {
+
    if (timer.getElapsedTime().asSeconds() > 1.5)
    {
       itemRect.left = 128 + currentRect * sr->sprite.getTextureRect().width;
@@ -77,6 +79,11 @@ void Mushroom::fadeOut()
    {
       bc->SetActive(false);
       sr->SetActive(false);
+   }
+   else if (isTouch)
+   {
+      bc->SetActive(true);
+      sr->SetActive(true);
    }
 }
 
@@ -126,6 +133,11 @@ void Coin::fadeOut()
       sr->sprite.setTextureRect(sf::IntRect(0, 116, 40, 32));
       itemRect = sf::IntRect(0, 116, 40, 32);
    }
+   else if (isTouch)
+   {
+      bc->SetActive(true);
+      sr->SetActive(true);
+   }
    if (finished)
       sr->SetActive(false);
 }
@@ -158,6 +170,11 @@ void Flower::fadeOut()
    {
       bc->SetActive(false);
       sr->SetActive(false);
+   }
+   else if (isTouch)
+   {
+      bc->SetActive(true);
+      sr->SetActive(true);
    }
 }
 
@@ -305,4 +322,12 @@ std::unique_ptr<Item> ItemFactory::createItem(const std::string &type, int x, in
       // return std::unique_ptr<Item>(bulletPool.acquireBullet(x, y, direction));
       return std::make_unique<Bullet>(x, y, direction);
    return nullptr;
+}
+
+void ItemFactory::deleteItemAtPosition(std::vector<std::unique_ptr<Item>> &items, int x, int y)
+{
+   auto it = std::remove_if(items.begin(), items.end(), [x, y](const std::unique_ptr<Item> &item)
+                            { return static_cast<int>(item->getRigidBody()->GetOwner()->xPos) == x &&
+                                     static_cast<int>(item->getRigidBody()->GetOwner()->yPos) == y; });
+   items.erase(it, items.end());
 }

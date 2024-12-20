@@ -39,7 +39,7 @@ int main()
     RenderManager::GetInstance().displayDebugConsole = true;
     sf::Clock clock;
     float accumulator = 0.0f;
-    ColliderManager::GetInstance().visisbleCollider = true;
+    ColliderManager::GetInstance().visibleCollider = true;
 
     while (RenderManager::GetInstance().window.isOpen())
     {

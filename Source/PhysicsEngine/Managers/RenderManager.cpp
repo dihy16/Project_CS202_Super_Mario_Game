@@ -41,7 +41,7 @@ void RenderManager::Update()
                 window.draw(sr->sprite);
             }
         }
-        if (ColliderManager::GetInstance().visisbleCollider)
+        if (ColliderManager::GetInstance().visibleCollider)
         {
             for (auto collider : ColliderManager::GetInstance().colliderVector)
             {
@@ -55,8 +55,8 @@ void RenderManager::Update()
                 sf::RectangleShape rectangle(sf::Vector2(collider->width, collider->height));
                 rectangle.setPosition(newPosX, newPosY);
                 rectangle.setOutlineColor(sf::Color::Red);
-                rectangle.setOutlineThickness(2.0f);
-                rectangle.setFillColor(sf::Color::Transparent);
+                rectangle.setOutlineThickness(5.0f);
+                // rectangle.setFillColor(sf::Color::Transparent);
             }
         }
         if (displayDebugConsole)

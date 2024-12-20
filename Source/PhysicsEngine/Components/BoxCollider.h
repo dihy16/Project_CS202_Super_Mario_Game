@@ -6,16 +6,17 @@
 #include <functional>
 class RigidBody;
 
-class BoxCollider : public Component{
+class BoxCollider : public Component
+{
 
 public:
-    BoxCollider(Entity* _entity);
+    BoxCollider(Entity *_entity);
     float width, height;
-    std::function<void(BoxCollider*)> OnCollisionEnter, OnCollisionStay, OnCollisionExit, OnColliderLanded, OnHorizontalCollision;
-    bool OverlayWith(BoxCollider* collider);
-    RigidBody* body;
-    friend float CalculateOverlapX(BoxCollider* a, BoxCollider* b);
-    friend float CalculateOverlapY(BoxCollider* a, BoxCollider* b);
+    std::function<void(BoxCollider *)> OnCollisionEnter, OnCollisionStay, OnCollisionExit, OnColliderLanded, OnHorizontalCollision, OnColliderAbove;
+    bool OverlayWith(BoxCollider *collider);
+    RigidBody *body;
+    friend float CalculateOverlapX(BoxCollider *a, BoxCollider *b);
+    friend float CalculateOverlapY(BoxCollider *a, BoxCollider *b);
 };
 
 #endif
