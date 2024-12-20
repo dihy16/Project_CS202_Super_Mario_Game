@@ -35,4 +35,7 @@
 #define MEDIUM_BUT "resource/Menu/Difficulty/MediumBut.png"
 #define EXPERT_BUT "resource/Menu/Difficulty/ExpertBut.png"
 #define MASTER_BUT "resource/Menu/Difficulty/MasterBut.png"
+#define SCOREBOARD_BG "resource/Menu/ScoreboardBG.png"
+#define HIGHSCORE_FILE "resource/Log/highscore.txt"
+
 #endif

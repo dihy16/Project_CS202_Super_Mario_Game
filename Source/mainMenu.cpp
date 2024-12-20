@@ -68,12 +68,15 @@ void MainMenu::handleClicking(sf::RenderWindow &window)
     cout << indexButPressed << endl;
     switch (indexButPressed)
     {
-    case 1:                // oNewGame
+    case 1:                                      // oNewGame
         notifyObserver(MenuManager::eLevelMenu); // to Level Menu
         break;
     case 2:
         MarioGameManager::getInstance()->setCurrentLevel(MarioGameManager::getInstance()->getCurrentLevel());
         notifyObserver(MenuManager::eSavedGame);
+        break;
+    case 3:
+        notifyObserver(MenuManager::eScoreboard);
         break;
     default:
         break;

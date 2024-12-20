@@ -8,6 +8,7 @@ MarioGameManager::MarioGameManager()
     menuManager = new MenuManager();
     GUIManager = new GUI();
     initScoreMap();
+    loadHiScore();
 }
 
 void MarioGameManager::initScoreMap()
@@ -76,16 +77,25 @@ void MarioGameManager::draw(sf::RenderWindow &w)
             level->drawLevel();
         RenderManager::GetInstance().Update();
         getGUI()->draw(w);
+        getGUI()->drawExitButton(w);
         break;
     case GameState::pause:
         level->drawLevel();
         RenderManager::GetInstance().Update();
         getGUI()->draw(w);
+        getGUI()->drawExitButton(w);
         break;
     case GameState::status:
         updateGUI();
         getGUI()->draw(w);
         getGUI()->drawStatus(w);
+        break;
+    case GameState::gameOver:
+        updateGUI();
+        getGUI()->draw(w);
+        getGUI()->drawGameOver(w);
+        break;
+    default:
         break;
     }
 }
@@ -104,7 +114,6 @@ void MarioGameManager::handleEvents(sf::RenderWindow &w, sf::Event &ev)
         }
         if (ev.type == sf::Event::KeyPressed)
         {
-            std::cout << "key pressed" << std::endl;
             if (ev.key.code == sf::Keyboard::P)
             {
                 togglePause();
@@ -175,7 +184,11 @@ void MarioGameManager::updateGameState(int delta_time, sf::Event &ev)
 
         break;
     case GameState::gameOver:
-        setState(GameState::menu);
+        if (timer.getElapsedTime().asSeconds() > 3.5f)
+        {
+            setState(GameState::menu);
+            timer.restart();
+        }
         break;
     case GameState::pause:
         stopMusic();
@@ -188,6 +201,8 @@ void MarioGameManager::updateGameState(int delta_time, sf::Event &ev)
             setState(GameState::playing);
             timer.restart();
         }
+        break;
+    default:
         break;
     }
 }
@@ -241,4 +256,14 @@ void MarioGameManager::setCurrentLevel(int level)
 {
     timer.restart();
     this->currentLevel = level;
+}
+
+void MarioGameManager::loadHiScore()
+{
+    vHighscore = loadHighScores(HIGHSCORE_FILE);
+}
+
+vector<int> MarioGameManager::getVectorHiScore()
+{
+    return vHighscore;
 }
