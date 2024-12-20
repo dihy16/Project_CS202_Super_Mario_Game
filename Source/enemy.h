@@ -8,6 +8,7 @@ class Enemy : public Entity
 protected:
    bool display, moving, isKilled, onGround, fading;
    bool direction = false;
+   float originX, originY;
    sf::Clock timer, movetimer;
    sf::IntRect enemyRect;
    Entity *enemy = new Entity;
@@ -120,6 +121,19 @@ public:
    void collideWithMario(Character &mario) override;
    void moveWithMario(Character &mario) override;
 
+   void fadingAnimation() override;
+};
+
+class Gooner : public Enemy
+{
+private:
+   sf::Clock waitTimer;
+
+public:
+   Gooner(int x, int y);
+   void animation() override;
+   void collideWithMario(Character &mario) override;
+   void moveWithMario(Character &mario) override;
    void fadingAnimation() override;
 };
 

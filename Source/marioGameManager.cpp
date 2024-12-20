@@ -45,7 +45,7 @@ GUI *MarioGameManager::getGUI()
     return this->GUIManager;
 }
 
-Level* MarioGameManager::getLevel()
+Level *MarioGameManager::getLevel()
 {
     return this->level;
 }
@@ -123,15 +123,15 @@ void MarioGameManager::handleEvents(sf::RenderWindow &w, sf::Event &ev)
         }
         break;
     case GameState::status:
-        //if (ev.type == sf::Event::MouseButtonPressed)
+        // if (ev.type == sf::Event::MouseButtonPressed)
         //{
-        //    int isMario = getGUI()->getStatusScr()->handleCharacterSelection(w);
-        //    std::cout << "isMario" << isMario << std::endl;
-        //    if (isMario == -1)
-        //        break;
-        //    loadLevel(false, isMario);
-        //    setState(MarioGameManager::GameState::playing);
-        //}
+        //     int isMario = getGUI()->getStatusScr()->handleCharacterSelection(w);
+        //     std::cout << "isMario" << isMario << std::endl;
+        //     if (isMario == -1)
+        //         break;
+        //     loadLevel(false, isMario);
+        //     setState(MarioGameManager::GameState::playing);
+        // }
         break;
     }
 }
@@ -168,8 +168,8 @@ void MarioGameManager::updateGameState(int delta_time, sf::Event &ev)
     case GameState::playing:
         playMusic(MarioGameManager::overworld);
         timeRemaining -= delta_time;
-        //if (level)
-        //    level->execute();
+        // if (level)
+        //     level->execute();
         break;
     case GameState::levelOver:
 

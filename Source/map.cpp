@@ -120,7 +120,7 @@ void Map::readmap(std::string file)
         }
     }
     if (resuming)
-        applyLog("../log/game_log.txt");
+        applyLog(MAP_LOG);
 }
 
 vector<vector<int>> Map::getmap(int option)
@@ -458,27 +458,38 @@ void Map::loadmap(int level, int MarioX, int MarioY)
 
 void Map::applyLog(const std::string &logFile)
 {
-    // std::ifstream file(logFile);
-    // std::string line;
-    // while (std::getline(file, line))
-    // {
-    //     if (line.find("Mushroom collected") != std::string::npos)
-    //     {
-    //         int x, y;
-    //         sscanf(line.c_str(), "Mushroom collected at (%d, %d)", &x, &y);
-    //         projectionmap[y][x] = 0;
-    //     }
-    //     else if (line.find("Coin collected") != std::string::npos)
-    //     {
-    //         int x, y;
-    //         sscanf(line.c_str(), "Coin collected at (%d, %d)", &x, &y);
-    //         projectionmap[y][x] = 0;
-    //     }
-    //     else if (line.find("Flower collected") != std::string::npos)
-    //     {
-    //         int x, y;
-    //         sscanf(line.c_str(), "Flower collected at (%d, %d)", &x, &y);
-    //         projectionmap[y][x] = 0;
-    //     }
-    // }
+    std::ifstream file(logFile);
+    std::string line;
+    while (std::getline(file, line))
+    {
+        int x, y;
+        if (sscanf(line.c_str(), "Mushroom collected at (%d, %d)", &x, &y) == 2)
+        {
+            projectionmap[y][x] = 0;
+        }
+        else if (sscanf(line.c_str(), "Coin collected at (%d, %d)", &x, &y) == 2)
+        {
+            projectionmap[y][x] = 0;
+        }
+        else if (sscanf(line.c_str(), "Flower collected at (%d, %d)", &x, &y) == 2)
+        {
+            projectionmap[y][x] = 0;
+        }
+        else if (sscanf(line.c_str(), "Goomba killed at (%d, %d)", &x, &y) == 2)
+        {
+            // Remove Goomba from the map
+            // Assuming you have a method to remove enemies from the map
+            projectionmap[y][x] = 0;
+        }
+        else if (sscanf(line.c_str(), "Koopa killed at (%d, %d)", &x, &y) == 2)
+        {
+            // Remove Koopa from the map
+            projectionmap[y][x] = 0;
+        }
+        else if (sscanf(line.c_str(), "PiranhaPlant killed at (%d, %d)", &x, &y) == 2)
+        {
+            // Remove PiranhaPlant from the map
+            projectionmap[y][x] = 0;
+        }
+    }
 }

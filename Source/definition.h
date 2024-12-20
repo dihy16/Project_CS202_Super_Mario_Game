@@ -27,6 +27,8 @@
 #define ENEMY "resource/Enemies.png"
 #define ITEM "resource/Items.png"
 #define EXIT_BUTTON "resource/Menu/ExitButton.png"
+#define MAP_LOG "resource/Log/game_log.txt"
+#define MARIO_LOG "resource/Log/game_state.txt"
 #define DIFFICULTY_BG "resource/Menu/Difficulty/DifficultyBG.png"
 #define PEACEFUL_BUT "resource/Menu/Difficulty/PeacefulBut.png"
 #define EASY_BUT "resource/Menu/Difficulty/EasyBut.png"
