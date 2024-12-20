@@ -12,6 +12,7 @@ GUI::~GUI()
 	delete label_score;
 	delete exit_button;
 	delete statusScreen;
+	delete gameOver;
 }
 
 Label *GUI::createLabel()
@@ -37,6 +38,10 @@ void GUI::init()
 	exit_button->setScale(0.1f, 0.1f);
 
 	statusScreen = new StatusScreen(new MenuObject(MARIO, 360.0f, 510.0f), createLabel(), createLabel());
+
+	gameOver = createLabel();
+	this->gameOver->setPosition(450.0f, 400.0f);
+	gameOver->setString("GAME OVER");
 
 	// marioIcon = new MenuObject(EXIT_BUTTON, 900.0f, 5.0f);
 	// marioIcon->setScale(0.1f, 0.1f);
@@ -85,12 +90,21 @@ void GUI::draw(sf::RenderWindow &w)
 	label_lives->draw(w);
 	label_time_remaining->draw(w);
 	label_score->draw(w);
-	exit_button->draw(w);
 }
 
 void GUI::drawStatus(sf::RenderWindow &w)
 {
 	statusScreen->draw(w);
+}
+
+void GUI::drawGameOver(sf::RenderWindow &w)
+{
+	gameOver->draw(w);
+}
+
+void GUI::drawExitButton(sf::RenderWindow &w)
+{
+	exit_button->draw(w);
 }
 
 void GUI::handleClicking(sf::RenderWindow &w)
@@ -117,6 +131,17 @@ Label::Label()
 	text.setCharacterSize(40);			 // Set character size (in pixels)
 	text.setFillColor(sf::Color::White); // Set text color
 	text.setStyle(sf::Text::Bold);
+}
+
+Label::Label(const std::string &str, float x, float y) : Label()
+{
+	setString(str);
+	setPosition(x, y);
+}
+
+Label::Label(float x, float y) : Label()
+{
+	setPosition(x, y);
 }
 
 void Label::setString(const std::string &str)

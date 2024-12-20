@@ -15,6 +15,8 @@ private:
 
 public:
 	Label();
+	Label(const std::string &str, float x, float y);
+	Label(float x, float y);
 	void setString(const std::string &str);
 	void setPosition(float x, float y);
 	void draw(sf::RenderWindow &w);
@@ -51,11 +53,12 @@ private:
 	MenuObject *coinIcon;
 
 	StatusScreen *statusScreen;
+	Label *gameOver;
 
 public:
 	GUI();
 	~GUI();
-	Label *createLabel();
+	static Label *createLabel();
 	void init();
 	void setCoin(int numCoin);
 	void setLives(int numLives);
@@ -64,6 +67,8 @@ public:
 	void setStatus(int numLives, int level);
 	void draw(sf::RenderWindow &w);
 	void drawStatus(sf::RenderWindow &w);
+	void drawGameOver(sf::RenderWindow &w);
+	void drawExitButton(sf::RenderWindow &w);
 	void handleClicking(sf::RenderWindow &w);
 	StatusScreen *getStatusScr();
 	std::string getStringCoins()

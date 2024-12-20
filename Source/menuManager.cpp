@@ -9,9 +9,11 @@ MenuManager::MenuManager()
     mainMenu = new MainMenu();
     levelMenu = new LevelMenu();
     characterMenu = new CharacterMenu();
+    highscoreMenu = new HighscoreMenu();
     mainMenu->addObserver(this);
     levelMenu->addObserver(this);
     characterMenu->addObserver(this);
+    highscoreMenu->addObserver(this);
 }
 
 MenuManager::~MenuManager()
@@ -19,6 +21,7 @@ MenuManager::~MenuManager()
     delete mainMenu;
     delete levelMenu;
     delete characterMenu;
+    delete highscoreMenu;
 }
 
 void MenuManager::changeState(int state)
@@ -38,6 +41,10 @@ void MenuManager::handleEvents(sf::RenderWindow &window, sf::Event &ev)
     else if (menuState == eCharacterMenu)
     {
         characterMenu->EventHandling(window, ev);
+    }
+    else if (menuState == eScoreboard)
+    {
+        highscoreMenu->EventHandling(window, ev);
     }
     if (menuState == eGame)
     {
@@ -63,6 +70,9 @@ void MenuManager::draw(sf::RenderWindow &window)
         break;
     case eCharacterMenu:
         characterMenu->draw(window);
+        break;
+    case eScoreboard:
+        highscoreMenu->draw(window);
         break;
     default:
         break;

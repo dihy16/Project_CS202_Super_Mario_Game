@@ -29,13 +29,13 @@ private:
     int timeRemaining = 300000;
     int currentLevel;
     sf::Clock timer;
-    vector<int> vHighscore;
     // GameScene* currentScene = nullptr;
     // std::vector<GameScene*> sceneStack;
     bool isMarioSelected = true;
     MarioGameManager();
     void initScoreMap();
 
+    vector<int> vHighscore;
     friend class MenuManager;
 
 public:
@@ -57,7 +57,7 @@ public:
     ~MarioGameManager();
     MenuManager *getMenuManager();
     GUI *getGUI();
-    Level* getLevel();
+    Level *getLevel();
     void updateGUI();
     void run();
     void draw(sf::RenderWindow &w);
@@ -78,11 +78,13 @@ public:
     GameState getState() { return gameState; }
     void updateGameState(int delta_time, sf::Event &ev); // delta time in milliseconds
     void marioDies();
-    void loadLevel(bool resuming, bool isMario=true);
+    void loadLevel(bool resuming, bool isMario = true);
     void togglePause();
     int getCurrentLevel();
     void setCurrentLevel(int currentLevel);
     void saveHiScore();
+    void loadHiScore();
+    vector<int> getVectorHiScore();
 };
 
 class GameScene
