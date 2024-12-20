@@ -99,7 +99,7 @@ void GUI::handleClicking(sf::RenderWindow &w)
 	{
 		MarioGameManager::getInstance()->setState(MarioGameManager::GameState::menu);
 		MarioGameManager::getInstance()->getMenuManager()->setMenuState(MenuManager::eMainMenu);
-		saveGame(MarioGameManager::getInstance()->getLevel()->saveMarioState(), "Log/game_state.txt");
+		saveGame(MarioGameManager::getInstance()->getLevel()->saveMarioState(), MARIO_LOG);
 	}
 }
 
