@@ -7,7 +7,6 @@ Level::Level(int level, bool resuming)
     std::random_device dev;
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist1(0, 2);
-    int target;
     if (resuming)
     {
         GameStateMemento oldState = GameStateMemento::loadState(MARIO_LOG);
@@ -28,26 +27,38 @@ Level::Level(int level, bool resuming)
             mario = new Mario(8 * BLOCK_WIDTH, 100);
         else
             luigi = new Luigi(8 * BLOCK_WIDTH, 100);
+        // clear txt file when starting new game
+        clearLog();
     }
     m = new Map(resuming);
     m->loadmap(level, 8 * BLOCK_WIDTH, 12 * BLOCK_HEIGHT);
     sf::Color c;
-    std::string whichlevel;
     lv = level;
-    switch (level)
-    {
-    case 1:
-        whichlevel = "Data/Level1";
-        break;
-    case 2:
-        whichlevel = "Data/Level2";
-        break;
-    case 3:
-        whichlevel = "Data/Level3";
-        break;
-    }
+    // switch (level)
+    // {
+    // case 1:
+    //     whichlevel = "Data/Level1";
+    //     break;
+    // case 2:
+    //     whichlevel = "Data/Level2";
+    //     break;
+    // case 3:
+    //     whichlevel = "Data/Level3";
+    //     break;
+    // }
+    loadItems(level, rng, dist1);
+    loadEnemies(level);
+    if (resuming)
+        applyLog(MAP_LOG);
+    timer.restart();
+}
+
+void Level::loadItems(int level, std::mt19937 &rng, std::uniform_int_distribution<std::mt19937::result_type> &dist1)
+{
     sf::Image itemlayout;
-    itemlayout.loadFromFile(whichlevel + "/layout.png");
+    itemlayout.loadFromFile("Data/Level" + std::to_string(level) + "/layout.png");
+    int target;
+
     for (int i = 0; i < itemlayout.getSize().y; i++)
     {
         for (int j = 0; j < itemlayout.getSize().x; j++)
@@ -59,13 +70,13 @@ Level::Level(int level, bool resuming)
                 switch (target)
                 {
                 case 0:
-                    items.push_back(ItemFactory::createItem("Coin", j * BLOCK_WIDTH + 20, i * BLOCK_WIDTH + 20));
+                    items.push_back(ItemFactory::createItem("Coin", j * BLOCK_WIDTH + 20, i * BLOCK_WIDTH - 32));
                     break;
                 case 1:
-                    items.push_back(ItemFactory::createItem("Mushroom", j * BLOCK_WIDTH + 20, i * BLOCK_WIDTH + 20));
+                    items.push_back(ItemFactory::createItem("Mushroom", j * BLOCK_WIDTH + 20, i * BLOCK_WIDTH - 32));
                     break;
                 case 2:
-                    items.push_back(ItemFactory::createItem("Flower", j * BLOCK_WIDTH + 20, i * BLOCK_WIDTH + 20));
+                    items.push_back(ItemFactory::createItem("Flower", j * BLOCK_WIDTH + 20, i * BLOCK_WIDTH - 32));
                     break;
                 }
             }
@@ -79,7 +90,12 @@ Level::Level(int level, bool resuming)
             }
         }
     }
-    entitylayout.loadFromFile(whichlevel + "/entity.png");
+}
+
+void Level::loadEnemies(int level)
+{
+    sf::Image entitylayout;
+    entitylayout.loadFromFile("Data/Level" + std::to_string(level) + "/entity.png");
     for (int i = 0; i < entitylayout.getSize().y; i++)
     {
         for (int j = 0; j < entitylayout.getSize().x; j++)
@@ -91,24 +107,14 @@ Level::Level(int level, bool resuming)
                 enemies.push_back(EnemyFactory::createEnemy("Goomba", j * BLOCK_WIDTH, i * BLOCK_HEIGHT));
             else if (c == sf::Color(153, 229, 80))
                 enemies.push_back(EnemyFactory::createEnemy("Koopa", j * BLOCK_WIDTH, i * BLOCK_HEIGHT));
-            else if (c == sf::Color(106, 190, 48))
-                enemies.push_back(EnemyFactory::createEnemy("HammerBro", j * BLOCK_WIDTH, i * BLOCK_HEIGHT));
+            // else if (c == sf::Color(106, 190, 48))
+            //     enemies.push_back(EnemyFactory::createEnemy("HammerBro", j * BLOCK_WIDTH, i * BLOCK_HEIGHT));
             else if (c == sf::Color(255, 255, 0))
                 enemies.push_back(EnemyFactory::createEnemy("PiranhaPlant", j * BLOCK_WIDTH, i * BLOCK_HEIGHT));
         }
     }
-    // enemies.push_back(EnemyFactory::createEnemy("Goomba", 300, 0));
-    enemies.push_back(EnemyFactory::createEnemy("Koopa", 900, 0));
-    // enemies.push_back(EnemyFactory::createEnemy("PiranhaPlant", 500, 0));
-    // enemies.push_back(EnemyFactory::createEnemy("Gooner", 1000, 700));
-    // items.push_back(ItemFactory::createItem("Mushroom", 200, 700));
-    // items.push_back(ItemFactory::createItem("Coin", 1000, 700));
-    // items.push_back(ItemFactory::createItem("Coin", 1050, 700));
-    // items.push_back(ItemFactory::createItem("Coin", 1100, 700));
-    // items.push_back(ItemFactory::createItem("Flower", 1200, 700));
-
-    timer.restart();
 }
+
 Level::~Level()
 {
     if (isMario)
@@ -235,4 +241,49 @@ void Flag::animation()
 
         timer.restart();
     }
+}
+
+void Level::applyLog(const std::string &logFile)
+{
+    std::ifstream file(logFile);
+    std::string line;
+    while (std::getline(file, line))
+    {
+        int x, y;
+        if (sscanf(line.c_str(), "Mushroom collected %d %d", &x, &y) == 2)
+        {
+            ItemFactory::deleteItemAtPosition(items, x, y);
+        }
+        else if (sscanf(line.c_str(), "Coin collected %d %d", &x, &y) == 2)
+        {
+            ItemFactory::deleteItemAtPosition(items, x, y);
+        }
+        else if (sscanf(line.c_str(), "Flower collected %d %d", &x, &y) == 2)
+        {
+            ItemFactory::deleteItemAtPosition(items, x, y);
+        }
+        else if (sscanf(line.c_str(), "Goomba killed %d %d", &x, &y) == 2)
+        {
+            EnemyFactory::deleteEnemyAtPosition(enemies, x, y);
+        }
+        else if (sscanf(line.c_str(), "Koopa killed %d %d", &x, &y) == 2)
+        {
+            EnemyFactory::deleteEnemyAtPosition(enemies, x, y);
+        }
+        else if (sscanf(line.c_str(), "PiranhaPlant killed %d %d", &x, &y) == 2)
+        {
+            EnemyFactory::deleteEnemyAtPosition(enemies, x, y);
+        }
+    }
+}
+
+void Level::clearLog()
+{
+    // Open game_log.txt in write mode to clear its contents
+    std::ofstream logFile(MAP_LOG, std::ofstream::out | std::ofstream::trunc);
+    logFile.close();
+
+    // Open game_state.txt in write mode to clear its contents
+    std::ofstream stateFile(MARIO_LOG, std::ofstream::out | std::ofstream::trunc);
+    stateFile.close();
 }

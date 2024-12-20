@@ -141,5 +141,6 @@ class EnemyFactory
 {
 public:
    static std::unique_ptr<Enemy> createEnemy(const std::string &type, int x, int y);
+   static void deleteEnemyAtPosition(std::vector<std::unique_ptr<Enemy>> &enemies, int x, int y);
 };
 #endif

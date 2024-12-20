@@ -531,3 +531,11 @@ std::unique_ptr<Enemy> EnemyFactory::createEnemy(const std::string &type, int x,
    else
       return nullptr;
 }
+
+void EnemyFactory::deleteEnemyAtPosition(std::vector<std::unique_ptr<Enemy>> &enemies, int x, int y)
+{
+   auto it = std::remove_if(enemies.begin(), enemies.end(), [x, y](const std::unique_ptr<Enemy> &enemy)
+                            { return static_cast<int>(enemy->getRigidBody()->GetOwner()->xPos) == x &&
+                                     static_cast<int>(enemy->getRigidBody()->GetOwner()->yPos) == y; });
+   enemies.erase(it, enemies.end());
+}

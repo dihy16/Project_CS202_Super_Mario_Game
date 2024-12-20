@@ -61,6 +61,7 @@ private:
     std::vector<std::unique_ptr<Enemy>> enemies;
     std::vector<std::unique_ptr<Item>> items;
     sf::Image entitylayout;
+    sf::Color c;
     Flag *f = nullptr;
     int lv;
     sf::Clock timer;
@@ -70,10 +71,13 @@ public:
     Level(int level, bool resuming);
     ~Level();
     void handleKeyPress();
-    void start();
+    void loadItems(int level, std::mt19937 &rng, std::uniform_int_distribution<std::mt19937::result_type> &dist1);
+    void loadEnemies(int level);
     void end();
     void execute();
     void drawLevel();
+    void applyLog(const std::string &log);
+    void clearLog();
     GameStateMemento saveMarioState();
 };
 #endif

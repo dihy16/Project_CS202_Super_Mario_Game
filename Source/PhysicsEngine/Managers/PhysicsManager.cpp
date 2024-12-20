@@ -43,6 +43,7 @@ void PhysicsManager::FixedUpdate()
                     rb->AddForce(0, -300.f);
                 else if (rb->GetOwner()->name == "fireball")
                     rb->AddForce(0, -200.f);
+                rb->isFlying = true;
                 rb->isJumping = false;
                 timer.restart();
             }
@@ -55,7 +56,6 @@ void PhysicsManager::FixedUpdate()
         {
             rb->AddForce(0, 10.0f);
         }
-        rb->GetOwner()->xPos += (rb->xVel * FIXED_TIMESTEP - Camera::GetInstance().posX);
         if (rb->GetOwner()->name == "character")
         {
             if (rb->GetOwner()->yPos + (rb->yVel * FIXED_TIMESTEP) < 0)
@@ -63,13 +63,11 @@ void PhysicsManager::FixedUpdate()
                 rb->GetOwner()->yPos = 0;
                 rb->AddForce(0, 10.0f);
             }
-        }
-        rb->GetOwner()->yPos += (rb->yVel * FIXED_TIMESTEP - Camera::GetInstance().posY);
-        if (rb->GetOwner()->name == "character")
-        {
             rb->GetOwner()->xOrigin += (rb->xVel * FIXED_TIMESTEP);
             rb->GetOwner()->yOrigin += (rb->yVel * FIXED_TIMESTEP);
         }
+        rb->GetOwner()->xPos += (rb->xVel * FIXED_TIMESTEP);
+        rb->GetOwner()->yPos += (rb->yVel * FIXED_TIMESTEP);
     }
 }
 
@@ -136,6 +134,10 @@ void PhysicsManager::ResolveCollision(BoxCollider *a, BoxCollider *b)
 
                 a->OnColliderLanded(b);
             }
+            if (b->OnColliderAbove)
+            {
+                b->OnColliderAbove(a);
+            }
         }
         else
         {
@@ -145,6 +147,10 @@ void PhysicsManager::ResolveCollision(BoxCollider *a, BoxCollider *b)
             {
 
                 b->OnColliderLanded(a);
+            }
+            if (a->OnColliderAbove)
+            {
+                a->OnColliderAbove(b);
             }
         }
 

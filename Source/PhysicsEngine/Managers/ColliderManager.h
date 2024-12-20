@@ -19,7 +19,7 @@ private:
 public:
     std::function<void(BoxCollider *, BoxCollider *)> ResolveCollision;
     vector<BoxCollider *> colliderVector;
-    bool visisbleCollider;
+    bool visibleCollider;
     ColliderManager(const ColliderManager &) = delete;
     ColliderManager &operator=(const ColliderManager &) = delete;
     static ColliderManager &GetInstance();
