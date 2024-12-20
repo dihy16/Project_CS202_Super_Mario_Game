@@ -40,7 +40,7 @@ void GUI::init()
 	statusScreen = new StatusScreen(new MenuObject(MARIO, 360.0f, 510.0f), createLabel(), createLabel());
 
 	gameOver = createLabel();
-	this->gameOver->setPosition(450.0f, 400.0f);
+	this->gameOver->setPosition(380.0f, 400.0f);
 	gameOver->setString("GAME OVER");
 
 	// marioIcon = new MenuObject(EXIT_BUTTON, 900.0f, 5.0f);

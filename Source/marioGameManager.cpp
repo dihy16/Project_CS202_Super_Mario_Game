@@ -91,6 +91,7 @@ void MarioGameManager::draw(sf::RenderWindow &w)
         getGUI()->drawStatus(w);
         break;
     case GameState::gameOver:
+        std::cout << "draw game over" << std::endl;
         updateGUI();
         getGUI()->draw(w);
         getGUI()->drawGameOver(w);
@@ -132,15 +133,8 @@ void MarioGameManager::handleEvents(sf::RenderWindow &w, sf::Event &ev)
         }
         break;
     case GameState::status:
-        // if (ev.type == sf::Event::MouseButtonPressed)
-        //{
-        //     int isMario = getGUI()->getStatusScr()->handleCharacterSelection(w);
-        //     std::cout << "isMario" << isMario << std::endl;
-        //     if (isMario == -1)
-        //         break;
-        //     loadLevel(false, isMario);
-        //     setState(MarioGameManager::GameState::playing);
-        // }
+        break;
+    default:
         break;
     }
 }
@@ -167,6 +161,7 @@ void MarioGameManager::addLive()
 
 void MarioGameManager::setState(GameState gameState)
 {
+    timer.restart();
     this->gameState = gameState;
 }
 
@@ -187,6 +182,7 @@ void MarioGameManager::updateGameState(int delta_time, sf::Event &ev)
         if (timer.getElapsedTime().asSeconds() > 3.5f)
         {
             setState(GameState::menu);
+            getMenuManager()->setMenuState(MenuManager::eMainMenu);
             timer.restart();
         }
         break;
@@ -254,7 +250,6 @@ int MarioGameManager::getCurrentLevel()
 
 void MarioGameManager::setCurrentLevel(int level)
 {
-    timer.restart();
     this->currentLevel = level;
 }
 
