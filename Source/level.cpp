@@ -88,7 +88,7 @@ Level::Level(int level, bool resuming, bool isMario)
             else if (c == sf::Color(106, 190, 48))
                 enemies.push_back(EnemyFactory::createEnemy("HammerBro", j * BLOCK_WIDTH, i * BLOCK_HEIGHT));
             else if (c == sf::Color(255, 255, 0))
-                enemies.push_back(EnemyFactory::createEnemy("PiranhaPlant", j * BLOCK_WIDTH, i * BLOCK_HEIGHT));
+                enemies.push_back(EnemyFactory::createEnemy("PiranhaPlant", j * BLOCK_WIDTH + 32, i * BLOCK_HEIGHT));
         }
     }
     // enemies.push_back(EnemyFactory::createEnemy("Goomba", 300, 0));
