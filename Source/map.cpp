@@ -110,6 +110,8 @@ void Map::readmap(std::string file)
                 target = 6; // castle
             else if (c == sf::Color(0, 0, 0))
                 target = 8; // turret
+            else if (c == sf::Color(255, 255, 255))
+                target = 9; //invisible block
             else if (c == sf::Color(217, 113, 15))
                 target = 10;
             else
@@ -265,6 +267,11 @@ void Map::createblock(int x, int y)
             ytex = 3;
         else
             ytex = 4;
+        break;
+    case 9:
+        block->name = "InvisibleBlock";
+        xtex = 3;
+        ytex = 10;
         break;
     default:
         xtex = 1;
