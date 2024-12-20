@@ -114,6 +114,8 @@ void Map::readmap(std::string file)
                 target = 9; //invisible block
             else if (c == sf::Color(217, 113, 15))
                 target = 10;
+            else if (c == sf::Color(255, 0, 0))
+                target = 11;
             else
                 target = 0;
             projectionmap[i].push_back(target);
@@ -273,6 +275,11 @@ void Map::createblock(int x, int y)
         xtex = 3;
         ytex = 10;
         break;
+    case 11:
+        xtex = 1;
+        ytex = 0;
+        block->name = "FakeBlock";
+        break;
     default:
         xtex = 1;
         ytex = 7;
@@ -282,6 +289,11 @@ void Map::createblock(int x, int y)
     block->spritearea = sf::IntRect(xtex * BLOCK_WIDTH, ytex * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT);
     availableblocks.push_back(block);
     BoxCollider *bc = AddComponent<BoxCollider>(block);
+    if (projectionmap[y][x] == 11)
+    {
+        bc->width = 0;
+        bc->height = 0; 
+    }
     if (projectionmap[y][x] == 5 || projectionmap[y][x] == 6)
     {
         bc->width = 64;
