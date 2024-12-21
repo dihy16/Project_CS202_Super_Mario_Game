@@ -34,29 +34,17 @@ Level::Level(int level, bool resuming)
     m->loadmap(level, 8 * BLOCK_WIDTH, 12 * BLOCK_HEIGHT);
     sf::Color c;
     lv = level;
-    // switch (level)
-    // {
-    // case 1:
-    //     whichlevel = "Data/Level1";
-    //     break;
-    // case 2:
-    //     whichlevel = "Data/Level2";
-    //     break;
-    // case 3:
-    //     whichlevel = "Data/Level3";
-    //     break;
-    // }
     loadItems(level, rng, dist1);
     loadEnemies(level);
     if (resuming)
         applyLog(MAP_LOG);
-    timer.restart();
+    // timer.restart();
 }
 
 void Level::loadItems(int level, std::mt19937 &rng, std::uniform_int_distribution<std::mt19937::result_type> &dist1)
 {
     sf::Image itemlayout;
-    itemlayout.loadFromFile("Data/Level" + std::to_string(level) + "/layout.png");
+    itemlayout.loadFromFile("Data/Level" + std::to_string(level + 1) + "/layout.png");
     int target;
 
     for (int i = 0; i < itemlayout.getSize().y; i++)
@@ -95,7 +83,7 @@ void Level::loadItems(int level, std::mt19937 &rng, std::uniform_int_distributio
 void Level::loadEnemies(int level)
 {
     sf::Image entitylayout;
-    entitylayout.loadFromFile("Data/Level" + std::to_string(level) + "/entity.png");
+    entitylayout.loadFromFile("Data/Level" + std::to_string(level + 1) + "/entity.png");
     for (int i = 0; i < entitylayout.getSize().y; i++)
     {
         for (int j = 0; j < entitylayout.getSize().x; j++)

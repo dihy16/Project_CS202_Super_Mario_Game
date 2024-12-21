@@ -53,6 +53,7 @@ Character::Character(int x, int y, const std::string &texture1, const std::strin
     characterRigidBody->isStatic = false;
     characterRigidBody->isUsingGravity = true;
     characterRigidBody->xVel = 0, characterRigidBody->yVel = 0;
+    moveStrategy = std::make_unique<CharacterMoveStrategy>(*this);
 }
 
 void Character::moveRight(float speed)
@@ -174,46 +175,44 @@ void Character::handleMovement(float speed)
         waitingTime += 0.07;
         if (timer2.getElapsedTime().asSeconds() > waitingTime)
         {
-            if (goRight == goLeft)
-                characterRigidBody->xVel = 0;
-            else if (goRight)
-                moveRight(speed);
-            else if (goLeft)
-                moveLeft(speed);
+            // if (goRight == goLeft)
+            //     characterRigidBody->xVel = 0;
+            // else if (goRight)
+            //     moveRight(speed);
+            // else if (goLeft)
+            //     moveLeft(speed);
+            moveStrategy->move(speed, 0);
 
             timer2.restart();
         }
         timer1.restart();
     }
-    stand();
+    // stand();
 }
 
 void Character::stand()
 {
-    if (!goRight && !goLeft && !characterRigidBody->isJumping && !firing)
+    if (state == Small)
     {
-        if (state == Small)
-        {
-            if (direction == Right)
-                characterSprite->sprite.setTextureRect(sf::IntRect(0, 96, 28, 32));
-            else if (direction == Left)
-                characterSprite->sprite.setTextureRect(sf::IntRect(992, 96, 28, 32));
-        }
+        if (direction == Right)
+            characterSprite->sprite.setTextureRect(sf::IntRect(0, 96, 28, 32));
+        else if (direction == Left)
+            characterSprite->sprite.setTextureRect(sf::IntRect(992, 96, 28, 32));
+    }
 
-        else if (state == Fire)
-        {
-            if (direction == Right)
-                characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 30, 60));
-            else if (direction == Left)
-                characterSprite->sprite.setTextureRect(sf::IntRect(995, 36, 29, 60));
-        }
-        else if (state == Super)
-        {
-            if (direction == Right)
-                characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 30, 60));
-            else if (direction == Left)
-                characterSprite->sprite.setTextureRect(sf::IntRect(992, 36, 30, 60));
-        }
+    else if (state == Fire)
+    {
+        if (direction == Right)
+            characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 30, 60));
+        else if (direction == Left)
+            characterSprite->sprite.setTextureRect(sf::IntRect(995, 36, 29, 60));
+    }
+    else if (state == Super)
+    {
+        if (direction == Right)
+            characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 30, 60));
+        else if (direction == Left)
+            characterSprite->sprite.setTextureRect(sf::IntRect(992, 36, 30, 60));
     }
 }
 

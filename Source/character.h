@@ -4,6 +4,7 @@
 #include "definition.h"
 #include "items.h"
 #include "saveGame.h"
+#include "strategy.h"
 
 class Item;             // forward declaration
 class GameStateMemento; // forward declaration
@@ -13,7 +14,7 @@ class Character : public Entity
 {
 protected:
     Entity *character;
-
+    std::unique_ptr<MoveStrategy> moveStrategy;
     SpriteRenderer *characterSprite;
     BoxCollider *characterCollider;
 

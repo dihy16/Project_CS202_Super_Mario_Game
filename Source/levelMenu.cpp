@@ -37,10 +37,8 @@ void LevelMenu::notifyObserver(int gameState)
 {
     for (const auto &o : observers)
     {
-        for (const auto &o : observers)
-        {
-            o->changeState(gameState);
-        }
+
+        o->changeState(gameState);
     }
 }
 void LevelMenu::handleClicking(sf::RenderWindow &window)

@@ -35,6 +35,7 @@ public:
         sr->texture.setSmooth(true);
         sr->sprite.setTexture(sr->texture);
         sr->sprite.setTextureRect(sf::IntRect(0, 150, 32, 32));
+        sr->sprite.setScale(2, 2);
         bc = AddComponent<BoxCollider>(this);
         bc->width = 0;
         bc->height = 0;

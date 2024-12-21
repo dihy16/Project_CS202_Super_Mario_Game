@@ -227,5 +227,6 @@ int MarioGameManager::getCurrentLevel()
 void MarioGameManager::setCurrentLevel(int level)
 {
     timer.restart();
+    timeRemaining = 300000;
     this->currentLevel = level;
 }

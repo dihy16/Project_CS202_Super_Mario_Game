@@ -438,7 +438,7 @@ void Map::loadmap(int level, int MarioX, int MarioY)
     switch (level)
     {
     case 1:
-        whichlevel = "Data/Level1";
+        whichlevel = "Data/Level2";
         break;
     case 2:
         whichlevel = "Data/Level2";

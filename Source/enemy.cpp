@@ -34,6 +34,7 @@ void Enemy::initialize(int x, int y, sf::IntRect &rect, std::string name)
    rb->isUsingGravity = true;
    rb->xVel = 0, rb->yVel = 0;
    enemyRect = rect;
+   moveStrategy = std::make_unique<EnemyMoveStrategy>(*this);
 }
 
 Goomba::Goomba(int x, int y) : Enemy(x, y)
@@ -88,11 +89,9 @@ void Goomba::moveWithMario(Character &mario)
    if (abs(marioPos - enemyPos) <= 500 && movetimer.getElapsedTime().asSeconds() > 1)
    {
       if ((enemyPos - marioPos) > 0)
-         // rb->AddForce(-5, 0);
-         rb->xVel = -20;
+         moveStrategy->move(-20, 0);
       else if ((marioPos - enemyPos) > 0)
-         // rb->AddForce(5, 0);
-         rb->xVel = 20;
+         moveStrategy->move(20, 0);
 
       movetimer.restart();
    }
@@ -187,15 +186,13 @@ void Koopa::moveWithMario(Character &mario)
    if (abs(marioPos - enemyPos) <= 500 && movetimer.getElapsedTime().asSeconds() > 1)
    {
       if ((enemyPos - marioPos) > 0)
-      // rb->AddForce(-5, 0);
       {
-         rb->xVel = -40;
+         moveStrategy->move(-40, 0);
          direction = Right;
       }
       else if ((marioPos - enemyPos) > 0)
-      // rb->AddForce(5, 0);
       {
-         rb->xVel = 40;
+         moveStrategy->move(40, 0);
          direction = Left;
       }
       if (state == Jumping)
@@ -499,7 +496,7 @@ void Gooner::moveWithMario(Character &mario)
 
    if (movetimer.getElapsedTime().asSeconds() > 0.5)
    {
-      rb->xVel = -50;
+      moveStrategy->move(-50, 0);
       movetimer.restart();
    }
 }

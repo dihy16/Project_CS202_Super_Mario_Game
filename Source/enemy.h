@@ -3,6 +3,7 @@
 #include "character.h"
 
 class Character; // forward declaration
+class MoveStrategy;
 class Enemy : public Entity
 {
 protected:
@@ -17,6 +18,7 @@ protected:
    RigidBody *rb = AddComponent<RigidBody>(enemy);
    int currentRect, maxRect;
    void initialize(int x, int y, sf::IntRect &rect, std::string name);
+   std::unique_ptr<MoveStrategy> moveStrategy;
 
 public:
    Enemy(int x, int y);
