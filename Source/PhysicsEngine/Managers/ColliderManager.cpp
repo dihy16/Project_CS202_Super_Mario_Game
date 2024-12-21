@@ -3,7 +3,7 @@
 
 ColliderManager::ColliderManager()
 {
-    visibleCollider = true;
+    visibleCollider = false;
 }
 
 ColliderManager &ColliderManager::GetInstance()

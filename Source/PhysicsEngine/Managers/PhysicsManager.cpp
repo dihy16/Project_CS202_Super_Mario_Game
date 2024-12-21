@@ -63,8 +63,6 @@ void PhysicsManager::FixedUpdate()
                 rb->GetOwner()->yPos = 0;
                 rb->AddForce(0, 10.0f);
             }
-            rb->GetOwner()->xOrigin += (rb->xVel * FIXED_TIMESTEP);
-            rb->GetOwner()->yOrigin += (rb->yVel * FIXED_TIMESTEP);
         }
         rb->GetOwner()->xPos += (rb->xVel * FIXED_TIMESTEP);
         rb->GetOwner()->yPos += (rb->yVel * FIXED_TIMESTEP);

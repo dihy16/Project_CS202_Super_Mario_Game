@@ -23,6 +23,8 @@ void RenderManager::Update()
 {
     // window.clear();
     // sort by
+    Camera::GetInstance().posX = RenderManager::GetInstance().trackE->xPos - 200;
+
     for (int i = 0; i < 15; i++)
     {
         for (SpriteRenderer *sr : srVector)

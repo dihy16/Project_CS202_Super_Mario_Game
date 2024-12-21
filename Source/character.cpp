@@ -19,8 +19,6 @@ Character::Character(int x, int y, const std::string &texture1, const std::strin
     character->scaleY = 1.5;
     character->xPos = x;
     character->yPos = y;
-    xOrigin = x;
-    yOrigin = y;
     character->name = "character";
 
     characterSprite->layer = 2;
@@ -33,21 +31,21 @@ Character::Character(int x, int y, const std::string &texture1, const std::strin
     characterSprite->sprite.setTexture(characterSprite->texture);
     if (state == Small)
     {
-        characterCollider->width = 48;
+        characterCollider->width = 45;
         characterCollider->height = 48;
         characterSprite->sprite.setTextureRect(sf::IntRect(0, 96, 28, 32));
     }
     else if (state == Super)
     {
-        characterCollider->width = 48;
+        characterCollider->width = 45;
         characterCollider->height = 88;
-        characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 30, 60));
+        characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 31, 60));
     }
     else if (state == Fire)
     {
-        characterCollider->width = 48;
+        characterCollider->width = 45;
         characterCollider->height = 88;
-        characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 29, 60));
+        characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 30, 60));
     }
 
     characterCollider->body = characterRigidBody;
@@ -69,7 +67,7 @@ void Character::moveRight(float speed)
         if (state == Small || state == Super)
             rect.left = 128;
         else if (state == Fire)
-            rect.left = 124;
+            rect.left = 125;
     }
     else
         setRectForWalking(rect);
@@ -137,9 +135,9 @@ void Character::handleMovement(float speed)
             if (direction == Right)
             {
                 if (state == Small || state == Super)
-                    rect.left = 160;
+                    rect.left = 161;
                 else if (state == Fire)
-                    rect.left = 156;
+                    rect.left = 157;
             }
             else if (direction == Left)
             {
@@ -205,7 +203,7 @@ void Character::stand()
         else if (state == Fire)
         {
             if (direction == Right)
-                characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 29, 60));
+                characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 30, 60));
             else if (direction == Left)
                 characterSprite->sprite.setTextureRect(sf::IntRect(995, 36, 29, 60));
         }
@@ -223,7 +221,7 @@ void Character::animation1(float duration, float interval, std::function<void()>
 {
     static sf::Clock blinkTimer;
     float elapsed = blinkTimer.getElapsedTime().asMilliseconds();
-    characterCollider->width = 48;
+    characterCollider->width = 45;
     characterCollider->height = 88;
 
     if (elapsed > duration)
@@ -242,7 +240,7 @@ void Character::animation1(float duration, float interval, std::function<void()>
         if (int(elapsed / interval) % 2 == 0)
             characterSprite->sprite.setTextureRect(sf::IntRect(0, 96, 29, 32));
         else
-            characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 30, 60));
+            characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 31, 60));
     }
     else if (duration == 1200)
     {
@@ -251,7 +249,7 @@ void Character::animation1(float duration, float interval, std::function<void()>
             characterSprite->texture.loadFromFile(textureFile1);
             characterSprite->texture.setSmooth(true);
             characterSprite->sprite.setTexture(characterSprite->texture);
-            characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 30, 60));
+            characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 31, 60));
         }
 
         else
@@ -259,7 +257,7 @@ void Character::animation1(float duration, float interval, std::function<void()>
             characterSprite->texture.loadFromFile(textureFile2);
             characterSprite->texture.setSmooth(true);
             characterSprite->sprite.setTexture(characterSprite->texture);
-            characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 30, 60));
+            characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 31, 60));
         }
     }
 }
@@ -289,7 +287,7 @@ void Character::animation2(float duration, float interval, std::function<void()>
     else if (state == Super)
     {
         if (int(elapsed / interval) % 2 == 0)
-            characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 30, 60));
+            characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 31, 60));
         else
             characterSprite->sprite.setTextureRect(sf::IntRect(0, 96, 28, 32));
     }
@@ -343,7 +341,7 @@ void Character::handlePowerUp()
                    {
                      // Transition to Super Character state
                      state = Super;
-                     characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 30, 60)); }, eatMushroom);
+                     characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 31, 60)); }, eatMushroom);
     }
     if (eatFlower)
     {
@@ -354,7 +352,7 @@ void Character::handlePowerUp()
                      characterSprite->texture.loadFromFile(textureFile2);
                      characterSprite->texture.setSmooth(true);
                      characterSprite->sprite.setTexture(characterSprite->texture);
-                     characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 30, 60)); }, eatFlower);
+                     characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 31, 60)); }, eatFlower);
     }
 
     characterCollider->OnHorizontalCollision = [this](BoxCollider *collider)
@@ -392,7 +390,7 @@ void Character::handleEnemy()
                        {
             state = Small;
             characterSprite->sprite.setTextureRect(sf::IntRect(0, 96, 28, 32));
-            characterCollider->width = 48;
+            characterCollider->width = 45;
             characterCollider->height = 48; }, touchEnemy, state);
         }
     }
@@ -443,7 +441,7 @@ void Character::update(std::vector<std::unique_ptr<Item>> &items, float speed)
         {
             state = Small;
             characterSprite->sprite.setTextureRect(sf::IntRect(0, 96, 28, 32));
-            characterCollider->width = 48;
+            characterCollider->width = 45;
             characterCollider->height = 48;
         }
     }
@@ -453,8 +451,8 @@ GameStateMemento Character::saveState()
 {
     std::vector<Entity *> entities = RenderManager::GetInstance().listEntity;
     MarioState characterState;
-    characterState.xPos = characterRigidBody->GetOwner()->xOrigin;
-    characterState.yPos = characterRigidBody->GetOwner()->yOrigin;
+    characterState.xPos = characterRigidBody->GetOwner()->xPos;
+    characterState.yPos = characterRigidBody->GetOwner()->xPos;
     characterState.name = character->tag;
     characterState.lives = MarioGameManager::getInstance()->getLives();
     characterState.coins = MarioGameManager::getInstance()->getCoins();
@@ -498,21 +496,21 @@ void Character::restoreState(const GameStateMemento &memento)
     characterSprite->sprite.setTexture(characterSprite->texture);
     if (state == Small)
     {
-        characterCollider->width = 48;
+        characterCollider->width = 45;
         characterCollider->height = 48;
         characterSprite->sprite.setTextureRect(sf::IntRect(0, 96, 28, 32));
     }
     else if (state == Super)
     {
-        characterCollider->width = 48;
+        characterCollider->width = 45;
         characterCollider->height = 88;
-        characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 30, 60));
+        characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 31, 60));
     }
     else if (state == Fire)
     {
-        characterCollider->width = 48;
+        characterCollider->width = 45;
         characterCollider->height = 88;
-        characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 30, 60));
+        characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 31, 60));
     }
     // }
     RenderManager::GetInstance().listEntity = memento.entities;
@@ -522,7 +520,7 @@ void Character::freeFall()
 {
     if (characterRigidBody->GetOwner()->yPos >= 15 * BLOCK_HEIGHT)
     {
-        character->xPos = 100;
+        character->xPos = 300;
         character->yPos = 100;
         touchEnemy = true;
     }

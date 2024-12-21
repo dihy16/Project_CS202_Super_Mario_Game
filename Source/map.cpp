@@ -330,6 +330,7 @@ void Map::createbackgroundblock(int x, int y)
 
 void Map::draw(sf::RenderWindow &w)
 {
+    Camera::GetInstance().posX = RenderManager::GetInstance().trackE->xPos - 200;
     for (Block *i : backgroundblocks)
     {
         sprite.setTexture(blocktexture);
