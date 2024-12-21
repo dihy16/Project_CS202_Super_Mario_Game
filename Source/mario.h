@@ -19,7 +19,7 @@ class Item; // forward declaration
 class Mario : public Entity
 {
 protected:
-   Entity *mario = new Entity;
+   Entity *mario = RenderManager::GetInstance().trackE;
 
    SpriteRenderer *marioSprite = AddComponent<SpriteRenderer>(mario);
    BoxCollider *marioCollider = AddComponent<BoxCollider>(mario);

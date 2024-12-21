@@ -2,7 +2,7 @@
 
 Mario::Mario(int x, int y)
 {
-   RenderManager::GetInstance().listEntity.push_back(mario);
+   // RenderManager::GetInstance().listEntity.push_back(mario);
    goRight = goLeft = goUp = created = false;
 
    mario->scaleX = 1.5;
