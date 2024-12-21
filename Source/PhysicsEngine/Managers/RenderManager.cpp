@@ -55,8 +55,9 @@ void RenderManager::Update()
                 sf::RectangleShape rectangle(sf::Vector2(collider->width, collider->height));
                 rectangle.setPosition(newPosX, newPosY);
                 rectangle.setOutlineColor(sf::Color::Red);
-                rectangle.setOutlineThickness(5.0f);
-                // rectangle.setFillColor(sf::Color::Transparent);
+                rectangle.setOutlineThickness(2.0f);
+                rectangle.setFillColor(sf::Color::Transparent);
+                window.draw(rectangle);
             }
         }
         if (displayDebugConsole)

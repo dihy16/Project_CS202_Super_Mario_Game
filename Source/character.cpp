@@ -314,7 +314,7 @@ void Character::handlePowerUp()
             collider->SetActive(false);
             collider->body->SetActive(false);
             MarioGameManager::getInstance()->playSound(MarioGameManager::powerup);
-            logEvent("Mushroom collected", character->xPos, character->yPos);
+            logEvent("Mushroom collected", character->xOrigin, character->yOrigin);
             MarioGameManager::getInstance()->addScore(MarioGameManager::Mushroom);
         }
         else if (collider->body->GetOwner()->name == "coin")
@@ -324,7 +324,7 @@ void Character::handlePowerUp()
             collider->SetActive(false);
             collider->body->SetActive(false);
             MarioGameManager::getInstance()->addScore(MarioGameManager::Coin);
-            logEvent("Coin collected", character->xPos, character->yPos);
+            logEvent("Coin collected", character->xOrigin, character->yOrigin);
         }
         else if (collider->body->GetOwner()->name == "flower")
         {
@@ -333,7 +333,7 @@ void Character::handlePowerUp()
             collider->SetActive(false);
             collider->body->SetActive(false);
             MarioGameManager::getInstance()->playSound(MarioGameManager::powerup);
-            logEvent("Flower collected", character->xPos, character->yPos);
+            logEvent("Flower collected", character->xOrigin, character->yOrigin);
             MarioGameManager::getInstance()->addScore(MarioGameManager::Flower);
         }
     };
