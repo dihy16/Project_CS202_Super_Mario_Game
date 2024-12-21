@@ -8,7 +8,7 @@
 
 Map::Map(bool resuming)
 {
-    blocktexture.loadFromFile("Images/TilesBackup.png");
+    blocktexture.loadFromFile(TILES);
     this->resuming = resuming;
 }
 
