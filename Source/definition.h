@@ -31,5 +31,9 @@
 #define MARIO_LOG "resource/Log/game_state.txt"
 #define TILES "resource/TilesBackup.png"
 #define HEART_ICON "resource/Heart.png"
-
+#define SOUNDBAR_IMG_PATH "resource/Menu/Settings/sound_bar/sb_0"
+#define SOUND_CONTROLS_BG "resource/Menu/Settings/SoundControls.png"
+#define INC_VOLUME "resource/Menu/Settings/IncreaseVolume.png"
+#define DEC_VOLUME "resource/Menu/Settings/DecreaseVolume.png"
+#define SAVE_BUTTON "resource/Menu/Settings/SaveBut.png"
 #endif
