@@ -19,6 +19,9 @@ public:
 	}
 	MenuObject() { isHidden = false; }
 	MenuObject(std::string filename, float x, float y);
+	MenuObject(std::string filename, float x, float y, float scaleX, float scaleY);
+	MenuObject(const sf::Texture& texture, float x, float y, float scaleX, float scaleY);
+	MenuObject(std::string filename, float x, float y, sf::IntRect &r, float scaleX, float scaleY);
 	void init(std::string filename, float x, float y);
 	void draw(sf::RenderWindow &window) const;
 	bool isMouseOver(sf::RenderWindow &window) const;
