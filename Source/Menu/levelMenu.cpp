@@ -49,18 +49,71 @@ void LevelMenu::handleClicking(sf::RenderWindow &window)
     {
     case 1: // Easy
         MarioGameManager::getInstance()->setCurrentLevel(1);
-        notifyObserver(2); // to Game Screen
+        notifyObserver(MenuManager::eCharacterMenu); // to Game Screen
         break;
     case 2:
         MarioGameManager::getInstance()->setCurrentLevel(2);
-        notifyObserver(2);
+        notifyObserver(MenuManager::eCharacterMenu);
         break;
     case 3:
         MarioGameManager::getInstance()->setCurrentLevel(3);
-        notifyObserver(2);
+        notifyObserver(MenuManager::eCharacterMenu);
         break;
     default:
         break;
     }
     cout << "out handle clicking" << endl;
+}
+
+
+// ***** CHARACTER MENU SECTION *****
+
+
+void CharacterMenu::addObserver(IGameStateObserver *observer)
+{
+    observers.push_back(observer);
+}
+
+void CharacterMenu::removeObserver(IGameStateObserver *observer)
+{
+    observers.erase(std::remove(observers.begin(), observers.end(), observer), observers.end());
+}
+
+void CharacterMenu::notifyObserver(int gameState)
+{
+    for (const auto &o : observers)
+    {
+        for (const auto &o : observers)
+        {
+            o->changeState(gameState);
+        }
+    }
+}
+
+CharacterMenu::CharacterMenu()
+{
+    isHidden = false;
+    sf::IntRect spriteRect(0, 96, 28, 32);
+    this->addMenuOption(new MenuObject(DIFFICULTY_BG, 0, 0));
+    this->addMenuOption(new MenuObject(MARIO, 360.0f, 510.0f, spriteRect, 3.0f, 3.0f));
+    this->addMenuOption(new MenuObject(LUIGI, 800.0f, 510.0f, spriteRect, -3.0f, 3.0f));
+}
+
+void CharacterMenu::handleClicking(sf::RenderWindow &window)
+{
+    int indexButPressed = this->getButClicked(window);
+    cout << "but clicked: " << indexButPressed << endl;
+    switch (indexButPressed)
+    {
+    case 1: // Mario
+        MarioGameManager::getInstance()->setIsMarioSelected(true);
+        notifyObserver(MenuManager::MenuState::eGame); // to Game Screen
+        break;
+    case 2: // Luigi
+        MarioGameManager::getInstance()->setIsMarioSelected(false);
+        notifyObserver(MenuManager::MenuState::eGame);
+        break;
+    default:
+        break;
+    }
 }

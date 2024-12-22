@@ -213,12 +213,12 @@ void MarioGameManager::marioDies()
     // }
 }
 
-void MarioGameManager::loadLevel(bool resuming)
+void MarioGameManager::loadLevel(bool resuming, bool isMarioSelected)
 {
     std::cout << "resuming" << resuming << std::endl;
     // if (this->level)
     //     delete this->level;
-    this->level = new Level(currentLevel, resuming);
+    this->level = new Level(currentLevel, resuming, isMarioSelected);
 }
 
 void MarioGameManager::togglePause()
@@ -243,4 +243,14 @@ void MarioGameManager::setCurrentLevel(int level)
     timer.restart();
     timeRemaining = 300000;
     this->currentLevel = level;
+}
+
+void MarioGameManager::setIsMarioSelected(bool isMarioSelected)
+{
+    this->isMarioSelected = isMarioSelected;
+}
+
+bool MarioGameManager::getIsMarioSelected()
+{
+    return this->isMarioSelected;
 }

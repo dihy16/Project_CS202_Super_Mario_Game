@@ -25,4 +25,17 @@ public:
 	void handleClicking(sf::RenderWindow &window);
 };
 
+class CharacterMenu : public Menu
+{
+private:
+	std::vector<IGameStateObserver *> observers; // List of observers
+public:
+	bool isHidden;
+	void addObserver(IGameStateObserver *observer);
+	void removeObserver(IGameStateObserver *observer);
+	void notifyObserver(int gameState);
+	CharacterMenu();
+	void handleClicking(sf::RenderWindow &window);
+};
+
 #endif

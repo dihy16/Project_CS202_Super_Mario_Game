@@ -2,8 +2,9 @@
 #include <iostream>
 using namespace std;
 
-Level::Level(int level, bool resuming)
+Level::Level(int level, bool resuming, bool isMarioSelected)
 {
+    isMario = isMarioSelected;
     std::random_device dev;
     std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist1(0, 2);
@@ -125,7 +126,7 @@ void Level::end()
             {
                 MarioGameManager::getInstance()->setCurrentLevel(lv + 1);
                 DeleteObjects();
-                MarioGameManager::getInstance()->loadLevel(false);
+                MarioGameManager::getInstance()->loadLevel(false, true);
                 MarioGameManager::getInstance()->setState(MarioGameManager::GameState::status);
                 mario->finishTimer.restart();
             }
@@ -142,7 +143,7 @@ void Level::end()
             {
                 MarioGameManager::getInstance()->setCurrentLevel(lv + 1);
                 DeleteObjects();
-                MarioGameManager::getInstance()->loadLevel(false);
+                MarioGameManager::getInstance()->loadLevel(false, false);
                 MarioGameManager::getInstance()->setState(MarioGameManager::GameState::status);
                 luigi->finishTimer.restart();
             }
@@ -212,7 +213,10 @@ void Level::drawLevel()
 
 GameStateMemento Level::saveMarioState()
 {
-    return mario->saveState();
+    if (isMario)
+        return mario->saveState();
+    else 
+        return luigi->saveState();
 }
 
 void Flag::animation()

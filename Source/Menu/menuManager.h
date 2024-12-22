@@ -6,6 +6,7 @@
 
 class LevelMenu;
 class MainMenu;
+class CharacterMenu;
 class MarioGameManager;
 class MainMenu;
 
@@ -14,6 +15,7 @@ class MenuManager : public IGameStateObserver
 private:
 	MainMenu *mainMenu;
 	LevelMenu *levelMenu;
+	CharacterMenu *characterMenu;
 
 public:
 	// Define pages number
@@ -26,6 +28,7 @@ public:
 		eInstruction,
 		eOptions,
 		eScoreboard,
+		eCharacterMenu
 		// ePause,
 	};
 	MenuState menuState;

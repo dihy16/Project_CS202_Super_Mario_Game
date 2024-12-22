@@ -28,6 +28,7 @@ private:
     int timeRemaining = 300000;
     int currentLevel;
     sf::Clock timer;
+    bool isMarioSelected;
     // GameScene* currentScene = nullptr;
     // std::vector<GameScene*> sceneStack;
     MarioGameManager();
@@ -74,10 +75,12 @@ public:
     GameState getState() { return gameState; }
     void updateGameState(int delta_time, sf::Event &ev); // delta time in milliseconds
     void marioDies();
-    void loadLevel(bool resuming);
+    void loadLevel(bool resuming, bool isMarioSelected);
     void togglePause();
     int getCurrentLevel();
     void setCurrentLevel(int currentLevel);
+    void setIsMarioSelected(bool isMarioSelected);
+    bool getIsMarioSelected();
 };
 
 class GameScene

@@ -68,8 +68,8 @@ private:
     sf::Clock timer;
 
 public:
-    bool isMario = true, finished;
-    Level(int level, bool resuming);
+    bool isMario, finished;
+    Level(int level, bool resuming, bool isMario);
     ~Level();
     void handleKeyPress();
     void loadItems(int level, std::mt19937 &rng, std::uniform_int_distribution<std::mt19937::result_type> &dist1);
