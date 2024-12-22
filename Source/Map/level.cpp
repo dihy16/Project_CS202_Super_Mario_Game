@@ -44,7 +44,7 @@ Level::Level(int level, bool resuming)
 void Level::loadItems(int level, std::mt19937 &rng, std::uniform_int_distribution<std::mt19937::result_type> &dist1)
 {
     sf::Image itemlayout;
-    itemlayout.loadFromFile("Data/Level" + std::to_string(level + 1) + "/layout.png");
+    itemlayout.loadFromFile("Data/Level" + std::to_string(level) + "/layout.png");
     int target;
 
     for (int i = 0; i < itemlayout.getSize().y; i++)
@@ -83,7 +83,7 @@ void Level::loadItems(int level, std::mt19937 &rng, std::uniform_int_distributio
 void Level::loadEnemies(int level)
 {
     sf::Image entitylayout;
-    entitylayout.loadFromFile("Data/Level" + std::to_string(level + 1) + "/entity.png");
+    entitylayout.loadFromFile("Data/Level" + std::to_string(level) + "/entity.png");
     for (int i = 0; i < entitylayout.getSize().y; i++)
     {
         for (int j = 0; j < entitylayout.getSize().x; j++)
