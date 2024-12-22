@@ -10,10 +10,13 @@ MenuManager::MenuManager()
     levelMenu = new LevelMenu();
     characterMenu = new CharacterMenu();
     highscoreMenu = new HighscoreMenu();
+    menuSettings = new MenuSettings();
+
     mainMenu->addObserver(this);
     levelMenu->addObserver(this);
     characterMenu->addObserver(this);
     highscoreMenu->addObserver(this);
+    menuSettings->addObserver(this);
 }
 
 MenuManager::~MenuManager()
@@ -22,6 +25,7 @@ MenuManager::~MenuManager()
     delete levelMenu;
     delete characterMenu;
     delete highscoreMenu;
+    delete menuSettings;
 }
 
 void MenuManager::changeState(int state)
@@ -45,6 +49,10 @@ void MenuManager::handleEvents(sf::RenderWindow &window, sf::Event &ev)
     else if (menuState == eScoreboard)
     {
         highscoreMenu->EventHandling(window, ev);
+    }
+    else if (menuState == eSettings)
+    {
+        menuSettings->EventHandling(window, ev);
     }
     if (menuState == eGame)
     {
@@ -74,6 +82,9 @@ void MenuManager::draw(sf::RenderWindow &window)
     case eScoreboard:
         highscoreMenu->draw(window);
         break;
+    case eSettings:
+        menuSettings->draw(window);
+        break;
     default:
         break;
     }
@@ -87,4 +98,8 @@ int MenuManager::getMenuState()
 void MenuManager::setMenuState(MenuState viewID)
 {
     this->menuState = viewID;
+    if (this->menuState == eSettings) {
+        menuSettings->updateTextureId();
+        menuSettings->updateSoundBarTexture();
+    }
 }

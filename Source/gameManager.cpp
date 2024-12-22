@@ -14,6 +14,7 @@ void GameManager::inputMusic()
         getMusicManager().loadFromFile(musicName, std::string("resource/Music/") + musicName + ".ogg");
     }
     initMusicMap();
+    getMusicManager().setVolume(DEFAULT_VOLUME);
 }
 
 void GameManager::initSoundMap() {

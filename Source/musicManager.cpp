@@ -16,3 +16,16 @@ void MusicManager::stop()
 	}
 	this->currentMusic.clear();
 }
+
+void MusicManager::setVolume(int volume)
+{
+	this->volume = volume;
+	for (auto music : m_resources) {
+		music.second->setVolume(volume);
+	}
+}
+
+int MusicManager::getVolume()
+{
+    return volume;
+}

@@ -37,5 +37,15 @@
 #define MASTER_BUT "resource/Menu/Difficulty/MasterBut.png"
 #define SCOREBOARD_BG "resource/Menu/ScoreboardBG.png"
 #define HIGHSCORE_FILE "resource/Log/highscore.txt"
+#define HEART_ICON "resource/Heart.png"
+#define SOUNDBAR_IMG_PATH "resource/Menu/Settings/sound_bar/sb_0"
+#define SOUND_CONTROLS_BG "resource/Menu/Settings/SoundControls.png"
+#define INC_VOLUME "resource/Menu/Settings/IncreaseVolume.png"
+#define DEC_VOLUME "resource/Menu/Settings/DecreaseVolume.png"
+#define SAVE_BUTTON "resource/Menu/Settings/SaveBut.png"
+
+#define TOTAL_NUM_LEVEL 3
+#define TOTAL_HIGHSCORES 5
+#define VOLUME_UNIT 10
 
 #endif

@@ -6,6 +6,7 @@
 #include "marioGameManager.h"
 #include "GUI.h"
 
+struct HighScoreEntry;
 class MarioGameManager;
 class MenuManager;
 class Label;
@@ -13,9 +14,10 @@ class HighscoreMenu : public Menu
 {
 private:
     std::vector<IGameStateObserver *> observers;
-    sf::Text t;
+    sf::Text time_text, score_text;
     std::vector<Label *> highscores;
-    vector<int> highScoreList;
+    std::vector<Label *> timestamps;
+    vector<HighScoreEntry> highScoreList;
 public:
     bool isHidden;
     void addObserver(IGameStateObserver *observer);
@@ -25,6 +27,7 @@ public:
     HighscoreMenu();
     ~HighscoreMenu();
     void handleClicking(sf::RenderWindow &window);
+
     // menu
 };
 #endif

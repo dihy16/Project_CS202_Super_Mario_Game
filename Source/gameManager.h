@@ -24,6 +24,7 @@ protected:
     void initMusicMap();
 
 public:
+    static const int DEFAULT_VOLUME = 40;
     enum SoundName
     {
         breakblock,

@@ -42,16 +42,16 @@ void saveGame(const GameStateMemento &state, const std::string &file)
    outFile.close();
 }
 
-std::vector<int> loadHighScores(const std::string &file)
+std::vector<HighScoreEntry> loadHighScores(const std::string &file)
 {
-   std::vector<int> highScores;
+   std::vector<HighScoreEntry> highScores;
    std::ifstream inFile(file);
    if (inFile.is_open())
    {
-      int score;
-      while (inFile >> score)
+      HighScoreEntry entry;
+      while (inFile >> entry.score >> entry.time)
       {
-         highScores.push_back(score);
+         highScores.push_back(entry);
       }
       inFile.close();
    }
@@ -62,14 +62,14 @@ std::vector<int> loadHighScores(const std::string &file)
    return highScores;
 }
 
-void saveHighScores(const std::vector<int> &highScores, const std::string &file)
+void saveHighScores(const std::vector<HighScoreEntry> &highScores, const std::string &file)
 {
    std::ofstream outFile(file);
    if (outFile.is_open())
    {
-      for (const int &score : highScores)
+      for (const HighScoreEntry &entry : highScores)
       {
-         outFile << score << std::endl;
+         outFile << entry.score << " " << entry.time << std::endl;
       }
       outFile.close();
    }

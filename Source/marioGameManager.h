@@ -13,8 +13,15 @@ class Level;
 class LevelMenu;
 class MainMenu;
 class MenuHighscore;
+class MenuSettings;
 class MenuManager;
 class GUI;
+
+struct HighScoreEntry
+{
+    int score;
+    std::string time;
+};
 
 class MarioGameManager : public GameManager
 {
@@ -35,7 +42,7 @@ private:
     MarioGameManager();
     void initScoreMap();
 
-    vector<int> vHighscore;
+    vector<HighScoreEntry> vHighscore;
     friend class MenuManager;
 
 public:
@@ -44,7 +51,9 @@ public:
         Coin,
         Mushroom,
         Flower,
-        Star
+        Star,
+        Goomba,
+        Koopa
     };
     std::map<ScoreID, int> scoreMap;
     static enum class GameState { menu,
@@ -82,9 +91,11 @@ public:
     void togglePause();
     int getCurrentLevel();
     void setCurrentLevel(int currentLevel);
-    void saveHiScore();
+    // void saveHiScore();
     void loadHiScore();
-    vector<int> getVectorHiScore();
+    const std::vector<HighScoreEntry> &getVectorHiScore();
+    std::string getStringCurrentTime();
+    void updateHighScores(int newScore, const std::string &time);
 };
 
 class GameScene
