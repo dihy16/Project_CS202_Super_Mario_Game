@@ -39,7 +39,10 @@ public:
         Coin,
         Mushroom,
         Flower,
-        Star
+        Star,
+        Goomba,
+        Koopa,
+        PiranhaPlant
     };
     std::map<ScoreID, int> scoreMap;
     static enum class GameState { menu,

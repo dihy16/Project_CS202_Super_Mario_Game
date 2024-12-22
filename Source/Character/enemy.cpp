@@ -55,6 +55,7 @@ void Goomba::collideWithMario(Character &mario)
          sr->sprite.setTextureRect(sf::IntRect(64, 0, 32, 31));
          isKilled = true;
          logEvent("Goomba killed", originX, originY);
+         MarioGameManager::getInstance()->addScore(MarioGameManager::ScoreID::Goomba);
       }
    };
 
@@ -77,6 +78,7 @@ void Goomba::collideWithMario(Character &mario)
          rb->SetActive(false);
          isKilled = true;
          logEvent("Goomba killed", originX, originY);
+         MarioGameManager::getInstance()->addScore(MarioGameManager::ScoreID::Goomba);
       }
    };
 }
@@ -152,6 +154,7 @@ void Koopa::collideWithMario(Character &mario)
          state = Hidden;
          isKilled = true;
          logEvent("Koopa killed", originX, originY);
+         MarioGameManager::getInstance()->addScore(MarioGameManager::ScoreID::Koopa);
       }
    };
 
@@ -174,6 +177,7 @@ void Koopa::collideWithMario(Character &mario)
          rb->SetActive(false);
          isKilled = true;
          logEvent("Koopa killed", originX, originY);
+         MarioGameManager::getInstance()->addScore(MarioGameManager::ScoreID::Koopa);
       }
    };
 }
@@ -373,6 +377,7 @@ void PiranhaPlant::collideWithMario(Character &mario)
          // rb->SetActive(false);
          isKilled = true;
          logEvent("PiranhaPlant killed", originX, originY);
+         MarioGameManager::getInstance()->addScore(MarioGameManager::ScoreID::PiranhaPlant);
       }
    };
 }

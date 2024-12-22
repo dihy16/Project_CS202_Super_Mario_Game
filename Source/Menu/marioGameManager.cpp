@@ -16,6 +16,9 @@ void MarioGameManager::initScoreMap()
     scoreMap[Mushroom] = 1000;
     scoreMap[Flower] = 1000;
     scoreMap[Star] = 1000;
+    scoreMap[Goomba] = 100;
+    scoreMap[Koopa] = 100;
+    scoreMap[PiranhaPlant] = 100;
 }
 
 MarioGameManager *MarioGameManager::getInstance()
