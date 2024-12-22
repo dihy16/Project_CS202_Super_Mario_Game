@@ -1,7 +1,7 @@
 #pragma once
 
-#include "definition.h"
-#include "./PhysicsEngine/Managers/Camera.h"
+#include "./../definition.h"
+#include "../PhysicsEngine/Managers/Camera.h"
 #include "items.h"
 
 class Block : public Entity

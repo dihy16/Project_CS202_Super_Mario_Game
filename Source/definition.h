@@ -16,7 +16,7 @@
 #include <memory>
 #include <unordered_map>
 #include <assert.h>
-#include "marioGameManager.h"
+#include "./Menu/marioGameManager.h"
 
 #define BLOCK_WIDTH 64
 #define BLOCK_HEIGHT 64

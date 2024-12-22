@@ -1,6 +1,6 @@
 #ifndef ITEMS_H
 #define ITEMS_H
-#include "character.h"
+#include "./../Character/character.h"
 #include <memory>
 
 class Item : public Entity

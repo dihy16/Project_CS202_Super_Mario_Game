@@ -1,6 +1,6 @@
-#include "./Source/marioGameManager.h"
+#include "./Source/Menu/marioGameManager.h"
 #include "./Source/PhysicsEngine/Managers/Camera.h"
-#include "./Source/saveGame.h"
+#include "./Source/Menu/saveGame.h"
 #include <windows.h>
 #include <stdio.h>
 #include <tchar.h>

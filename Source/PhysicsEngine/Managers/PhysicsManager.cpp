@@ -6,7 +6,7 @@
 #include <cmath>
 #include <SFML/System/Vector2.hpp>
 #include "RenderManager.h"
-#include "../../marioGameManager.h"
+#include "../../Menu/marioGameManager.h"
 
 using sf::Vector2f;
 

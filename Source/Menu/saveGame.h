@@ -1,7 +1,7 @@
 #ifndef SAVEGAME_H
 #define SAVEGAME_H
-#include "character.h"
-#include "./PhysicsEngine/Entity.h"
+#include "./../Character/character.h"
+#include "./../PhysicsEngine/Entity.h"
 class Mario;
 struct MarioState
 {

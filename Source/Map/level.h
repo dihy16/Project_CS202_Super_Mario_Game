@@ -1,11 +1,11 @@
 #ifndef LEVEL_H
 #define LEVEL_H
-#include "character.h"
-#include "enemy.h"
-#include "items.h"
-#include "map.h"
+#include "./../Character/character.h"
+#include "./../Character/enemy.h"
+#include "./../Map/items.h"
+#include "./../Map/map.h"
 #include <random>
-#include "saveGame.h"
+#include "./../Menu/saveGame.h"
 
 class Mario;
 class Luigi;

@@ -1,7 +1,7 @@
 #ifndef GUI_H
 #define GUI_H
 
-#include "definition.h"
+#include "./../definition.h"
 #include "MenuObject.h"
 #include "marioGameManager.h"
 

@@ -1,9 +1,9 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-#include "definition.h"
-#include "items.h"
-#include "saveGame.h"
+#include "./../definition.h"
+#include "./../Map/items.h"
+#include "./../Menu/saveGame.h"
 #include "strategy.h"
 
 class Item;             // forward declaration

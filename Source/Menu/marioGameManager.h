@@ -3,10 +3,10 @@
 
 #include "gameManager.h"
 #include "menuManager.h"
-#include "PhysicsEngine/Managers/RenderManager.h"
-#include "character.h"
+#include "./../PhysicsEngine/Managers/RenderManager.h"
+#include "./../Character/character.h"
 #include "GUI.h"
-#include "level.h"
+#include "./../Map/level.h"
 #include "saveGame.h"
 
 class Level;
