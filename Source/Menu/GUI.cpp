@@ -14,6 +14,7 @@ GUI::~GUI()
 	delete statusScreen;
 	delete heartIcon;
 	delete coinIcon;
+	delete gameOver;
 }
 
 Label *GUI::createLabel()
@@ -46,11 +47,9 @@ void GUI::init()
 
 	statusScreen = new StatusScreen(new MenuObject(LUIGI, 230.0f, 510.0f), new MenuObject(MARIO, 360.0f, 510.0f), createLabel(), createLabel());
 
-	// marioIcon = new MenuObject(EXIT_BUTTON, 900.0f, 5.0f);
-	// marioIcon->setScale(0.1f, 0.1f);
-
-	// coinIcon = new MenuObject(EXIT_BUTTON, 900.0f, 5.0f);
-	// coinIcon->setScale(0.1f, 0.1f);
+	gameOver = createLabel();
+	this->gameOver->setPosition(400.0f, 400.0f);
+	gameOver->setString("GAME OVER");
 }
 
 void GUI::setCoin(int numCoin)
@@ -103,10 +102,16 @@ void GUI::drawStatus(sf::RenderWindow &w)
 	statusScreen->draw(w);
 }
 
+void GUI::drawGameOver(sf::RenderWindow &w)
+{
+	gameOver->draw(w);
+}
+
 bool GUI::handleClicking(sf::RenderWindow &w)
 {
 	if (exit_button->isMouseOver(w))
 	{
+		MarioGameManager::getInstance()->togglePause();
 		MarioGameManager::getInstance()->setState(MarioGameManager::GameState::menu);
 		MarioGameManager::getInstance()->getMenuManager()->setMenuState(MenuManager::eMainMenu);
 		return true;

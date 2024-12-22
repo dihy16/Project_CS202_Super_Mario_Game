@@ -82,6 +82,11 @@ void MarioGameManager::draw(sf::RenderWindow &w)
         getGUI()->draw(w);
         getGUI()->drawStatus(w);
         break;
+    case GameState::gameOver:
+        updateGUI();
+        getGUI()->draw(w);
+        getGUI()->drawGameOver(w);
+        break;
     }
 }
 
@@ -93,13 +98,6 @@ void MarioGameManager::handleEvents(sf::RenderWindow &w, sf::Event &ev)
         menuManager->handleEvents(w, ev);
         break;
     case GameState::playing:
-        if (ev.type == sf::Event::MouseButtonPressed)
-        {
-            if (getGUI()->handleClicking(w))
-            {
-                saveGame(level->saveMarioState(), MARIO_LOG);
-            }
-        }
         if (ev.type == sf::Event::KeyPressed)
         {
             if (ev.key.code == sf::Keyboard::P)
@@ -109,6 +107,13 @@ void MarioGameManager::handleEvents(sf::RenderWindow &w, sf::Event &ev)
         }
         break;
     case GameState::pause:
+        if (ev.type == sf::Event::MouseButtonPressed)
+        {
+            if (getGUI()->handleClicking(w))
+            {
+                saveGame(level->saveMarioState(), MARIO_LOG);
+            }
+        }
         if (ev.type == sf::Event::KeyPressed)
         {
             if (ev.key.code == sf::Keyboard::P)
@@ -144,6 +149,7 @@ void MarioGameManager::addLive()
 
 void MarioGameManager::setState(GameState gameState)
 {
+    timer.restart();
     this->gameState = gameState;
 }
 
@@ -161,7 +167,12 @@ void MarioGameManager::updateGameState(int delta_time, sf::Event &ev)
 
         break;
     case GameState::gameOver:
-        setState(GameState::menu);
+        if (timer.getElapsedTime().asSeconds() > 3.5f)
+        {
+            setState(GameState::menu);
+            getMenuManager()->setMenuState(MenuManager::eMainMenu);
+            timer.restart();
+        }
         break;
     case GameState::pause:
         stopMusic();

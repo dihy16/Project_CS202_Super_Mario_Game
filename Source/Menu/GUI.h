@@ -53,6 +53,7 @@ private:
 	MenuObject *coinIcon;
 
 	StatusScreen *statusScreen;
+	Label *gameOver;
 
 public:
 	GUI();
@@ -66,6 +67,7 @@ public:
 	void setStatus(int numLives, int level);
 	void draw(sf::RenderWindow &w);
 	void drawStatus(sf::RenderWindow &w);
+	void drawGameOver(sf::RenderWindow &w);
 	bool handleClicking(sf::RenderWindow &w);
 	std::string getStringCoins()
 	{

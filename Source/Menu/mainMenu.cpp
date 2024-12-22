@@ -72,7 +72,7 @@ void MainMenu::handleClicking(sf::RenderWindow &window)
         notifyObserver(1); // to Level Menu
         break;
     case 2:
-        MarioGameManager::getInstance()->setCurrentLevel(1);
+        // MarioGameManager::getInstance()->setCurrentLevel(1);
         notifyObserver(3);
         break;
     default:
