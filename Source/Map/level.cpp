@@ -221,24 +221,24 @@ GameStateMemento Level::saveMarioState()
 {
     if (isMario)
         return mario->saveState();
-    else 
+    else
         return luigi->saveState();
 }
 
 void Flag::animation()
 {
-    //if (timer.getElapsedTime().asSeconds() > 0.3)
-    //{
-    //    flagRect.left = currentRect * sr->sprite.getTextureRect().width;
-    //    sr->sprite.setTextureRect(flagRect);
+    // if (timer.getElapsedTime().asSeconds() > 0.3)
+    // {
+    //     flagRect.left = currentRect * sr->sprite.getTextureRect().width;
+    //     sr->sprite.setTextureRect(flagRect);
 
-    //    if (!finished)
-    //        currentRect++;
-    //    if (currentRect == maxRect)
-    //        currentRect = 0;
+    //     if (!finished)
+    //         currentRect++;
+    //     if (currentRect == maxRect)
+    //         currentRect = 0;
 
-    //    timer.restart();
-    //}
+    //     timer.restart();
+    // }
 }
 
 void Level::applyLog(const std::string &logFile)
