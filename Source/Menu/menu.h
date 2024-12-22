@@ -12,6 +12,7 @@ protected:
 
 	int activeMenuOption;
 	int numOfMenuOptions;
+	sf::Font menuFont;
 
 public:
 	Menu();

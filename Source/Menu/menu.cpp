@@ -6,6 +6,7 @@ Menu::Menu(void)
 {
 	this->activeMenuOption = 0;
 	this->numOfMenuOptions = 0;
+	if (!menuFont.loadFromFile("resource/Minecraft.ttf")) {}
 }
 
 Menu::~Menu(void)
