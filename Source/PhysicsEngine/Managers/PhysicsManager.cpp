@@ -24,7 +24,7 @@ PhysicsManager &PhysicsManager::GetInstance()
 
 void PhysicsManager::FixedUpdate()
 {
-    if (MarioGameManager::getInstance()->getState() == MarioGameManager::GameState::pause)
+    if (MarioGameManager::getInstance()->getState() != MarioGameManager::GameState::playing)
         return;
     ColliderManager::GetInstance().FixedUpdate();
     for (auto rb : rbList)

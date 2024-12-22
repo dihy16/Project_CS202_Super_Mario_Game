@@ -173,7 +173,7 @@ void Level::handleKeyPress()
 
 void Level::execute()
 {
-    if (MarioGameManager::getInstance()->getState() == MarioGameManager::GameState::pause || MarioGameManager::getInstance()->getState() == MarioGameManager::GameState::menu)
+    if (MarioGameManager::getInstance()->getState() != MarioGameManager::GameState::playing)
         return;
 
     handleKeyPress();
