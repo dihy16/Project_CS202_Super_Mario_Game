@@ -12,6 +12,8 @@ GUI::~GUI()
 	delete label_score;
 	delete exit_button;
 	delete statusScreen;
+	delete heartIcon;
+	delete coinIcon;
 }
 
 Label *GUI::createLabel()
@@ -22,16 +24,22 @@ Label *GUI::createLabel()
 void GUI::init()
 {
 	this->label_coins = createLabel();
-	this->label_coins->setPosition(210.0f, 10.0f);
+	this->label_coins->setPosition(350.0f, GUI_HEIGHT);
+
+	sf::IntRect coinRect(32, 86, 40, 32);
+	coinIcon = new MenuObject(ITEM, 280.0f, GUI_HEIGHT, coinRect, 2.0f, 2.0f);
 
 	this->label_lives = createLabel();
-	this->label_lives->setPosition(50.0f, 10.0f);
+	this->label_lives->setPosition(120.0f, GUI_HEIGHT);
+
+	sf::IntRect heartRect(0, 0, 38, 100);
+	heartIcon = new MenuObject(HEART_ICON, 40.0f, -50.f, heartRect, 2.0f, 2.0f);
 
 	this->label_time_remaining = createLabel();
-	this->label_time_remaining->setPosition(800.0f, 10.0f);
+	this->label_time_remaining->setPosition(800.0f, GUI_HEIGHT);
 
 	this->label_score = createLabel();
-	this->label_score->setPosition(550.0f, 10.0f);
+	this->label_score->setPosition(550.0f, GUI_HEIGHT);
 
 	exit_button = new MenuObject(EXIT_BUTTON, 900.0f, 5.0f);
 	exit_button->setScale(0.1f, 0.1f);
@@ -86,6 +94,8 @@ void GUI::draw(sf::RenderWindow &w)
 	label_time_remaining->draw(w);
 	label_score->draw(w);
 	exit_button->draw(w);
+	coinIcon->draw(w);
+	heartIcon->draw(w);
 }
 
 void GUI::drawStatus(sf::RenderWindow &w)

@@ -43,12 +43,13 @@ public:
 class GUI
 {
 private:
+	const float GUI_HEIGHT = 20.0f;
 	Label *label_coins;
 	Label *label_lives;
 	Label *label_time_remaining;
 	Label *label_score;
 	MenuObject *exit_button;
-	MenuObject *marioIcon;
+	MenuObject *heartIcon;
 	MenuObject *coinIcon;
 
 	StatusScreen *statusScreen;

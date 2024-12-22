@@ -30,5 +30,6 @@
 #define MAP_LOG "resource/Log/game_log.txt"
 #define MARIO_LOG "resource/Log/game_state.txt"
 #define TILES "resource/TilesBackup.png"
+#define HEART_ICON "resource/Heart.png"
 
 #endif
