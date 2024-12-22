@@ -130,6 +130,34 @@ Label::Label()
 	text.setStyle(sf::Text::Bold);
 }
 
+Label::Label(int size, sf::Color color, bool isBold)
+{
+	if (!font.loadFromFile("resource/Minecraft.ttf"))
+	{
+	}
+	text.setFont(font);
+	text.setCharacterSize(size);
+	text.setFillColor(color);
+	if (isBold)
+		text.setStyle(sf::Text::Bold);
+}
+
+Label::Label(const std::string &str, float x, float y) : Label()
+{
+	setString(str);
+	setPosition(x, y);
+}
+
+Label::Label(int size, sf::Color color, bool isBold, float x, float y) : Label(size, color, isBold)
+{
+	setPosition(x, y);
+}
+
+Label::Label(float x, float y) : Label()
+{
+	setPosition(x, y);
+}
+
 void Label::setString(const std::string &str)
 {
 	text.setString(str);
