@@ -18,6 +18,7 @@ private:
     std::vector<std::string> vMusicName = {"bowsercastle", "invincibility", "overworld", "underwater", "underworld"};
     void inputSounds();
     void inputMusic();
+    static const int DEFAULT_VOLUME = 40;
 
 protected:
     void initSoundMap();
