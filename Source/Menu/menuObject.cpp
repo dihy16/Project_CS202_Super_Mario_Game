@@ -111,3 +111,8 @@ void MenuObject::setTextureRect(const sf::IntRect &r)
 {
     this->sprite.setTextureRect(r);
 }
+
+void MenuObject::setTexture(const sf::Texture& texture)
+{
+    sprite.setTexture(texture);
+}

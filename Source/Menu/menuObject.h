@@ -28,5 +28,6 @@ public:
 	void updateColorOnHover(sf::RenderWindow &window);
 	void setScale(float scaleX, float scaleY);
 	void setTextureRect(const sf::IntRect &r);
+	void setTexture(const sf::Texture& texture);
 };
 #endif
