@@ -17,6 +17,8 @@ void MarioGameManager::initScoreMap()
     scoreMap[Mushroom] = 1000;
     scoreMap[Flower] = 1000;
     scoreMap[Star] = 1000;
+    scoreMap[Goomba] = 1000;
+    scoreMap[Koopa] = 1000;
 }
 
 MarioGameManager *MarioGameManager::getInstance()
@@ -256,9 +258,36 @@ void MarioGameManager::setCurrentLevel(int level)
 void MarioGameManager::loadHiScore()
 {
     vHighscore = loadHighScores(HIGHSCORE_FILE);
+    std::sort(vHighscore.begin(), vHighscore.end(), [](const HighScoreEntry& a, const HighScoreEntry& b)
+    { return a.score > b.score; });
 }
 
-vector<int> MarioGameManager::getVectorHiScore()
+const vector<HighScoreEntry> &MarioGameManager::getVectorHiScore()
 {
+    if (vHighscore.size() == 0)
+        loadHiScore();
     return vHighscore;
+}
+
+std::string MarioGameManager::getStringCurrentTime()
+{
+    std::time_t now = std::time(nullptr);
+    std::tm localTime;
+    localtime_s(&localTime, &now);
+    std::ostringstream timeStream;
+    timeStream << std::put_time(&localTime, "%d-%m-%Y-%H:%M:%S");
+    return timeStream.str();
+}
+
+void MarioGameManager::updateHighScores(int newScore, const std::string &time)
+{
+    HighScoreEntry newEntry = {newScore, time};
+    vHighscore.push_back(newEntry);
+    std::sort(vHighscore.begin(), vHighscore.end(), [](const HighScoreEntry &a, const HighScoreEntry &b)
+              { return a.score > b.score; });
+
+    if (vHighscore.size() > TOTAL_HIGHSCORES)
+    {
+        vHighscore.resize(TOTAL_HIGHSCORES);
+    }
 }

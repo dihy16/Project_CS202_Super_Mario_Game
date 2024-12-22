@@ -30,6 +30,22 @@ MenuObject::MenuObject(std::string filename, float x, float y, float scaleX, flo
     sprite.setScale(scaleX, scaleY);
 }
 
+MenuObject::MenuObject(const sf::Texture& texture, float x, float y, float scaleX, float scaleY)
+{
+    isHidden = false;
+    sprite.setTexture(texture);
+    sprite.setPosition(x, y);
+    if (scaleX < 0)
+    {
+        sprite.setOrigin(sprite.getGlobalBounds().width, 0);
+    }
+    if (scaleY < 0)
+    {
+        sprite.setOrigin(0, sprite.getGlobalBounds().height);
+    }
+    sprite.setScale(scaleX, scaleY);
+}
+
 MenuObject::MenuObject(std::string filename, float x, float y, sf::IntRect &r, float scaleX = 1.0f, float scaleY = 1.0f)
 {
     isHidden = false;
@@ -94,4 +110,9 @@ void MenuObject::setScale(float scaleX, float scaleY)
 void MenuObject::setTextureRect(const sf::IntRect &r)
 {
     this->sprite.setTextureRect(r);
+}
+
+void MenuObject::setTexture(const sf::Texture& texture)
+{
+    sprite.setTexture(texture);
 }

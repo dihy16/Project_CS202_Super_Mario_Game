@@ -6,6 +6,8 @@ Menu::Menu(void)
 {
 	this->activeMenuOption = 0;
 	this->numOfMenuOptions = 0;
+	if (!menuFont.loadFromFile("resource/Minecraft.ttf")) {}
+
 }
 
 Menu::~Menu(void)
@@ -67,6 +69,53 @@ void Menu::EventHandling(sf::RenderWindow &window, sf::Event &ev)
 		break;
 	}
 }
+
+std::string Menu::score_to_str(int score)
+{
+    std::stringstream str_stream;
+    str_stream << std::setw(6) << std::right << score;
+    return str_stream.str();
+}
+
+void Menu::initText(const std::string& str, sf::Text& text, sf::Color color, sf::Font& font,float x, float y)
+{
+    text.setFont(font);
+    text.setCharacterSize(40);
+    text.setFillColor(color);
+    text.setStyle(sf::Text::Bold);
+    text.setPosition(x, y);
+    text.setString(str);
+}
+
+std::string Menu::removeHyphen(const std::string &dateTime)
+{
+    std::string formattedDateTime = dateTime;
+    size_t pos = std::string::npos;
+    int hyphenCount = 0;
+
+    // Find the position of the third hyphen
+    for (size_t i = 0; i < formattedDateTime.length(); ++i)
+    {
+        if (formattedDateTime[i] == '-')
+        {
+            hyphenCount++;
+            if (hyphenCount == 3)
+            {
+                pos = i;
+                break;
+            }
+        }
+    }
+
+    // Replace the third hyphen with a space
+    if (pos != std::string::npos)
+    {
+        formattedDateTime.replace(pos, 1, " ");
+    }
+
+    return formattedDateTime;
+}
+
 
 // 		case 0:
 // 			if (activeMenuOption - 1 < 0) {

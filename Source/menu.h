@@ -3,15 +3,18 @@
 
 #include <vector>
 #include "menuObject.h"
+#include <sstream>
+#include <iomanip>
 
 class Menu
 {
 private:
-	std::vector<MenuObject *> menuOptions;
 
 	int activeMenuOption;
+protected:
+	std::vector<MenuObject *> menuOptions;
 	int numOfMenuOptions;
-
+	sf::Font menuFont;
 public:
 	Menu();
 	~Menu();
@@ -21,9 +24,9 @@ public:
 	virtual void handleClicking(sf::RenderWindow &window) = 0;
 	virtual int getButClicked(sf::RenderWindow &window);
 	virtual void EventHandling(sf::RenderWindow &window, sf::Event &ev);
-
-	// ----- 0 = TOP, 1 = RIGHT, 2 = BOTTOM, 3 = LEFT
-	// virtual void updateActiveButton(int iDir);
+	std::string score_to_str(int score);
+    void initText(const std::string& str, sf::Text& t, sf::Color color, sf::Font& font, float x, float y);
+    std::string removeHyphen(const std::string &dateTime);
 };
 
 #endif

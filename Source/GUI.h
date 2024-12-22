@@ -15,7 +15,9 @@ private:
 
 public:
 	Label();
+	Label(int size, sf::Color color, bool isBold);
 	Label(const std::string &str, float x, float y);
+	Label(int size, sf::Color color, bool isBold, float x, float y);
 	Label(float x, float y);
 	void setString(const std::string &str);
 	void setPosition(float x, float y);
@@ -44,12 +46,13 @@ public:
 class GUI
 {
 private:
+	const float GUI_HEIGHT = 15.0f;
 	Label *label_coins;
 	Label *label_lives;
 	Label *label_time_remaining;
 	Label *label_score;
 	MenuObject *exit_button;
-	MenuObject *marioIcon;
+	MenuObject *heartIcon;
 	MenuObject *coinIcon;
 
 	StatusScreen *statusScreen;

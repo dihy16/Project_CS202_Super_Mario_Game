@@ -78,6 +78,9 @@ void MainMenu::handleClicking(sf::RenderWindow &window)
     case 3:
         notifyObserver(MenuManager::eScoreboard);
         break;
+    case 4:
+        notifyObserver(MenuManager::eSettings);
+        break;    
     default:
         break;
     }
