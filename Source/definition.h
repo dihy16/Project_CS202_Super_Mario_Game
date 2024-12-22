@@ -36,4 +36,8 @@
 #define INC_VOLUME "resource/Menu/Settings/IncreaseVolume.png"
 #define DEC_VOLUME "resource/Menu/Settings/DecreaseVolume.png"
 #define SAVE_BUTTON "resource/Menu/Settings/SaveBut.png"
+
+#define TOTAL_NUM_LEVEL 3
+#define TOTAL_HIGHSCORES 5
+#define VOLUME_UNIT 10
 #endif

@@ -3,12 +3,14 @@
 
 #include "mainMenu.h"
 #include "levelMenu.h"
+#include "menuSettings.h"
 
 class LevelMenu;
 class MainMenu;
 class CharacterMenu;
 class MarioGameManager;
 class MainMenu;
+class MenuSettings;
 
 class MenuManager : public IGameStateObserver
 {
@@ -16,7 +18,7 @@ private:
 	MainMenu *mainMenu;
 	LevelMenu *levelMenu;
 	CharacterMenu *characterMenu;
-
+	MenuSettings *menuSettings;
 public:
 	// Define pages number
 	enum MenuState
@@ -28,6 +30,7 @@ public:
 		eInstruction,
 		eOptions,
 		eScoreboard,
+		eSettings,
 		eCharacterMenu
 		// ePause,
 	};
