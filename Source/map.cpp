@@ -108,6 +108,8 @@ void Map::readmap(std::string file)
                 target = 5; // flag pole
             else if (c == sf::Color(223, 113, 38))
                 target = 6; // castle
+            else if (c == sf::Color(238, 195, 154))
+                target = 7; //mushroom tile
             else if (c == sf::Color(0, 0, 0))
                 target = 8; // turret
             else if (c == sf::Color(255, 255, 255))
