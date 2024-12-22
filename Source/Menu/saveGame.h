@@ -2,6 +2,9 @@
 #define SAVEGAME_H
 #include "./../Character/character.h"
 #include "./../PhysicsEngine/Entity.h"
+#include "marioGameManager.h"
+
+struct HighScoreEntry;
 class Mario;
 struct MarioState
 {
@@ -25,4 +28,7 @@ public:
 };
 void logEvent(const std::string &event, float xPos, int yPos);
 void saveGame(const GameStateMemento &state, const std::string &file);
+std::vector<HighScoreEntry> loadHighScores(const std::string &file);
+void saveHighScores(const std::vector<HighScoreEntry> &highScores, const std::string &file);
+
 #endif

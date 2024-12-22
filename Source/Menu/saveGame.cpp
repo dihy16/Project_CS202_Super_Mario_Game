@@ -41,3 +41,40 @@ void saveGame(const GameStateMemento &state, const std::string &file)
            << state.marioState.time << " " << state.marioState.state << "\n";
    outFile.close();
 }
+
+std::vector<HighScoreEntry> loadHighScores(const std::string &file)
+{
+   std::vector<HighScoreEntry> highScores;
+   std::ifstream inFile(file);
+   if (inFile.is_open())
+   {
+      HighScoreEntry entry;
+      while (inFile >> entry.score >> entry.time)
+      {
+         highScores.push_back(entry);
+      }
+      inFile.close();
+   }
+   else
+   {
+      std::cerr << "Unable to open file for reading: " << file << std::endl;
+   }
+   return highScores;
+}
+
+void saveHighScores(const std::vector<HighScoreEntry> &highScores, const std::string &file)
+{
+   std::ofstream outFile(file);
+   if (outFile.is_open())
+   {
+      for (const HighScoreEntry &entry : highScores)
+      {
+         outFile << entry.score << " " << entry.time << std::endl;
+      }
+      outFile.close();
+   }
+   else
+   {
+      std::cerr << "Unable to open file for writing: " << file << std::endl;
+   }
+}
