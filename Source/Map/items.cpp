@@ -8,7 +8,6 @@ void Item::initialize(float x, float y, sf::IntRect &rect, std::string name, int
 {
    display = true;
    isTaken = false;
-   fading = false;
    currentRect = 0;
    this->maxRect = maxRect;
    Entity *item = new Entity;
@@ -24,12 +23,12 @@ void Item::initialize(float x, float y, sf::IntRect &rect, std::string name, int
    item->scaleY = 1.0;
    item->name = name;
 
-   sr->layer = 3;
+   sr->layer = 4;
    if (item->name == "fireball")
    {
       sr->texture.loadFromFile(MARIO);
-      item->scaleX = 1.4;
-      item->scaleY = 1.4;
+      item->scaleX = 1.5;
+      item->scaleY = 1.5;
    }
    else
       sr->texture.loadFromFile(ITEM);
@@ -45,8 +44,10 @@ void Item::initialize(float x, float y, sf::IntRect &rect, std::string name, int
    rb->isStatic = false;
    rb->isUsingGravity = true;
    rb->xVel = 0, rb->yVel = 0;
-   sr->SetActive(false);
-   // bc->SetActive(false);
+   if (item->name == "fireball")
+      sr->SetActive(true);
+   else
+      sr->SetActive(false);
    itemRect = rect;
 }
 
@@ -62,8 +63,6 @@ void Mushroom::animation()
    if (timer.getElapsedTime().asSeconds() > 1.5)
    {
       itemRect.left = 128 + currentRect * sr->sprite.getTextureRect().width;
-      if (fading)
-         sr->sprite.setColor(sf::Color::Transparent);
       sr->sprite.setTextureRect(itemRect);
       currentRect++;
       if (currentRect == maxRect)
@@ -84,12 +83,21 @@ void Mushroom::fadeOut()
    {
       bc->SetActive(true);
       sr->SetActive(true);
+      rb->AddForce(-20, 0);
+      isTouch = false;
+      isMoving = true;
+      dropTimer.restart();
+   }
+   if (isMoving && dropTimer.getElapsedTime().asSeconds() >= 3)
+   {
+      rb->xVel = 0;
+      isMoving = false;
    }
 }
 
 Coin::Coin(int x, int y) : Item(x, y)
 {
-   sf::IntRect rect(0, 86, 32, 32);
+   sf::IntRect rect(0, 86, 32, 31);
    initialize(x, y, rect, "coin", 4);
 }
 
@@ -99,15 +107,16 @@ void Coin::animation()
    {
       if (state == Sparkling)
       {
-         maxRect = 6;
-         itemRect.left = currentRect * sr->sprite.getTextureRect().width;
-         // itemRect.top = 116;
+         maxRect = 5;
+         itemRect.left = tempRect * 40;
+         itemRect.top = 116;
+         itemRect.width = 40;
+         itemRect.height = 32;
          sr->sprite.setTextureRect(itemRect);
-         currentRect++;
-         if (currentRect == maxRect)
+         tempRect++;
+         if (tempRect == maxRect)
          {
-            RenderManager::GetInstance().debugText += std::to_string(currentRect);
-            currentRect = 0;
+            tempRect = 0;
             finished = true;
          }
       }
@@ -115,7 +124,7 @@ void Coin::animation()
       {
          maxRect = 4;
          itemRect.left = currentRect * sr->sprite.getTextureRect().width;
-         // itemRect.top = 86;
+         itemRect.top = 86;
          sr->sprite.setTextureRect(itemRect);
          currentRect++;
          if (currentRect == maxRect)
@@ -130,16 +139,26 @@ void Coin::fadeOut()
    if (!rb->GetActive())
    {
       state = Sparkling;
-      sr->sprite.setTextureRect(sf::IntRect(0, 116, 40, 32));
-      itemRect = sf::IntRect(0, 116, 40, 32);
    }
    else if (isTouch)
    {
       bc->SetActive(true);
       sr->SetActive(true);
+      rb->AddForce(-20, 0);
+      isTouch = false;
+      isMoving = true;
+      dropTimer.restart();
+   }
+   if (isMoving && dropTimer.getElapsedTime().asSeconds() >= 3)
+   {
+      rb->xVel = 0;
+      isMoving = false;
    }
    if (finished)
+   {
       sr->SetActive(false);
+      bc->SetActive(false);
+   }
 }
 
 Flower::Flower(int x, int y) : Item(x, y)
@@ -153,8 +172,6 @@ void Flower::animation()
    if (timer.getElapsedTime().asSeconds() > 0.2)
    {
       itemRect.left = 32 + currentRect * sr->sprite.getTextureRect().width;
-      if (fading)
-         sr->sprite.setColor(sf::Color::Transparent);
       sr->sprite.setTextureRect(itemRect);
       currentRect++;
       if (currentRect == maxRect)
@@ -175,6 +192,16 @@ void Flower::fadeOut()
    {
       bc->SetActive(true);
       sr->SetActive(true);
+      rb->AddForce(-20, 0);
+      isTouch = false;
+      isMoving = true;
+      dropTimer.restart();
+   }
+
+   if (isMoving && dropTimer.getElapsedTime().asSeconds() >= 3)
+   {
+      rb->xVel = 0;
+      isMoving = false;
    }
 }
 
@@ -184,6 +211,7 @@ Bullet::Bullet(int x, int y, bool direction) : Item(x, y)
    sf::IntRect rect(0, 0, 16, 16);
    initialize(x, y, rect, "fireball", 2);
    fadeTimer.restart();
+   jumpTimer.restart();
 }
 
 void Bullet::animation()
@@ -252,7 +280,7 @@ void Bullet::fadeOut()
 {
    bc->OnCollisionEnter = [this](BoxCollider *collider)
    {
-      if ((collider->body->GetOwner()->name == "enemy") || (collider->body->GetOwner()->name == "fireball"))
+      if ((collider->body->GetOwner()->name == "enemy"))
       {
          state = Splash;
          sr->sprite.setTextureRect(sf::IntRect(32, 0, 16, 16));
@@ -260,53 +288,13 @@ void Bullet::fadeOut()
          rb->SetActive(false);
       }
    };
-   if (finished)
-      sr->SetActive(false);
-   if (fadeTimer.getElapsedTime().asSeconds() > 3)
+   if (fadeTimer.getElapsedTime().asSeconds() > 4 || finished)
    {
       sr->SetActive(false);
       bc->SetActive(false);
       rb->SetActive(false);
    }
 }
-
-void Bullet::reset(int x, int y, bool direction)
-{
-   this->direction = direction;
-   itemRect = sf::IntRect(0, 0, 16, 16);
-   initialize(x, y, itemRect, "fireball", 2);
-   state = Flying;
-   finished = false;
-   thrown = false;
-   fadeTimer.restart();
-   setActive(true);
-}
-
-BulletPool::BulletPool(int size)
-{
-   for (int i = 0; i < size; i++)
-   {
-      bullets.push_back(std::make_unique<Bullet>(0, 0, true));
-   }
-}
-
-Bullet *BulletPool::acquireBullet(int x, int y, bool direction)
-{
-   for (auto &bullet : bullets)
-   {
-      if (!bullet->isActive())
-      {
-         bullet->reset(x, y, direction);
-         return bullet.get();
-      }
-   }
-   bullets.push_back(std::make_unique<Bullet>(x, y, direction));
-   return bullets.back().get();
-}
-
-void BulletPool::releaseBullet(Bullet *bullet) { bullet->setActive(false); }
-
-BulletPool ItemFactory::bulletPool(5);
 
 std::unique_ptr<Item> ItemFactory::createItem(const std::string &type, int x, int y, bool direction)
 {
@@ -316,10 +304,7 @@ std::unique_ptr<Item> ItemFactory::createItem(const std::string &type, int x, in
       return std::make_unique<Coin>(x, y);
    else if (type == "Flower")
       return std::make_unique<Flower>(x, y);
-   // else if (type == "Star")
-   //    return std::make_unique<Star>(x, y);
    else if (type == "Fireball")
-      // return std::unique_ptr<Item>(bulletPool.acquireBullet(x, y, direction));
       return std::make_unique<Bullet>(x, y, direction);
    return nullptr;
 }

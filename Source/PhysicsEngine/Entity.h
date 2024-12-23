@@ -20,6 +20,7 @@ public:
     float xOrigin, yOrigin;
     std::string name, tag;
     float rotation, scaleX, scaleY;
+    bool isTouch = false;
     std::unordered_map<std::type_index, Component *> components;
     int getID();
 };

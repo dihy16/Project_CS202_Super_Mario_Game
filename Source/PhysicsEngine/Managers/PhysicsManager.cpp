@@ -42,7 +42,7 @@ void PhysicsManager::FixedUpdate()
                 else if (rb->GetOwner()->name == "enemy")
                     rb->AddForce(0, -300.f);
                 else if (rb->GetOwner()->name == "fireball")
-                    rb->AddForce(0, -200.f);
+                    rb->AddForce(0, -100.f);
                 rb->isFlying = true;
                 rb->isJumping = false;
                 timer.restart();

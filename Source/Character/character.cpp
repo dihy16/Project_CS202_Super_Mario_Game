@@ -114,8 +114,8 @@ void Character::setRectForWalking(sf::IntRect &rect)
     {
         if (state == Small || state == Super)
             maxLeft = 1024 - 128, picWidth = 32;
-        else if (state == Super || state == Fire)
-            maxLeft = 1024 - 122, picWidth = 31;
+        else if (state == Fire)
+            maxLeft = 1024 - 120, picWidth = 30;
 
         if (rect.left <= maxLeft)
             rect.left = 1024 - picWidth;
@@ -175,13 +175,10 @@ void Character::handleMovement(float speed)
         waitingTime += 0.07;
         if (timer2.getElapsedTime().asSeconds() > waitingTime)
         {
-            // if (goRight == goLeft)
-            //     characterRigidBody->xVel = 0;
-            // else if (goRight)
-            //     moveRight(speed);
-            // else if (goLeft)
-            //     moveLeft(speed);
-            moveStrategy->move(speed, 0);
+            if (state == Super || state == Fire)
+                moveStrategy->move(speed * 1.5f, 0);
+            else
+                moveStrategy->move(speed, 0);
 
             timer2.restart();
         }
@@ -197,7 +194,7 @@ void Character::stand()
         if (direction == Right)
             characterSprite->sprite.setTextureRect(sf::IntRect(0, 96, 28, 32));
         else if (direction == Left)
-            characterSprite->sprite.setTextureRect(sf::IntRect(992, 96, 28, 32));
+            characterSprite->sprite.setTextureRect(sf::IntRect(996, 96, 28, 32));
     }
 
     else if (state == Fire)
@@ -205,7 +202,7 @@ void Character::stand()
         if (direction == Right)
             characterSprite->sprite.setTextureRect(sf::IntRect(0, 36, 30, 60));
         else if (direction == Left)
-            characterSprite->sprite.setTextureRect(sf::IntRect(995, 36, 29, 60));
+            characterSprite->sprite.setTextureRect(sf::IntRect(994, 36, 30, 60));
     }
     else if (state == Super)
     {
@@ -406,13 +403,28 @@ void Character::handleMysteryBox(std::vector<std::unique_ptr<Item>> &items)
                 if (item->getRigidBody()->GetOwner()->xPos == collider->body->GetOwner()->xPos + 20)
                 {
                     item->isTouch = true;
-                    collider->body->GetOwner()->name = "EmptyBox";
+                    collider->body->GetOwner()->isTouch = true;
                     logEvent("Mystery Box opened", character->xPos, character->yPos);
-                    RenderManager::GetInstance().debugText += item->name + " ";
                 }
             }
         }
     };
+}
+
+void Character::handleFireball(std::vector<std::unique_ptr<Item>> &items)
+{
+    if (firing && created && timer3.getElapsedTime().asSeconds() > 1)
+    {
+        bool bulletDirection = (direction == Right);
+        if (bulletDirection)
+            items.push_back(ItemFactory::createItem("Fireball", character->xPos + characterCollider->width + 1, character->yPos, bulletDirection));
+        else
+            items.push_back(ItemFactory::createItem("Fireball", character->xPos - 30, character->yPos, bulletDirection));
+
+        created = false;
+        firing = false;
+        timer3.restart();
+    }
 }
 
 void Character::update(std::vector<std::unique_ptr<Item>> &items, float speed)
@@ -422,18 +434,7 @@ void Character::update(std::vector<std::unique_ptr<Item>> &items, float speed)
     handlePowerUp();
     handleEnemy();
     handleMysteryBox(items);
-    if (firing && created && timer3.getElapsedTime().asSeconds() > 0.5)
-    {
-        bool bulletDirection = (direction == Right);
-        if (bulletDirection)
-            items.push_back(ItemFactory::createItem("Fireball", character->xPos + characterCollider->width + 1, character->yPos, bulletDirection));
-        // items.push_back(std::unique_ptr<Item>(ItemFactory::bulletPool.acquireBullet(character->xPos + characterCollider->width + 1, character->yPos, bulletDirection)));
-        else
-            items.push_back(ItemFactory::createItem("Fireball", character->xPos - 20, character->yPos, bulletDirection));
-        // items.push_back(std::unique_ptr<Item>(ItemFactory::bulletPool.acquireBullet(character->xPos - 20, character->yPos, bulletDirection)));
-        created = false;
-        timer3.restart();
-    }
+    handleFireball(items);
     if (stateTimer.getElapsedTime().asSeconds() > 60)
     {
         if (state != Small)
