@@ -107,10 +107,12 @@ void CharacterMenu::handleClicking(sf::RenderWindow &window)
     {
     case 1: // Mario
         MarioGameManager::getInstance()->setIsMarioSelected(true);
+        MarioGameManager::getInstance()->getGUI()->setCharIcon(true);
         notifyObserver(MenuManager::MenuState::eGame); // to Game Screen
         break;
     case 2: // Luigi
         MarioGameManager::getInstance()->setIsMarioSelected(false);
+        MarioGameManager::getInstance()->getGUI()->setCharIcon(false);
         notifyObserver(MenuManager::MenuState::eGame);
         break;
     default:

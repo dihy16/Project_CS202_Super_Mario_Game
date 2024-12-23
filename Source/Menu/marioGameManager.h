@@ -60,7 +60,8 @@ public:
                                   status,
                                   playing,
                                   levelOver,
-                                  gameOver } gameState;
+                                  gameOver,
+                                  playerWin } gameState;
     static MarioGameManager *getInstance();
     ~MarioGameManager();
     MenuManager *getMenuManager();

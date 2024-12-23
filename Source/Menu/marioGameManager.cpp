@@ -82,13 +82,17 @@ void MarioGameManager::draw(sf::RenderWindow &w)
         break;
     case GameState::status:
         updateGUI();
-        getGUI()->draw(w);
+        //getGUI()->draw(w);
         getGUI()->drawStatus(w);
         break;
     case GameState::gameOver:
         updateGUI();
         getGUI()->draw(w);
         getGUI()->drawGameOver(w);
+        break;
+    case GameState::playerWin:
+        getGUI()->setPlayerWinScore(0);
+        getGUI()->drawPlayerWin(w);
         break;
     }
 }

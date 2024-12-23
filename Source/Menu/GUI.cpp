@@ -1,4 +1,7 @@
 #include "GUI.h"
+
+#include <iostream>
+
 GUI::GUI()
 {
 	init();
@@ -15,6 +18,7 @@ GUI::~GUI()
 	delete heartIcon;
 	delete coinIcon;
 	delete gameOver;
+	delete playerWinScreen;
 }
 
 Label *GUI::createLabel()
@@ -45,11 +49,13 @@ void GUI::init()
 	exit_button = new MenuObject(EXIT_BUTTON, 900.0f, 5.0f);
 	exit_button->setScale(0.1f, 0.1f);
 
-	statusScreen = new StatusScreen(new MenuObject(LUIGI, 230.0f, 510.0f), new MenuObject(MARIO, 360.0f, 510.0f), createLabel(), createLabel());
+	statusScreen = new StatusScreen();
 
 	gameOver = createLabel();
 	this->gameOver->setPosition(400.0f, 400.0f);
 	gameOver->setString("GAME OVER");
+
+	playerWinScreen = new PlayerWinScreen();
 }
 
 void GUI::setCoin(int numCoin)
@@ -107,6 +113,11 @@ void GUI::drawGameOver(sf::RenderWindow &w)
 	gameOver->draw(w);
 }
 
+void GUI::drawPlayerWin(sf::RenderWindow &w)
+{
+	playerWinScreen->draw(w);
+}
+
 bool GUI::handleClicking(sf::RenderWindow &w)
 {
 	if (exit_button->isMouseOver(w))
@@ -117,6 +128,16 @@ bool GUI::handleClicking(sf::RenderWindow &w)
 		return true;
 	}
 	return false;
+}
+
+void GUI::setPlayerWinScore(int score)
+{
+	playerWinScreen->setLabelPlayerScore(score);
+}
+
+void GUI::setCharIcon(bool isMarioSelected)
+{
+	statusScreen->setCharIcon(isMarioSelected);
 }
 
 Label::Label()
@@ -168,38 +189,21 @@ void Label::setPosition(float x, float y)
 	text.setPosition(x, y);
 }
 
-void Label::draw(sf::RenderWindow &w)
+void Label::draw(sf::RenderWindow &w) const
 {
 	w.draw(text);
 }
 
-StatusScreen::StatusScreen(MenuObject *marioIcon, MenuObject *luigiIcon, Label *label_lives, Label *label_level)
+StatusScreen::StatusScreen()
 {
-	this->marioIcon_status = marioIcon;
-	this->marioIcon_status->setTextureRect(sf::IntRect(0, 96, 28, 32));
-	this->marioIcon_status->setScale(2, 2);
-	this->luigiIcon_status = luigiIcon;
-	this->luigiIcon_status->setTextureRect(sf::IntRect(0, 96, 28, 32));
-	this->luigiIcon_status->setScale(-2, 2);
-
-	this->label_lives = label_lives;
-	this->label_lives->setPosition(475.0f, 500.0f);
-
-	this->label_level = label_level;
-	this->label_level->setPosition(400.0f, 400.0f);
-}
-
-StatusScreen::~StatusScreen()
-{
-	delete marioIcon_status;
-	delete luigiIcon_status;
-	delete label_level;
-	delete label_lives;
+	this->addMenuOption(new MenuObject(430.0f, 495.0f, 2.f, 2.f));
+	this->addMenuOption(new Label(430.0f, 400.0f)); // level
+	this->addMenuOption(new Label(505.0f, 500.0f)); // lives
 }
 
 void StatusScreen::setLabelLives(int numLives)
 {
-	label_lives->setString("x" + std::to_string(numLives));
+	this->menuOptions[StatusScreen::labelLives]->setString("x" + std::to_string(numLives));
 }
 
 void StatusScreen::setLabelLevel(int level)
@@ -207,13 +211,35 @@ void StatusScreen::setLabelLevel(int level)
 	std::stringstream str_stream;
 	str_stream << "LEVEL"
 				  << std::setw(2) << level;
-	label_level->setString(str_stream.str());
+	this->menuOptions[StatusScreen::labelLevel]->setString(str_stream.str());
 }
 
-void StatusScreen::draw(sf::RenderWindow &w)
+void StatusScreen::setCharIcon(bool isMarioSelected)
 {
-	marioIcon_status->draw(w);
-	luigiIcon_status->draw(w);
-	label_level->draw(w);
-	label_lives->draw(w);
+	if (isMarioSelected) {
+		this->menuOptions[StatusScreen::characterIcon]->setTextureWithTR(MARIO, sf::IntRect(0, 96, 28, 32));
+	}
+	else {
+		this->menuOptions[StatusScreen::characterIcon]->setTextureWithTR(LUIGI, sf::IntRect(0, 96, 28, 32));
+	}
+}
+
+void StatusScreen::handleClicking(sf::RenderWindow &window)
+{
+}
+
+PlayerWinScreen::PlayerWinScreen()
+{
+	addMenuOption(new Label("YOU WON!", 420.0f, 400.0f));
+	addMenuOption(new Label("YOUR SCORE: ", 360.0f, 470.0f));
+	addMenuOption(new Label(690.0f, 470.0f));
+}
+
+void PlayerWinScreen::setLabelPlayerScore(int numScore)
+{
+	this->menuOptions[PlayerWinScreen::int_PlayerScore]->setString(std::to_string(numScore));
+}
+
+void PlayerWinScreen::handleClicking(sf::RenderWindow &window)
+{
 }

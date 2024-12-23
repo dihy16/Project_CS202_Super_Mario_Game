@@ -7,7 +7,7 @@
 
 class MarioGameManager;
 
-class Label
+class Label : public MenuObject
 {
 private:
 	sf::Text text;
@@ -21,30 +21,46 @@ public:
 	Label(float x, float y);
 	void setString(const std::string &str);
 	void setPosition(float x, float y);
-	void draw(sf::RenderWindow &w);
-	std::string getString()
+	void draw(sf::RenderWindow& window) const override;
+	std::string getString() override
 	{
 		return text.getString().toAnsiString();
 	}
 };
 
-class StatusScreen
+class StatusScreen : public Menu
 {
 private:
-	MenuObject *marioIcon_status;
-	MenuObject *luigiIcon_status;
-	Label *label_lives;
-	Label *label_level;
+	enum MenuObjName {
+		characterIcon,
+		labelLevel,
+		labelLives
+	};
 
 public:
-	StatusScreen(MenuObject *marioIcon_status, MenuObject *luigiIcon_status, Label *label_lives, Label *label_level);
-	~StatusScreen();
+	StatusScreen();
 	void setLabelLives(int numLives);
 	void setLabelLevel(int level);
-	void draw(sf::RenderWindow &w);
+	void setCharIcon(bool isMarioSelected);
+	void handleClicking(sf::RenderWindow &window);
 };
 
-class GUI
+class PlayerWinScreen : public Menu
+{
+private:
+	enum MenuObjName {
+		playerWinText,
+		playerScoreText,
+		int_PlayerScore
+	};
+
+public:
+	PlayerWinScreen();
+	void setLabelPlayerScore(int numScore);
+	void handleClicking(sf::RenderWindow &window);
+};
+
+class GUI // handles UI in the game screen
 {
 private:
 	const float GUI_HEIGHT = 20.0f;
@@ -58,6 +74,7 @@ private:
 
 	StatusScreen *statusScreen;
 	Label *gameOver;
+	PlayerWinScreen* playerWinScreen;
 
 public:
 	GUI();
@@ -72,7 +89,10 @@ public:
 	void draw(sf::RenderWindow &w);
 	void drawStatus(sf::RenderWindow &w);
 	void drawGameOver(sf::RenderWindow &w);
+	void drawPlayerWin(sf::RenderWindow& w);
 	bool handleClicking(sf::RenderWindow &w);
+	void setPlayerWinScore(int score);
+	void setCharIcon(bool isMarioSelected);
 	std::string getStringCoins()
 	{
 		return label_coins->getString();
