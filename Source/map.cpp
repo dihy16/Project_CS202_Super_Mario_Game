@@ -119,7 +119,7 @@ void Map::readmap(std::string file)
             else if (c == sf::Color(255, 0, 0))
                 target = 11; //invisible block
             else if (c == sf::Color(189, 194, 13))
-                target = 12;
+                target = 12; //brick
             else
                 target = 0;
             projectionmap[i].push_back(target);
@@ -150,6 +150,7 @@ void Map::createblock(int x, int y)
     block->scaleY = 1.0;
     block->xPos = x * BLOCK_WIDTH;
     block->yPos = y * BLOCK_HEIGHT;
+    int leftcoor = 0, rightcoor = 0, rowsbelow = 0;
     block->name = "Block";
     // SpriteRenderer *sr = AddComponent<SpriteRenderer>(block);
     // sr->layer = 1;
@@ -168,11 +169,6 @@ void Map::createblock(int x, int y)
         xtex = 1;
         ytex = 0;
         block->name = "Block";
-        break;
-    case 10: // wall
-        xtex = 1;
-        ytex = 0;
-        block->name = "FloatingBlock";
         break;
     case 2: // mystery box
         xtex = 2;
@@ -242,18 +238,39 @@ void Map::createblock(int x, int y)
         if (y == 0)
         {
             ytex = 8;
-            break;
         }
         else if (projectionmap[y - 1][x] != 5)
         {
             ytex = 8;
-            break;
         }
         else
         {
             ytex = 9;
-            break;
         }
+        break;
+    case 6: //castle
+        leftcoor = 0;
+        rightcoor = 0;
+        for (int i = 1; i < 7; i++)
+        {
+            if (projectionmap[y][x - i] == 6) leftcoor++;
+            else break;
+        }
+        for (int i = 1; i < 7; i++)
+        {
+            if (projectionmap[y][x + i] == 6) rightcoor++;
+            else break;
+        }
+        xtex = (leftcoor + rightcoor) / 2 - abs(leftcoor - (leftcoor + rightcoor) / 2);
+        for (rowsbelow = 1; rowsbelow < 6; rowsbelow++)
+        {
+            if (y == 14) break;
+            if (projectionmap[y + rowsbelow][x] != 6) break;
+        }
+        if (rowsbelow % 2 == 0) ytex = 8;
+        else ytex = 9;
+        block->name = "Castle";
+        break;
     case 7: // mushroom tile, not mushroom buff
         block->name = "MushroomTile";
         ytex = 0;
@@ -279,6 +296,11 @@ void Map::createblock(int x, int y)
         xtex = 3;
         ytex = 10;
         break;
+    case 10: // wall
+        xtex = 1;
+        ytex = 0;
+        block->name = "FloatingBlock";
+        break;
     case 11:
         xtex = 1;
         ytex = 0;
@@ -298,15 +320,10 @@ void Map::createblock(int x, int y)
     block->spritearea = sf::IntRect(xtex * BLOCK_WIDTH, ytex * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT);
     availableblocks.push_back(block);
     BoxCollider *bc = AddComponent<BoxCollider>(block);
-    if (projectionmap[y][x] == 11)
+    if (projectionmap[y][x] == 11 || projectionmap[y][x] == 6)
     {
         bc->width = 0;
         bc->height = 0; 
-    }
-    if (projectionmap[y][x] == 5 || projectionmap[y][x] == 6)
-    {
-        bc->width = 64;
-        bc->height = 64;
     }
     else
     {
