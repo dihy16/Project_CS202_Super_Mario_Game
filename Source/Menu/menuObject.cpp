@@ -66,6 +66,21 @@ MenuObject::MenuObject(std::string filename, float x, float y, sf::IntRect &r, f
     sprite.setScale(scaleX, scaleY);
 }
 
+MenuObject::MenuObject(float x, float y, float scaleX, float scaleY)
+{
+    isHidden = false;
+    sprite.setPosition(x, y);
+    if (scaleX < 0)
+    {
+        sprite.setOrigin(sprite.getGlobalBounds().width, 0);
+    }
+    if (scaleY < 0)
+    {
+        sprite.setOrigin(0, sprite.getGlobalBounds().height);
+    }
+    sprite.setScale(scaleX, scaleY);
+}
+
 void MenuObject::init(std::string filename, float x, float y)
 {
     texture.loadFromFile(filename);
@@ -115,4 +130,14 @@ void MenuObject::setTextureRect(const sf::IntRect &r)
 void MenuObject::setTexture(const sf::Texture& texture)
 {
     sprite.setTexture(texture);
+}
+
+void MenuObject::setTextureWithTR(const std::string& filename, const sf::IntRect &r)
+{
+    if (!texture.loadFromFile(filename))
+        cout << "texture not loaded" << endl;
+    texture.setSmooth(true);
+    sprite.setTexture(texture);
+    this->sprite.setTexture(texture);
+    this->sprite.setTextureRect(r);
 }

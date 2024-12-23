@@ -22,12 +22,17 @@ public:
 	MenuObject(std::string filename, float x, float y, float scaleX, float scaleY);
 	MenuObject(const sf::Texture& texture, float x, float y, float scaleX, float scaleY);
 	MenuObject(std::string filename, float x, float y, sf::IntRect &r, float scaleX, float scaleY);
+	MenuObject(float x, float y, float scaleX, float scaleY);
 	void init(std::string filename, float x, float y);
-	void draw(sf::RenderWindow &window) const;
+	virtual void draw(sf::RenderWindow &window) const;
 	bool isMouseOver(sf::RenderWindow &window) const;
 	void updateColorOnHover(sf::RenderWindow &window);
 	void setScale(float scaleX, float scaleY);
 	void setTextureRect(const sf::IntRect &r);
 	void setTexture(const sf::Texture& texture);
+	void setTextureWithTR(const std::string& filename, const sf::IntRect &r); // set texture then set texture rect
+	virtual void setString(const std::string& str) {}
+	virtual std::string getString() { return std::string(); }
 };
+
 #endif
