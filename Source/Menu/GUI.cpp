@@ -174,6 +174,12 @@ Label::Label(int size, sf::Color color, bool isBold, float x, float y) : Label(s
 	setPosition(x, y);
 }
 
+Label::Label(const std::string &str, int size, sf::Color color, bool isBold, float x, float y) : Label(size, color, isBold)
+{
+	setString(str);
+	setPosition(x, y);
+}
+
 Label::Label(float x, float y) : Label()
 {
 	setPosition(x, y);
@@ -191,7 +197,8 @@ void Label::setPosition(float x, float y)
 
 void Label::draw(sf::RenderWindow &w) const
 {
-	w.draw(text);
+	if (!isHidden)
+		w.draw(text);
 }
 
 StatusScreen::StatusScreen()
