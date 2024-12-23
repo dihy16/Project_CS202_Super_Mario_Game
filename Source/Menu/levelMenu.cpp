@@ -16,11 +16,9 @@ LevelMenu::LevelMenu()
     // oMedium.init();
     // oHard.init();
     this->addMenuOption(new MenuObject(DIFFICULTY_BG, 0.0f, 0.0f));
-    this->addMenuOption(new MenuObject(PEACEFUL_BUT, 276.0f, 218.0f));
     this->addMenuOption(new MenuObject(EASY_BUT, 276.0f, 330.0f));
     this->addMenuOption(new MenuObject(MEDIUM_BUT, 276.0f, 444.0f));
     this->addMenuOption(new MenuObject(EXPERT_BUT, 276.0f, 558.0f));
-    this->addMenuOption(new MenuObject(MASTER_BUT, 276.0f, 672.0f));
 }
 
 void LevelMenu::addObserver(IGameStateObserver *observer)
