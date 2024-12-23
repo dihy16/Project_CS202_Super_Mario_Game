@@ -142,7 +142,6 @@ void Map::createblock(int x, int y)
     block->scaleY = 1.0;
     block->xPos = x * BLOCK_WIDTH;
     block->yPos = y * BLOCK_HEIGHT;
-    block->name = "Block";
     // SpriteRenderer *sr = AddComponent<SpriteRenderer>(block);
     // sr->layer = 1;
     // sr->texture.loadFromFile("Images/TilesBackup.png");
@@ -333,22 +332,22 @@ void Map::createbackgroundblock(int x, int y)
 void Map::draw(sf::RenderWindow &w)
 {
     Camera::GetInstance().posX = RenderManager::GetInstance().trackE->xPos - 200;
-    for (Block *i : backgroundblocks)
-    {
-        sprite.setTexture(blocktexture);
-        sprite.setTextureRect(sf::IntRect(1 * BLOCK_WIDTH, 7 * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT));
-        sprite.setPosition(i->xPos, i->yPos);
-        w.draw(sprite);
-        sprite.setTexture(blocktexture);
-        sprite.setTextureRect(i->spritearea);
-        sprite.setPosition(i->xPos - Camera::GetInstance().posX, i->yPos);
-        w.draw(sprite);
-    }
+    // for (Block *i : backgroundblocks)
+    // {
+    //     sprite.setTexture(blocktexture);
+    //     sprite.setTextureRect(sf::IntRect(1 * BLOCK_WIDTH, 7 * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT));
+    //     sprite.setPosition(i->xPos, i->yPos);
+    //     w.draw(sprite);
+    //     sprite.setTexture(blocktexture);
+    //     sprite.setTextureRect(i->spritearea);
+    //     sprite.setPosition(i->xPos - Camera::GetInstance().posX, i->yPos);
+    //     w.draw(sprite);
+    // }
     for (Block *i : availableblocks)
     {
         sprite.setTexture(blocktexture);
-        if (i->name == "EmptyBlock")
-            sprite.setTextureRect(sf::IntRect(0, 64, BLOCK_WIDTH, BLOCK_HEIGHT));
+        if (i->isTouch)
+            sprite.setTextureRect(sf::IntRect(192, 64, BLOCK_WIDTH, BLOCK_HEIGHT));
         else
             sprite.setTextureRect(i->spritearea);
         sprite.setPosition(i->xPos - Camera::GetInstance().posX, i->yPos);
