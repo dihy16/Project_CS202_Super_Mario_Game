@@ -30,6 +30,7 @@ int main()
     if (!font.loadFromFile("resource/Arial.ttf"))
     {
     }
+    RenderManager::GetInstance().window.setFramerateLimit(60);
     RenderManager::GetInstance().debugConsole.setFont(font);
     RenderManager::GetInstance().debugConsole.setString(std::to_string(statex.dwMemoryLoad));
     RenderManager::GetInstance().debugConsole.setCharacterSize(12);         // Set character size (in pixels)

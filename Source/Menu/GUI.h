@@ -15,6 +15,10 @@ private:
 
 public:
 	Label();
+	Label(int size, sf::Color color, bool isBold);
+	Label(const std::string &str, float x, float y);
+	Label(int size, sf::Color color, bool isBold, float x, float y);
+	Label(float x, float y);
 	void setString(const std::string &str);
 	void setPosition(float x, float y);
 	void draw(sf::RenderWindow &w);
