@@ -27,6 +27,7 @@ public:
 	virtual void draw(sf::RenderWindow &window) const;
 	bool isMouseOver(sf::RenderWindow &window) const;
 	void updateColorOnHover(sf::RenderWindow &window);
+	void updateFromTarget(sf::RenderWindow &window, MenuObject* target);
 	void setScale(float scaleX, float scaleY);
 	void setTextureRect(const sf::IntRect &r);
 	void setTexture(const sf::Texture& texture);

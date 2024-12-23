@@ -117,6 +117,18 @@ void MenuObject::updateColorOnHover(sf::RenderWindow &window)
     }
 }
 
+void MenuObject::updateFromTarget(sf::RenderWindow &window, MenuObject *target)
+{
+    if (target->isMouseOver(window))
+    {
+        this->reveal();
+    }
+    else
+    {
+        hide();
+    }
+}
+
 void MenuObject::setScale(float scaleX, float scaleY)
 {
     sprite.setScale(scaleX, scaleY);
@@ -141,3 +153,5 @@ void MenuObject::setTextureWithTR(const std::string& filename, const sf::IntRect
     this->sprite.setTexture(texture);
     this->sprite.setTextureRect(r);
 }
+
+
