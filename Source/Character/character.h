@@ -20,8 +20,6 @@ protected:
 
     sf::Clock timer1, timer2, timer3, stateTimer, touchTimer, finishTimer;
     std::string textureFile1, textureFile2;
-    float xOrigin, yOrigin;
-
     enum Direction
     {
         Right,
@@ -49,6 +47,7 @@ public:
     void animation1(float duration, float interval, std::function<void()> onComplete, bool &finished);
     void animation2(float duration, float interval, std::function<void()> onComplete, bool &finished, State &state);
     void handlePowerUp();
+    void handleFireball(std::vector<std::unique_ptr<Item>> &items);
     void update(std::vector<std::unique_ptr<Item>> &items, float speed);
     void stand();
     void freeFall();

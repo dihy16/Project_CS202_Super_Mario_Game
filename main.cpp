@@ -36,7 +36,7 @@ int main()
     RenderManager::GetInstance().debugConsole.setFillColor(sf::Color::Red); // Set text color
     RenderManager::GetInstance().debugConsole.setStyle(sf::Text::Bold);     //
     RenderManager::GetInstance().debugConsole.setPosition(0, 0);            //
-    RenderManager::GetInstance().displayDebugConsole = true;
+    RenderManager::GetInstance().displayDebugConsole = false;
     sf::Clock clock;
     float accumulator = 0.0f;
     ColliderManager::GetInstance().visibleCollider = false;

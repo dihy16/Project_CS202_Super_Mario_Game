@@ -164,10 +164,10 @@ void Level::handleKeyPress()
     }
     else
     {
-        luigi->goLeft = sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
-        luigi->goRight = sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
-        luigi->firing = sf::Keyboard::isKeyPressed(sf::Keyboard::Enter);
-        luigi->characterRigidBody->isJumping = sf::Keyboard::isKeyPressed(sf::Keyboard::Up);
+        luigi->goLeft = sf::Keyboard::isKeyPressed(sf::Keyboard::A);
+        luigi->goRight = sf::Keyboard::isKeyPressed(sf::Keyboard::D);
+        luigi->firing = sf::Keyboard::isKeyPressed(sf::Keyboard::F);
+        luigi->characterRigidBody->isJumping = sf::Keyboard::isKeyPressed(sf::Keyboard::W);
     }
 }
 
@@ -178,9 +178,9 @@ void Level::execute()
 
     handleKeyPress();
     if (isMario)
-        mario->update(items, 40);
+        mario->update(items, 30);
     else
-        luigi->update(items, 30);
+        luigi->update(items, 21);
     for (auto &enemy : enemies)
     {
         enemy->animation();
