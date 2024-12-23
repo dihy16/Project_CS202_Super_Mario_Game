@@ -32,13 +32,14 @@
 #define TILES "resource/TilesBackup.png"
 #define HEART_ICON "resource/Heart.png"
 #define SOUNDBAR_IMG_PATH "resource/Menu/Settings/sound_bar/sb_0"
-#define SOUND_CONTROLS_BG "resource/Menu/Settings/SoundControls.png"
+#define SOUND_CONTROLS_BG "resource/Menu/Settings/CHARACTER_SELECTION.png"
 #define INC_VOLUME "resource/Menu/Settings/IncreaseVolume.png"
 #define DEC_VOLUME "resource/Menu/Settings/DecreaseVolume.png"
 #define SAVE_BUTTON "resource/Menu/Settings/SaveBut.png"
 
 #define SCOREBOARD_BG "resource/Menu/ScoreboardBG.png"
 #define HIGHSCORE_FILE "resource/Log/highscore.txt"
+#define ARROW "resource/Menu/Settings/ARROW.png"
 
 #define TOTAL_NUM_LEVEL 3
 #define TOTAL_HIGHSCORES 5

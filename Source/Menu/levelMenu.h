@@ -36,6 +36,7 @@ public:
 	void notifyObserver(int gameState);
 	CharacterMenu();
 	void handleClicking(sf::RenderWindow &window);
+	void handleHovering(sf::RenderWindow &window) override;
 };
 
 #endif

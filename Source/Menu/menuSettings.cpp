@@ -27,13 +27,13 @@ MenuSettings::MenuSettings()
         soundbarTextures.push_back(texture);
     }
     this->addMenuOption(new MenuObject(SOUND_CONTROLS_BG, 0.0f, 0.0f));
-    this->addMenuOption(new MenuObject(EXIT_BUTTON, 900.0f, 5.0f, 0.1f, 0.1f));
-    this->addMenuOption(new MenuObject(soundbarTextures[0], 5 * BLOCK_WIDTH * 1.f + 45.f, 280.0f, 3.f, 3.f));
-    this->addMenuOption(new MenuObject(INC_VOLUME, 660.0f, 283.0f, 1.0f, 1.0f));
-    this->addMenuOption(new MenuObject(DEC_VOLUME, 5 * BLOCK_WIDTH * 1.f - 25.f, 283.0f, 1.0f, 1.0f));
-    this->addMenuOption(new MenuObject(SAVE_BUTTON, 480, 600.0f, 1.0f, 1.0f));
+    this->addMenuOption(new MenuObject(EXIT_BUTTON, 900.0f, 115.0f, 0.1f, 0.1f));
+    this->addMenuOption(new MenuObject(soundbarTextures[0], 5 * BLOCK_WIDTH * 1.f + 45.f, 380.0f, 3.f, 3.f));
+    this->addMenuOption(new MenuObject(INC_VOLUME, 660.0f, 383.0f, 1.0f, 1.0f));
+    this->addMenuOption(new MenuObject(DEC_VOLUME, 5 * BLOCK_WIDTH * 1.f - 25.f, 383.0f, 1.0f, 1.0f));
+    this->addMenuOption(new MenuObject(SAVE_BUTTON, 480, 700.0f, 1.0f, 1.0f));
 
-    initText("MUSIC VOLUME", musicVolumeText, sf::Color::Black, menuFont, 8 * BLOCK_WIDTH / 2 + 1 * BLOCK_WIDTH + 20.f, 220.f);
+    initText("MUSIC VOLUME", musicVolumeText, sf::Color::White, menuFont, 8 * BLOCK_WIDTH / 2 + 1 * BLOCK_WIDTH + 20.f, 320.f);
 }
 
 void MenuSettings::handleClicking(sf::RenderWindow &window)
