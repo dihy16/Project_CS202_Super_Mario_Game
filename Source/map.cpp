@@ -106,7 +106,7 @@ void Map::readmap(std::string file)
                 target = 4; // horizontal left-ward pipe
             else if (c == sf::Color(153, 229, 80))
                 target = 5; // flag pole
-            else if (c == sf::Color(223, 113, 38))
+            else if (c == sf::Color(15, 15, 217))
                 target = 6; // castle
             else if (c == sf::Color(238, 195, 154))
                 target = 7; //mushroom tile
@@ -115,9 +115,11 @@ void Map::readmap(std::string file)
             else if (c == sf::Color(255, 255, 255))
                 target = 9; //invisible block
             else if (c == sf::Color(217, 113, 15))
-                target = 10;
+                target = 10; //floating block
             else if (c == sf::Color(255, 0, 0))
-                target = 11;
+                target = 11; //invisible block
+            else if (c == sf::Color(189, 194, 13))
+                target = 12;
             else
                 target = 0;
             projectionmap[i].push_back(target);
@@ -281,6 +283,11 @@ void Map::createblock(int x, int y)
         xtex = 1;
         ytex = 0;
         block->name = "FakeBlock";
+        break;
+    case 12:
+        xtex = 3;
+        ytex = 0;
+        block->name = "Brick";
         break;
     default:
         xtex = 1;
