@@ -224,16 +224,16 @@ GameStateMemento Level::saveMarioState()
 
 void Flag::animation()
 {
-    if (timer.getElapsedTime().asSeconds() > 0.3)
-    {
-        flagRect.left = currentRect * sr->sprite.getTextureRect().width;
-        sr->sprite.setTextureRect(flagRect);
+    // if (timer.getElapsedTime().asSeconds() > 0.3)
+    // {
+    //     flagRect.left = currentRect * sr->sprite.getTextureRect().width;
+    //     sr->sprite.setTextureRect(flagRect);
 
-        if (!finished)
-            currentRect++;
-        if (currentRect == maxRect)
-            currentRect = 0;
+    //     if (!finished)
+    //         currentRect++;
+    //     if (currentRect == maxRect)
+    //         currentRect = 0;
 
-        timer.restart();
-    }
+    //     timer.restart();
+    // }
 }
