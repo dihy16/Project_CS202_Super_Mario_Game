@@ -6,10 +6,12 @@
 
 class Block : public Entity
 {
-public:
+private:
     sf::IntRect spritearea;
+public:
     Block() : Entity() {}
-    void initiate(int, int, int);
+    sf::IntRect getRect();
+    void setRect(sf::IntRect target);
 };
 
 class Map

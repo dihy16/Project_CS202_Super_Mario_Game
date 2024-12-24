@@ -1,5 +1,15 @@
 #include "map.h"
 
+sf::IntRect Block::getRect()
+{
+    return spritearea;
+}
+
+void Block::setRect(sf::IntRect target)
+{
+    spritearea = target;
+}
+
 // Map::Map()
 // {
 //     blocktexture.loadFromFile("Images/TilesBackup.png");
@@ -317,7 +327,7 @@ void Map::createblock(int x, int y)
         break;
     }
     // sr->sprite.setTextureRect(sf::IntRect(xtex * BLOCK_WIDTH, ytex * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT));
-    block->spritearea = sf::IntRect(xtex * BLOCK_WIDTH, ytex * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT);
+    block->setRect(sf::IntRect(xtex * BLOCK_WIDTH, ytex * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT));
     availableblocks.push_back(block);
     BoxCollider *bc = AddComponent<BoxCollider>(block);
     if (projectionmap[y][x] == 11 || projectionmap[y][x] == 6)
@@ -371,7 +381,7 @@ void Map::createbackgroundblock(int x, int y)
     default:
         break;
     }
-    block->spritearea = sf::IntRect(xtex * BLOCK_WIDTH, ytex * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT);
+    block->setRect(sf::IntRect(xtex * BLOCK_WIDTH, ytex * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT));
     backgroundblocks.push_back(block);
 }
 
@@ -384,14 +394,14 @@ void Map::draw(sf::RenderWindow &w)
         sprite.setPosition(i->xPos, i->yPos);
         w.draw(sprite);
         sprite.setTexture(blocktexture);
-        sprite.setTextureRect(i->spritearea);
+        sprite.setTextureRect(i->getRect());
         sprite.setPosition(i->xPos - Camera::GetInstance().posX, i->yPos);
         w.draw(sprite);
     }
     for (Block *i : availableblocks)
     {
         sprite.setTexture(blocktexture);
-        sprite.setTextureRect(i->spritearea);
+        sprite.setTextureRect(i->getRect());
         sprite.setPosition(i->xPos - Camera::GetInstance().posX, i->yPos);
         w.draw(sprite);
     }
