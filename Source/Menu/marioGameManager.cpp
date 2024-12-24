@@ -91,7 +91,7 @@ void MarioGameManager::draw(sf::RenderWindow &w)
         getGUI()->drawGameOver(w);
         break;
     case GameState::playerWin:
-        getGUI()->setPlayerWinScore(0);
+        getGUI()->setPlayerWinScore(getScore());
         getGUI()->drawPlayerWin(w);
         break;
     }
@@ -173,6 +173,7 @@ void MarioGameManager::updateGameState(int delta_time, sf::Event &ev)
     case GameState::levelOver:
 
         break;
+    case GameState::playerWin:
     case GameState::gameOver:
         if (timer.getElapsedTime().asSeconds() > 3.5f)
         {
@@ -210,6 +211,8 @@ void MarioGameManager::marioDies()
     --marioLives;
     if (marioLives <= 0)
     {
+        updateHighScores(getScore(), getStringCurrentTime());
+        saveHighScores(getVectorHiScore(), HIGHSCORE_FILE);
         setState(GameState::gameOver);
     }
     // else {

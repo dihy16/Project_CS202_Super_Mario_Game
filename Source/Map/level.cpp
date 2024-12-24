@@ -149,9 +149,8 @@ void Level::end()
                 DeleteObjects();
                 MarioGameManager::getInstance()->loadLevel(false, false);
                 MarioGameManager::getInstance()->setState(MarioGameManager::GameState::status);
+                MarioGameManager::getInstance()->setLives(3);
                 luigi->finishTimer.restart();
-                MarioGameManager::getInstance()->updateHighScores(MarioGameManager::getInstance()->getScore(), MarioGameManager::getInstance()->getStringCurrentTime());
-                saveHighScores(MarioGameManager::getInstance()->getVectorHiScore(), HIGHSCORE_FILE);
             }
         }
     }
