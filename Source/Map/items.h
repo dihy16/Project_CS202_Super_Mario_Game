@@ -46,7 +46,6 @@ private:
 
 public:
    Coin(int x, int y);
-   void setRect();
    void animation() override;
    void fadeOut() override;
 };

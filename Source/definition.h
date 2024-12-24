@@ -20,6 +20,7 @@
 
 #define BLOCK_WIDTH 64
 #define BLOCK_HEIGHT 64
+#define BACKGROUND "resource/background.png"
 #define MARIO "resource/Mario1.png"
 #define SUPERMARIO "resource/MarioSuper2.png"
 #define LUIGI "resource/Luigi1.png"

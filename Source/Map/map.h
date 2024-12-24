@@ -19,8 +19,8 @@ private:
     vector<vector<int>> backgroundmap;
     vector<vector<int>> entitymap;
     int xstart, ystart, offset;
-    sf::Texture blocktexture;
-    sf::Sprite sprite;
+    sf::Texture blocktexture, backgroundtexture;
+    sf::Sprite sprite, backgroundsprite;
     std::vector<Block *> availableblocks, backgroundblocks;
     sf::Image layout;
 

@@ -34,7 +34,7 @@ public:
         Small,
         Super,
         Fire,
-    } state = Fire;
+    } state = Small;
     RigidBody *characterRigidBody;
 
     Character(int x, int y, const std::string &texture1, const std::string &texture2);

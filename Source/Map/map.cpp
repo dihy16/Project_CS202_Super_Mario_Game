@@ -142,6 +142,8 @@ void Map::createblock(int x, int y)
     block->scaleY = 1.0;
     block->xPos = x * BLOCK_WIDTH;
     block->yPos = y * BLOCK_HEIGHT;
+    block->tag = "block";
+    int leftcoor = 0, rightcoor = 0, rowsbelow = 0;
     // SpriteRenderer *sr = AddComponent<SpriteRenderer>(block);
     // sr->layer = 1;
     // sr->texture.loadFromFile("Images/TilesBackup.png");
@@ -245,6 +247,37 @@ void Map::createblock(int x, int y)
             ytex = 9;
             break;
         }
+    case 6: // castle
+        leftcoor = 0;
+        rightcoor = 0;
+        for (int i = 1; i < 7; i++)
+        {
+            if (projectionmap[y][x - i] == 6)
+                leftcoor++;
+            else
+                break;
+        }
+        for (int i = 1; i < 7; i++)
+        {
+            if (projectionmap[y][x + i] == 6)
+                rightcoor++;
+            else
+                break;
+        }
+        xtex = (leftcoor + rightcoor) / 2 - abs(leftcoor - (leftcoor + rightcoor) / 2);
+        for (rowsbelow = 1; rowsbelow < 6; rowsbelow++)
+        {
+            if (y == 14)
+                break;
+            if (projectionmap[y + rowsbelow][x] != 6)
+                break;
+        }
+        if (rowsbelow % 2 == 0)
+            ytex = 8;
+        else
+            ytex = 9;
+        block->name = "Castle";
+        break;
     case 7: // mushroom tile, not mushroom buff
         block->name = "MushroomTile";
         ytex = 0;
@@ -265,6 +298,7 @@ void Map::createblock(int x, int y)
         else
             ytex = 4;
         break;
+
     default:
         xtex = 1;
         ytex = 7;
@@ -274,10 +308,15 @@ void Map::createblock(int x, int y)
     block->spritearea = sf::IntRect(xtex * BLOCK_WIDTH, ytex * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT);
     availableblocks.push_back(block);
     BoxCollider *bc = AddComponent<BoxCollider>(block);
-    if (projectionmap[y][x] == 5 || projectionmap[y][x] == 6)
+    if (projectionmap[y][x] == 5)
     {
         bc->width = 64;
         bc->height = 64;
+    }
+    else if (projectionmap[y][x] == 6)
+    {
+        bc->width = 0;
+        bc->height = 0;
     }
     else
     {
@@ -295,38 +334,38 @@ void Map::createblock(int x, int y)
 
 void Map::createbackgroundblock(int x, int y)
 {
-    Block *block = new Block;
-    block->scaleX = 1.0;
-    block->scaleY = 1.0;
-    block->xPos = x * BLOCK_WIDTH;
-    block->yPos = y * BLOCK_HEIGHT;
-    block->name = "BackgroundBlock";
-    int xtex, ytex;
-    switch (backgroundmap[y][x])
-    {
-    case 0: // sky
-        xtex = 1;
-        ytex = 7;
-        break;
-    case 10: // cloud
-        if (y == 0)
-            ytex = 5;
-        else if (backgroundmap[y - 1][x] != 10)
-            ytex = 5;
-        else
-            ytex = 6;
-        if (backgroundmap[y][x - 1] != 10)
-            xtex = 2;
-        else if (backgroundmap[y][x + 1] != 10)
-            xtex = 4;
-        else
-            xtex = 3;
-        break;
-    default:
-        break;
-    }
-    block->spritearea = sf::IntRect(xtex * BLOCK_WIDTH, ytex * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT);
-    backgroundblocks.push_back(block);
+    // Block *block = new Block;
+    // block->scaleX = 1.0;
+    // block->scaleY = 1.0;
+    // block->xPos = x * BLOCK_WIDTH;
+    // block->yPos = y * BLOCK_HEIGHT;
+    // block->name = "BackgroundBlock";
+    // int xtex, ytex;
+    // switch (backgroundmap[y][x])
+    // {
+    // case 0: // sky
+    //     xtex = 1;
+    //     ytex = 7;
+    //     break;
+    // case 10: // cloud
+    //     if (y == 0)
+    //         ytex = 5;
+    //     else if (backgroundmap[y - 1][x] != 10)
+    //         ytex = 5;
+    //     else
+    //         ytex = 6;
+    //     if (backgroundmap[y][x - 1] != 10)
+    //         xtex = 2;
+    //     else if (backgroundmap[y][x + 1] != 10)
+    //         xtex = 4;
+    //     else
+    //         xtex = 3;
+    //     break;
+    // default:
+    //     break;
+    // }
+    // block->spritearea = sf::IntRect(xtex * BLOCK_WIDTH, ytex * BLOCK_HEIGHT, BLOCK_WIDTH, BLOCK_HEIGHT);
+    // backgroundblocks.push_back(block);
 }
 
 void Map::draw(sf::RenderWindow &w)
@@ -343,6 +382,8 @@ void Map::draw(sf::RenderWindow &w)
     //     sprite.setPosition(i->xPos - Camera::GetInstance().posX, i->yPos);
     //     w.draw(sprite);
     // }
+    backgroundsprite.setPosition(-Camera::GetInstance().posX, 0);
+    w.draw(backgroundsprite);
     for (Block *i : availableblocks)
     {
         sprite.setTexture(blocktexture);
@@ -450,4 +491,8 @@ void Map::loadmap(int level, int MarioX, int MarioY)
     }
     readmap(whichlevel);
     blockgenerator(MarioX, MarioY);
+    backgroundtexture.loadFromFile(BACKGROUND);
+    backgroundtexture.setSmooth(true);
+    backgroundsprite.setTexture(backgroundtexture);
+    backgroundsprite.setScale(3.75f, 3.75f);
 }
