@@ -39,10 +39,10 @@ void PhysicsManager::FixedUpdate()
                     rb->AddForce(0, -500.f);
                 else if (rb->GetOwner()->tag == "luigi")
                     rb->AddForce(0, -600.f);
-                else if (rb->GetOwner()->name == "enemy")
-                    rb->AddForce(0, -300.f);
+                else if (rb->GetOwner()->tag == "koopa")
+                    rb->AddForce(0, -350.f);
                 else if (rb->GetOwner()->name == "fireball")
-                    rb->AddForce(0, -100.f);
+                    rb->AddForce(0, -150.f);
                 rb->isFlying = true;
                 rb->isJumping = false;
                 timer.restart();
@@ -54,7 +54,7 @@ void PhysicsManager::FixedUpdate()
         }
         else if (rb->isUsingGravity)
         {
-            rb->AddForce(0, 10.0f);
+            rb->AddForce(0, 12.0f);
         }
         if (rb->GetOwner()->name == "character")
         {
@@ -80,7 +80,7 @@ void PhysicsManager::ResolveCollision(BoxCollider *a, BoxCollider *b)
 
     float overlapX = CalculateOverlapX(a, b);
     float overlapY = CalculateOverlapY(a, b);
-    if ((a->GetOwner()->name == "Block" || b->GetOwner()->name == "Block") || (rbA->isStatic && rbB->isStatic))
+    if ((a->GetOwner()->name == "Block" || b->GetOwner()->name == "Block") || (a->GetOwner()->name == "FloatingBlock" || b->GetOwner()->name == "FloatingBlock") || (a->GetOwner()->name == "MushroomTile" || b->GetOwner()->name == "MushroomTile") || (rbA->isStatic && rbB->isStatic))
         return;
     if (overlapX < overlapY)
     {

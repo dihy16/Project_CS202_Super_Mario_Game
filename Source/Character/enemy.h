@@ -44,9 +44,6 @@ private:
 public:
    Goomba(int x, int y);
    void animation() override;
-   // void kickFromTop(Mario *mario) override;
-   // void kickFromBottom(Mario *mario) override;
-   // void touchSide(Mario *mario) override;
    void collideWithMario(Character &mario) override;
    void moveWithMario(Character &mario) override;
    void fadingAnimation() override;
@@ -116,6 +113,7 @@ private:
       MovingDown
    } state = MovingUp;
    sf::Clock waitTimer;
+   bool isVisible = true;
 
 public:
    PiranhaPlant(int x, int y);
@@ -130,6 +128,7 @@ class Gooner : public Enemy
 {
 private:
    sf::Clock waitTimer;
+   bool start = false;
 
 public:
    Gooner(int x, int y);

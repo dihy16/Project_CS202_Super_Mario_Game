@@ -76,6 +76,7 @@ void Goomba::collideWithMario(Character &mario)
          RenderManager::GetInstance().debugText += " cut ";
          bc->SetActive(false);
          rb->SetActive(false);
+         sr->SetActive(false);
          isKilled = true;
          logEvent("Goomba killed", originX, originY);
          MarioGameManager::getInstance()->addScore(MarioGameManager::ScoreID::Goomba);
@@ -136,7 +137,7 @@ Koopa::Koopa(int x, int y) : Enemy(x, y)
 
 void Koopa::collideWithMario(Character &mario)
 {
-   bc->OnColliderLanded = [this](BoxCollider *)
+   bc->OnColliderLanded = [this, &mario](BoxCollider *)
    {
       RenderManager::GetInstance().debugText += "landed";
       if (state == Jumping)
@@ -144,6 +145,7 @@ void Koopa::collideWithMario(Character &mario)
          sr->sprite.setTextureRect(sf::IntRect(0, 32, 32, 48));
          stateTimer.restart();
          state = Normal;
+         mario.characterRigidBody->isJumping = true;
       }
       else if (state == Normal && stateTimer.getElapsedTime().asSeconds() > 1.5)
       {
@@ -175,6 +177,7 @@ void Koopa::collideWithMario(Character &mario)
          RenderManager::GetInstance().debugText += " cut ";
          bc->SetActive(false);
          rb->SetActive(false);
+         sr->SetActive(false);
          isKilled = true;
          logEvent("Koopa killed", originX, originY);
          MarioGameManager::getInstance()->addScore(MarioGameManager::ScoreID::Koopa);
@@ -375,6 +378,7 @@ void PiranhaPlant::collideWithMario(Character &mario)
          RenderManager::GetInstance().debugText += " cut ";
          bc->SetActive(false);
          // rb->SetActive(false);
+         sr->SetActive(false);
          isKilled = true;
          logEvent("PiranhaPlant killed", originX, originY);
          MarioGameManager::getInstance()->addScore(MarioGameManager::ScoreID::PiranhaPlant);
@@ -384,42 +388,6 @@ void PiranhaPlant::collideWithMario(Character &mario)
 
 void PiranhaPlant::moveWithMario(Character &mario)
 {
-   float maxPos = 12 * BLOCK_HEIGHT - 46; // Bottom position
-   float minPos = 11 * BLOCK_HEIGHT;      // Top position
-
-   if (movetimer.getElapsedTime().asSeconds() > 1)
-   {
-      switch (state)
-      {
-      case MovingUp:
-         if (rb->GetOwner()->yPos <= minPos)
-         {
-            rb->GetOwner()->yPos = minPos; // Ensure it stays at minPos
-            state = WaitingAtTop;
-            waitTimer.restart();
-         }
-         else
-            rb->AddForce(0, -10);
-         break;
-
-      case WaitingAtTop:
-         if (waitTimer.getElapsedTime().asSeconds() > 5)
-            state = MovingDown;
-         break;
-
-      case MovingDown:
-         if (rb->GetOwner()->yPos >= maxPos)
-         {
-            rb->GetOwner()->yPos = maxPos; // Ensure it stays at maxPos
-            state = MovingUp;
-         }
-         else
-            rb->AddForce(0, 10);
-         break;
-      }
-
-      movetimer.restart();
-   }
 }
 
 void PiranhaPlant::animation()
@@ -444,9 +412,25 @@ void PiranhaPlant::animation()
 void PiranhaPlant::fadingAnimation()
 {
    if (!isKilled)
-      return;
-   if (timer.getElapsedTime().asSeconds() > 3)
-      sr->SetActive(false);
+   {
+      float elapsedTime = waitTimer.getElapsedTime().asSeconds();
+      if (isVisible && elapsedTime > 5.0f)
+      {
+         // Disappear after 5 seconds
+         sr->SetActive(false);
+         bc->SetActive(false);
+         isVisible = false;
+         waitTimer.restart();
+      }
+      else if (!isVisible && elapsedTime > 5.0f)
+      {
+         // Reappear after another 5 seconds
+         sr->SetActive(true);
+         bc->SetActive(true);
+         isVisible = true;
+         waitTimer.restart();
+      }
+   }
 }
 
 Gooner::Gooner(int x, int y) : Enemy(x, y)
@@ -454,7 +438,6 @@ Gooner::Gooner(int x, int y) : Enemy(x, y)
    sf::IntRect rect(64, 113, 32, 32);
    initialize(x, y, rect, "gooner");
    rb->isUsingGravity = false;
-   waitTimer.restart();
 }
 
 void Gooner::animation()
@@ -498,17 +481,21 @@ void Gooner::collideWithMario(Character &mario)
 
 void Gooner::moveWithMario(Character &mario)
 {
+   float marioPos = mario.characterRigidBody->GetOwner()->xPos;
+   float enemyPos = rb->GetOwner()->xPos;
 
-   if (movetimer.getElapsedTime().asSeconds() > 0.5)
+   if (abs(marioPos - enemyPos) <= 800 && movetimer.getElapsedTime().asSeconds() > 0.5)
    {
-      moveStrategy->move(-50, 0);
+      moveStrategy->move(-70, 0);
+      start = true;
+      waitTimer.restart();
       movetimer.restart();
    }
 }
 
 void Gooner::fadingAnimation()
 {
-   if (waitTimer.getElapsedTime().asSeconds() > 10)
+   if (start && waitTimer.getElapsedTime().asSeconds() > 10)
    {
       sr->SetActive(false);
       bc->SetActive(false);

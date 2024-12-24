@@ -138,7 +138,7 @@ void Character::handleMovement(float speed)
                 if (state == Small || state == Super)
                     rect.left = 161;
                 else if (state == Fire)
-                    rect.left = 157;
+                    rect.left = 156;
             }
             else if (direction == Left)
             {
