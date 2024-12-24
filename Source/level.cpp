@@ -53,13 +53,13 @@ Level::Level(int level, bool resuming, bool isMario)
                 switch (target)
                 {
                 case 0:
-                    items.push_back(ItemFactory::createItem("Coin", j * BLOCK_WIDTH + 20, i * BLOCK_WIDTH + 20));
+                    items.push_back(ItemFactory::createItem("Coin", j * BLOCK_WIDTH + 20, (i - 1) * BLOCK_WIDTH + 20));
                     break;
                 case 1:
-                    items.push_back(ItemFactory::createItem("Mushroom", j * BLOCK_WIDTH + 20, i * BLOCK_WIDTH + 20));
+                    items.push_back(ItemFactory::createItem("Mushroom", j * BLOCK_WIDTH + 20, (i - 1) * BLOCK_WIDTH + 20));
                     break;
                 case 2:
-                    items.push_back(ItemFactory::createItem("Flower", j * BLOCK_WIDTH + 20, i * BLOCK_WIDTH + 20));
+                    items.push_back(ItemFactory::createItem("Flower", j * BLOCK_WIDTH + 20, (i - 1) * BLOCK_WIDTH + 20));
                     break;
                 }
             }
@@ -88,7 +88,7 @@ Level::Level(int level, bool resuming, bool isMario)
             else if (c == sf::Color(106, 190, 48))
                 enemies.push_back(EnemyFactory::createEnemy("HammerBro", j * BLOCK_WIDTH, i * BLOCK_HEIGHT));
             else if (c == sf::Color(255, 255, 0))
-                enemies.push_back(EnemyFactory::createEnemy("PiranhaPlant", j * BLOCK_WIDTH + 32, i * BLOCK_HEIGHT));
+                enemies.push_back(EnemyFactory::createEnemy("PiranhaPlant", j * BLOCK_WIDTH + 32, (i - 1) * BLOCK_HEIGHT));
         }
     }
     // enemies.push_back(EnemyFactory::createEnemy("Goomba", 300, 0));
