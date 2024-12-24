@@ -486,7 +486,7 @@ void Gooner::moveWithMario(Character &mario)
 
    if (abs(marioPos - enemyPos) <= 800 && movetimer.getElapsedTime().asSeconds() > 0.5)
    {
-      moveStrategy->move(-70, 0);
+      moveStrategy->move(-100, 0);
       start = true;
       waitTimer.restart();
       movetimer.restart();
@@ -495,7 +495,7 @@ void Gooner::moveWithMario(Character &mario)
 
 void Gooner::fadingAnimation()
 {
-   if (start && waitTimer.getElapsedTime().asSeconds() > 10)
+   if (start && waitTimer.getElapsedTime().asSeconds() > 7)
    {
       sr->SetActive(false);
       bc->SetActive(false);

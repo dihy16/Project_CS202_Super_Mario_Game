@@ -83,7 +83,7 @@ void Mushroom::fadeOut()
    {
       bc->SetActive(true);
       sr->SetActive(true);
-      rb->AddForce(-20, 0);
+      rb->AddForce(-25, 0);
       isTouch = false;
       isMoving = true;
       dropTimer.restart();
@@ -144,7 +144,7 @@ void Coin::fadeOut()
    {
       bc->SetActive(true);
       sr->SetActive(true);
-      rb->AddForce(-20, 0);
+      rb->AddForce(-25, 0);
       isTouch = false;
       isMoving = true;
       dropTimer.restart();
@@ -192,7 +192,7 @@ void Flower::fadeOut()
    {
       bc->SetActive(true);
       sr->SetActive(true);
-      rb->AddForce(-20, 0);
+      rb->AddForce(-25, 0);
       isTouch = false;
       isMoving = true;
       dropTimer.restart();

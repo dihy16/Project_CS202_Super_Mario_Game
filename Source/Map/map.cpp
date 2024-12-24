@@ -388,7 +388,7 @@ void Map::draw(sf::RenderWindow &w)
     {
         sprite.setTexture(blocktexture);
         if (i->isTouch)
-            sprite.setTextureRect(sf::IntRect(192, 64, BLOCK_WIDTH, BLOCK_HEIGHT));
+            sprite.setTextureRect(sf::IntRect(192, 0, BLOCK_WIDTH, BLOCK_HEIGHT));
         else
             sprite.setTextureRect(i->spritearea);
         sprite.setPosition(i->xPos - Camera::GetInstance().posX, i->yPos);

@@ -116,6 +116,11 @@ bool ColliderManager::isGrounded(BoxCollider *collider)
                 {
                     return true;
                 }
+                if (collider->GetOwner()->name == "character")
+                {
+                    collider->GetOwner()->yPos = other->GetOwner()->yPos - collider->height + 1;
+                    return true;
+                }
                 collider->GetOwner()->yPos = other->GetOwner()->yPos - collider->height + 1;
                 return true;
             }

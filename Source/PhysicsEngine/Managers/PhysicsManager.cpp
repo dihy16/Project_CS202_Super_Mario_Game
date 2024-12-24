@@ -80,7 +80,7 @@ void PhysicsManager::ResolveCollision(BoxCollider *a, BoxCollider *b)
 
     float overlapX = CalculateOverlapX(a, b);
     float overlapY = CalculateOverlapY(a, b);
-    if ((a->GetOwner()->name == "Block" || b->GetOwner()->name == "Block") || (a->GetOwner()->name == "FloatingBlock" || b->GetOwner()->name == "FloatingBlock") || (a->GetOwner()->name == "MushroomTile" || b->GetOwner()->name == "MushroomTile") || (rbA->isStatic && rbB->isStatic))
+    if ((a->GetOwner()->name == "Block" || b->GetOwner()->name == "Block") || (a->GetOwner()->name == "FloatingBlock") || (a->GetOwner()->name == "MushroomTile" || b->GetOwner()->name == "MushroomTile") || (rbA->isStatic && rbB->isStatic))
         return;
     if (overlapX < overlapY)
     {
