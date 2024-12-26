@@ -8,6 +8,7 @@ MarioGameManager::MarioGameManager()
     menuManager = new MenuManager();
     GUIManager = new GUI();
     initScoreMap();
+    loadHiScore();
 }
 
 void MarioGameManager::initScoreMap()
@@ -158,6 +159,14 @@ void MarioGameManager::setState(GameState gameState)
 {
     timer.restart();
     this->gameState = gameState;
+}
+
+void MarioGameManager::resetGame()
+{
+    setLives(3);
+    setScore(0);
+    setCoins(0);
+    setTimeRemaining(300000);
 }
 
 void MarioGameManager::updateGameState(int delta_time, sf::Event &ev)

@@ -27,7 +27,7 @@ MenuSettings::MenuSettings()
         soundbarTextures.push_back(texture);
     }
     this->addMenuOption(new MenuObject(SOUND_CONTROLS_BG, 0.0f, 0.0f));
-    this->addMenuOption(new MenuObject(EXIT_BUTTON, 900.0f, 115.0f, 0.1f, 0.1f));
+    this->addMenuOption(new MenuObject(EXIT_BUTTON, 100.0f, 700.0f));
     this->addMenuOption(new MenuObject(soundbarTextures[0], 5 * BLOCK_WIDTH * 1.f + 45.f, 380.0f, 3.f, 3.f));
     this->addMenuOption(new MenuObject(INC_VOLUME, 660.0f, 383.0f, 1.0f, 1.0f));
     this->addMenuOption(new MenuObject(DEC_VOLUME, 5 * BLOCK_WIDTH * 1.f - 25.f, 383.0f, 1.0f, 1.0f));

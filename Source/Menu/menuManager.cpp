@@ -59,9 +59,7 @@ void MenuManager::handleEvents(sf::RenderWindow &window, sf::Event &ev)
         DeleteObjects();
         MarioGameManager::getInstance()->loadLevel(false, MarioGameManager::getInstance()->getIsMarioSelected());
         MarioGameManager::getInstance()->setState(MarioGameManager::GameState::status);
-        MarioGameManager::getInstance()->setLives(3);
-        MarioGameManager::getInstance()->setCoins(0);
-        MarioGameManager::getInstance()->setScore(0);
+        MarioGameManager::getInstance()->resetGame();
     }
     else if (menuState == eSavedGame)
     {
