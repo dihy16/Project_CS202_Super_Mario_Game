@@ -83,6 +83,7 @@ public:
     void setScore(int score);
     void setTimeRemaining(int time);
     GameState getState() { return gameState; }
+    void resetGame();
     void updateGameState(int delta_time, sf::Event &ev); // delta time in milliseconds
     void marioDies();
     void loadLevel(bool resuming, bool isMarioSelected);

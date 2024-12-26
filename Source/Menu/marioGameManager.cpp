@@ -160,6 +160,14 @@ void MarioGameManager::setState(GameState gameState)
     this->gameState = gameState;
 }
 
+void MarioGameManager::resetGame()
+{
+    setLives(3);
+    setScore(0);
+    setCoins(0);
+    setTimeRemaining(300000);
+}
+
 void MarioGameManager::updateGameState(int delta_time, sf::Event &ev)
 {
     switch (gameState)

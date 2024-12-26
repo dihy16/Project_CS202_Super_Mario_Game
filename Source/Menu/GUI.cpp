@@ -35,19 +35,18 @@ void GUI::init()
 	coinIcon = new MenuObject(ITEM, 280.0f, GUI_HEIGHT, coinRect, 2.0f, 2.0f);
 
 	this->label_lives = createLabel();
-	this->label_lives->setPosition(120.0f, GUI_HEIGHT);
+	this->label_lives->setPosition(180.0f, GUI_HEIGHT);
 
 	sf::IntRect heartRect(0, 0, 38, 100);
-	heartIcon = new MenuObject(HEART_ICON, 40.0f, -50.f, heartRect, 2.0f, 2.0f);
+	heartIcon = new MenuObject(HEART_ICON, 100.0f, -50.f, heartRect, 2.0f, 2.0f);
 
 	this->label_time_remaining = createLabel();
-	this->label_time_remaining->setPosition(800.0f, GUI_HEIGHT);
+	this->label_time_remaining->setPosition(700.0f, GUI_HEIGHT);
 
 	this->label_score = createLabel();
-	this->label_score->setPosition(550.0f, GUI_HEIGHT);
+	this->label_score->setPosition(500.0f, GUI_HEIGHT);
 
-	exit_button = new MenuObject(EXIT_BUTTON, 900.0f, 5.0f);
-	exit_button->setScale(0.1f, 0.1f);
+	exit_button = new MenuObject(EXIT_BUTTON, 680.0f, 20.0f, 1.f, 1.f);
 
 	statusScreen = new StatusScreen();
 
