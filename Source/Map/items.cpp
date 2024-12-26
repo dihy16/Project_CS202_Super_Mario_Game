@@ -288,6 +288,16 @@ void Bullet::fadeOut()
          rb->SetActive(false);
       }
    };
+   bc->OnHorizontalCollision = [this](BoxCollider *collider)
+   {
+      if (collider->body->GetOwner()->tag == "block")
+      {
+         state = Splash;
+         sr->sprite.setTextureRect(sf::IntRect(32, 0, 16, 16));
+         bc->SetActive(false);
+         rb->SetActive(false);
+      }
+   };
    if (fadeTimer.getElapsedTime().asSeconds() > 3 || finished)
    {
       sr->SetActive(false);

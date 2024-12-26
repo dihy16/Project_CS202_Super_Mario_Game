@@ -205,9 +205,9 @@ void Level::execute()
 
     handleKeyPress();
     if (isMario)
-        mario->update(items, 30);
+        mario->update(items, 35);
     else
-        luigi->update(items, 21);
+        luigi->update(items, 25);
     for (auto &enemy : enemies)
     {
         enemy->animation();

@@ -59,6 +59,9 @@ void MenuManager::handleEvents(sf::RenderWindow &window, sf::Event &ev)
         DeleteObjects();
         MarioGameManager::getInstance()->loadLevel(false, MarioGameManager::getInstance()->getIsMarioSelected());
         MarioGameManager::getInstance()->setState(MarioGameManager::GameState::status);
+        MarioGameManager::getInstance()->setLives(3);
+        MarioGameManager::getInstance()->setCoins(0);
+        MarioGameManager::getInstance()->setScore(0);
     }
     else if (menuState == eSavedGame)
     {
@@ -99,7 +102,8 @@ int MenuManager::getMenuState()
 void MenuManager::setMenuState(MenuState viewID)
 {
     this->menuState = viewID;
-    if (this->menuState == eSettings) {
+    if (this->menuState == eSettings)
+    {
         menuSettings->updateTextureId();
         menuSettings->updateSoundBarTexture();
     }

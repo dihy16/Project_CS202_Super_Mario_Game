@@ -36,7 +36,7 @@ void PhysicsManager::FixedUpdate()
             if (rb->isJumping && timer.getElapsedTime().asSeconds() > 0.5f)
             {
                 if (rb->GetOwner()->tag == "mario")
-                    rb->AddForce(0, -500.f);
+                    rb->AddForce(0, -450.f);
                 else if (rb->GetOwner()->tag == "luigi")
                     rb->AddForce(0, -600.f);
                 else if (rb->GetOwner()->tag == "koopa")
