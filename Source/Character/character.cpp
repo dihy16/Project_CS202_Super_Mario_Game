@@ -330,6 +330,13 @@ void Character::handlePowerUp()
             logEvent("Flower collected", character->xOrigin, character->yOrigin);
             MarioGameManager::getInstance()->addScore(MarioGameManager::Flower);
         }
+        else if (collider->body->GetOwner()->name == "princess")
+        {
+            touchPrincess = true;
+            collider->SetActive(false);
+            collider->body->SetActive(false);
+            logEvent("Princess touched", character->xOrigin, character->yOrigin);
+        }
     };
     if (eatMushroom)
     {

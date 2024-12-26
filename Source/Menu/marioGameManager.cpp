@@ -82,7 +82,7 @@ void MarioGameManager::draw(sf::RenderWindow &w)
         break;
     case GameState::status:
         updateGUI();
-        //getGUI()->draw(w);
+        // getGUI()->draw(w);
         getGUI()->drawStatus(w);
         break;
     case GameState::gameOver:
@@ -107,7 +107,7 @@ void MarioGameManager::handleEvents(sf::RenderWindow &w, sf::Event &ev)
     case GameState::playing:
         if (ev.type == sf::Event::KeyPressed)
         {
-            if (ev.key.code == sf::Keyboard::P)
+            if (ev.key.code == sf::Keyboard::E)
             {
                 togglePause();
             }
@@ -123,7 +123,7 @@ void MarioGameManager::handleEvents(sf::RenderWindow &w, sf::Event &ev)
         }
         if (ev.type == sf::Event::KeyPressed)
         {
-            if (ev.key.code == sf::Keyboard::P)
+            if (ev.key.code == sf::Keyboard::E)
             {
                 togglePause();
             }
@@ -265,8 +265,8 @@ bool MarioGameManager::getIsMarioSelected()
 void MarioGameManager::loadHiScore()
 {
     vHighscore = loadHighScores(HIGHSCORE_FILE);
-    std::sort(vHighscore.begin(), vHighscore.end(), [](const HighScoreEntry& a, const HighScoreEntry& b)
-    { return a.score > b.score; });
+    std::sort(vHighscore.begin(), vHighscore.end(), [](const HighScoreEntry &a, const HighScoreEntry &b)
+              { return a.score > b.score; });
 }
 
 const vector<HighScoreEntry> &MarioGameManager::getVectorHiScore()

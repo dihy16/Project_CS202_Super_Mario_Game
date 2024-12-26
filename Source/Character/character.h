@@ -28,7 +28,7 @@ protected:
 
 public:
     bool goRight, goLeft, goUp, firing, created;
-    bool eatMushroom, eatFlower, touchEnemy, touchFlag;
+    bool eatMushroom, eatFlower, touchEnemy, touchFlag, touchPrincess = false;
     enum State
     {
         Small,

@@ -76,6 +76,14 @@ public:
    void fadeOut() override;
 };
 
+class Princess : public Item
+{
+public:
+   Princess(int x, int y);
+   void animation() override;
+   void fadeOut() override;
+};
+
 class ItemFactory
 {
 public:

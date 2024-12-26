@@ -61,11 +61,12 @@ private:
     Map *m;
     std::vector<std::unique_ptr<Enemy>> enemies;
     std::vector<std::unique_ptr<Item>> items;
+    std::vector<sf::Vector2i> goonerPos;
     sf::Image entitylayout;
     sf::Color c;
     Flag *f = nullptr;
     int lv;
-    sf::Clock timer;
+    sf::Clock timer, spawnTimer;
 
 public:
     bool isMario, finished;
@@ -79,6 +80,7 @@ public:
     void drawLevel();
     void applyLog(const std::string &log);
     void clearLog();
+    void spawnGooner();
     GameStateMemento saveMarioState();
 };
 #endif

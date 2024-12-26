@@ -1,0 +1,69 @@
+\subsubsection{\large Mario}
+The \texttt{Mario} class is a specialized version of the \texttt{Character} class in the game. It inherits from \texttt{Character} and represents the main character, Mario, in the game. The \texttt{Mario} class, along with its methods, is designed to handle various actions and states that Mario can be in during the game.
+
+The \texttt{Character} class is an abstract base class that provides common functionality for all characters in the game, including Mario and Luigi. It includes methods for movement, handling power-ups, interacting with enemies, and saving/restoring the game state.
+
+\paragraph{Key Components and Methods}
+\begin{itemize}
+    \item \textbf{Constructor:}
+    \begin{itemize}
+        \item \texttt{Character(int x, int y, 
+        const std::string \&texture1, const std::string \&texture2)}: Initializes a character with the given position and textures.
+    \end{itemize}
+    \item \textbf{Movement Methods:}
+    \begin{itemize}
+        \item \texttt{void moveRight(float speed)}: Moves the character to the right at the specified speed.
+        \item \texttt{void moveLeft(float speed)}: Moves the character to the left at the specified speed.
+        \item \texttt{void handleMovement(float speed)}: Handles the character's movement based on the current state and input.
+    \end{itemize}
+    \item \textbf{Animation Methods:}
+    \begin{itemize}
+        \item \texttt{void animation1(float duration, float interval, std::function<void()> onComplete, bool \&finished)}: Handles the animation for the character when taking power-ups.
+        \item \texttt{void animation2(float duration, float interval, std::function<void()> onComplete, bool \&finished, State \&state)}: Handles the animation for the character when encountering enemies.
+    \end{itemize}
+    \item \textbf{Power-Up Handling:}
+    \begin{itemize}
+        \item \texttt{void handlePowerUp()}: Handles the character's interaction with power-ups like mushrooms and flowers.
+    \end{itemize}
+    \item \textbf{Enemy Interaction:}
+    \begin{itemize}
+        \item \texttt{void handleEnemy()}: Handles the character's interaction with enemies.
+    \end{itemize}
+    \item \textbf{Mystery Box Interaction:}
+    \begin{itemize}
+        \item \texttt{void handleMysteryBox(std::vector$<$std::unique\_ptr$<$Item$>>$ \&items)}: Handles the character's interaction with mystery boxes.
+    \end{itemize}
+    \item \textbf{State Management:}
+    \begin{itemize}
+        \item \texttt{GameStateMemento saveState()}: Saves the current state of the character.
+        \item \texttt{void restoreState(const GameStateMemento \&memento)}: Restores the character's state from a saved state.
+    \end{itemize}
+    \item \textbf{Other Methods:}
+    \begin{itemize}
+        \item \texttt{void stand()}: Makes the character stand still.
+        \item \texttt{void freeFall()}: Handles the character's free fall when falling off platforms.
+    \end{itemize}
+    
+\item \textbf{Luigi: }
+The \texttt{Luigi} class inherits from the \texttt{Character} class and represents Luigi in the game. It uses the same methods as the \texttt{Character} class but can have additional behaviors specific to Luigi.
+\begin{verbatim}
+class Luigi : public Character
+{
+public:
+    Luigi(int x, int y);
+};
+\end{verbatim}
+
+\item \textbf{Mario: }
+The \texttt{Mario} class inherits from the \texttt{Character} class and represents Mario in the game. It uses the same methods as the \texttt{Character} class but can have additional behaviors specific to Mario.
+\begin{verbatim}
+class Mario : public Character
+{
+public:
+    Mario(int x, int y);
+};
+\end{verbatim}
+
+
+The \texttt{Mario} class, along with the \texttt{Character} class and the strategy pattern for movement (will be introduced later in Design Pattern part), provides a flexible and extensible way to handle different characters and their behaviors in the game. The use of the strategy pattern allows for different movement behaviors for characters and enemies, making the code more modular and easier to maintain. The \texttt{Character} class provides a comprehensive set of methods to handle various actions and states, ensuring that the game can handle complex interactions and animations smoothly.
+\end{itemize}

@@ -77,6 +77,8 @@ void Level::loadItems(int level, std::mt19937 &rng, std::uniform_int_distributio
                     RenderManager::GetInstance().listEntity.push_back(f);
                 }
             }
+            else if (c == sf::Color(169, 10, 255))
+                items.push_back(ItemFactory::createItem("Princess", j * BLOCK_WIDTH + 20, i * BLOCK_WIDTH));
         }
     }
 }
@@ -101,7 +103,10 @@ void Level::loadEnemies(int level)
             else if (c == sf::Color(255, 255, 0))
                 enemies.push_back(EnemyFactory::createEnemy("PiranhaPlant", j * BLOCK_WIDTH + 10, i * BLOCK_HEIGHT + 18));
             else if (c == sf::Color(0, 0, 0))
+            {
                 enemies.push_back(EnemyFactory::createEnemy("Gooner", j * BLOCK_WIDTH, i * BLOCK_HEIGHT));
+                goonerPos.push_back(sf::Vector2i(j * BLOCK_WIDTH, i * BLOCK_HEIGHT));
+            }
         }
     }
 }
@@ -130,7 +135,15 @@ void Level::end()
                 DeleteObjects();
                 MarioGameManager::getInstance()->loadLevel(false, true);
                 MarioGameManager::getInstance()->setState(MarioGameManager::GameState::status);
+                MarioGameManager::getInstance()->setLives(3);
                 mario->finishTimer.restart();
+            }
+        }
+        else if (mario->touchPrincess)
+        {
+            if (mario->finishTimer.getElapsedTime().asSeconds() > 1.5)
+            {
+                MarioGameManager::getInstance()->setState(MarioGameManager::GameState::playerWin);
                 MarioGameManager::getInstance()->updateHighScores(MarioGameManager::getInstance()->getScore(), MarioGameManager::getInstance()->getStringCurrentTime());
                 saveHighScores(MarioGameManager::getInstance()->getVectorHiScore(), HIGHSCORE_FILE);
             }
@@ -153,9 +166,18 @@ void Level::end()
                 luigi->finishTimer.restart();
             }
         }
+        else if (luigi->touchPrincess)
+        {
+            if (luigi->finishTimer.getElapsedTime().asSeconds() > 1.5)
+            {
+                MarioGameManager::getInstance()->setState(MarioGameManager::GameState::playerWin);
+                MarioGameManager::getInstance()->updateHighScores(MarioGameManager::getInstance()->getScore(), MarioGameManager::getInstance()->getStringCurrentTime());
+                saveHighScores(MarioGameManager::getInstance()->getVectorHiScore(), HIGHSCORE_FILE);
+            }
+        }
     }
-    if (!finished)
-        f->animation();
+    // if (!finished)
+    //     f->animation();
 }
 
 void Level::handleKeyPress()
@@ -208,6 +230,7 @@ void Level::execute()
         item->animation();
         item->fadeOut();
     }
+    spawnGooner();
     end();
 }
 
@@ -283,4 +306,30 @@ void Level::clearLog()
     // Open game_state.txt in write mode to clear its contents
     std::ofstream stateFile(MARIO_LOG, std::ofstream::out | std::ofstream::trunc);
     stateFile.close();
+}
+
+void Level::spawnGooner()
+{
+    if (spawnTimer.getElapsedTime().asSeconds() > 2)
+    {
+        for (const auto &pos : goonerPos)
+        {
+
+            if (isMario)
+            {
+                if (pos.x - mario->characterRigidBody->GetOwner()->xPos <= 800)
+                {
+                    enemies.push_back(EnemyFactory::createEnemy("Gooner", pos.x, pos.y));
+                }
+            }
+            else
+            {
+                if (pos.x - luigi->characterRigidBody->GetOwner()->xPos <= 800)
+                {
+                    enemies.push_back(EnemyFactory::createEnemy("Gooner", pos.x, pos.y));
+                }
+            }
+        }
+        spawnTimer.restart();
+    }
 }

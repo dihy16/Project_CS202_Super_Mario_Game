@@ -44,7 +44,7 @@ void Item::initialize(float x, float y, sf::IntRect &rect, std::string name, int
    rb->isStatic = false;
    rb->isUsingGravity = true;
    rb->xVel = 0, rb->yVel = 0;
-   if (item->name == "fireball")
+   if (item->name == "fireball" || item->name == "princess")
       sr->SetActive(true);
    else
       sr->SetActive(false);
@@ -228,7 +228,7 @@ void Bullet::animation()
             if (currentRect == maxRect)
                currentRect = 0;
 
-            rb->xVel = -120;
+            rb->xVel = -180;
          }
          else
          {
@@ -238,7 +238,7 @@ void Bullet::animation()
             if (currentRect == maxRect)
                currentRect = 0;
 
-            rb->xVel = 120;
+            rb->xVel = 180;
          }
          if (jumpTimer.getElapsedTime().asSeconds() > 0.2)
          {
@@ -288,13 +288,22 @@ void Bullet::fadeOut()
          rb->SetActive(false);
       }
    };
-   if (fadeTimer.getElapsedTime().asSeconds() > 4 || finished)
+   if (fadeTimer.getElapsedTime().asSeconds() > 3 || finished)
    {
       sr->SetActive(false);
       bc->SetActive(false);
       rb->SetActive(false);
    }
 }
+
+Princess::Princess(int x, int y) : Item(x, y)
+{
+   sf::IntRect rect(222, 96, 32, 64);
+   initialize(x, y, rect, "princess", 1);
+}
+
+void Princess::animation() {}
+void Princess::fadeOut() {}
 
 std::unique_ptr<Item> ItemFactory::createItem(const std::string &type, int x, int y, bool direction)
 {
@@ -304,6 +313,8 @@ std::unique_ptr<Item> ItemFactory::createItem(const std::string &type, int x, in
       return std::make_unique<Coin>(x, y);
    else if (type == "Flower")
       return std::make_unique<Flower>(x, y);
+   else if (type == "Princess")
+      return std::make_unique<Princess>(x, y);
    else if (type == "Fireball")
       return std::make_unique<Bullet>(x, y, direction);
    return nullptr;
