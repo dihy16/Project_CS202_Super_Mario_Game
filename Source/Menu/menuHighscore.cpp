@@ -39,7 +39,7 @@ HighscoreMenu::HighscoreMenu() : highscores(5, nullptr), timestamps(5, nullptr)
     initText("TIME AND DATE", time_text, sf::Color::White, menuFont, 190.0f, 200.0f);
     initText("SCORE", score_text,sf::Color::White, menuFont, 650.0f, 200.0f);
     this->addMenuOption(new MenuObject(SCOREBOARD_BG, 0.0f, 0.0f));
-    this->addMenuOption(new MenuObject(EXIT_BUTTON, 900.0f, 5.0f, 0.1f, 0.1f));
+    this->addMenuOption(new MenuObject(EXIT_BUTTON, 680.0f, 20.0f, .8f, .8f));
 
      for (int i = 0; i < TOTAL_HIGHSCORES; i++)
      {

@@ -8,6 +8,7 @@ MarioGameManager::MarioGameManager()
     menuManager = new MenuManager();
     GUIManager = new GUI();
     initScoreMap();
+    loadHiScore();
 }
 
 void MarioGameManager::initScoreMap()

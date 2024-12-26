@@ -3,4 +3,3 @@ libraries
 *.exe
 .vscode/*
 .vs/*
-resource/Log/*
