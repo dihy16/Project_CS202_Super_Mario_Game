@@ -55,6 +55,7 @@ void Goomba::collideWithMario(Character &mario)
          sr->sprite.setTextureRect(sf::IntRect(64, 0, 32, 31));
          isKilled = true;
          logEvent("Goomba killed", originX, originY);
+         MarioGameManager::getInstance()->playSound(GameManager::stomp);
          MarioGameManager::getInstance()->addScore(MarioGameManager::ScoreID::Goomba);
       }
    };
@@ -65,7 +66,7 @@ void Goomba::collideWithMario(Character &mario)
       {
          RenderManager::GetInstance().debugText += " hp - 1 ";
          mario.touchEnemy = true;
-         MarioGameManager::getInstance()->playSound(MarioGameManager::mario_die);
+         MarioGameManager::getInstance()->playSound(MarioGameManager::bump);
       }
    };
 
@@ -156,6 +157,7 @@ void Koopa::collideWithMario(Character &mario)
          state = Hidden;
          isKilled = true;
          logEvent("Koopa killed", originX, originY);
+         MarioGameManager::getInstance()->playSound(GameManager::stomp);
          MarioGameManager::getInstance()->addScore(MarioGameManager::ScoreID::Koopa);
       }
    };
@@ -166,7 +168,7 @@ void Koopa::collideWithMario(Character &mario)
       {
          RenderManager::GetInstance().debugText += " hp - 1 ";
          mario.touchEnemy = true;
-         MarioGameManager::getInstance()->playSound(MarioGameManager::mario_die);
+         MarioGameManager::getInstance()->playSound(MarioGameManager::bump);
       }
    };
 
@@ -357,7 +359,7 @@ void PiranhaPlant::collideWithMario(Character &mario)
       {
          RenderManager::GetInstance().debugText += " hp - 1 ";
          mario.touchEnemy = true;
-         MarioGameManager::getInstance()->playSound(MarioGameManager::mario_die);
+         MarioGameManager::getInstance()->playSound(MarioGameManager::bump);
       }
    };
 
@@ -367,7 +369,7 @@ void PiranhaPlant::collideWithMario(Character &mario)
       {
          RenderManager::GetInstance().debugText += " hp - 1 ";
          mario.touchEnemy = true;
-         MarioGameManager::getInstance()->playSound(MarioGameManager::mario_die);
+         MarioGameManager::getInstance()->playSound(MarioGameManager::bump);
       }
    };
 
@@ -468,7 +470,7 @@ void Gooner::collideWithMario(Character &mario)
       {
          RenderManager::GetInstance().debugText += " hp - 1 ";
          mario.touchEnemy = true;
-         MarioGameManager::getInstance()->playSound(MarioGameManager::mario_die);
+         MarioGameManager::getInstance()->playSound(MarioGameManager::bump);
       }
       else
       {

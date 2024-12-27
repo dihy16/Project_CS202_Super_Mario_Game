@@ -184,6 +184,7 @@ void MarioGameManager::updateGameState(int delta_time, sf::Event &ev)
         break;
     case GameState::playerWin:
     case GameState::gameOver:
+        stopMusic();
         if (timer.getElapsedTime().asSeconds() > 3.5f)
         {
             setState(GameState::menu);
@@ -197,6 +198,7 @@ void MarioGameManager::updateGameState(int delta_time, sf::Event &ev)
     case GameState::menu:
         break;
     case GameState::status:
+        stopMusic();
         if (timer.getElapsedTime().asSeconds() > 4.0f)
         {
             setState(GameState::playing);
@@ -220,6 +222,7 @@ void MarioGameManager::marioDies()
     --marioLives;
     if (marioLives <= 0)
     {
+        playSound(SoundName::game_over);
         updateHighScores(getScore(), getStringCurrentTime());
         saveHighScores(getVectorHiScore(), HIGHSCORE_FILE);
         setState(GameState::gameOver);
@@ -241,6 +244,7 @@ void MarioGameManager::togglePause()
 {
     if (gameState == GameState::playing)
     {
+        playSound(SoundName::pause);
         setState(GameState::pause);
     }
     else if (gameState == GameState::pause)

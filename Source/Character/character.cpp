@@ -373,6 +373,7 @@ void Character::handlePowerUp()
                 if (bc->GetOwner()->name == "Flag")
                     bc->SetActive(false);
             }
+            MarioGameManager::getInstance()->playSound(GameManager::flagpole);
             finishTimer.restart();
         }
     };
@@ -412,6 +413,7 @@ void Character::handleMysteryBox(std::vector<std::unique_ptr<Item>> &items)
                     item->isTouch = true;
                     collider->body->GetOwner()->isTouch = true;
                     logEvent("Mystery Box opened", character->xPos, character->yPos);
+                    MarioGameManager::getInstance()->playSound(GameManager::powerup_appears);
                 }
             }
         }
