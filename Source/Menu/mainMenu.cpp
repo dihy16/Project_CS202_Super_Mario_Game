@@ -73,6 +73,7 @@ void MainMenu::handleClicking(sf::RenderWindow &window)
         break;
     case 2:
         // MarioGameManager::getInstance()->setCurrentLevel(1);
+        if (MarioGameManager::getInstance()->getLives() <= 0) return;
         notifyObserver(MenuManager::eSavedGame);
         break;
     case 3:
