@@ -100,7 +100,8 @@ int MenuManager::getMenuState()
 void MenuManager::setMenuState(MenuState viewID)
 {
     this->menuState = viewID;
-    if (this->menuState == eSettings) {
+    if (this->menuState == eSettings)
+    {
         menuSettings->updateTextureId();
         menuSettings->updateSoundBarTexture();
     }
